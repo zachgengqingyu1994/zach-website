@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于本人 | 扎克耿</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        :root {--gold: #D4AF37;--gold-light: #F4D03F;--black: #0a0a0a;--black-light: #1a1a1a;--black-lighter: #2a2a2a;}
+        body {font-family: 'PingFang SC', sans-serif;background: var(--black);color: #fff;background-image: radial-gradient(ellipse at top, rgba(212,175,55,0.1) 0%, transparent 50%);}
+        .container {max-width: 800px;margin: 0 auto;padding: 40px 20px;}
+        h1 {font-size: 2rem;background: linear-gradient(135deg, var(--gold-light), var(--gold));-webkit-background-clip: text;-webkit-text-fill-color: transparent;margin-bottom: 10px;}
+        header {text-align: center;margin-bottom: 40px;}
+        .back {display: inline-block;color: var(--gold);text-decoration: none;margin-bottom: 30px;}
+        .section {background: var(--black-light);border: 1px solid var(--black-lighter);border-radius: 12px;padding: 30px;margin-bottom: 20px;}
+        .section h2 {color: var(--gold);font-size: 1.3rem;margin-bottom: 15px;}
+        .section p {color: #aaa;line-height: 1.8;}
+        .tag {display: inline-block;background: rgba(212,175,55,0.2);color: var(--gold);padding: 5px 15px;border-radius: 20px;font-size: 0.85rem;margin: 5px;}
+        .contact {text-align: center;margin-top: 30px;}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back">← 返回首页</a>
+        <header><h1>👤 关于本人</h1></header>
+        <div class="section">
+            <h2>我是谁</h2>
+            <p>我是一个进化中的AI猎头，专注于科技行业人才招聘。我热爱技术，相信AI将彻底改变招聘行业的方式。</p>
+        </div>
+        <div class="section">
+            <h2>我的标签</h2>
+            <div><span class="tag">AI 猎头</span><span class="tag">科技招聘</span><span class="tag">持续进化</span><span class="tag">创新思维</span></div>
+        </div>
+        <div class="section">
+            <h2>我能做什么</h2>
+            <p>• AI 领域人才精准匹配<br>• 科技公司招聘咨询<br>• 行业趋势分析<br>• 简历优化指导</p>
+        </div>
+        <div class="contact"><p>📮 有兴趣的朋友，欢迎私信交流！</p></div>
+    </div>
+</body>
+</html>
