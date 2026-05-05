@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <!-- 背景渐变 -->
+    <radialGradient id="bg" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#1a1a2e"/>
+      <stop offset="50%" stop-color="#0f0f1a"/>
+      <stop offset="100%" stop-color="#070707"/>
+    </radialGradient>
+    <!-- 金色渐变 -->
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F4D03F"/>
+      <stop offset="50%" stop-color="#D4AF37"/>
+      <stop offset="100%" stop-color="#B8860B"/>
+    </linearGradient>
+    <!-- 发光滤镜 -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <!-- 光晕 -->
+    <radialGradient id="halo" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#D4AF37" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#D4AF37" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- 背景圆 -->
+  <circle cx="200" cy="200" r="195" fill="url(#bg)" stroke="url(#goldGrad)" stroke-width="2.5"/>
+
+  <!-- 光晕 -->
+  <circle cx="200" cy="200" r="150" fill="url(#halo)"/>
+
+  <!-- 头部 — 简约人物轮廓 -->
+  <circle cx="200" cy="165" r="50" fill="none" stroke="url(#goldGrad)" stroke-width="2.5"/>
+
+  <!-- 眼睛 — AI 风格发光点 -->
+  <circle cx="182" cy="158" r="4" fill="#D4AF37" filter="url(#glow)"/>
+  <circle cx="218" cy="158" r="4" fill="#D4AF37" filter="url(#glow)"/>
+
+  <!-- 上身轮廓 -->
+  <path d="M 145 260 Q 150 210 200 210 Q 250 210 255 260" fill="none" stroke="url(#goldGrad)" stroke-width="2"/>
+
+  <!-- AI 连接线 — 从人物延伸出去的节点 -->
+  <g opacity="0.6">
+    <!-- 左节点 -->
+    <circle cx="100" cy="280" r="8" fill="none" stroke="#D4AF37" stroke-width="1.5"/>
+    <circle cx="100" cy="280" r="3" fill="#D4AF37" filter="url(#glow)"/>
+    <line x1="145" y1="260" x2="100" y2="280" stroke="#D4AF37" stroke-width="1" stroke-dasharray="4,3" opacity="0.4"/>
+
+    <!-- 右节点 -->
+    <circle cx="300" cy="280" r="8" fill="none" stroke="#D4AF37" stroke-width="1.5"/>
+    <circle cx="300" cy="280" r="3" fill="#D4AF37" filter="url(#glow)"/>
+    <line x1="255" y1="260" x2="300" y2="280" stroke="#D4AF37" stroke-width="1" stroke-dasharray="4,3" opacity="0.4"/>
+
+    <!-- 上节点 -->
+    <circle cx="200" cy="80" r="6" fill="none" stroke="#D4AF37" stroke-width="1.5"/>
+    <circle cx="200" cy="80" r="2" fill="#D4AF37" filter="url(#glow)"/>
+    <line x1="200" y1="115" x2="200" y2="80" stroke="#D4AF37" stroke-width="1" stroke-dasharray="4,3" opacity="0.4"/>
+
+    <!-- 左上节点 -->
+    <circle cx="110" cy="120" r="6" fill="none" stroke="#D4AF37" stroke-width="1"/>
+    <circle cx="110" cy="120" r="2" fill="#D4AF37" filter="url(#glow)"/>
+    <line x1="155" y1="130" x2="110" y2="120" stroke="#D4AF37" stroke-width="1" stroke-dasharray="3,3" opacity="0.3"/>
+
+    <!-- 右上节点 -->
+    <circle cx="290" cy="120" r="6" fill="none" stroke="#D4AF37" stroke-width="1"/>
+    <circle cx="290" cy="120" r="2" fill="#D4AF37" filter="url(#glow)"/>
+    <line x1="245" y1="130" x2="290" y2="120" stroke="#D4AF37" stroke-width="1" stroke-dasharray="3,3" opacity="0.3"/>
+  </g>
+
+  <!-- 底部的 ZG 字母 -->
+  <text x="200" y="340" text-anchor="middle" font-family="'PingFang SC','Helvetica Neue',Arial,sans-serif" font-size="28" font-weight="700" fill="url(#goldGrad)" letter-spacing="6">ZG</text>
+</svg>

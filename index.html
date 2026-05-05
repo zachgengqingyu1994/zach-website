@@ -4,7 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>扎克耿 | 连接 AI 人才与未来</title>
+    <!-- 网站图标 -->
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <style>
+        /* ============================================
+           CSS 变量 & 全局样式
+           ============================================ */
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
@@ -92,6 +97,25 @@
             overflow: hidden;
         }
 
+        /* 背景水印文字 */
+        .hero-watermark {
+            position: absolute;
+            font-size: 14rem;
+            font-weight: 900;
+            color: rgba(255,255,255,0.015);
+            letter-spacing: 20px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            user-select: none;
+            white-space: nowrap;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+        @media (max-width: 768px) {
+            .hero-watermark { font-size: 6rem; letter-spacing: 10px; }
+        }
+
         /* 背景装饰圆 */
         .hero-glow {
             position: absolute;
@@ -111,8 +135,8 @@
         }
 
         .avatar-wrapper {
-            width: 120px;
-            height: 120px;
+            width: 140px;
+            height: 140px;
             border-radius: 50%;
             position: relative;
             margin-bottom: 24px;
@@ -121,14 +145,28 @@
         .avatar-wrapper::after {
             content: '';
             position: absolute;
-            inset: -3px;
+            inset: -4px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--gold-light), var(--gold), transparent 70%);
+            background: conic-gradient(from 0deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent 70%);
             mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #fff calc(100% - 1px));
             -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #fff calc(100% - 1px));
-            animation: spin 5s linear infinite;
+            animation: spin 6s linear infinite;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
+
+        .avatar-wrapper .avatar-ring {
+            position: absolute;
+            inset: -12px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(212,175,55,0.08) 0%, transparent 70%);
+            animation: pulseRing 3s ease-in-out infinite;
+            pointer-events: none;
+        }
+        @keyframes pulseRing {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50%      { transform: scale(1.08); opacity: 1; }
+        }
+
         .avatar-wrapper img {
             width: 100%;
             height: 100%;
@@ -136,6 +174,11 @@
             object-fit: cover;
             position: relative;
             z-index: 1;
+            box-shadow: 0 0 40px rgba(212,175,55,0.2);
+            transition: box-shadow 0.5s;
+        }
+        .avatar-wrapper:hover img {
+            box-shadow: 0 0 70px rgba(212,175,55,0.4);
         }
 
         .hero-tag {
@@ -152,20 +195,32 @@
         }
 
         .hero h1 {
-            font-size: 3.2rem;
+            font-size: 3.6rem;
             font-weight: 800;
-            line-height: 1.2;
+            line-height: 1.15;
             margin-bottom: 16px;
             animation: fadeUp 0.8s ease-out 0.3s both;
         }
         .hero h1 .highlight {
-            background: linear-gradient(135deg, var(--gold-light), var(--gold));
+            background: linear-gradient(135deg, var(--gold-light), var(--gold), #b8860b);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
         .hero h1 .accent {
             color: var(--gold);
+            position: relative;
+            display: inline-block;
+        }
+        .hero h1 .accent::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            border-radius: 2px;
         }
 
         .hero-sub {
@@ -256,6 +311,16 @@
         .section-header {
             text-align: center;
             margin-bottom: 48px;
+            position: relative;
+        }
+        .section-header::before,
+        .section-header::after {
+            content: '✦';
+            color: var(--gold);
+            font-size: 0.6rem;
+            display: inline-block;
+            margin: 0 12px;
+            opacity: 0.5;
         }
         .section-label {
             display: inline-block;
@@ -574,8 +639,10 @@
     <!-- ======== Hero ======== -->
     <section class="hero">
         <div class="hero-glow"></div>
+        <div class="hero-watermark">ZG</div>
         <div class="avatar-wrapper">
-            <img src="alpaca.png" alt="扎克耿">
+            <div class="avatar-ring"></div>
+            <img src="avatar.svg" alt="扎克耿">
         </div>
         <div class="hero-tag">AI 猎头 · 行业观察者 · 人才连接器</div>
         <h1>
