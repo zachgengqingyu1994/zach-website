@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>每日新闻 | 扎克耿</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --gold: #D4AF37; --gold-light: #F4D03F; --gold-glow: rgba(212,175,55,0.3);
+            --black: #0a0a0a; --black-light: #1a1a1a; --black-lighter: #2a2a2a;
+            --text-muted: #888; --text-body: #ccc; --radius: 14px;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: var(--black); color: #fff; min-height: 100vh;
+            background-image:
+                radial-gradient(ellipse 70% 40% at 50% 0%, rgba(212,175,55,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse 50% 30% at 20% 80%, rgba(212,175,55,0.05) 0%, transparent 50%);
+        }
+        .container { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; position: relative; z-index: 1; }
+
+        .top-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 40px; animation: fadeUp 0.6s ease-out both; }
+        .back { display: inline-flex; align-items: center; gap: 6px; color: var(--gold); text-decoration: none; font-size: 0.95rem; transition: gap 0.3s; }
+        .back:hover { gap: 12px; color: var(--gold-light); }
+
+        header { text-align: center; margin-bottom: 40px; animation: fadeUp 0.6s ease-out 0.15s both; }
+        h1 { font-size: 2.2rem; background: linear-gradient(135deg, var(--gold-light), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .subtitle { color: var(--text-muted); font-size: 0.9rem; margin-top: 8px; }
+
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* 日期分组 */
+        .day-group { margin-bottom: 30px; animation: fadeUp 0.6s ease-out var(--delay, 0.3s) both; }
+        .day-label {
+            display: flex; align-items: center; gap: 12px;
+            font-size: 0.95rem; color: var(--gold); font-weight: 600;
+            margin-bottom: 14px; padding-bottom: 8px;
+            border-bottom: 1px solid var(--black-lighter);
+        }
+        .day-label::after {
+            content: ''; flex: 1; height: 1px;
+            background: linear-gradient(90deg, var(--black-lighter), transparent);
+        }
+
+        .news-list { display: flex; flex-direction: column; gap: 10px; }
+
+        .news-item {
+            display: flex; align-items: flex-start; gap: 14px;
+            background: var(--black-light); border: 1px solid var(--black-lighter);
+            border-radius: 12px; padding: 16px 20px;
+            text-decoration: none; color: inherit;
+            transition: all 0.3s;
+        }
+        .news-item:hover {
+            border-color: var(--gold);
+            background: rgba(212,175,55,0.04);
+            transform: translateX(4px);
+        }
+
+        .news-source {
+            flex-shrink: 0;
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 32px; height: 32px;
+            background: rgba(212,175,55,0.1); border-radius: 8px;
+            font-size: 1rem;
+        }
+        .news-content { flex: 1; min-width: 0; }
+        .news-title { font-size: 0.95rem; font-weight: 500; color: #fff; line-height: 1.5; transition: color 0.3s; }
+        .news-item:hover .news-title { color: var(--gold); }
+        .news-meta { display: flex; align-items: center; gap: 10px; margin-top: 6px; font-size: 0.78rem; color: #555; }
+
+        .empty-state {
+            text-align: center; padding: 80px 20px; color: #555;
+            background: var(--black-light); border: 1px dashed var(--black-lighter);
+            border-radius: var(--radius); animation: fadeUp 0.6s ease-out 0.3s both;
+        }
+        .empty-state .icon { font-size: 3rem; margin-bottom: 16px; }
+        .empty-state p { font-size: 1rem; margin-bottom: 8px; }
+        .empty-state .hint { font-size: 0.85rem; color: #444; }
+
+        .footer { text-align: center; margin-top: 60px; color: #333; font-size: 0.8rem; }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--black); }
+        ::-webkit-scrollbar-thumb { background: var(--black-lighter); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+
+        @media (max-width: 600px) {
+            .container { padding: 24px 16px 40px; }
+            h1 { font-size: 1.6rem; }
+            .news-item { padding: 12px 16px; }
+            .news-title { font-size: 0.88rem; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="top-bar">
+            <a href="index.html" class="back">← 返回首页</a>
+        </div>
+
+        <header>
+            <h1>📰 每日新闻</h1>
+            <p class="subtitle">AI & 科技行业动态精选</p>
+        </header>
+
+        <div class="empty-state">
+            <div class="icon">📬</div>
+            <p>今天还没有新闻</p>
+            <p class="hint">每日精选科技新闻即将上线</p>
+        </div>
+
+        <div class="footer">⚡ 2026 扎克耿</div>
+    </div>
+
+    <script>
+        // 后续：可通过 RSS / API 动态注入新闻数据
+    </script>
+</body>
+</html>

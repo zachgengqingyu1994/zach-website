@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人博客 | 扎克耿</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --gold: #D4AF37; --gold-light: #F4D03F; --gold-glow: rgba(212,175,55,0.3);
+            --black: #0a0a0a; --black-light: #1a1a1a; --black-lighter: #2a2a2a;
+            --text-muted: #888; --text-body: #ccc; --radius: 14px;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: var(--black); color: #fff; min-height: 100vh;
+            background-image:
+                radial-gradient(ellipse 70% 40% at 50% 0%, rgba(212,175,55,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse 50% 30% at 80% 80%, rgba(212,175,55,0.05) 0%, transparent 50%);
+        }
+        .container { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; position: relative; z-index: 1; }
+
+        .top-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 40px; animation: fadeUp 0.6s ease-out both; }
+        .back { display: inline-flex; align-items: center; gap: 6px; color: var(--gold); text-decoration: none; font-size: 0.95rem; transition: gap 0.3s; }
+        .back:hover { gap: 12px; color: var(--gold-light); }
+        .rss-link { color: #666; text-decoration: none; font-size: 0.85rem; transition: color 0.3s; }
+        .rss-link:hover { color: var(--gold); }
+
+        header { text-align: center; margin-bottom: 40px; animation: fadeUp 0.6s ease-out 0.15s both; }
+        h1 { font-size: 2.2rem; background: linear-gradient(135deg, var(--gold-light), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .subtitle { color: var(--text-muted); font-size: 0.9rem; margin-top: 8px; }
+
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .blog-list { display: flex; flex-direction: column; gap: 16px; }
+
+        .blog-card {
+            background: var(--black-light); border: 1px solid var(--black-lighter);
+            border-radius: var(--radius); padding: 28px;
+            text-decoration: none; color: inherit;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            animation: fadeUp 0.5s ease-out var(--delay, 0.3s) both;
+            position: relative; overflow: hidden; display: block;
+        }
+        .blog-card::before {
+            content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+            background: linear-gradient(to bottom, var(--gold), transparent);
+            opacity: 0; transition: opacity 0.4s;
+        }
+        .blog-card:hover::before { opacity: 1; }
+        .blog-card:hover {
+            transform: translateY(-4px); border-color: var(--gold);
+            box-shadow: 0 8px 30px rgba(212,175,55,0.1);
+        }
+
+        .blog-card:nth-child(1) { --delay: 0.25s; }
+        .blog-card:nth-child(2) { --delay: 0.35s; }
+        .blog-card:nth-child(3) { --delay: 0.45s; }
+        .blog-card:nth-child(4) { --delay: 0.55s; }
+        .blog-card:nth-child(5) { --delay: 0.65s; }
+
+        .blog-meta { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; font-size: 0.8rem; color: #555; }
+        .blog-date { color: #555; }
+        .blog-tag { display: inline-block; background: rgba(212,175,55,0.12); color: var(--gold); padding: 2px 12px; border-radius: 12px; font-size: 0.75rem; border: 1px solid rgba(212,175,55,0.15); }
+        .blog-title { font-size: 1.25rem; font-weight: 600; color: #fff; margin-bottom: 8px; transition: color 0.3s; }
+        .blog-card:hover .blog-title { color: var(--gold); }
+        .blog-excerpt { color: var(--text-muted); font-size: 0.9rem; line-height: 1.7; }
+        .blog-readmore { display: inline-block; margin-top: 12px; color: var(--gold); font-size: 0.85rem; opacity: 0; transform: translateX(-10px); transition: all 0.3s; }
+        .blog-card:hover .blog-readmore { opacity: 1; transform: translateX(0); }
+
+        .empty-state {
+            text-align: center; padding: 80px 20px; color: #555;
+            background: var(--black-light); border: 1px dashed var(--black-lighter);
+            border-radius: var(--radius); animation: fadeUp 0.6s ease-out 0.3s both;
+        }
+        .empty-state .icon { font-size: 3rem; margin-bottom: 16px; }
+        .empty-state p { font-size: 1rem; margin-bottom: 8px; }
+        .empty-state .hint { font-size: 0.85rem; color: #444; }
+
+        .footer { text-align: center; margin-top: 60px; color: #333; font-size: 0.8rem; }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--black); }
+        ::-webkit-scrollbar-thumb { background: var(--black-lighter); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+
+        @media (max-width: 600px) {
+            .container { padding: 24px 16px 40px; }
+            h1 { font-size: 1.6rem; }
+            .blog-card { padding: 20px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="top-bar">
+            <a href="index.html" class="back">← 返回首页</a>
+            <a href="#" class="rss-link">📡 RSS</a>
+        </div>
+
+        <header>
+            <h1>📝 个人博客</h1>
+            <p class="subtitle">关于 AI、招聘与技术思考</p>
+        </header>
+
+        <div class="blog-list">
+            <div class="empty-state">
+                <div class="icon">✍️</div>
+                <p>还没有文章，敬请期待</p>
+                <p class="hint">第一篇博文正在路上 ...</p>
+            </div>
+        </div>
+
+        <div class="footer">⚡ 2026 扎克耿</div>
+    </div>
+
+    <script>
+        // 示例：后续博客数据可以从这里动态注入
+        // const posts = [...];
+        // 当前为空状态占位
+    </script>
+</body>
+</html>
