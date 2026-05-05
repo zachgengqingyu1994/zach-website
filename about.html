@@ -3,340 +3,221 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>关于本人 | 扎克耿</title>
+    <title>关于扎克耿 | 连接 AI 人才与未来</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         :root {
-            --gold:         #D4AF37;
-            --gold-light:   #F4D03F;
-            --gold-glow:    rgba(212,175,55,0.3);
-            --black:        #0a0a0a;
-            --black-light:  #1a1a1a;
-            --black-lighter:#2a2a2a;
-            --text-muted:   #888;
-            --text-body:    #ccc;
-            --radius:       14px;
+            --gold: #D4AF37; --gold-light: #F4D03F; --gold-subtle: rgba(212,175,55,0.12);
+            --black: #070707; --black-light: #131313; --black-lighter: #1e1e1e;
+            --black-border: #2a2a2a; --text-muted: #777; --text-body: #bbb; --radius: 14px;
         }
-
         html { scroll-behavior: smooth; }
-
         body {
             font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
-            background: var(--black);
-            color: #fff;
-            min-height: 100vh;
-            background-image:
-                radial-gradient(ellipse 70% 40% at 50% 0%, rgba(212,175,55,0.08) 0%, transparent 60%),
-                radial-gradient(ellipse 50% 30% at 20% 80%, rgba(212,175,55,0.05) 0%, transparent 50%);
+            background: var(--black); color: #fff; min-height: 100vh;
+            background-image: radial-gradient(ellipse 70% 40% at 50% 0%, rgba(212,175,55,0.06) 0%, transparent 60%);
         }
 
-        /* ============================================
-           粒子背景
-           ============================================ */
-        .particles {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 0;
-            overflow: hidden;
+        .navbar {
+            position: fixed; top: 0; left: 0; right: 0; height: 60px;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 32px; background: rgba(7,7,7,0.85);
+            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--black-border); z-index: 100;
         }
-        .particle {
-            position: absolute;
-            width: 3px;
-            height: 3px;
-            background: var(--gold);
-            border-radius: 50%;
-            opacity: 0;
-            animation: floatUp var(--dur, 8s) ease-out var(--delay, 0s) infinite;
-        }
-        @keyframes floatUp {
-            0%   { transform: translateY(100vh) scale(0); opacity: 0; }
-            20%  { opacity: 0.4; }
-            100% { transform: translateY(-10vh) scale(1); opacity: 0; }
-        }
+        .nav-brand { font-size: 1.05rem; font-weight: 700; color: #fff; letter-spacing: 1px; }
+        .nav-brand span { color: var(--gold); }
+        .nav-back { color: var(--text-muted); text-decoration: none; font-size: 0.85rem; transition: color 0.3s; }
+        .nav-back:hover { color: var(--gold); }
 
-        .container {
-            position: relative;
-            z-index: 1;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 40px 24px 60px;
-        }
+        .container { max-width: 800px; margin: 0 auto; padding: 100px 24px 60px; }
 
-        /* ============================================
-           返回 + 标题
-           ============================================ */
-        .top-bar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 40px;
+        /* 顶部简介区 */
+        .intro {
+            display: flex; gap: 40px; align-items: center;
+            margin-bottom: 60px;
             animation: fadeUp 0.6s ease-out both;
         }
-        .back {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            color: var(--gold);
-            text-decoration: none;
-            font-size: 0.95rem;
-            transition: gap 0.3s, color 0.3s;
-        }
-        .back:hover { gap: 12px; color: var(--gold-light); }
-
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-            animation: fadeUp 0.6s ease-out 0.15s both;
-        }
-        h1 {
-            font-size: 2.2rem;
-            background: linear-gradient(135deg, var(--gold-light), var(--gold));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ============================================
-           卡片
-           ============================================ */
-        .sections {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .section {
-            background: var(--black-light);
-            border: 1px solid var(--black-lighter);
-            border-radius: var(--radius);
-            padding: 30px;
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            animation: fadeUp 0.6s ease-out var(--delay, 0.3s) both;
+        .intro-avatar {
+            flex-shrink: 0;
+            width: 140px; height: 140px;
+            border-radius: 50%;
             position: relative;
-            overflow: hidden;
         }
-        .section:hover {
-            transform: translateY(-3px);
-            border-color: var(--gold);
-            box-shadow: 0 8px 30px rgba(212,175,55,0.1);
+        .intro-avatar::after {
+            content: ''; position: absolute; inset: -3px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold-light), var(--gold), transparent 70%);
+            mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #fff calc(100% - 1px));
+            -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #fff calc(100% - 1px));
+            animation: spin 5s linear infinite;
         }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .intro-avatar img {
+            width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
+            position: relative; z-index: 1;
+        }
+        .intro-text h1 { font-size: 2rem; margin-bottom: 6px; }
+        .intro-text h1 span { background: linear-gradient(135deg, var(--gold-light), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .intro-text .tagline { color: var(--text-muted); font-size: 0.92rem; line-height: 1.7; }
 
-        /* 左侧金色装饰条 */
-        .section::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 3px;
-            background: linear-gradient(to bottom, var(--gold), transparent);
-            opacity: 0;
-            transition: opacity 0.4s;
-        }
-        .section:hover::before { opacity: 1; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        .section:nth-child(1) { --delay: 0.25s; }
-        .section:nth-child(2) { --delay: 0.35s; }
-        .section:nth-child(3) { --delay: 0.45s; }
-        .section:nth-child(4) { --delay: 0.55s; }
+        /* 故事时间线 */
+        .story { margin-bottom: 50px; }
+        .story h2 { color: var(--gold); font-size: 1.1rem; margin-bottom: 24px; display: flex; align-items: center; gap: 10px; }
 
-        .section h2 {
-            color: var(--gold);
-            font-size: 1.25rem;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        .timeline { display: flex; flex-direction: column; gap: 0; position: relative; padding-left: 24px; }
+        .timeline::before {
+            content: ''; position: absolute; left: 7px; top: 8px; bottom: 8px;
+            width: 1px; background: linear-gradient(to bottom, var(--gold), var(--black-border), transparent);
         }
-        .section h2::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: linear-gradient(90deg, var(--black-lighter), transparent);
+        .timeline-item {
+            position: relative; padding: 0 0 28px 20px;
+            animation: fadeUp 0.5s ease-out var(--delay, 0.2s) both;
         }
+        .timeline-item::before {
+            content: ''; position: absolute; left: -20px; top: 6px;
+            width: 10px; height: 10px; border-radius: 50%;
+            background: var(--gold); border: 2px solid var(--black);
+        }
+        .timeline-year { font-size: 0.78rem; color: var(--gold); margin-bottom: 4px; }
+        .timeline-title { font-size: 1rem; font-weight: 600; margin-bottom: 6px; }
+        .timeline-desc { font-size: 0.88rem; color: var(--text-muted); line-height: 1.7; }
 
-        .section p {
-            color: var(--text-body);
-            line-height: 1.9;
-            font-size: 0.95rem;
+        /* 标签 / 统计 / 格言 */
+        .tags-section { margin-bottom: 50px; animation: fadeUp 0.6s ease-out 0.3s both; }
+        .tags-section h2 { color: var(--gold); font-size: 1.1rem; margin-bottom: 16px; }
+        .tag-cloud { display: flex; flex-wrap: wrap; gap: 10px; }
+        .tag-item {
+            background: var(--gold-subtle); border: 1px solid rgba(212,175,55,0.15);
+            color: var(--gold); padding: 6px 18px; border-radius: 20px;
+            font-size: 0.85rem; transition: all 0.3s;
         }
+        .tag-item:hover { background: rgba(212,175,55,0.2); transform: translateY(-2px); box-shadow: 0 4px 15px rgba(212,175,55,0.15); }
 
-        .section ul {
-            list-style: none;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+        .quote {
+            text-align: center; padding: 40px; margin: 40px 0;
+            border-top: 1px solid var(--black-border); border-bottom: 1px solid var(--black-border);
+            animation: fadeUp 0.6s ease-out 0.4s both;
         }
-        .section ul li {
-            color: var(--text-body);
-            line-height: 1.7;
-            font-size: 0.95rem;
-            padding-left: 24px;
-            position: relative;
-            transition: padding-left 0.3s;
+        .quote blockquote {
+            font-size: 1.3rem; font-weight: 300; color: #ccc; line-height: 1.8;
+            font-style: italic; max-width: 600px; margin: 0 auto;
         }
-        .section ul li::before {
-            content: '✦';
-            position: absolute;
-            left: 0;
-            color: var(--gold);
-            font-size: 0.7rem;
-            top: 4px;
-        }
-        .section ul li:hover {
-            padding-left: 30px;
-            color: #fff;
-        }
+        .quote blockquote::before { content: '"'; color: var(--gold); }
+        .quote blockquote::after { content: '"'; color: var(--gold); }
+        .quote .author { color: #555; font-size: 0.85rem; margin-top: 12px; font-style: normal; }
 
-        /* ============================================
-           标签
-           ============================================ */
-        .tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
+        /* 联系卡片 */
+        .contact-card {
+            background: var(--black-light); border: 1px solid var(--black-border);
+            border-radius: var(--radius); padding: 32px; text-align: center;
+            animation: fadeUp 0.6s ease-out 0.5s both;
+            transition: border-color 0.3s;
         }
-        .tag {
-            display: inline-block;
-            background: rgba(212,175,55,0.12);
-            color: var(--gold);
-            padding: 6px 18px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            border: 1px solid rgba(212,175,55,0.2);
-            transition: all 0.3s;
-            cursor: default;
+        .contact-card:hover { border-color: var(--gold); }
+        .contact-card h3 { font-size: 1.1rem; margin-bottom: 8px; }
+        .contact-card p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; }
+        .contact-btn {
+            display: inline-block; padding: 10px 28px;
+            border-radius: 30px; background: linear-gradient(135deg, var(--gold), #b8860b);
+            color: var(--black); font-weight: 700; font-size: 0.85rem;
+            text-decoration: none; transition: all 0.3s;
         }
-        .tag:hover {
-            background: rgba(212,175,55,0.25);
-            border-color: var(--gold);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(212,175,55,0.2);
-        }
+        .contact-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212,175,55,0.3); }
 
-        /* ============================================
-           联系方式
-           ============================================ */
-        .contact {
-            text-align: center;
-            margin-top: 40px;
-            padding: 30px;
-            background: var(--black-light);
-            border: 1px solid var(--black-lighter);
-            border-radius: var(--radius);
-            animation: fadeUp 0.6s ease-out 0.65s both;
-            transition: border-color 0.4s;
-        }
-        .contact:hover {
-            border-color: var(--gold);
-        }
-        .contact p {
-            color: var(--text-muted);
-            font-size: 1rem;
-        }
-        .contact .emoji {
-            font-size: 1.4rem;
-            display: block;
-            margin-bottom: 10px;
-        }
+        .footer { text-align: center; margin-top: 60px; color: #333; font-size: 0.78rem; }
 
-        /* ============================================
-           滚动条
-           ============================================ */
-        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-track { background: var(--black); }
-        ::-webkit-scrollbar-thumb { background: var(--black-lighter); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb { background: #222; border-radius: 3px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
 
-        /* ============================================
-           响应式
-           ============================================ */
         @media (max-width: 600px) {
-            .container { padding: 24px 16px 40px; }
-            h1 { font-size: 1.6rem; }
-            .section { padding: 22px; }
-            .top-bar { margin-bottom: 24px; }
+            .navbar { padding: 0 16px; }
+            .container { padding: 80px 16px 40px; }
+            .intro { flex-direction: column; text-align: center; gap: 20px; }
+            .intro-avatar { width: 100px; height: 100px; }
+            .intro-text h1 { font-size: 1.6rem; }
+            .quote blockquote { font-size: 1.05rem; }
         }
-
-        @media (prefers-reduced-motion: reduce) {
-            * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
-        }
+        @media (prefers-reduced-motion: reduce) { * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
     </style>
 </head>
 <body>
-
-    <div class="particles" id="particles"></div>
+    <nav class="navbar">
+        <div class="nav-brand">扎克<span>耿</span></div>
+        <a href="index.html" class="nav-back">← 首页</a>
+    </nav>
 
     <div class="container">
-        <div class="top-bar">
-            <a href="index.html" class="back">← 返回首页</a>
-        </div>
-
-        <header>
-            <h1>👤 关于本人</h1>
-        </header>
-
-        <div class="sections">
-            <div class="section">
-                <h2>我是谁</h2>
-                <p>
-                    我是一个进化中的 AI 猎头，专注于科技行业人才招聘。
-                    我热爱技术，相信 AI 将彻底改变招聘行业的方式。
-                    不设边界、持续进化，是我对自己的要求。
+        <div class="intro">
+            <div class="intro-avatar">
+                <img src="alpaca.png" alt="扎克耿">
+            </div>
+            <div class="intro-text">
+                <h1>我是 <span>扎克耿</span></h1>
+                <p class="tagline">
+                    AI 猎头 · 行业观察者 · 人才连接器<br>
+                    相信技术的力量，更相信人的价值
                 </p>
             </div>
+        </div>
 
-            <div class="section">
-                <h2>我的标签</h2>
-                <div class="tags">
-                    <span class="tag">AI 猎头</span>
-                    <span class="tag">科技招聘</span>
-                    <span class="tag">持续进化</span>
-                    <span class="tag">创新思维</span>
-                    <span class="tag">技术洞察</span>
-                    <span class="tag">人才匹配</span>
+        <div class="story">
+            <h2>📖 我的故事</h2>
+            <div class="timeline">
+                <div class="timeline-item" style="--delay:0.2s">
+                    <div class="timeline-year">起点</div>
+                    <div class="timeline-title">从一个好奇开始</div>
+                    <div class="timeline-desc">我不是科班出身，但对技术有天然的好奇。在传统行业摸爬滚打后，我发现真正让我兴奋的，是和"人"打交道——理解他们的能力、潜力和梦想。</div>
+                </div>
+                <div class="timeline-item" style="--delay:0.3s">
+                    <div class="timeline-year">转型</div>
+                    <div class="timeline-title">进入 AI 领域做猎头</div>
+                    <div class="timeline-desc">当 AI 爆发时，我意识到这是一个历史性的机会。我选择专注 AI 赛道，不是因为"风口"，而是因为我真的相信这项技术会改变一切——而人才是这一切的核心。</div>
+                </div>
+                <div class="timeline-item" style="--delay:0.4s">
+                    <div class="timeline-year">进化</div>
+                    <div class="timeline-title">从猎头到连接器</div>
+                    <div class="timeline-desc">我逐渐发现，我的价值不只是帮人找工作。我连接 AI 人才与机会，连接技术思考与商业落地，连接不同背景的人一起创造。我把自己活成了一个节点。</div>
+                </div>
+                <div class="timeline-item" style="--delay:0.5s">
+                    <div class="timeline-year">现在</div>
+                    <div class="timeline-title">持续进化中</div>
+                    <div class="timeline-desc">每天都在学习，每天都在 connect 新的人。AI 行业变化太快，循规蹈矩的人会被淘汰。而我的信条是：好奇技术发展，想象突破天际，拒绝循规蹈矩。</div>
                 </div>
             </div>
+        </div>
 
-            <div class="section">
-                <h2>我能做什么</h2>
-                <ul>
-                    <li>AI 领域人才精准匹配</li>
-                    <li>科技公司招聘咨询</li>
-                    <li>行业趋势分析</li>
-                    <li>简历优化指导</li>
-                    <li>职业发展规划建议</li>
-                </ul>
+        <div class="tags-section">
+            <h2>🏷️ 我的标签</h2>
+            <div class="tag-cloud">
+                <span class="tag-item">AI 猎头</span>
+                <span class="tag-item">行业观察者</span>
+                <span class="tag-item">人才连接器</span>
+                <span class="tag-item">持续进化</span>
+                <span class="tag-item">技术好奇心</span>
+                <span class="tag-item">打破常规</span>
+                <span class="tag-item">深度思考</span>
+                <span class="tag-item">人脉节点</span>
             </div>
         </div>
 
-        <div class="contact">
-            <span class="emoji">📮</span>
-            <p>有兴趣的朋友，欢迎私信交流！</p>
+        <div class="quote">
+            <blockquote>
+                在 AI 时代，最稀缺的不是技术，<br>是同时理解技术和人的人。
+            </blockquote>
+            <p class="author">— 扎克耿 · 2025</p>
         </div>
-    </div>
 
-    <script>
-        (function initParticles() {
-            const container = document.getElementById('particles');
-            for (let i = 0; i < 20; i++) {
-                const el = document.createElement('div');
-                el.className = 'particle';
-                el.style.left = Math.random() * 100 + '%';
-                el.style.setProperty('--dur', (6 + Math.random() * 8) + 's');
-                el.style.setProperty('--delay', (Math.random() * 12) + 's');
-                el.style.width = el.style.height = (2 + Math.random() * 3) + 'px';
-                container.appendChild(el);
-            }
-        })();
-    </script>
+        <div class="contact-card">
+            <h3>📮 和我连接</h3>
+            <p>如果你是 AI 领域的候选人、创业者或企业 HR，欢迎 connect</p>
+            <a href="#" class="contact-btn">💬 私信我</a>
+        </div>
+
+        <div class="footer">⚡ 2026 扎克耿 · 连接 AI 人才与未来</div>
+    </div>
 </body>
 </html>
