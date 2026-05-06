@@ -855,13 +855,42 @@
 
     <!-- ======== 图片弹窗 ======== -->
     <div class="modal-overlay" id="qrModal" onclick="hideQr()">
-        <button class="modal-close" onclick="hideQr()">✕</button>
-        <img src="wechat-qr.png" alt="扎克耿微信公众号" onclick="event.stopPropagation()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="hideQr()">✕</button>
+            <img src="wechat-qr.png" alt="扎克耿微信公众号">
+            <span class="modal-link" style="background: transparent; border: 1px solid var(--gold); color: var(--gold); cursor: default;">💬 微信搜索「扎克耿」</span>
+        </div>
     </div>
     <div class="modal-overlay" id="douyinModal" onclick="hideDouyinQr()">
-        <button class="modal-close" onclick="hideDouyinQr()">✕</button>
-        <img src="douyin-qr.jpg" alt="扎克耿抖音" onclick="event.stopPropagation()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="hideDouyinQr()">✕</button>
+            <img src="douyin-qr.jpg" alt="扎克耿抖音">
+            <a href="https://v.douyin.com/y7D8iLEa2JA/" target="_blank" class="modal-link">🎵 在抖音打开</a>
+        </div>
     </div>
+
+    <style>
+    .modal-content {
+        text-align: center;
+        animation: scaleIn 0.3s ease;
+    }
+    .modal-content img {
+        max-width: 80vw; max-height: 70vh; border-radius: 12px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+        display: block;
+    }
+    .modal-link {
+        display: inline-block; margin-top: 20px;
+        padding: 12px 36px; border-radius: 30px;
+        background: linear-gradient(135deg, var(--gold), #b8860b);
+        color: var(--black); font-weight: 700; font-size: 0.9rem;
+        text-decoration: none; transition: all 0.3s;
+    }
+    .modal-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(212,175,55,0.3);
+    }
+    </style>
 
     <!-- ======== 页脚 ======== -->
     <footer class="site-footer">
