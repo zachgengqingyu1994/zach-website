@@ -4,98 +4,123 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>扎克耿 | 连接 AI 人才与未来</title>
-    <!-- 网站图标 -->
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <style>
-        /* ============================================
-           CSS 变量 & 全局样式
-           ============================================ */
+        /* ═══════════════════════════════════════════
+           Variables & Reset
+           ═══════════════════════════════════════════ */
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
             --gold:         #D4AF37;
             --gold-light:   #F4D03F;
-            --gold-subtle:  rgba(212,175,55,0.12);
-            --gold-glow:    rgba(212,175,55,0.25);
-            --black:        #070707;
-            --black-light:  #131313;
-            --black-lighter:#1e1e1e;
-            --black-border: #2a2a2a;
-            --text-muted:   #777;
-            --text-body:    #bbb;
-            --radius:       14px;
+            --gold-subtle:  rgba(212,175,55,0.08);
+            --gold-glow:    rgba(212,175,55,0.3);
+            --black:        #000;
+            --black-raised: #0a0a0a;
+            --black-card:   #111;
+            --border-subtle: rgba(255,255,255,0.06);
+            --text-muted:   #888;
+            --text-body:    #ccc;
+            --radius-sm:    12px;
+            --radius-md:    20px;
         }
 
         html { scroll-behavior: smooth; }
 
         body {
-            font-family: 'PingFang SC', 'Microsoft YaHei', -apple-system, sans-serif;
-            background: var(--black);
-        body {
-            font-family: 'PingFang SC', 'Microsoft YaHei', -apple-system, sans-serif;
+            font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
             background: var(--black);
             color: #fff;
-            position: relative;
-            background-image:
-                radial-gradient(ellipse 80% 40% at 50% -8%, rgba(212,175,55,0.12) 0%, transparent 65%),
-                radial-gradient(ellipse 50% 25% at 50% 100%, rgba(212,175,55,0.04) 0%, transparent 55%);
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* ============================================
-           导航栏
-           ============================================ */
+        /* ═══════════════════════════════════════════
+           Dramatic Stage Background
+           — 大面积的舞台灯光效果
+           ═══════════════════════════════════════════ */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 0;
+            pointer-events: none;
+            background:
+                /* 主光 — 从顶部打下来的金色聚光灯 */
+                radial-gradient(ellipse 70% 50% at 50% -10%, rgba(212,175,55,0.18) 0%, transparent 60%),
+                /* 辅助环境光 */
+                radial-gradient(ellipse 40% 30% at 50% 100%, rgba(212,175,55,0.04) 0%, transparent 50%),
+                radial-gradient(circle 300px at 20% 40%, rgba(212,175,55,0.03), transparent 70%),
+                radial-gradient(circle 400px at 80% 60%, rgba(212,175,55,0.02), transparent 70%);
+        }
+
+        /* 舞台地面的微反射光泽 */
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            height: 40vh;
+            z-index: 0;
+            pointer-events: none;
+            background: linear-gradient(0deg, rgba(212,175,55,0.02) 0%, transparent 40%);
+        }
+
+        /* 所有内容都在 z-index: 1 之上 */
+        .navbar, .hero, section, footer { position: relative; z-index: 1; }
+
+        /* ═══════════════════════════════════════════
+           Navigation — 极简半透明
+           ═══════════════════════════════════════════ */
         .navbar {
             position: fixed;
             top: 0; left: 0; right: 0;
-            height: 60px;
+            height: 56px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 0 32px;
-            background: rgba(7,7,7,0.85);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--black-border);
+            justify-content: center;
+            gap: 40px;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-bottom: 1px solid rgba(255,255,255,0.04);
             z-index: 100;
         }
-        .nav-brand {
-            font-size: 1rem;
-            font-weight: 700;
+        .navbar a {
+            color: #777;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.8px;
+            transition: color 0.3s;
+        }
+        .navbar a:hover { color: #fff; }
+        .navbar .nav-brand {
+            position: absolute;
+            left: 28px;
+            font-size: 0.85rem;
+            font-weight: 600;
             color: #fff;
             letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
         }
-        .brand-cn { color: #fff; }
-        .brand-divider { color: var(--gold); opacity: 0.6; font-weight: 300; }
-        .brand-en { color: var(--gold); font-size: 0.78rem; font-weight: 400; letter-spacing: 2px; text-transform: uppercase; }
-        .nav-brand span { color: var(--gold); }
-        .nav-links { display: flex; gap: 28px; list-style: none; }
-        .nav-links a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.85rem;
-            transition: color 0.3s;
-            letter-spacing: 0.5px;
-        }
-        .nav-links a:hover { color: var(--gold); }
+        .navbar .nav-brand span { color: var(--gold); }
         .nav-cta {
-            padding: 6px 18px;
+            position: absolute;
+            right: 28px;
+            padding: 5px 16px;
             border: 1px solid var(--gold);
-            border-radius: 20px;
+            border-radius: 980px;
             color: var(--gold) !important;
-            font-size: 0.82rem;
+            font-size: 0.75rem !important;
             transition: all 0.3s !important;
         }
         .nav-cta:hover {
             background: var(--gold);
-            color: var(--black) !important;
+            color: #000 !important;
         }
 
-        /* ============================================
-           Hero 区
-           ============================================ */
+        /* ═══════════════════════════════════════════
+           Hero — 巨幅打字机风格
+           ═══════════════════════════════════════════ */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -103,115 +128,40 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 100px 24px 60px;
-            position: relative;
+            padding: 120px 24px 60px;
             overflow: hidden;
-            z-index: 2;
-        }
-
-        /* 背景水印文字 */
-        .hero-watermark {
-            position: absolute;
-            font-size: 14rem;
-            font-weight: 900;
-            color: rgba(255,255,255,0.015);
-            letter-spacing: 20px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            pointer-events: none;
-            user-select: none;
-            white-space: nowrap;
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-        }
-        @media (max-width: 768px) {
-            .hero-watermark { font-size: 6rem; letter-spacing: 10px; }
-        }
-
-        /* 背景装饰圆 */
-        .hero-glow {
-            position: absolute;
-            width: 600px;
-            height: 600px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(212,175,55,0.06), transparent 70%);
-            top: 20%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            pointer-events: none;
-            animation: glowPulse 6s ease-in-out infinite;
-        }
-        @keyframes glowPulse {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
-            50%      { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
-        }
-
-        .avatar-wrapper {
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            position: relative;
-            margin-bottom: 24px;
-            animation: fadeUp 0.8s ease-out 0.1s both;
-        }
-        .avatar-wrapper::after {
-            content: '';
-            position: absolute;
-            inset: -4px;
-            border-radius: 50%;
-            background: conic-gradient(from 0deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent 70%);
-            mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #fff calc(100% - 1px));
-            -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #fff calc(100% - 1px));
-            animation: spin 6s linear infinite;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        .avatar-wrapper .avatar-ring {
-            position: absolute;
-            inset: -12px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(212,175,55,0.08) 0%, transparent 70%);
-            animation: pulseRing 3s ease-in-out infinite;
-            pointer-events: none;
-        }
-        @keyframes pulseRing {
-            0%, 100% { transform: scale(1); opacity: 0.5; }
-            50%      { transform: scale(1.08); opacity: 1; }
-        }
-
-        .avatar-wrapper img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            object-fit: cover;
-            position: relative;
-            z-index: 1;
-            box-shadow: 0 0 40px rgba(212,175,55,0.2);
-            transition: box-shadow 0.5s;
-        }
-        .avatar-wrapper:hover img {
-            box-shadow: 0 0 70px rgba(212,175,55,0.4);
         }
 
         .hero-tag {
             display: inline-block;
-            padding: 4px 16px;
-            border-radius: 20px;
-            background: var(--gold-subtle);
-            border: 1px solid rgba(212,175,55,0.2);
+            padding: 4px 14px;
+            border-radius: 980px;
+            background: rgba(212,175,55,0.06);
+            border: 1px solid rgba(212,175,55,0.15);
             color: var(--gold);
-            font-size: 0.75rem;
-            letter-spacing: 2px;
-            margin-bottom: 20px;
-            animation: fadeUp 0.8s ease-out 0.2s both;
+            font-size: 0.65rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 28px;
+            opacity: 0;
+            animation: heroFadeIn 1s ease 0.2s forwards;
         }
 
         .hero h1 {
-            font-size: 3.6rem;
+            font-size: clamp(2.8rem, 6.5vw, 6.2rem);
             font-weight: 800;
-            line-height: 1.15;
-            margin-bottom: 16px;
-            animation: fadeUp 0.8s ease-out 0.3s both;
+            line-height: 1.08;
+            letter-spacing: -2px;
+            margin-bottom: 24px;
+        }
+        .hero h1 .line { display: block; }
+        .hero h1 .line:first-child {
+            opacity: 0;
+            animation: heroLineIn 1s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s forwards;
+        }
+        .hero h1 .line:last-child {
+            opacity: 0;
+            animation: heroLineIn 1s cubic-bezier(0.34, 1.56, 0.64, 1) 0.7s forwards;
         }
         .hero h1 .highlight {
             background: linear-gradient(135deg, var(--gold-light), var(--gold), #b8860b);
@@ -220,326 +170,302 @@
             background-clip: text;
         }
         .hero h1 .accent {
-            color: var(--gold);
-            position: relative;
             display: inline-block;
+            position: relative;
         }
         .hero h1 .accent::after {
             content: '';
             position: absolute;
-            bottom: 2px;
+            bottom: 4px;
             left: 0;
             right: 0;
-            height: 3px;
+            height: 4px;
             background: linear-gradient(90deg, transparent, var(--gold), transparent);
             border-radius: 2px;
+            opacity: 0.6;
+        }
+
+        @keyframes heroLineIn {
+            from { opacity: 0; transform: translateY(40px) scale(0.97); }
+            to   { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         .hero-sub {
-            font-size: 1.05rem;
+            font-size: clamp(0.9rem, 1.2vw, 1.1rem);
             color: var(--text-muted);
-            max-width: 560px;
-            line-height: 1.8;
-            margin-bottom: 40px;
-            animation: fadeUp 0.8s ease-out 0.4s both;
+            max-width: 520px;
+            line-height: 1.9;
+            margin-bottom: 48px;
+            font-weight: 400;
+            opacity: 0;
+            animation: heroFadeIn 1s ease 1s forwards;
+        }
+
+        @keyframes heroFadeIn {
+            from { opacity: 0; transform: translateY(16px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
         .hero-actions {
             display: flex;
-            gap: 16px;
+            gap: 14px;
             justify-content: center;
             flex-wrap: wrap;
-            animation: fadeUp 0.8s ease-out 0.5s both;
+            opacity: 0;
+            animation: heroFadeIn 1s ease 1.2s forwards;
         }
 
+        .apple-btn {
+            padding: 14px 36px;
+            border-radius: 980px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            letter-spacing: 0.5px;
+        }
+        .apple-btn-primary {
+            background: var(--gold);
+            color: #000;
+        }
+        .apple-btn-primary:hover {
+            transform: scale(1.04);
+            box-shadow: 0 10px 40px rgba(212,175,55,0.3);
+        }
+        .apple-btn-secondary {
+            border: 1px solid rgba(255,255,255,0.15);
+            color: #fff;
+        }
+        .apple-btn-secondary:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            transform: scale(1.04);
+        }
 
-        /* 滚动指示器 */
         .scroll-indicator {
             position: absolute;
-            bottom: 30px;
+            bottom: 36px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             color: #444;
-            font-size: 0.7rem;
-            letter-spacing: 2px;
-            animation: bounce 2s ease-in-out infinite;
+            font-size: 0.6rem;
+            letter-spacing: 3px;
+            opacity: 0;
+            animation: heroFadeIn 1s ease 2s forwards;
         }
         .scroll-indicator .line {
             width: 1px;
-            height: 30px;
+            height: 28px;
             background: linear-gradient(to bottom, var(--gold), transparent);
         }
-        @keyframes bounce {
-            0%, 100% { transform: translateX(-50%) translateY(0); }
-            50%      { transform: translateX(-50%) translateY(8px); }
+
+        /* ═══════════════════════════════════════════
+           Section 通用
+           ═══════════════════════════════════════════ */
+        .section {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 100px 28px;
         }
 
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(24px); }
-            to   { opacity: 1; transform: translateY(0); }
+        .section-header {
+            text-align: center;
+            margin-bottom: 56px;
         }
-
-        /* ============================================
-           Apple 式毛玻璃卡片
-           ============================================ */
-        .glass-card {
-            background: rgba(19,19,19,0.6);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 16px;
-            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        .glass-card:hover {
-            border-color: rgba(212,175,55,0.2);
-            box-shadow: 0 12px 40px rgba(212,175,55,0.06);
-            transform: translateY(-2px);
-        }
-
-        /* Apple 式按钮 */
-        .apple-btn {
-            padding: 12px 32px;
-            border-radius: 980px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            letter-spacing: 0.3px;
-        }
-        .apple-btn-primary {
-            background: linear-gradient(135deg, var(--gold), #c9a032);
-            color: var(--black);
-        }
-        .apple-btn-primary:hover {
-            transform: scale(1.02);
-            box-shadow: 0 8px 30px rgba(212,175,55,0.25);
-        }
-        .apple-btn-secondary {
-            border: 1px solid rgba(255,255,255,0.12);
-            color: var(--text-body);
-        }
-        .apple-btn-secondary:hover {
-            border-color: var(--gold);
+        .section-label {
+            font-size: 0.7rem;
+            letter-spacing: 4px;
             color: var(--gold);
-            transform: scale(1.02);
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            font-weight: 500;
         }
-
-        /* Apple 式板块标题 */
-        .apple-section-title {
-            font-size: 2.4rem;
+        .section-title {
+            font-size: clamp(1.8rem, 3vw, 2.8rem);
             font-weight: 700;
-            letter-spacing: -0.5px;
-            line-height: 1.2;
-            margin-bottom: 8px;
+            letter-spacing: -1px;
+            margin-bottom: 10px;
         }
-        .apple-section-subtitle {
-            font-size: 1.05rem;
+        .section-desc {
             color: var(--text-muted);
-            font-weight: 400;
-            line-height: 1.6;
+            font-size: 1rem;
+            max-width: 460px;
+            margin: 0 auto;
+            line-height: 1.7;
         }
 
-        /* 滚动动效 */
+        /* ═══════════════════════════════════════════
+           Scroll Reveal
+           ═══════════════════════════════════════════ */
         .reveal {
             opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform: translateY(40px);
+            transition: all 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         .reveal.visible {
             opacity: 1;
             transform: translateY(0);
         }
-        .reveal-delay-1 { transition-delay: 0.1s; }
-        .reveal-delay-2 { transition-delay: 0.2s; }
-        .reveal-delay-3 { transition-delay: 0.3s; }
-        .reveal-delay-4 { transition-delay: 0.4s; }
+        .reveal-d1 { transition-delay: 0.1s; }
+        .reveal-d2 { transition-delay: 0.2s; }
+        .reveal-d3 { transition-delay: 0.35s; }
+        .reveal-d4 { transition-delay: 0.5s; }
 
-        /* ============================================
-           内容板块通用
-           ============================================ */
-        .section {
-            max-width: 960px;
-            margin: 0 auto;
-            padding: 80px 24px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 48px;
-            position: relative;
-        }
-
-        .section-label {
-            display: inline-block;
-            font-size: 0.75rem;
-            letter-spacing: 3px;
-            color: var(--gold);
-            text-transform: uppercase;
-            margin-bottom: 10px;
-        }
-        .section-title {
-            font-size: 2.2rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-            letter-spacing: -0.5px;
-        }
-        .section-desc {
-            color: var(--text-muted);
-            font-size: 1rem;
-            max-width: 500px;
-            margin: 0 auto;
-            line-height: 1.7;
-            font-weight: 400;
-        }
-
-        /* ============================================
-           —— 思想输出板块（取代原 blog）
-           ============================================ */
-        .thought-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
+        /* ═══════════════════════════════════════════
+           思想输出 — Apple 式卡片列表
+           ═══════════════════════════════════════════ */
+        .thought-list {
+            display: flex;
+            flex-direction: column;
             gap: 16px;
         }
 
         .thought-card {
-            background: rgba(19,19,19,0.5);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 16px;
+            display: flex;
+            align-items: flex-start;
             padding: 28px;
+            border-radius: var(--radius-md);
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--border-subtle);
             text-decoration: none;
             color: inherit;
-            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-            position: relative;
-            overflow: hidden;
-        }
-        .thought-card.featured {
-            grid-column: 1 / -1;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
             gap: 20px;
-            padding: 0;
-            overflow: hidden;
         }
-        .thought-card.featured .card-body { padding: 32px; }
-        .thought-card.featured .card-cover {
-            background: linear-gradient(135deg, rgba(212,175,55,0.08), transparent);
-            min-height: 100%;
-        }
-
         .thought-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(212,175,55,0.25);
-            box-shadow: 0 16px 48px rgba(212,175,55,0.08);
+            background: rgba(212,175,55,0.03);
+            border-color: rgba(212,175,55,0.15);
+            transform: translateY(-3px);
         }
 
-        .card-type {
-            display: inline-block;
-            font-size: 0.7rem;
+        .thought-number {
+            flex-shrink: 0;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(212,175,55,0.08);
+            color: var(--gold);
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1px solid rgba(212,175,55,0.12);
+        }
+
+        .thought-body { flex: 1; min-width: 0; }
+
+        .thought-card .card-type {
+            font-size: 0.65rem;
             letter-spacing: 2px;
             color: var(--gold);
-            margin-bottom: 12px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            text-transform: uppercase;
         }
-        .card-title {
-            font-size: 1.1rem;
+        .thought-card .card-title {
+            font-size: 1.05rem;
             font-weight: 600;
             margin-bottom: 8px;
             line-height: 1.5;
             transition: color 0.3s;
         }
         .thought-card:hover .card-title { color: var(--gold); }
-        .card-excerpt {
+        .thought-card .card-excerpt {
             font-size: 0.88rem;
             color: var(--text-muted);
             line-height: 1.7;
         }
-        .card-meta {
-            margin-top: 16px;
-            font-size: 0.78rem;
+        .thought-card .card-meta {
+            margin-top: 12px;
+            font-size: 0.75rem;
             color: #555;
             display: flex;
-            gap: 12px;
+            gap: 16px;
         }
 
-        /* ============================================
-           —— 每日 AI 日报
-           ============================================ */
+        /* ═══════════════════════════════════════════
+           每日 AI 日报 — Apple 风格
+           ═══════════════════════════════════════════ */
         .daily-section {
-            background: linear-gradient(180deg, var(--black), rgba(212,175,55,0.02), var(--black));
-            border-top: 1px solid var(--black-border);
-            border-bottom: 1px solid var(--black-border);
             position: relative;
-            z-index: 2;
+        }
+        .daily-section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(212,175,55,0.1), transparent);
+        }
+        .daily-section::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(212,175,55,0.1), transparent);
         }
 
         .daily-card {
-            background: rgba(19,19,19,0.5);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 16px;
-            padding: 28px;
-            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 32px;
+            transition: all 0.4s;
         }
-        .daily-card:hover { border-color: rgba(212,175,55,0.2); transform: translateY(-2px); }
+        .daily-card:hover {
+            border-color: rgba(212,175,55,0.12);
+        }
 
         .daily-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             flex-wrap: wrap;
             gap: 12px;
         }
         .daily-badge {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             font-size: 0.85rem;
             color: var(--gold);
             font-weight: 600;
         }
         .daily-badge .dot {
-            width: 8px;
-            height: 8px;
+            width: 7px;
+            height: 7px;
             border-radius: 50%;
             background: var(--gold);
-            animation: blink 1.5s ease-in-out infinite;
+            animation: pulseDot 1.5s ease-in-out infinite;
         }
-        @keyframes blink { 50% { opacity: 0.3; } }
-
-        .daily-date {
-            font-size: 0.82rem;
-            color: #555;
-        }
+        @keyframes pulseDot { 50% { opacity: 0.3; } }
+        .daily-date { font-size: 0.8rem; color: #555; }
         .daily-archive-link {
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             color: var(--text-muted);
             text-decoration: none;
             transition: color 0.3s;
         }
         .daily-archive-link:hover { color: var(--gold); }
 
-        .daily-news-list { display: flex; flex-direction: column; gap: 12px; }
+        .daily-news-list { display: flex; flex-direction: column; gap: 10px; }
 
         .daily-news-item {
             display: flex;
             gap: 14px;
             padding: 14px 16px;
-            background: rgba(255,255,255,0.02);
-            border-radius: 10px;
+            background: rgba(255,255,255,0.015);
+            border-radius: var(--radius-sm);
             transition: all 0.3s;
         }
         .daily-news-item:hover {
-            background: rgba(212,175,55,0.04);
+            background: rgba(212,175,55,0.03);
         }
 
         .daily-news-index {
@@ -550,204 +476,243 @@
             align-items: center;
             justify-content: center;
             border-radius: 50%;
-            background: var(--gold-subtle);
+            background: rgba(212,175,55,0.08);
             color: var(--gold);
-            font-size: 0.75rem;
-            font-weight: 600;
+            font-size: 0.7rem;
+            font-weight: 700;
         }
         .daily-news-content { flex: 1; min-width: 0; }
         .daily-news-title {
             font-size: 0.92rem;
             font-weight: 500;
             color: #fff;
-            margin-bottom: 4px;
+            margin-bottom: 3px;
             line-height: 1.5;
         }
         .daily-news-source {
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             color: #555;
         }
         .daily-news-comment {
-            font-size: 0.82rem;
+            font-size: 0.8rem;
             color: var(--gold);
             margin-top: 6px;
             line-height: 1.5;
             font-style: italic;
+            opacity: 0.8;
         }
-        .daily-news-comment::before { content: '💬 '; }
 
         .daily-footer {
             margin-top: 20px;
             padding-top: 16px;
-            border-top: 1px solid var(--black-border);
+            border-top: 1px solid rgba(255,255,255,0.04);
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
             gap: 12px;
         }
-        .daily-footer-text {
-            font-size: 0.8rem;
-            color: #555;
-        }
+        .daily-footer-text { font-size: 0.78rem; color: #555; }
 
-        /* ============================================
-           —— 连接我
-           ============================================ */
+        /* ═══════════════════════════════════════════
+           连接我 — Apple 2×2 精致卡片
+           ═══════════════════════════════════════════ */
         .connect-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 14px;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            max-width: 640px;
+            margin: 0 auto;
         }
         .connect-item {
-            background: rgba(19,19,19,0.5);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 16px;
-            padding: 20px 16px;
+            background: rgba(255,255,255,0.02);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 32px 24px;
             text-align: center;
             text-decoration: none;
             color: inherit;
-            transition: all 0.3s;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 4px;
+            gap: 8px;
+            cursor: pointer;
         }
         .connect-item:hover {
-            border-color: rgba(212,175,55,0.25);
+            border-color: rgba(212,175,55,0.2);
             transform: translateY(-4px);
-            box-shadow: 0 12px 40px rgba(212,175,55,0.08);
+            box-shadow: 0 16px 48px rgba(212,175,55,0.06);
+            background: rgba(212,175,55,0.03);
         }
-        .connect-icon { font-size: 1.6rem; display: block; margin-bottom: 6px; }
-        .connect-name { font-size: 0.9rem; font-weight: 600; color: #fff; }
-        .connect-desc { font-size: 0.72rem; color: #555; }
+        .connect-item:active {
+            transform: translateY(-2px);
+        }
+        .connect-icon {
+            font-size: 2rem;
+            display: block;
+            margin-bottom: 4px;
+            transition: transform 0.3s;
+        }
+        .connect-item:hover .connect-icon {
+            transform: scale(1.1);
+        }
+        .connect-name {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #fff;
+            letter-spacing: 0.5px;
+        }
+        .connect-desc {
+            font-size: 0.75rem;
+            color: #666;
+        }
 
-        /* 图片弹窗 */
-        .modal-overlay {
-            display: none; position: fixed; inset: 0; z-index: 9999;
-            background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
-            align-items: center; justify-content: center;
-            cursor: pointer; animation: fadeIn 0.3s ease;
-        }
-        .modal-overlay.show { display: flex; }
-        .modal-overlay img {
-            max-width: 85vw; max-height: 85vh; border-radius: 12px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
-            animation: scaleIn 0.3s ease; cursor: default;
-        }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes scaleIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        .modal-close {
-            position: fixed; top: 24px; right: 32px; z-index: 10000;
-            color: #fff; font-size: 2rem; cursor: pointer; opacity: 0.7;
-            transition: opacity 0.3s; background: none; border: none;
-        }
-        .modal-close:hover { opacity: 1; }
-
-        /* ============================================
-           统计条
-           ============================================ */
+        /* ═══════════════════════════════════════════
+           统计条 — Apple 冷峻数字
+           ═══════════════════════════════════════════ */
         .stats-bar {
             display: flex;
             justify-content: center;
-            gap: 48px;
-            padding: 40px 24px;
-            border-top: 1px solid var(--black-border);
+            gap: 64px;
+            padding: 48px 24px;
         }
         .stat-item { text-align: center; }
         .stat-num {
-            font-size: 1.6rem;
+            font-size: 2.2rem;
             font-weight: 700;
             color: var(--gold);
+            letter-spacing: -1px;
+            line-height: 1;
         }
         .stat-label {
-            font-size: 0.78rem;
+            font-size: 0.72rem;
             color: #555;
-            margin-top: 4px;
+            margin-top: 8px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
-        /* ============================================
-           页脚
-           ============================================ */
-        .site-footer {
+        /* ═══════════════════════════════════════════
+           图片弹窗
+           ═══════════════════════════════════════════ */
+        .modal-overlay {
+            display: none; position: fixed; inset: 0; z-index: 9999;
+            background: rgba(0,0,0,0.85); backdrop-filter: blur(12px);
+            align-items: center; justify-content: center;
+            cursor: pointer;
+        }
+        .modal-overlay.show { display: flex; }
+        .modal-content {
             text-align: center;
-            padding: 40px 24px;
-            border-top: 1px solid var(--black-border);
+            animation: modalIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+        }
+        .modal-content img {
+            max-width: 80vw; max-height: 70vh; border-radius: 14px;
+            box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+            display: block;
+        }
+        @keyframes modalIn {
+            from { transform: scale(0.92); opacity: 0; }
+            to   { transform: scale(1); opacity: 1; }
+        }
+        .modal-close {
+            position: fixed; top: 24px; right: 32px; z-index: 10000;
+            color: #fff; font-size: 1.6rem; cursor: pointer; opacity: 0.5;
+            transition: opacity 0.3s; background: none; border: none;
+        }
+        .modal-close:hover { opacity: 1; }
+        .modal-link {
+            display: inline-block; margin-top: 20px;
+            padding: 12px 36px; border-radius: 980px;
+            background: var(--gold);
+            color: #000; font-weight: 700; font-size: 0.85rem;
+            text-decoration: none; transition: all 0.3s;
+        }
+        .modal-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(212,175,55,0.3);
+        }
+
+        /* ═══════════════════════════════════════════
+           页脚
+           ═══════════════════════════════════════════ */
+        .site-footer {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 40px 24px 48px;
             color: #333;
-            font-size: 0.78rem;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
         }
         .site-footer span { color: var(--gold); }
 
-        /* ============================================
-           响应式
-           ============================================ */
+        /* ═══════════════════════════════════════════
+           Responsive
+           ═══════════════════════════════════════════ */
         @media (max-width: 768px) {
-            .navbar { padding: 0 16px; }
-            .nav-links { gap: 16px; }
-            .nav-links a { font-size: 0.78rem; }
-            .hero h1 { font-size: 2rem; }
+            .navbar { justify-content: flex-end; padding-right: 16px; gap: 20px; }
+            .navbar .nav-brand { position: static; }
+            .nav-cta { position: static; }
+            .navbar a:not(.nav-brand):not(.nav-cta):nth-child(n+3) { display: none; }
+            .hero h1 { font-size: clamp(2.2rem, 10vw, 3.6rem); letter-spacing: -1px; }
             .hero-sub { font-size: 0.92rem; }
-            .section-title { font-size: 1.5rem; }
-            .thought-grid { grid-template-columns: 1fr; }
-            .thought-card.featured { grid-template-columns: 1fr; }
-            .connect-grid { grid-template-columns: repeat(2, 1fr); }
-            .stats-bar { gap: 24px; flex-wrap: wrap; }
+            .section { padding: 60px 20px; }
+            .section-title { font-size: 1.6rem; }
+            .thought-card { padding: 20px; }
+            .thought-card .card-title { font-size: 0.95rem; }
+            .connect-grid { grid-template-columns: 1fr 1fr; max-width: 100%; }
+            .connect-item { padding: 24px 16px; }
+            .connect-icon { font-size: 1.6rem; }
+            .stats-bar { gap: 32px; flex-wrap: wrap; }
+            .stat-num { font-size: 1.6rem; }
         }
         @media (max-width: 420px) {
-            .hero h1 { font-size: 1.6rem; }
-            .connect-grid { grid-template-columns: repeat(2, 1fr); }
-            .nav-links a:not(.nav-cta) { display: none; }
+            .navbar .nav-links a:not(.nav-cta) { display: none; }
+            .connect-grid { grid-template-columns: 1fr 1fr; }
         }
         @media (prefers-reduced-motion: reduce) {
             * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
         }
 
-        /* 自定义滚动条 */
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-track { background: var(--black); }
-        ::-webkit-scrollbar-thumb { background: #222; border-radius: 3px; }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #222; border-radius: 2px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
     </style>
 </head>
 <body>
 
-    <!-- ======== 导航 ======== -->
+    <!-- ════════ 导航 ════════ -->
     <nav class="navbar">
-        <div class="nav-brand"><span class="brand-cn">扎克耿</span><span class="brand-divider">·</span><span class="brand-en">AI猎头</span></div>
-        <ul class="nav-links">
-            <li><a href="#thoughts">思想</a></li>
-            <li><a href="#daily">日报</a></li>
-            <li><a href="#connect">连接</a></li>
-            <li><a href="about.html">关于</a></li>
-            <li><a href="jobs.html">机会</a></li>
-            <li><a href="#" class="nav-cta">联系</a></li>
-        </ul>
+        <div class="nav-brand">扎克耿<span> · </span>AI猎头</div>
+        <a href="#thoughts">思想</a>
+        <a href="#daily">日报</a>
+        <a href="#connect">连接</a>
+        <a href="about.html">关于</a>
+        <a href="jobs.html">机会</a>
+        <a href="#connect" class="nav-cta">联系</a>
     </nav>
 
-    <!-- ======== Hero ======== -->
+    <!-- ════════ Hero ════════ -->
     <section class="hero">
-        <div class="hero-glow"></div>
-        <div class="hero-watermark">ZG</div>
-        <div class="avatar-wrapper">
-            <div class="avatar-ring"></div>
-            <img src="avatar.png" alt="扎克耿">
-        </div>
         <div class="hero-tag">AI 猎头 · 行业观察者 · 人才连接器</div>
         <h1>
-            连接 <span class="highlight">AI 人才</span><br>
-            与 <span class="accent">未来</span>
+            <span class="line">连接 <span class="highlight">AI 人才</span></span>
+            <span class="line">与 <span class="accent">未来</span></span>
         </h1>
         <p class="hero-sub">
-            我是一个进化中的 AI 猎头。<br>
             好奇技术发展，想象突破天际，拒绝循规蹈矩。<br>
-            在这里，我用深度思考和行业洞察，连接对的人与对的机会。
+            在这里，连接对的人与对的机会。
         </p>
         <div class="hero-actions">
             <a href="#daily" class="apple-btn apple-btn-primary">今日 AI 日报</a>
-            <a href="#connect" class="apple-btn apple-btn-secondary">和我连接</a>
+            <a href="#connect" class="apple-btn apple-btn-secondary">和我连接 →</a>
         </div>
         <div class="scroll-indicator">
             <span>SCROLL</span>
@@ -755,42 +720,48 @@
         </div>
     </section>
 
-    <!-- ======== 思想输出 ======== -->
+    <!-- ════════ 思想输出 ════════ -->
     <section class="section" id="thoughts">
         <div class="section-header reveal">
             <div class="section-label">/ 思想输出</div>
             <h2 class="section-title">深度 · 洞察 · 观点</h2>
             <p class="section-desc">关于 AI 行业、人才趋势、招聘本质的独立思考</p>
         </div>
-        <div class="thought-grid">
-            <a href="blog.html" class="thought-card featured reveal reveal-delay-1">
-                <div class="card-body">
+        <div class="thought-list">
+            <a href="blog.html" class="thought-card reveal reveal-d1">
+                <div class="thought-number">01</div>
+                <div class="thought-body">
                     <div class="card-type">精选</div>
                     <div class="card-title">AI 招聘的终局：当每一个候选人都被 AI 匹配，猎头的价值在哪里？</div>
-                    <div class="card-excerpt">在 AI 越来越擅长匹配人和岗位的时代，猎头的核心价值从"信息差"转向"判断力"和"连接力"。</div>
+                    <div class="card-excerpt">在 AI 越来越擅长匹配人和岗位的时代，猎头的核心价值从「信息差」转向「判断力」和「连接力」。</div>
                     <div class="card-meta">
-                        <span>📅 2026.05.05</span>
-                        <span>🏷️ AI · 招聘 · 思考</span>
+                        <span>2026.05.05</span>
+                        <span>AI · 招聘 · 思考</span>
                     </div>
                 </div>
-                <div class="card-cover"></div>
             </a>
-            <a href="blog.html" class="thought-card reveal reveal-delay-2">
-                <div class="card-type">观点</div>
-                <div class="card-title">为什么下一个 AI 独角兽的 CTO 可能藏在一个非科班出身的开发者里</div>
-                <div class="card-excerpt">我越来越发现，最惊艳的 AI 人才往往不来自传统的 FAANG 流水线。</div>
-                <div class="card-meta"><span>📅 2026.05.03</span></div>
+            <a href="blog.html" class="thought-card reveal reveal-d2">
+                <div class="thought-number">02</div>
+                <div class="thought-body">
+                    <div class="card-type">观点</div>
+                    <div class="card-title">为什么下一个 AI 独角兽的 CTO 可能藏在一个非科班出身的开发者里</div>
+                    <div class="card-excerpt">我越来越发现，最惊艳的 AI 人才往往不来自传统的 FAANG 流水线。</div>
+                    <div class="card-meta"><span>2026.05.03</span></div>
+                </div>
             </a>
-            <a href="blog.html" class="thought-card reveal reveal-delay-3">
-                <div class="card-type">洞察</div>
-                <div class="card-title">2026 AI 人才市场的三个结构性变化</div>
-                <div class="card-excerpt">从"抢人"到"抢认知"，AI 人才的竞争逻辑正在发生根本性变化。</div>
-                <div class="card-meta"><span>📅 2026.04.28</span></div>
+            <a href="blog.html" class="thought-card reveal reveal-d3">
+                <div class="thought-number">03</div>
+                <div class="thought-body">
+                    <div class="card-type">洞察</div>
+                    <div class="card-title">2026 AI 人才市场的三个结构性变化</div>
+                    <div class="card-excerpt">从「抢人」到「抢认知」，AI 人才的竞争逻辑正在发生根本性变化。</div>
+                    <div class="card-meta"><span>2026.04.28</span></div>
+                </div>
             </a>
         </div>
     </section>
 
-    <!-- ======== 每日 AI 日报 ======== -->
+    <!-- ════════ 每日 AI 日报 ════════ -->
     <section class="daily-section" id="daily">
         <div class="section" style="padding-top: 60px; padding-bottom: 60px;">
             <div class="section-header reveal">
@@ -798,24 +769,22 @@
                 <h2 class="section-title">AI 行业日报</h2>
                 <p class="section-desc">每天 5 条精选 · 扎克耿独家点评</p>
             </div>
-
-            <div class="daily-card reveal reveal-delay-1">
+            <div class="daily-card reveal reveal-d1">
                 <div class="daily-header">
                     <div class="daily-badge">
                         <span class="dot"></span>
                         今日更新
                     </div>
-                    <span class="daily-date">2026 年 5 月 5 日 · 星期二</span>
+                    <span class="daily-date">2026 年 5 月 5 日</span>
                     <a href="daily.html" class="daily-archive-link">查看全部 →</a>
                 </div>
-
                 <div class="daily-news-list">
                     <div class="daily-news-item">
                         <div class="daily-news-index">1</div>
                         <div class="daily-news-content">
                             <div class="daily-news-title">OpenAI 发布 GPT-5，推理能力提升 3 倍</div>
                             <div class="daily-news-source">OpenAI 官网 · 1 小时前</div>
-                            <div class="daily-news-comment">模型能力还在加速增长，推理成本的下降会催生下一波应用创新。这对 AI 创业公司的人才需求结构会有很大影响。</div>
+                            <div class="daily-news-comment">模型能力还在加速增长，推理成本的下降会催生下一波应用创新。</div>
                         </div>
                     </div>
                     <div class="daily-news-item">
@@ -839,7 +808,7 @@
                         <div class="daily-news-content">
                             <div class="daily-news-title">AI 编程助手 Cursor 估值突破 100 亿美元</div>
                             <div class="daily-news-source">Bloomberg · 8 小时前</div>
-                            <div class="daily-news-comment">AI 开发者工具的爆发说明了一件事：AI 时代的开发者需要新工具，而新工具公司需要最懂 AI 的人。</div>
+                            <div class="daily-news-comment">AI 开发者工具的爆发说明了一件事：AI 时代的开发者需要新工具。</div>
                         </div>
                     </div>
                     <div class="daily-news-item">
@@ -847,168 +816,124 @@
                         <div class="daily-news-content">
                             <div class="daily-news-title">斯坦福 AI 指数报告：2025 年 AI 投资增长 40%</div>
                             <div class="daily-news-source">Stanford HAI · 12 小时前</div>
-                            <div class="daily-news-comment">资本还在加速涌入。对猎头来说，这意味着客户需求不会降温，但对人才的筛选标准会更加严格。</div>
+                            <div class="daily-news-comment">资本还在加速涌入。对猎头来说，这意味着客户需求不会降温。</div>
                         </div>
                     </div>
                 </div>
-
                 <div class="daily-footer">
-                    <span class="daily-footer-text">⚡ 每日精选 · 仅代表个人观点</span>
-                    <a href="daily.html" class="daily-archive-link" style="color: var(--gold);">📋 查看往期 →</a>
+                    <span class="daily-footer-text">每日精选 · 仅代表个人观点</span>
+                    <a href="daily.html" class="daily-archive-link" style="color: var(--gold);">查看往期 →</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ======== 连接我 ======== -->
+    <!-- ════════ 连接我 ════════ -->
     <section class="section" id="connect">
         <div class="section-header reveal">
             <div class="section-label">/ 连接</div>
             <h2 class="section-title">找到扎克耿</h2>
-            <p class="section-desc">无论你是候选人还是企业，欢迎 connect</p>
+            <p class="section-desc">候选人 or 企业，欢迎 connect</p>
         </div>
         <div class="connect-grid">
-            <a href="javascript:void(0)" onclick="showXiaohongshuQr()" class="connect-item reveal reveal-delay-1">
+            <a href="javascript:void(0)" onclick="showXiaohongshuQr()" class="connect-item reveal reveal-d1">
                 <span class="connect-icon">📕</span>
                 <span class="connect-name">小红书</span>
                 <span class="connect-desc">日常分享 · AI 洞察</span>
             </a>
-            <a href="javascript:void(0)" onclick="showDouyinQr()" class="connect-item reveal reveal-delay-2">
+            <a href="javascript:void(0)" onclick="showDouyinQr()" class="connect-item reveal reveal-d2">
                 <span class="connect-icon">🎵</span>
                 <span class="connect-name">抖音</span>
                 <span class="connect-desc">短视频 · 行业观察</span>
             </a>
-            <a href="mailto:zachgengqingyu@163.com" class="connect-item reveal reveal-delay-3">
+            <a href="mailto:zachgengqingyu@163.com" class="connect-item reveal reveal-d3">
                 <span class="connect-icon">📧</span>
                 <span class="connect-name">邮箱</span>
                 <span class="connect-desc">zachgengqingyu@163.com</span>
             </a>
-            <a href="javascript:void(0)" onclick="showQr()" class="connect-item reveal reveal-delay-4">
+            <a href="javascript:void(0)" onclick="showQr()" class="connect-item reveal reveal-d4">
                 <span class="connect-icon">💬</span>
                 <span class="connect-name">微信公众号</span>
-                <span class="connect-desc">点击查看二维码</span>
+                <span class="connect-desc">涌现与回响 Emergence</span>
             </a>
+        </div>
+
+        <!-- ════════ 统计 ════════ -->
+        <div class="stats-bar reveal">
+            <div class="stat-item">
+                <div class="stat-num">100+</div>
+                <div class="stat-label">合作企业</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">1000+</div>
+                <div class="stat-label">成功匹配</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">3000+</div>
+                <div class="stat-label">AI 人才库</div>
+            </div>
         </div>
     </section>
 
-    <!-- ======== 统计 ======== -->
-    <div class="stats-bar reveal">
-        <div class="stat-item">
-            <div class="stat-num">100+</div>
-            <div class="stat-label">合作企业</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-num">1000+</div>
-            <div class="stat-label">成功匹配</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-num">3000+</div>
-            <div class="stat-label">AI 人才库</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-num">∞</div>
-            <div class="stat-label">持续进化</div>
-        </div>
-    </div>
-
-    <!-- ======== 图片弹窗 ======== -->
+    <!-- ════════ 弹窗 ════════ -->
     <div class="modal-overlay" id="qrModal" onclick="hideQr()">
         <div class="modal-content" onclick="event.stopPropagation()">
             <button class="modal-close" onclick="hideQr()">✕</button>
             <img src="wechat-qr.png" alt="扎克耿微信公众号">
-            <span class="modal-link" style="background: transparent; border: 1px solid var(--gold); color: var(--gold); cursor: default;">💬 微信搜索「涌现与回响 Emergence」</span>
+            <span class="modal-link" style="background: transparent; border: 1px solid var(--gold); color: var(--gold); cursor: default;">微信搜索「涌现与回响 Emergence」</span>
         </div>
     </div>
     <div class="modal-overlay" id="douyinModal" onclick="hideDouyinQr()">
         <div class="modal-content" onclick="event.stopPropagation()">
             <button class="modal-close" onclick="hideDouyinQr()">✕</button>
             <img src="douyin-qr.jpg" alt="扎克耿抖音">
-            <a href="https://v.douyin.com/y7D8iLEa2JA/" target="_blank" class="modal-link">🎵 在抖音打开</a>
+            <a href="https://v.douyin.com/y7D8iLEa2JA/" target="_blank" class="modal-link">在抖音打开</a>
         </div>
     </div>
-
     <div class="modal-overlay" id="xiaohongshuModal" onclick="hideXiaohongshuQr()">
         <div class="modal-content" onclick="event.stopPropagation()">
             <button class="modal-close" onclick="hideXiaohongshuQr()">✕</button>
             <img src="xiaohongshu-qr.jpg" alt="扎克耿小红书">
-            <a href="https://xhslink.com/m/55zHXGBF1Up" target="_blank" class="modal-link">📕 在小红书打开</a>
+            <a href="https://xhslink.com/m/55zHXGBF1Up" target="_blank" class="modal-link">在小红书打开</a>
         </div>
     </div>
 
-    <style>
-    .modal-content {
-        text-align: center;
-        animation: scaleIn 0.3s ease;
-    }
-    .modal-content img {
-        max-width: 80vw; max-height: 70vh; border-radius: 12px;
-        box-shadow: 0 20px 60px rgba(0,0,0,0.6);
-        display: block;
-    }
-    .modal-link {
-        display: inline-block; margin-top: 20px;
-        padding: 12px 36px; border-radius: 30px;
-        background: linear-gradient(135deg, var(--gold), #b8860b);
-        color: var(--black); font-weight: 700; font-size: 0.9rem;
-        text-decoration: none; transition: all 0.3s;
-    }
-    .modal-link:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(212,175,55,0.3);
-    }
-    </style>
-
-    <!-- ======== 页脚 ======== -->
+    <!-- ════════ 页脚 ════════ -->
     <footer class="site-footer">
         <span>⚡</span> 2026 扎克耿 · 连接 AI 人才与未来
     </footer>
 
     <script>
-        // 滚动动效 — Apple 式淡入上浮
+        // 滚动动效
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
                 }
             });
-        }, { threshold: 0.1 });
+        }, { threshold: 0.08 });
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
         // 图片弹窗
-        function showQr() {
-            document.getElementById('qrModal').classList.add('show');
-        }
-        function hideQr() {
-            document.getElementById('qrModal').classList.remove('show');
-        }
-        function showDouyinQr() {
-            document.getElementById('douyinModal').classList.add('show');
-        }
-        function hideDouyinQr() {
-            document.getElementById('douyinModal').classList.remove('show');
-        }
-        function showXiaohongshuQr() {
-            document.getElementById('xiaohongshuModal').classList.add('show');
-        }
-        function hideXiaohongshuQr() {
-            document.getElementById('xiaohongshuModal').classList.remove('show');
-        }
-        // 点击导航栏"联系我"滚动到底部
+        function showQr() { document.getElementById('qrModal').classList.add('show'); }
+        function hideQr() { document.getElementById('qrModal').classList.remove('show'); }
+        function showDouyinQr() { document.getElementById('douyinModal').classList.add('show'); }
+        function hideDouyinQr() { document.getElementById('douyinModal').classList.remove('show'); }
+        function showXiaohongshuQr() { document.getElementById('xiaohongshuModal').classList.add('show'); }
+        function hideXiaohongshuQr() { document.getElementById('xiaohongshuModal').classList.remove('show'); }
+
+        // 导航"联系"按钮滚动到底部
         document.querySelector('.nav-cta').addEventListener('click', function(e) {
             e.preventDefault();
             document.getElementById('connect').scrollIntoView({ behavior: 'smooth' });
         });
 
-        // 滚动时隐藏/显示滚动指示器
+        // 滚动指示器隐藏
         window.addEventListener('scroll', function() {
             const indicator = document.querySelector('.scroll-indicator');
-            if (window.scrollY > 100) {
-                indicator.style.opacity = '0';
-                indicator.style.pointerEvents = 'none';
-            } else {
-                indicator.style.opacity = '1';
-                indicator.style.pointerEvents = 'auto';
-            }
+            const opacity = window.scrollY > 100 ? '0' : '1';
+            indicator.style.opacity = opacity;
+            indicator.style.pointerEvents = window.scrollY > 100 ? 'none' : 'auto';
         });
     </script>
 </body>
