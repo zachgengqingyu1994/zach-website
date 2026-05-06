@@ -8,19 +8,24 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --gold: #D4AF37;
-            --gold-light: #F4D03F;
-            --border-subtle: rgba(255,255,255,0.06);
-            --text-muted: #888;
-            --text-body: #ccc;
+            --gold: #C9A84C;
+            --gold-light: #E0C46A;
+            --gold-subtle: rgba(201,168,76,0.08);
+            --bg: #FAFAF7;
+            --bg-card: #FFFFFF;
+            --text-primary: #1C1C1E;
+            --text-body: #4A4A4A;
+            --text-muted: #8E8E93;
+            --text-faint: #C7C7CC;
+            --border: #E8E4DC;
             --radius-md: 20px;
             --radius-sm: 12px;
         }
         html { scroll-behavior: smooth; }
         body {
             font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
-            background: #000;
-            color: #fff;
+            background: var(--bg);
+            color: var(--text-primary);
             min-height: 100vh;
             -webkit-font-smoothing: antialiased;
         }
@@ -31,8 +36,8 @@
             z-index: 0;
             pointer-events: none;
             background:
-                radial-gradient(ellipse 70% 50% at 50% -10%, rgba(212,175,55,0.15) 0%, transparent 60%),
-                radial-gradient(ellipse 40% 30% at 50% 100%, rgba(212,175,55,0.04) 0%, transparent 50%);
+                radial-gradient(ellipse 70% 50% at 50% -10%, rgba(201,168,76,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse 40% 30% at 50% 100%, rgba(201,168,76,0.03) 0%, transparent 50%);
         }
         body::after {
             content: '';
@@ -41,7 +46,7 @@
             height: 40vh;
             z-index: 0;
             pointer-events: none;
-            background: linear-gradient(0deg, rgba(212,175,55,0.02) 0%, transparent 40%);
+            background: linear-gradient(0deg, rgba(201,168,76,0.02) 0%, transparent 40%);
         }
 
         .navbar {
@@ -52,27 +57,27 @@
             align-items: center;
             justify-content: center;
             gap: 40px;
-            background: rgba(0,0,0,0.7);
+            background: rgba(255,255,255,0.75);
             backdrop-filter: blur(30px);
             -webkit-backdrop-filter: blur(30px);
-            border-bottom: 1px solid rgba(255,255,255,0.04);
+            border-bottom: 1px solid var(--border);
             z-index: 100;
         }
         .navbar a {
-            color: #777;
+            color: var(--text-muted);
             text-decoration: none;
             font-size: 0.8rem;
             font-weight: 500;
             letter-spacing: 0.8px;
             transition: color 0.3s;
         }
-        .navbar a:hover { color: #fff; }
+        .navbar a:hover { color: var(--text-primary); }
         .nav-brand {
             position: absolute;
             left: 28px;
             font-size: 0.85rem;
             font-weight: 600;
-            color: #fff;
+            color: var(--text-primary);
             letter-spacing: 1px;
         }
         .nav-brand span { color: var(--gold); }
@@ -82,7 +87,8 @@
             font-size: 0.8rem !important;
             padding: 5px 14px;
             border-radius: 980px;
-            border: 1px solid rgba(255,255,255,0.1);
+            background: #fff;
+            border: 1px solid var(--border);
             transition: all 0.3s !important;
         }
         .nav-back:hover {
@@ -109,6 +115,7 @@
             font-weight: 700;
             letter-spacing: -1px;
             margin-bottom: 8px;
+            color: var(--text-primary);
         }
         h1 span {
             background: linear-gradient(135deg, var(--gold-light), var(--gold));
@@ -129,8 +136,8 @@
         .empty-state {
             text-align: center;
             padding: 80px 20px;
-            background: rgba(255,255,255,0.015);
-            border: 1px solid var(--border-subtle);
+            background: var(--bg-card);
+            border: 1px solid var(--border);
             border-radius: var(--radius-md);
             opacity: 0;
             animation: fadeUp 0.8s ease 0.6s forwards;
@@ -143,17 +150,17 @@
         .empty-state p {
             font-size: 1rem;
             margin-bottom: 8px;
-            color: #555;
+            color: var(--text-body);
         }
         .empty-state .hint {
             font-size: 0.85rem;
-            color: #444;
+            color: var(--text-muted);
         }
 
         .footer {
             text-align: center;
             margin-top: 60px;
-            color: #333;
+            color: var(--text-muted);
             font-size: 0.75rem;
             letter-spacing: 0.5px;
         }
@@ -171,8 +178,8 @@
         }
 
         ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: #000; }
-        ::-webkit-scrollbar-thumb { background: #222; border-radius: 2px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
     </style>
 </head>

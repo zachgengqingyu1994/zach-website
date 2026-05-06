@@ -12,16 +12,18 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --gold:         #D4AF37;
-            --gold-light:   #F4D03F;
-            --gold-subtle:  rgba(212,175,55,0.08);
-            --gold-glow:    rgba(212,175,55,0.3);
-            --black:        #000;
-            --black-raised: #0a0a0a;
-            --black-card:   #111;
-            --border-subtle: rgba(255,255,255,0.06);
-            --text-muted:   #888;
-            --text-body:    #ccc;
+            --gold:         #C9A84C;
+            --gold-light:   #E0C46A;
+            --gold-subtle:  rgba(201,168,76,0.08);
+            --gold-shine:   rgba(201,168,76,0.15);
+            --bg:           #FAFAF7;
+            --bg-card:      #FFFFFF;
+            --bg-raised:    #F2F0EB;
+            --text-primary: #1C1C1E;
+            --text-body:    #4A4A4A;
+            --text-muted:   #8E8E93;
+            --text-faint:   #C7C7CC;
+            --border:       #E8E4DC;
             --radius-sm:    12px;
             --radius-md:    20px;
         }
@@ -30,15 +32,12 @@
 
         body {
             font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
-            background: var(--black);
-            color: #fff;
+            background: var(--bg);
+            color: var(--text-body);
             -webkit-font-smoothing: antialiased;
         }
 
-        /* ═══════════════════════════════════════════
-           Dramatic Stage Background
-           — 大面积的舞台灯光效果
-           ═══════════════════════════════════════════ */
+        /* 柔和暖光背景 */
         body::before {
             content: '';
             position: fixed;
@@ -46,30 +45,14 @@
             z-index: 0;
             pointer-events: none;
             background:
-                /* 主光 — 从顶部打下来的金色聚光灯 */
-                radial-gradient(ellipse 70% 50% at 50% -10%, rgba(212,175,55,0.18) 0%, transparent 60%),
-                /* 辅助环境光 */
-                radial-gradient(ellipse 40% 30% at 50% 100%, rgba(212,175,55,0.04) 0%, transparent 50%),
-                radial-gradient(circle 300px at 20% 40%, rgba(212,175,55,0.03), transparent 70%),
-                radial-gradient(circle 400px at 80% 60%, rgba(212,175,55,0.02), transparent 70%);
+                radial-gradient(ellipse 60% 45% at 50% -5%, rgba(201,168,76,0.07) 0%, transparent 60%),
+                radial-gradient(ellipse 30% 20% at 80% 30%, rgba(201,168,76,0.03) 0%, transparent 50%);
         }
 
-        /* 舞台地面的微反射光泽 */
-        body::after {
-            content: '';
-            position: fixed;
-            bottom: 0; left: 0; right: 0;
-            height: 40vh;
-            z-index: 0;
-            pointer-events: none;
-            background: linear-gradient(0deg, rgba(212,175,55,0.02) 0%, transparent 40%);
-        }
-
-        /* 所有内容都在 z-index: 1 之上 */
         .navbar, .hero, section, footer { position: relative; z-index: 1; }
 
         /* ═══════════════════════════════════════════
-           Navigation — 极简半透明
+           Navigation — 白色毛玻璃
            ═══════════════════════════════════════════ */
         .navbar {
             position: fixed;
@@ -79,27 +62,27 @@
             align-items: center;
             justify-content: center;
             gap: 40px;
-            background: rgba(0,0,0,0.7);
+            background: rgba(255,255,255,0.78);
             backdrop-filter: blur(30px);
             -webkit-backdrop-filter: blur(30px);
-            border-bottom: 1px solid rgba(255,255,255,0.04);
+            border-bottom: 1px solid var(--border);
             z-index: 100;
         }
         .navbar a {
-            color: #777;
+            color: var(--text-muted);
             text-decoration: none;
             font-size: 0.8rem;
             font-weight: 500;
             letter-spacing: 0.8px;
             transition: color 0.3s;
         }
-        .navbar a:hover { color: #fff; }
+        .navbar a:hover { color: var(--text-primary); }
         .navbar .nav-brand {
             position: absolute;
             left: 28px;
             font-size: 0.85rem;
             font-weight: 600;
-            color: #fff;
+            color: var(--text-primary);
             letter-spacing: 1px;
         }
         .navbar .nav-brand span { color: var(--gold); }
@@ -115,11 +98,11 @@
         }
         .nav-cta:hover {
             background: var(--gold);
-            color: #000 !important;
+            color: #fff !important;
         }
 
         /* ═══════════════════════════════════════════
-           Hero — 巨幅打字机风格
+           Hero
            ═══════════════════════════════════════════ */
         .hero {
             min-height: 100vh;
@@ -136,8 +119,8 @@
             display: inline-block;
             padding: 4px 14px;
             border-radius: 980px;
-            background: rgba(212,175,55,0.06);
-            border: 1px solid rgba(212,175,55,0.15);
+            background: var(--gold-subtle);
+            border: 1px solid rgba(201,168,76,0.15);
             color: var(--gold);
             font-size: 0.65rem;
             letter-spacing: 3px;
@@ -148,11 +131,12 @@
         }
 
         .hero h1 {
-            font-size: clamp(2.8rem, 6.5vw, 6.2rem);
+            font-size: clamp(2.8rem, 6.5vw, 6rem);
             font-weight: 800;
             line-height: 1.08;
             letter-spacing: -2px;
             margin-bottom: 24px;
+            color: var(--text-primary);
         }
         .hero h1 .line { display: block; }
         .hero h1 .line:first-child {
@@ -164,7 +148,7 @@
             animation: heroLineIn 1s cubic-bezier(0.34, 1.56, 0.64, 1) 0.7s forwards;
         }
         .hero h1 .highlight {
-            background: linear-gradient(135deg, var(--gold-light), var(--gold), #b8860b);
+            background: linear-gradient(135deg, var(--gold-light), var(--gold), #b8943b);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -182,7 +166,7 @@
             height: 4px;
             background: linear-gradient(90deg, transparent, var(--gold), transparent);
             border-radius: 2px;
-            opacity: 0.6;
+            opacity: 0.5;
         }
 
         @keyframes heroLineIn {
@@ -191,7 +175,7 @@
         }
 
         .hero-sub {
-            font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+            font-size: clamp(0.9rem, 1.2vw, 1.05rem);
             color: var(--text-muted);
             max-width: 520px;
             line-height: 1.9;
@@ -227,20 +211,22 @@
         }
         .apple-btn-primary {
             background: var(--gold);
-            color: #000;
+            color: #fff;
         }
         .apple-btn-primary:hover {
             transform: scale(1.04);
-            box-shadow: 0 10px 40px rgba(212,175,55,0.3);
+            box-shadow: 0 10px 40px rgba(201,168,76,0.25);
         }
         .apple-btn-secondary {
-            border: 1px solid rgba(255,255,255,0.15);
-            color: #fff;
+            border: 1px solid var(--border);
+            color: var(--text-body);
+            background: rgba(255,255,255,0.6);
         }
         .apple-btn-secondary:hover {
             border-color: var(--gold);
             color: var(--gold);
             transform: scale(1.04);
+            background: var(--gold-subtle);
         }
 
         .scroll-indicator {
@@ -252,7 +238,7 @@
             flex-direction: column;
             align-items: center;
             gap: 8px;
-            color: #444;
+            color: var(--text-faint);
             font-size: 0.6rem;
             letter-spacing: 3px;
             opacity: 0;
@@ -290,6 +276,7 @@
             font-weight: 700;
             letter-spacing: -1px;
             margin-bottom: 10px;
+            color: var(--text-primary);
         }
         .section-desc {
             color: var(--text-muted);
@@ -317,7 +304,7 @@
         .reveal-d4 { transition-delay: 0.5s; }
 
         /* ═══════════════════════════════════════════
-           思想输出 — Apple 式卡片列表
+           思想输出
            ═══════════════════════════════════════════ */
         .thought-list {
             display: flex;
@@ -330,17 +317,18 @@
             align-items: flex-start;
             padding: 28px;
             border-radius: var(--radius-md);
-            background: rgba(255,255,255,0.02);
-            border: 1px solid var(--border-subtle);
+            background: var(--bg-card);
+            border: 1px solid var(--border);
             text-decoration: none;
             color: inherit;
             transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
             gap: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
         }
         .thought-card:hover {
-            background: rgba(212,175,55,0.03);
-            border-color: rgba(212,175,55,0.15);
+            border-color: var(--gold);
             transform: translateY(-3px);
+            box-shadow: 0 8px 32px rgba(201,168,76,0.08);
         }
 
         .thought-number {
@@ -351,11 +339,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(212,175,55,0.08);
+            background: var(--gold-subtle);
             color: var(--gold);
             font-size: 0.8rem;
             font-weight: 700;
-            border: 1px solid rgba(212,175,55,0.12);
+            border: 1px solid rgba(201,168,76,0.12);
         }
 
         .thought-body { flex: 1; min-width: 0; }
@@ -373,6 +361,7 @@
             font-weight: 600;
             margin-bottom: 8px;
             line-height: 1.5;
+            color: var(--text-primary);
             transition: color 0.3s;
         }
         .thought-card:hover .card-title { color: var(--gold); }
@@ -384,41 +373,46 @@
         .thought-card .card-meta {
             margin-top: 12px;
             font-size: 0.75rem;
-            color: #555;
+            color: var(--text-faint);
             display: flex;
             gap: 16px;
         }
 
         /* ═══════════════════════════════════════════
-           每日 AI 日报 — Apple 风格
+           每日 AI 日报
            ═══════════════════════════════════════════ */
         .daily-section {
             position: relative;
+            background: var(--bg-raised);
         }
         .daily-section::before {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(212,175,55,0.1), transparent);
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            opacity: 0.15;
         }
         .daily-section::after {
             content: '';
             position: absolute;
             bottom: 0; left: 0; right: 0;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(212,175,55,0.1), transparent);
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            opacity: 0.15;
         }
 
         .daily-card {
-            background: rgba(255,255,255,0.02);
-            border: 1px solid var(--border-subtle);
+            background: var(--bg-card);
+            border: 1px solid var(--border);
             border-radius: var(--radius-md);
             padding: 32px;
             transition: all 0.4s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
         }
         .daily-card:hover {
-            border-color: rgba(212,175,55,0.12);
+            border-color: var(--gold);
+            box-shadow: 0 8px 32px rgba(201,168,76,0.06);
         }
 
         .daily-header {
@@ -445,7 +439,7 @@
             animation: pulseDot 1.5s ease-in-out infinite;
         }
         @keyframes pulseDot { 50% { opacity: 0.3; } }
-        .daily-date { font-size: 0.8rem; color: #555; }
+        .daily-date { font-size: 0.8rem; color: var(--text-faint); }
         .daily-archive-link {
             font-size: 0.78rem;
             color: var(--text-muted);
@@ -460,12 +454,12 @@
             display: flex;
             gap: 14px;
             padding: 14px 16px;
-            background: rgba(255,255,255,0.015);
+            background: var(--bg);
             border-radius: var(--radius-sm);
             transition: all 0.3s;
         }
         .daily-news-item:hover {
-            background: rgba(212,175,55,0.03);
+            background: var(--gold-subtle);
         }
 
         .daily-news-index {
@@ -476,7 +470,7 @@
             align-items: center;
             justify-content: center;
             border-radius: 50%;
-            background: rgba(212,175,55,0.08);
+            background: var(--gold-subtle);
             color: var(--gold);
             font-size: 0.7rem;
             font-weight: 700;
@@ -485,13 +479,13 @@
         .daily-news-title {
             font-size: 0.92rem;
             font-weight: 500;
-            color: #fff;
+            color: var(--text-primary);
             margin-bottom: 3px;
             line-height: 1.5;
         }
         .daily-news-source {
             font-size: 0.72rem;
-            color: #555;
+            color: var(--text-faint);
         }
         .daily-news-comment {
             font-size: 0.8rem;
@@ -499,23 +493,22 @@
             margin-top: 6px;
             line-height: 1.5;
             font-style: italic;
-            opacity: 0.8;
         }
 
         .daily-footer {
             margin-top: 20px;
             padding-top: 16px;
-            border-top: 1px solid rgba(255,255,255,0.04);
+            border-top: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
             gap: 12px;
         }
-        .daily-footer-text { font-size: 0.78rem; color: #555; }
+        .daily-footer-text { font-size: 0.78rem; color: var(--text-faint); }
 
         /* ═══════════════════════════════════════════
-           连接我 — Apple 2×2 精致卡片
+           连接我
            ═══════════════════════════════════════════ */
         .connect-grid {
             display: grid;
@@ -525,10 +518,8 @@
             margin: 0 auto;
         }
         .connect-item {
-            background: rgba(255,255,255,0.02);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--border-subtle);
+            background: var(--bg-card);
+            border: 1px solid var(--border);
             border-radius: var(--radius-md);
             padding: 32px 24px;
             text-align: center;
@@ -541,12 +532,12 @@
             justify-content: center;
             gap: 8px;
             cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
         }
         .connect-item:hover {
-            border-color: rgba(212,175,55,0.2);
+            border-color: var(--gold);
             transform: translateY(-4px);
-            box-shadow: 0 16px 48px rgba(212,175,55,0.06);
-            background: rgba(212,175,55,0.03);
+            box-shadow: 0 12px 40px rgba(201,168,76,0.06);
         }
         .connect-item:active {
             transform: translateY(-2px);
@@ -563,16 +554,16 @@
         .connect-name {
             font-size: 1rem;
             font-weight: 600;
-            color: #fff;
+            color: var(--text-primary);
             letter-spacing: 0.5px;
         }
         .connect-desc {
             font-size: 0.75rem;
-            color: #666;
+            color: var(--text-muted);
         }
 
         /* ═══════════════════════════════════════════
-           统计条 — Apple 冷峻数字
+           统计条
            ═══════════════════════════════════════════ */
         .stats-bar {
             display: flex;
@@ -590,7 +581,7 @@
         }
         .stat-label {
             font-size: 0.72rem;
-            color: #555;
+            color: var(--text-faint);
             margin-top: 8px;
             letter-spacing: 1px;
             text-transform: uppercase;
@@ -601,7 +592,7 @@
            ═══════════════════════════════════════════ */
         .modal-overlay {
             display: none; position: fixed; inset: 0; z-index: 9999;
-            background: rgba(0,0,0,0.85); backdrop-filter: blur(12px);
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(12px);
             align-items: center; justify-content: center;
             cursor: pointer;
         }
@@ -613,7 +604,7 @@
         }
         .modal-content img {
             max-width: 80vw; max-height: 70vh; border-radius: 14px;
-            box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+            box-shadow: 0 24px 80px rgba(0,0,0,0.15);
             display: block;
         }
         @keyframes modalIn {
@@ -622,7 +613,7 @@
         }
         .modal-close {
             position: fixed; top: 24px; right: 32px; z-index: 10000;
-            color: #fff; font-size: 1.6rem; cursor: pointer; opacity: 0.5;
+            color: #fff; font-size: 1.6rem; cursor: pointer; opacity: 0.6;
             transition: opacity 0.3s; background: none; border: none;
         }
         .modal-close:hover { opacity: 1; }
@@ -630,12 +621,12 @@
             display: inline-block; margin-top: 20px;
             padding: 12px 36px; border-radius: 980px;
             background: var(--gold);
-            color: #000; font-weight: 700; font-size: 0.85rem;
+            color: #fff; font-weight: 700; font-size: 0.85rem;
             text-decoration: none; transition: all 0.3s;
         }
         .modal-link:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 24px rgba(212,175,55,0.3);
+            box-shadow: 0 6px 24px rgba(201,168,76,0.25);
         }
 
         /* ═══════════════════════════════════════════
@@ -646,9 +637,10 @@
             z-index: 1;
             text-align: center;
             padding: 40px 24px 48px;
-            color: #333;
+            color: var(--text-faint);
             font-size: 0.75rem;
             letter-spacing: 0.5px;
+            border-top: 1px solid var(--border);
         }
         .site-footer span { color: var(--gold); }
 
@@ -664,7 +656,7 @@
             .hero-sub { font-size: 0.92rem; }
             .section { padding: 60px 20px; }
             .section-title { font-size: 1.6rem; }
-            .thought-card { padding: 20px; }
+            .thought-card { padding: 20px; flex-direction: column; }
             .thought-card .card-title { font-size: 0.95rem; }
             .connect-grid { grid-template-columns: 1fr 1fr; max-width: 100%; }
             .connect-item { padding: 24px 16px; }
@@ -673,7 +665,6 @@
             .stat-num { font-size: 1.6rem; }
         }
         @media (max-width: 420px) {
-            .navbar .nav-links a:not(.nav-cta) { display: none; }
             .connect-grid { grid-template-columns: 1fr 1fr; }
         }
         @media (prefers-reduced-motion: reduce) {
@@ -681,8 +672,8 @@
         }
 
         ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: #000; }
-        ::-webkit-scrollbar-thumb { background: #222; border-radius: 2px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
     </style>
 </head>
@@ -847,7 +838,7 @@
                 <span class="connect-desc">短视频 · 行业观察</span>
             </a>
             <a href="mailto:zachgengqingyu@163.com" class="connect-item reveal reveal-d3">
-                <span class="connect-icon">📧</span>
+                <span class="connect-icon">✉️</span>
                 <span class="connect-name">邮箱</span>
                 <span class="connect-desc">zachgengqingyu@163.com</span>
             </a>
@@ -904,7 +895,6 @@
     </footer>
 
     <script>
-        // 滚动动效
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -914,7 +904,6 @@
         }, { threshold: 0.08 });
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        // 图片弹窗
         function showQr() { document.getElementById('qrModal').classList.add('show'); }
         function hideQr() { document.getElementById('qrModal').classList.remove('show'); }
         function showDouyinQr() { document.getElementById('douyinModal').classList.add('show'); }
@@ -922,13 +911,11 @@
         function showXiaohongshuQr() { document.getElementById('xiaohongshuModal').classList.add('show'); }
         function hideXiaohongshuQr() { document.getElementById('xiaohongshuModal').classList.remove('show'); }
 
-        // 导航"联系"按钮滚动到底部
         document.querySelector('.nav-cta').addEventListener('click', function(e) {
             e.preventDefault();
             document.getElementById('connect').scrollIntoView({ behavior: 'smooth' });
         });
 
-        // 滚动指示器隐藏
         window.addEventListener('scroll', function() {
             const indicator = document.querySelector('.scroll-indicator');
             const opacity = window.scrollY > 100 ? '0' : '1';
