@@ -16,7 +16,12 @@
         body {
             font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
             background: var(--black); color: #fff; min-height: 100vh;
-            background-image: radial-gradient(ellipse 70% 40% at 50% 0%, rgba(212,175,55,0.06) 0%, transparent 60%);
+            background-image:
+                radial-gradient(ellipse 90% 45% at 50% -5%, rgba(212,175,55,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 30% at 50% 100%, rgba(212,175,55,0.03) 0%, transparent 60%),
+                linear-gradient(rgba(255,255,255,0.012) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 48px 48px, 48px 48px;
         }
 
         .navbar {

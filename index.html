@@ -33,7 +33,14 @@
             background: var(--black);
             color: #fff;
             background-image:
-                radial-gradient(ellipse 80% 50% at 50% 0%, rgba(212,175,55,0.08) 0%, transparent 60%);
+                /* 顶部主光晕 */
+                radial-gradient(ellipse 90% 45% at 50% -5%, rgba(212,175,55,0.10) 0%, transparent 60%),
+                /* 底部辅助光晕 */
+                radial-gradient(ellipse 60% 30% at 50% 100%, rgba(212,175,55,0.04) 0%, transparent 60%),
+                /* 细微科技网格纹理 */
+                linear-gradient(rgba(255,255,255,0.012) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 48px 48px, 48px 48px;
         }
 
         /* ============================================
