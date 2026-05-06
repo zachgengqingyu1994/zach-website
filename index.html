@@ -32,6 +32,7 @@
             font-family: 'PingFang SC', 'Microsoft YaHei', -apple-system, sans-serif;
             background: var(--black);
             color: #fff;
+            position: relative;
             background-image:
                 /* 顶部主光晕 */
                 radial-gradient(ellipse 90% 45% at 50% -5%, rgba(212,175,55,0.10) 0%, transparent 60%),
@@ -41,6 +42,42 @@
                 linear-gradient(rgba(255,255,255,0.012) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px);
             background-size: 100% 100%, 100% 100%, 48px 48px, 48px 48px;
+        }
+        /* ZG 品牌水印暗纹 */
+        body::before {
+            content: 'ZG';
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: clamp(200px, 40vw, 500px);
+            font-weight: 900;
+            color: rgba(212,175,55,0.025);
+            letter-spacing: 20px;
+            pointer-events: none;
+            z-index: 0;
+            user-select: none;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+        /* 金色星尘粒子层 */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+            background-image:
+                radial-gradient(1px 1px at 10% 20%, rgba(212,175,55,0.15) 0%, transparent 100%),
+                radial-gradient(1px 1px at 25% 55%, rgba(212,175,55,0.10) 0%, transparent 100%),
+                radial-gradient(1px 1px at 40% 80%, rgba(212,175,55,0.12) 0%, transparent 100%),
+                radial-gradient(1.5px 1.5px at 55% 15%, rgba(212,175,55,0.08) 0%, transparent 100%),
+                radial-gradient(1px 1px at 70% 50%, rgba(212,175,55,0.10) 0%, transparent 100%),
+                radial-gradient(1px 1px at 85% 30%, rgba(212,175,55,0.06) 0%, transparent 100%),
+                radial-gradient(1.5px 1.5px at 15% 75%, rgba(212,175,55,0.08) 0%, transparent 100%),
+                radial-gradient(1px 1px at 45% 90%, rgba(212,175,55,0.10) 0%, transparent 100%),
+                radial-gradient(1px 1px at 65% 10%, rgba(212,175,55,0.06) 0%, transparent 100%),
+                radial-gradient(1px 1px at 92% 65%, rgba(212,175,55,0.08) 0%, transparent 100%),
+                radial-gradient(1px 1px at 30% 35%, rgba(212,175,55,0.05) 0%, transparent 100%),
+                radial-gradient(1px 1px at 78% 85%, rgba(212,175,55,0.07) 0%, transparent 100%);
         }
 
         /* ============================================
@@ -108,6 +145,7 @@
             padding: 100px 24px 60px;
             position: relative;
             overflow: hidden;
+            z-index: 2;
         }
 
         /* 背景水印文字 */
@@ -319,6 +357,8 @@
             max-width: 960px;
             margin: 0 auto;
             padding: 80px 24px;
+            position: relative;
+            z-index: 2;
         }
 
         .section-header {
@@ -431,6 +471,8 @@
             background: linear-gradient(180deg, var(--black), rgba(212,175,55,0.02), var(--black));
             border-top: 1px solid var(--black-border);
             border-bottom: 1px solid var(--black-border);
+            position: relative;
+            z-index: 2;
         }
 
         .daily-card {
