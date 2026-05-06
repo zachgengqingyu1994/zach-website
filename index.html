@@ -81,6 +81,20 @@
         .navbar, .hero, section, footer { position: relative; z-index: 1; }
 
         /* ═══════════════════════════════════════════
+           滚动进度条
+           ═══════════════════════════════════════════ */
+        .scroll-progress {
+            position: fixed;
+            top: 0; left: 0;
+            height: 3px;
+            z-index: 200;
+            background: linear-gradient(90deg, var(--gold), var(--gold-light));
+            transform-origin: left;
+            transform: scaleX(0);
+            transition: transform 0.1s linear;
+        }
+
+        /* ═══════════════════════════════════════════
            Navigation — 白色毛玻璃
            ═══════════════════════════════════════════ */
         .navbar {
@@ -131,8 +145,18 @@
         }
 
         /* ═══════════════════════════════════════════
-           Hero
+           交互粒子画布
            ═══════════════════════════════════════════ */
+        #particleCanvas {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0;
+            animation: heroFadeIn 2s ease 1.5s forwards;
+        }
+        .hero > *:not(#particleCanvas) { position: relative; z-index: 1; }
         .hero {
             min-height: 100vh;
             display: flex;
@@ -707,6 +731,7 @@
     </style>
 </head>
 <body>
+    <div class="scroll-progress" id="scrollProgress"></div>
 
     <!-- ════════ 导航 ════════ -->
     <nav class="navbar">
@@ -720,7 +745,8 @@
     </nav>
 
     <!-- ════════ Hero ════════ -->
-    <section class="hero">
+    <section class="hero" id="hero">
+        <canvas id="particleCanvas"></canvas>
         <div class="hero-tag">AI 猎头 · 行业观察者 · 人才连接器</div>
         <h1>
             <span class="line">连接 <span class="highlight">AI 人才</span></span>
@@ -924,6 +950,9 @@
     </footer>
 
     <script>
+        /* ═══════════════════════════════════════════
+           1. 滚动动效 Reveal
+           ═══════════════════════════════════════════ */
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -933,6 +962,193 @@
         }, { threshold: 0.08 });
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
+        /* ═══════════════════════════════════════════
+           2. 滚动进度条
+           ═══════════════════════════════════════════ */
+        const progressBar = document.getElementById('scrollProgress');
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            progressBar.style.transform = `scaleX(${docHeight > 0 ? scrollTop / docHeight : 0})`;
+        });
+
+        /* ═══════════════════════════════════════════
+           3. 滚动指示器隐藏
+           ═══════════════════════════════════════════ */
+        window.addEventListener('scroll', function() {
+            const indicator = document.querySelector('.scroll-indicator');
+            const opacity = window.scrollY > 100 ? '0' : '1';
+            indicator.style.opacity = opacity;
+            indicator.style.pointerEvents = window.scrollY > 100 ? 'none' : 'auto';
+        });
+
+        /* ═══════════════════════════════════════════
+           4. 数字滚动动画
+           ═══════════════════════════════════════════ */
+        function animateNumbers() {
+            const nums = document.querySelectorAll('.stat-num');
+            nums.forEach(el => {
+                const text = el.textContent;
+                const suffix = text.replace(/[0-9]/g, '');
+                const target = parseInt(text.replace(/[^0-9]/g, ''), 10);
+                if (isNaN(target)) return;
+                let current = 0;
+                const duration = 2000;
+                const start = performance.now();
+                function step(now) {
+                    const elapsed = now - start;
+                    const progress = Math.min(elapsed / duration, 1);
+                    // Ease out cubic
+                    const eased = 1 - Math.pow(1 - progress, 3);
+                    current = Math.round(eased * target);
+                    el.textContent = current + suffix;
+                    if (progress < 1) requestAnimationFrame(step);
+                    else el.textContent = target + suffix;
+                }
+                requestAnimationFrame(step);
+            });
+        }
+
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    statsObserver.unobserve(entry.target);
+                    animateNumbers();
+                }
+            });
+        }, { threshold: 0.3 });
+        const statsBar = document.querySelector('.stats-bar');
+        if (statsBar) statsObserver.observe(statsBar);
+
+        /* ═══════════════════════════════════════════
+           5. Hero 交互粒子网络
+           ═══════════════════════════════════════════ */
+        (function initParticleNetwork() {
+            const canvas = document.getElementById('particleCanvas');
+            if (!canvas) return;
+
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            let mouse = { x: -1000, y: -1000 };
+            let isMobile = window.innerWidth < 768;
+            const PARTICLE_COUNT = isMobile ? 25 : 55;
+            const CONNECT_DIST = isMobile ? 100 : 160;
+            const MOUSE_RADIUS = isMobile ? 100 : 160;
+
+            function resize() {
+                const hero = document.getElementById('hero');
+                canvas.width = hero.offsetWidth;
+                canvas.height = hero.offsetHeight;
+                // Re-init particles on resize (keep roughly same positions)
+                if (particles.length === 0) initParticles();
+            }
+
+            function initParticles() {
+                particles = [];
+                for (let i = 0; i < PARTICLE_COUNT; i++) {
+                    particles.push({
+                        x: Math.random() * canvas.width,
+                        y: Math.random() * canvas.height,
+                        vx: (Math.random() - 0.5) * 0.25,
+                        vy: (Math.random() - 0.5) * 0.25,
+                        size: Math.random() * 2.5 + 0.8,
+                        baseOpacity: Math.random() * 0.3 + 0.1
+                    });
+                }
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                const gold = '#C9A84C';
+
+                // Update positions
+                particles.forEach(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                    if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+                });
+
+                // Draw connections first (behind nodes)
+                particles.forEach((a, i) => {
+                    particles.slice(i + 1).forEach(b => {
+                        const dx = a.x - b.x;
+                        const dy = a.y - b.y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < CONNECT_DIST) {
+                            // Check mouse proximity for both nodes
+                            const distToMouseA = Math.sqrt((a.x - mouse.x) ** 2 + (a.y - mouse.y) ** 2);
+                            const distToMouseB = Math.sqrt((b.x - mouse.x) ** 2 + (b.y - mouse.y) ** 2);
+                            const mouseBoost = (distToMouseA < MOUSE_RADIUS || distToMouseB < MOUSE_RADIUS) ? 2.5 : 1;
+                            const opacity = (1 - dist / CONNECT_DIST) * 0.15 * mouseBoost;
+                            ctx.beginPath();
+                            ctx.moveTo(a.x, a.y);
+                            ctx.lineTo(b.x, b.y);
+                            ctx.strokeStyle = `rgba(201, 168, 76, ${opacity})`;
+                            ctx.lineWidth = mouseBoost > 1 ? 1.2 : 0.6;
+                            ctx.stroke();
+                        }
+                    });
+                });
+
+                // Draw nodes
+                particles.forEach(p => {
+                    const distToMouse = Math.sqrt((p.x - mouse.x) ** 2 + (p.y - mouse.y) ** 2);
+                    const mouseIntensity = Math.max(0, 1 - distToMouse / MOUSE_RADIUS);
+                    const glow = mouseIntensity * 6;
+                    const opacity = Math.min(p.baseOpacity + mouseIntensity * 0.4, 0.8);
+                    const size = p.size + mouseIntensity * 2;
+
+                    if (mouseIntensity > 0) {
+                        // Outer glow ring
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, size + glow, 0, Math.PI * 2);
+                        ctx.fillStyle = `rgba(201, 168, 76, ${mouseIntensity * 0.08})`;
+                        ctx.fill();
+                    }
+
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(201, 168, 76, ${opacity})`;
+                    ctx.fill();
+                });
+
+                requestAnimationFrame(draw);
+            }
+
+            function onMouseMove(e) {
+                const rect = canvas.getBoundingClientRect();
+                mouse.x = e.clientX - rect.left;
+                mouse.y = e.clientY - rect.top;
+            }
+
+            function onMouseLeave() {
+                mouse.x = -1000;
+                mouse.y = -1000;
+            }
+
+            function onTouchMove(e) {
+                const touch = e.touches[0];
+                if (touch) {
+                    const rect = canvas.getBoundingClientRect();
+                    mouse.x = touch.clientX - rect.left;
+                    mouse.y = touch.clientY - rect.top;
+                }
+            }
+
+            window.addEventListener('resize', resize);
+            document.addEventListener('mousemove', onMouseMove);
+            document.addEventListener('mouseleave', onMouseLeave);
+            document.addEventListener('touchmove', onTouchMove, { passive: true });
+
+            resize();
+            draw();
+        })();
+
+        /* ═══════════════════════════════════════════
+           6. 图片弹窗
+           ═══════════════════════════════════════════ */
         function showQr() { document.getElementById('qrModal').classList.add('show'); }
         function hideQr() { document.getElementById('qrModal').classList.remove('show'); }
         function showDouyinQr() { document.getElementById('douyinModal').classList.add('show'); }
@@ -943,13 +1159,6 @@
         document.querySelector('.nav-cta').addEventListener('click', function(e) {
             e.preventDefault();
             document.getElementById('connect').scrollIntoView({ behavior: 'smooth' });
-        });
-
-        window.addEventListener('scroll', function() {
-            const indicator = document.querySelector('.scroll-indicator');
-            const opacity = window.scrollY > 100 ? '0' : '1';
-            indicator.style.opacity = opacity;
-            indicator.style.pointerEvents = window.scrollY > 100 ? 'none' : 'auto';
         });
     </script>
 </body>
