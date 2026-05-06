@@ -89,27 +89,84 @@
 
         @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* 故事时间线 */
-        .story { margin-bottom: 50px; }
-        .story h2 { color: var(--gold); font-size: 1.1rem; margin-bottom: 24px; display: flex; align-items: center; gap: 10px; }
+        /* 我的故事 — 洞察卡片 */
+        .story-section { margin-bottom: 60px; }
+        .story-intro {
+            text-align: center; margin-bottom: 48px;
+            animation: fadeUp 0.6s ease-out both;
+        }
+        .story-intro .story-badge {
+            display: inline-block; font-size: 0.75rem; color: var(--gold);
+            border: 1px solid rgba(212,175,55,0.2); border-radius: 20px;
+            padding: 4px 16px; margin-bottom: 12px; letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        .story-intro h2 { font-size: 1.8rem; margin-bottom: 10px; }
+        .story-intro h2 span { background: linear-gradient(135deg, var(--gold-light), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .story-intro p { color: var(--text-muted); font-size: 0.9rem; max-width: 520px; margin: 0 auto; line-height: 1.7; }
 
-        .timeline { display: flex; flex-direction: column; gap: 0; position: relative; padding-left: 24px; }
-        .timeline::before {
-            content: ''; position: absolute; left: 7px; top: 8px; bottom: 8px;
-            width: 1px; background: linear-gradient(to bottom, var(--gold), var(--black-border), transparent);
+        .story-cards { display: flex; flex-direction: column; gap: 24px; }
+        .story-card {
+            position: relative;
+            background: linear-gradient(135deg, rgba(212,175,55,0.04) 0%, rgba(7,7,7,0.6) 100%);
+            border: 1px solid var(--black-border);
+            border-left: 3px solid var(--gold);
+            border-radius: var(--radius);
+            padding: 28px 32px;
+            transition: all 0.4s;
+            animation: fadeUp 0.6s ease-out var(--delay, 0.2s) both;
         }
-        .timeline-item {
-            position: relative; padding: 0 0 28px 20px;
-            animation: fadeUp 0.5s ease-out var(--delay, 0.2s) both;
+        .story-card:hover {
+            border-color: var(--gold);
+            background: linear-gradient(135deg, rgba(212,175,55,0.08) 0%, rgba(7,7,7,0.8) 100%);
+            transform: translateX(6px);
+            box-shadow: 0 8px 30px rgba(212,175,55,0.08);
         }
-        .timeline-item::before {
-            content: ''; position: absolute; left: -20px; top: 6px;
+        .story-card-header {
+            display: flex; align-items: center; gap: 12px;
+            margin-bottom: 10px;
+        }
+        .story-card-dot {
             width: 10px; height: 10px; border-radius: 50%;
-            background: var(--gold); border: 2px solid var(--black);
+            background: var(--gold); flex-shrink: 0;
+            box-shadow: 0 0 10px rgba(212,175,55,0.4);
         }
-        .timeline-year { font-size: 0.78rem; color: var(--gold); margin-bottom: 4px; }
-        .timeline-title { font-size: 1rem; font-weight: 600; margin-bottom: 6px; }
-        .timeline-desc { font-size: 0.88rem; color: var(--text-muted); line-height: 1.7; }
+        .story-card-label {
+            font-size: 0.78rem; color: var(--gold); letter-spacing: 2px;
+            font-weight: 500; text-transform: uppercase;
+        }
+        .story-card-title {
+            font-size: 1.1rem; font-weight: 600; color: #fff;
+            margin-bottom: 10px; line-height: 1.5;
+        }
+        .story-card-body {
+            font-size: 0.9rem; color: var(--text-body);
+            line-height: 1.8; padding-left: 22px;
+        }
+        .story-card-body .highlight-key {
+            color: var(--gold-light); font-weight: 500;
+        }
+
+        /* 连接线装饰 */
+        .story-card:not(:last-child)::after {
+            content: ''; position: absolute;
+            left: 16px; bottom: -24px;
+            width: 1px; height: 24px;
+            background: linear-gradient(to bottom, var(--gold), transparent);
+            opacity: 0.3;
+        }
+
+        /* 故事底部总结 */
+        .story-outro {
+            text-align: center; margin-top: 40px; padding: 24px;
+            border-top: 1px solid var(--black-border);
+            animation: fadeUp 0.6s ease-out 0.6s both;
+        }
+        .story-outro p {
+            color: var(--text-muted); font-size: 0.85rem;
+            line-height: 1.7; max-width: 500px; margin: 0 auto;
+        }
+        .story-outro .sig { color: var(--gold); font-weight: 500; }
 
         /* 标签 / 统计 / 格言 */
         .tags-section { margin-bottom: 50px; animation: fadeUp 0.6s ease-out 0.3s both; }
@@ -192,29 +249,63 @@
             </div>
         </div>
 
-        <div class="story">
-            <h2>📖 我的故事</h2>
-            <div class="timeline">
-                <div class="timeline-item" style="--delay:0.2s">
-                    <div class="timeline-year">起点</div>
-                    <div class="timeline-title">从一个好奇开始</div>
-                    <div class="timeline-desc">我不是科班出身，但对技术有天然的好奇。在传统行业摸爬滚打后，我发现真正让我兴奋的，是和"人"打交道——理解他们的能力、潜力和梦想。</div>
+        <div class="story-section">
+            <div class="story-intro">
+                <div class="story-badge">/ MY INSIGHT</div>
+                <h2>我的 <span>洞察底座</span></h2>
+                <p>从一个猎头的视角，理解 AI 技术从底层到商业的全景脉络</p>
+            </div>
+
+            <div class="story-cards">
+
+                <div class="story-card" style="--delay:0.15s">
+                    <div class="story-card-header">
+                        <div class="story-card-dot"></div>
+                        <div class="story-card-label">🟡 起点 · 洞察底座</div>
+                    </div>
+                    <div class="story-card-title">看懂算法与研发的演进脉络</div>
+                    <div class="story-card-body">
+                        作为猎头，我未必去写一行代码，但我致力于看懂技术演进的趋势。从底层架构的迭代到大模型算法的突破，我努力理解各种核心技术背后的商业痛点，只为能与顶尖的科学家和研发大拿保持真正的同频交流。
+                    </div>
                 </div>
-                <div class="timeline-item" style="--delay:0.3s">
-                    <div class="timeline-year">转型</div>
-                    <div class="timeline-title">进入 AI 领域做猎头</div>
-                    <div class="timeline-desc">当 AI 爆发时，我意识到这是一个历史性的机会。我选择专注 AI 赛道，不是因为"风口"，而是因为我真的相信这项技术会改变一切——而人才是这一切的核心。</div>
+
+                <div class="story-card" style="--delay:0.25s">
+                    <div class="story-card-header">
+                        <div class="story-card-dot"></div>
+                        <div class="story-card-label">🟡 延伸 · 聚焦场景</div>
+                    </div>
+                    <div class="story-card-title">捕捉 AI 产品化的爆发</div>
+                    <div class="story-card-body">
+                        技术终将走向场景落地。我保持着对各类 AI 新工具和生态的体验习惯，通过观察行业应用去感知技术的边界。这让我能更敏锐地甄别出，哪些候选人是真正懂得把前沿 AI 技术转化为优秀产品的破局者。
+                    </div>
                 </div>
-                <div class="timeline-item" style="--delay:0.4s">
-                    <div class="timeline-year">进化</div>
-                    <div class="timeline-title">从猎头到连接器</div>
-                    <div class="timeline-desc">我逐渐发现，我的价值不只是帮人找工作。我连接 AI 人才与机会，连接技术思考与商业落地，连接不同背景的人一起创造。我把自己活成了一个节点。</div>
+
+                <div class="story-card" style="--delay:0.35s">
+                    <div class="story-card-header">
+                        <div class="story-card-dot"></div>
+                        <div class="story-card-label">🟡 闭环 · 全局视野</div>
+                    </div>
+                    <div class="story-card-title">打通商业化与多行业落地</div>
+                    <div class="story-card-body">
+                        任何技术浪潮最终都要接受市场变现的检验。我的视野不局限于单一赛道，而是纵览 AI 在各大垂直行业中的真实落地与增长逻辑。在识别人才时，我努力站在业务一号位的视角，寻找兼具技术理解力与敏锐商业嗅觉的领军人物。
+                    </div>
                 </div>
-                <div class="timeline-item" style="--delay:0.5s">
-                    <div class="timeline-year">现在</div>
-                    <div class="timeline-title">持续进化中</div>
-                    <div class="timeline-desc">每天都在学习，每天都在 connect 新的人。AI 行业变化太快，循规蹈矩的人会被淘汰。而我的信条是：好奇技术发展，想象突破天际，拒绝循规蹈矩。</div>
+
+                <div class="story-card" style="--delay:0.45s">
+                    <div class="story-card-header">
+                        <div class="story-card-dot"></div>
+                        <div class="story-card-label">🟡 现在 · 持续进化</div>
+                    </div>
+                    <div class="story-card-title">做 AI 全产业链的人才连接器</div>
+                    <div class="story-card-body">
+                        如今，我和一群深耕行业的资深猎头伙伴并肩作战。我们立足于 <span class="highlight-key">"算法-研发-产品-商业化"</span> 的 AI 全产业链视角，跳出单点岗位的局限。我们不盲从风口，致力于为先锋企业与核心人才提供更有长远价值的战略连接。
+                    </div>
                 </div>
+
+            </div>
+
+            <div class="story-outro">
+                <p>这就是我 — <span class="sig">扎克耿 · 连接 AI 人才与未来</span><br>好奇技术发展，想象突破天际，拒绝循规蹈矩。</p>
             </div>
         </div>
 
