@@ -206,9 +206,34 @@
             display: inline-block; padding: 10px 28px;
             border-radius: 30px; background: linear-gradient(135deg, var(--gold), #b8860b);
             color: var(--black); font-weight: 700; font-size: 0.85rem;
-            text-decoration: none; transition: all 0.3s;
+            text-decoration: none; transition: all 0.3s; cursor: pointer; border: none;
         }
         .contact-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212,175,55,0.3); }
+
+        /* 联系信息展开区 */
+        .contact-details {
+            overflow: hidden; max-height: 0; opacity: 0;
+            transition: max-height 0.4s ease, opacity 0.4s ease, margin 0.4s ease;
+            margin-top: 0;
+        }
+        .contact-details.open {
+            max-height: 200px; opacity: 1;
+            margin-top: 20px;
+        }
+        .contact-item {
+            display: flex; align-items: center; justify-content: center; gap: 12px;
+            padding: 12px 0; border-top: 1px solid var(--black-border);
+        }
+        .contact-item:first-of-type { border-top: none; }
+        .contact-item-icon { font-size: 1.2rem; }
+        .contact-item-label { color: var(--text-muted); font-size: 0.82rem; min-width: 40px; }
+        .contact-item-value {
+            color: var(--gold); font-size: 0.95rem; font-weight: 500;
+            user-select: all; letter-spacing: 0.5px;
+        }
+        .contact-item .copy-hint {
+            font-size: 0.7rem; color: #555; margin-left: 8px;
+        }
 
         .footer { text-align: center; margin-top: 60px; color: #333; font-size: 0.78rem; }
 
@@ -330,11 +355,32 @@
             <p class="author">— 扎克耿</p>
         </div>
 
-        <div class="contact-card">
+        <div class="contact-card" id="contactCard">
             <h3>📮 和我连接</h3>
             <p>如果你是 AI 领域的候选人、创业者或企业 HR，欢迎 connect</p>
-            <a href="#" class="contact-btn">💬 私信我</a>
+            <button class="contact-btn" onclick="toggleContact()">💬 私信我</button>
+            <div class="contact-details" id="contactDetails">
+                <div class="contact-item">
+                    <span class="contact-item-icon">💬</span>
+                    <span class="contact-item-label">微信</span>
+                    <span class="contact-item-value">zachgengqingyu1994</span>
+                    <span class="copy-hint">(长按复制)</span>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-item-icon">📧</span>
+                    <span class="contact-item-label">邮箱</span>
+                    <span class="contact-item-value">zachgengqingyu1994@gmail.com</span>
+                    <span class="copy-hint">(长按复制)</span>
+                </div>
+            </div>
         </div>
+
+        <script>
+        function toggleContact() {
+            const details = document.getElementById('contactDetails');
+            details.classList.toggle('open');
+        }
+        </script>
 
         <div class="footer">⚡ 2026 扎克耿 · 连接 AI 人才与未来</div>
     </div>
