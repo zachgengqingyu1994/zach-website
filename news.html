@@ -4,108 +4,192 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>每日新闻 | 扎克耿</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --gold: #D4AF37; --gold-light: #F4D03F; --gold-glow: rgba(212,175,55,0.3);
-            --black: #0a0a0a; --black-light: #1a1a1a; --black-lighter: #2a2a2a;
-            --text-muted: #888; --text-body: #ccc; --radius: 14px;
+            --gold: #D4AF37;
+            --gold-light: #F4D03F;
+            --border-subtle: rgba(255,255,255,0.06);
+            --text-muted: #888;
+            --text-body: #ccc;
+            --radius-md: 20px;
+            --radius-sm: 12px;
         }
         html { scroll-behavior: smooth; }
         body {
-            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
-            background: var(--black); color: #fff; min-height: 100vh;
-            background-image:
-                radial-gradient(ellipse 70% 40% at 50% 0%, rgba(212,175,55,0.08) 0%, transparent 60%),
-                radial-gradient(ellipse 50% 30% at 20% 80%, rgba(212,175,55,0.05) 0%, transparent 50%);
+            font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #000;
+            color: #fff;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
         }
-        .container { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; position: relative; z-index: 1; }
-
-        .top-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 40px; animation: fadeUp 0.6s ease-out both; }
-        .back { display: inline-flex; align-items: center; gap: 6px; color: var(--gold); text-decoration: none; font-size: 0.95rem; transition: gap 0.3s; }
-        .back:hover { gap: 12px; color: var(--gold-light); }
-
-        header { text-align: center; margin-bottom: 40px; animation: fadeUp 0.6s ease-out 0.15s both; }
-        h1 { font-size: 2.2rem; background: linear-gradient(135deg, var(--gold-light), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        .subtitle { color: var(--text-muted); font-size: 0.9rem; margin-top: 8px; }
-
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* 日期分组 */
-        .day-group { margin-bottom: 30px; animation: fadeUp 0.6s ease-out var(--delay, 0.3s) both; }
-        .day-label {
-            display: flex; align-items: center; gap: 12px;
-            font-size: 0.95rem; color: var(--gold); font-weight: 600;
-            margin-bottom: 14px; padding-bottom: 8px;
-            border-bottom: 1px solid var(--black-lighter);
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(ellipse 70% 50% at 50% -10%, rgba(212,175,55,0.15) 0%, transparent 60%),
+                radial-gradient(ellipse 40% 30% at 50% 100%, rgba(212,175,55,0.04) 0%, transparent 50%);
         }
-        .day-label::after {
-            content: ''; flex: 1; height: 1px;
-            background: linear-gradient(90deg, var(--black-lighter), transparent);
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            height: 40vh;
+            z-index: 0;
+            pointer-events: none;
+            background: linear-gradient(0deg, rgba(212,175,55,0.02) 0%, transparent 40%);
         }
 
-        .news-list { display: flex; flex-direction: column; gap: 10px; }
-
-        .news-item {
-            display: flex; align-items: flex-start; gap: 14px;
-            background: var(--black-light); border: 1px solid var(--black-lighter);
-            border-radius: 12px; padding: 16px 20px;
-            text-decoration: none; color: inherit;
-            transition: all 0.3s;
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            z-index: 100;
         }
-        .news-item:hover {
+        .navbar a {
+            color: #777;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.8px;
+            transition: color 0.3s;
+        }
+        .navbar a:hover { color: #fff; }
+        .nav-brand {
+            position: absolute;
+            left: 28px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+        .nav-brand span { color: var(--gold); }
+        .nav-back {
+            position: absolute;
+            right: 28px;
+            font-size: 0.8rem !important;
+            padding: 5px 14px;
+            border-radius: 980px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s !important;
+        }
+        .nav-back:hover {
             border-color: var(--gold);
-            background: rgba(212,175,55,0.04);
-            transform: translateX(4px);
+            color: var(--gold) !important;
         }
 
-        .news-source {
-            flex-shrink: 0;
-            display: inline-flex; align-items: center; justify-content: center;
-            width: 32px; height: 32px;
-            background: rgba(212,175,55,0.1); border-radius: 8px;
-            font-size: 1rem;
+        .container {
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 100px 24px 60px;
+            position: relative;
+            z-index: 1;
         }
-        .news-content { flex: 1; min-width: 0; }
-        .news-title { font-size: 0.95rem; font-weight: 500; color: #fff; line-height: 1.5; transition: color 0.3s; }
-        .news-item:hover .news-title { color: var(--gold); }
-        .news-meta { display: flex; align-items: center; gap: 10px; margin-top: 6px; font-size: 0.78rem; color: #555; }
+
+        header {
+            text-align: center;
+            margin-bottom: 48px;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.3s forwards;
+        }
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 8px;
+        }
+        h1 span {
+            background: linear-gradient(135deg, var(--gold-light), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
 
         .empty-state {
-            text-align: center; padding: 80px 20px; color: #555;
-            background: var(--black-light); border: 1px dashed var(--black-lighter);
-            border-radius: var(--radius); animation: fadeUp 0.6s ease-out 0.3s both;
+            text-align: center;
+            padding: 80px 20px;
+            background: rgba(255,255,255,0.015);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.6s forwards;
         }
-        .empty-state .icon { font-size: 3rem; margin-bottom: 16px; }
-        .empty-state p { font-size: 1rem; margin-bottom: 8px; }
-        .empty-state .hint { font-size: 0.85rem; color: #444; }
+        .empty-state .icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            opacity: 0.6;
+        }
+        .empty-state p {
+            font-size: 1rem;
+            margin-bottom: 8px;
+            color: #555;
+        }
+        .empty-state .hint {
+            font-size: 0.85rem;
+            color: #444;
+        }
 
-        .footer { text-align: center; margin-top: 60px; color: #333; font-size: 0.8rem; }
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            color: #333;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+        }
+        .footer span { color: var(--gold); }
 
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: var(--black); }
-        ::-webkit-scrollbar-thumb { background: var(--black-lighter); border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
-
-        @media (max-width: 600px) {
-            .container { padding: 24px 16px 40px; }
+        @media (max-width: 768px) {
+            .navbar { justify-content: flex-end; padding-right: 16px; gap: 20px; }
+            .nav-brand { position: static; }
+            .nav-back { position: static; }
+            .container { padding: 80px 16px 40px; }
             h1 { font-size: 1.6rem; }
-            .news-item { padding: 12px 16px; }
-            .news-title { font-size: 0.88rem; }
         }
         @media (prefers-reduced-motion: reduce) {
             * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
         }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #222; border-radius: 2px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="top-bar">
-            <a href="index.html" class="back">← 返回首页</a>
-        </div>
+    <nav class="navbar">
+        <div class="nav-brand">扎克耿<span> · </span>AI猎头</div>
+        <a href="index.html#thoughts">思想</a>
+        <a href="index.html#daily">日报</a>
+        <a href="index.html#connect">连接</a>
+        <a href="about.html">关于</a>
+        <a href="jobs.html">机会</a>
+        <a href="daily.html" class="nav-back">日报</a>
+    </nav>
 
+    <div class="container">
         <header>
-            <h1>📰 每日新闻</h1>
+            <h1>每日<span>新闻</span></h1>
             <p class="subtitle">AI & 科技行业动态精选</p>
         </header>
 
@@ -115,11 +199,7 @@
             <p class="hint">每日精选科技新闻即将上线</p>
         </div>
 
-        <div class="footer">⚡ 2026 扎克耿</div>
+        <div class="footer"><span>⚡</span> 2026 扎克耿 · 连接 AI 人才与未来</div>
     </div>
-
-    <script>
-        // 后续：可通过 RSS / API 动态注入新闻数据
-    </script>
 </body>
 </html>

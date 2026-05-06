@@ -8,24 +8,67 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --gold: #D4AF37; --gold-light: #F4D03F; --gold-subtle: rgba(212,175,55,0.12);
-            --black: #070707; --black-light: #131313; --black-lighter: #1e1e1e;
-            --black-border: #2a2a2a; --text-muted: #777; --text-body: #bbb; --radius: 14px;
+            --gold: #D4AF37;
+            --black: #000;
+            --card-bg: rgba(255,255,255,0.02);
+            --border: rgba(255,255,255,0.06);
+            --radius-md: 20px;
+            --text-muted: #777;
+            --text-body: #bbb;
         }
         html { scroll-behavior: smooth; }
         body {
-            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
-            background: var(--black); color: #fff;
-            background-image: radial-gradient(ellipse 70% 40% at 50% 0%, rgba(212,175,55,0.06) 0%, transparent 60%);
+            font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: var(--black);
+            color: #fff;
+            min-height: 100vh;
+            position: relative;
+        }
+        /* 舞台灯光 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse 70% 40% at 50% 0%, rgba(212,175,55,0.07) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        /* 底部微光 */
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(to top, rgba(212,175,55,0.03) 0%, transparent 100%);
+            pointer-events: none;
+            z-index: 0;
         }
 
+        /* === 导航 === */
         .navbar {
-            position: fixed; top: 0; left: 0; right: 0; height: 60px;
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 0 32px; background: rgba(7,7,7,0.85);
-            backdrop-filter: blur(16px); border-bottom: 1px solid var(--black-border); z-index: 100;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 32px;
+            background: rgba(0,0,0,0.78);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
         }
         .nav-brand {
+            position: absolute;
+            left: 28px;
             font-size: 1rem;
             font-weight: 700;
             color: #fff;
@@ -33,51 +76,106 @@
             display: flex;
             align-items: center;
             gap: 6px;
+            text-decoration: none;
         }
-        .brand-cn { color: #fff; }
-        .brand-divider { color: var(--gold); opacity: 0.6; font-weight: 300; }
-        .brand-en { color: var(--gold); font-size: 0.78rem; font-weight: 400; letter-spacing: 2px; text-transform: uppercase; }
-        .nav-back { color: var(--text-muted); text-decoration: none; font-size: 0.85rem; transition: color 0.3s; }
+        .nav-brand .dot { color: var(--gold); opacity: 0.6; font-weight: 300; }
+        .nav-brand .tag { color: var(--gold); font-size: 0.78rem; font-weight: 400; letter-spacing: 2px; text-transform: uppercase; }
+        .navbar a:not(.nav-brand):not(.nav-back) {
+            color: rgba(255,255,255,0.55);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.3s;
+            letter-spacing: 0.3px;
+        }
+        .navbar a:not(.nav-brand):not(.nav-back):hover { color: #fff; }
+        .nav-back {
+            position: absolute;
+            right: 28px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.3s;
+        }
         .nav-back:hover { color: var(--gold); }
 
-        .container { max-width: 720px; margin: 0 auto; padding: 100px 24px 60px; }
-
-        header { margin-bottom: 40px; text-align: center; animation: fadeUp 0.6s ease-out both; }
-        h1 { font-size: 2rem; background: linear-gradient(135deg, var(--gold-light), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 8px; }
-        .subtitle { color: var(--text-muted); font-size: 0.9rem; }
-
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* 日卡片 */
-        .daily-card {
-            background: var(--black-light); border: 1px solid var(--black-border);
-            border-radius: var(--radius); padding: 28px; margin-bottom: 20px;
-            transition: all 0.3s;
-            animation: fadeUp 0.5s ease-out var(--delay, 0.2s) both;
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 100px 24px 60px;
+            position: relative;
+            z-index: 1;
         }
-        .daily-card:hover { border-color: var(--gold); }
 
-        .daily-card:nth-child(1) { --delay: 0.2s; }
-        .daily-card:nth-child(2) { --delay: 0.35s; }
-        .daily-card:nth-child(3) { --delay: 0.5s; }
+        header { margin-bottom: 44px; text-align: center; }
+        h1 {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #f6d365, var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+        .subtitle { color: var(--text-muted); font-size: 0.9rem; letter-spacing: 0.3px; }
+
+        /* === 卡片 === */
+        .daily-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 28px;
+            margin-bottom: 20px;
+            transition: all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+        }
+        .daily-card:hover {
+            border-color: rgba(212,175,55,0.25);
+            background: rgba(255,255,255,0.035);
+        }
+        .daily-card.reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.7s cubic-bezier(0.25,0.46,0.45,0.94),
+                        transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94),
+                        border-color 0.4s ease,
+                        background 0.4s ease;
+        }
+        .daily-card.reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
         .daily-header {
-            display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 20px; flex-wrap: wrap; gap: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 8px;
         }
         .daily-date {
-            font-size: 1rem; font-weight: 600; color: #fff;
-            display: flex; align-items: center; gap: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         .daily-date .day { color: var(--gold); }
         .daily-header-right { display: flex; align-items: center; gap: 12px; }
         .daily-status {
-            font-size: 0.72rem; letter-spacing: 1px; color: #555;
-            display: flex; align-items: center; gap: 4px;
+            font-size: 0.72rem;
+            letter-spacing: 1px;
+            color: #555;
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
         .daily-status .dot {
-            width: 6px; height: 6px; border-radius: 50%;
-            background: #22c55e; display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #22c55e;
+            display: inline-block;
             animation: blink 1.5s ease-in-out infinite;
         }
         @keyframes blink { 50% { opacity: 0.3; } }
@@ -86,9 +184,12 @@
         .news-list { display: flex; flex-direction: column; gap: 10px; }
 
         .news-item {
-            display: flex; gap: 14px; padding: 14px 16px;
+            display: flex;
+            gap: 14px;
+            padding: 14px 16px;
             background: rgba(255,255,255,0.015);
-            border-radius: 10px; transition: all 0.3s;
+            border-radius: 12px;
+            transition: all 0.3s;
             border-left: 2px solid transparent;
         }
         .news-item:hover {
@@ -98,88 +199,160 @@
 
         .news-index {
             flex-shrink: 0;
-            width: 26px; height: 26px;
-            display: flex; align-items: center; justify-content: center;
+            width: 26px;
+            height: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             border-radius: 50%;
-            background: var(--gold-subtle);
+            background: rgba(212,175,55,0.12);
             color: var(--gold);
-            font-size: 0.78rem; font-weight: 600;
+            font-size: 0.78rem;
+            font-weight: 600;
         }
         .news-content { flex: 1; min-width: 0; }
         .news-title {
-            font-size: 0.95rem; font-weight: 500; color: #fff;
-            margin-bottom: 4px; line-height: 1.5;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #fff;
+            margin-bottom: 4px;
+            line-height: 1.5;
         }
         .news-source { font-size: 0.75rem; color: #555; margin-bottom: 6px; }
         .news-comment {
-            font-size: 0.82rem; color: var(--gold); line-height: 1.6;
+            font-size: 0.82rem;
+            color: var(--gold);
+            line-height: 1.6;
             background: rgba(212,175,55,0.04);
-            padding: 8px 12px; border-radius: 6px;
+            padding: 8px 12px;
+            border-radius: 6px;
             margin-top: 6px;
         }
         .news-comment::before { content: '💬'; margin-right: 4px; }
 
         .daily-footer {
-            margin-top: 16px; padding-top: 14px;
-            border-top: 1px solid var(--black-border);
-            display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+            margin-top: 16px;
+            padding-top: 14px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
         }
         .daily-tags { display: flex; gap: 6px; flex-wrap: wrap; }
         .daily-tag {
-            font-size: 0.7rem; padding: 2px 10px;
-            border-radius: 10px; background: rgba(255,255,255,0.04);
+            font-size: 0.7rem;
+            padding: 2px 10px;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.04);
             color: #555;
         }
         .daily-share {
-            font-size: 0.78rem; color: var(--text-muted);
-            text-decoration: none; transition: color 0.3s;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s;
         }
         .daily-share:hover { color: var(--gold); }
 
         .subscribe-bar {
-            text-align: center; margin-top: 40px; padding: 32px;
-            background: var(--black-light); border: 1px solid var(--black-border);
-            border-radius: var(--radius);
-            animation: fadeUp 0.6s ease-out 0.6s both;
-            transition: border-color 0.3s;
+            text-align: center;
+            margin-top: 44px;
+            padding: 32px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            transition: all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
         }
-        .subscribe-bar:hover { border-color: var(--gold); }
+        .subscribe-bar.reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.7s cubic-bezier(0.25,0.46,0.45,0.94),
+                        transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94),
+                        border-color 0.4s ease;
+        }
+        .subscribe-bar.reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .subscribe-bar:hover { border-color: rgba(212,175,55,0.25); }
         .subscribe-bar h3 { font-size: 1.05rem; margin-bottom: 8px; }
         .subscribe-bar p { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 18px; }
 
         .subscribe-input-group {
-            display: flex; gap: 10px; max-width: 400px; margin: 0 auto; justify-content: center; flex-wrap: wrap;
+            display: flex;
+            gap: 10px;
+            max-width: 400px;
+            margin: 0 auto;
+            justify-content: center;
+            flex-wrap: wrap;
         }
         .subscribe-btn {
-            display: inline-block; padding: 8px 24px; border-radius: 20px;
+            display: inline-block;
+            padding: 8px 24px;
+            border-radius: 20px;
             background: linear-gradient(135deg, var(--gold), #b8860b);
-            color: var(--black); font-weight: 600; font-size: 0.85rem;
-            text-decoration: none; transition: all 0.3s;
+            color: var(--black);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: all 0.3s;
         }
-        .subscribe-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212,175,55,0.3); }
+        .subscribe-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212,175,55,0.3);
+        }
+        .subscribe-btn-outline {
+            background: transparent;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+        }
 
-        .footer { text-align: center; margin-top: 60px; color: #333; font-size: 0.78rem; }
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            color: #333;
+            font-size: 0.78rem;
+        }
 
-        ::-webkit-scrollbar { width: 5px; }
+        /* 薄滚动条 4px */
+        ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: var(--black); }
-        ::-webkit-scrollbar-thumb { background: #222; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb { background: #222; border-radius: 2px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
 
         @media (max-width: 600px) {
-            .navbar { padding: 0 16px; }
+            .navbar {
+                gap: 16px;
+                padding: 0 16px;
+                justify-content: center;
+            }
+            .nav-brand { left: 16px; }
+            .nav-back { right: 16px; }
+            .navbar a:not(.nav-brand):not(.nav-back) { font-size: 0.75rem; }
             .container { padding: 80px 16px 40px; }
             h1 { font-size: 1.5rem; }
             .daily-card { padding: 20px; }
             .news-item { padding: 12px; }
             .news-title { font-size: 0.88rem; }
         }
-        @media (prefers-reduced-motion: reduce) { * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+        @media (max-width: 480px) {
+            .navbar a:not(.nav-brand):not(.nav-back):nth-child(n+4) { display: none; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+        }
     </style>
 </head>
 <body>
     <nav class="navbar">
-        <div class="nav-brand"><span class="brand-cn">扎克耿</span><span class="brand-divider">·</span><span class="brand-en">AI猎头</span></div>
-        <a href="index.html" class="nav-back">← 首页</a>
+        <a href="index.html" class="nav-brand">扎克耿<span class="dot"> · </span><span class="tag">AI猎头</span></a>
+        <a href="index.html#thoughts">思想</a>
+        <a href="index.html#daily">日报</a>
+        <a href="index.html#connect">连接</a>
+        <a href="about.html">关于</a>
+        <a href="jobs.html">机会</a>
+        <a href="index.html" class="nav-back">首页</a>
     </nav>
 
     <div class="container">
@@ -189,7 +362,7 @@
         </header>
 
         <!-- 今日 -->
-        <div class="daily-card">
+        <div class="daily-card reveal">
             <div class="daily-header">
                 <div class="daily-date"><span class="day">05.05</span> 星期二</div>
                 <div class="daily-header-right">
@@ -253,7 +426,7 @@
         </div>
 
         <!-- 往期 1 -->
-        <div class="daily-card">
+        <div class="daily-card reveal">
             <div class="daily-header">
                 <div class="daily-date"><span class="day">05.04</span> 星期一</div>
                 <div class="daily-header-right">
@@ -298,7 +471,7 @@
         </div>
 
         <!-- 往期 2 -->
-        <div class="daily-card">
+        <div class="daily-card reveal">
             <div class="daily-header">
                 <div class="daily-date"><span class="day">05.03</span> 星期日</div>
                 <div class="daily-header-right">
@@ -335,16 +508,40 @@
         </div>
 
         <!-- 订阅 -->
-        <div class="subscribe-bar">
+        <div class="subscribe-bar reveal">
             <h3>📬 订阅 AI 日报</h3>
             <p>每天收到精选 AI 行业动态 + 扎克耿独家点评</p>
             <div class="subscribe-input-group">
                 <a href="#" class="subscribe-btn">📩 关注微信公众号</a>
-                <a href="#" class="subscribe-btn" style="background: transparent; border: 1px solid var(--gold); color: var(--gold);">📡 RSS 订阅</a>
+                <a href="#" class="subscribe-btn subscribe-btn-outline">📡 RSS 订阅</a>
             </div>
         </div>
 
         <div class="footer">⚡ 2026 扎克耿 · 连接 AI 人才与未来</div>
     </div>
+
+    <script>
+        // IntersectionObserver — scroll reveal animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const revealElements = document.querySelectorAll('.reveal');
+            if (revealElements.length === 0) return;
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -40px 0px'
+            });
+
+            revealElements.forEach(function(el) {
+                observer.observe(el);
+            });
+        });
+    </script>
 </body>
 </html>
