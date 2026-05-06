@@ -815,7 +815,7 @@
                 <span class="connect-name">小红书</span>
                 <span class="connect-desc">日常分享 · AI 洞察</span>
             </a>
-            <a href="https://www.douyin.com/user/Headhunter_Zach" target="_blank" class="connect-item">
+            <a href="javascript:void(0)" onclick="showDouyinQr()" class="connect-item">
                 <span class="connect-icon">🎵</span>
                 <span class="connect-name">抖音</span>
                 <span class="connect-desc">短视频 · 行业观察</span>
@@ -858,6 +858,10 @@
         <button class="modal-close" onclick="hideQr()">✕</button>
         <img src="wechat-qr.png" alt="扎克耿微信公众号" onclick="event.stopPropagation()">
     </div>
+    <div class="modal-overlay" id="douyinModal" onclick="hideDouyinQr()">
+        <button class="modal-close" onclick="hideDouyinQr()">✕</button>
+        <img src="douyin-qr.jpg" alt="扎克耿抖音" onclick="event.stopPropagation()">
+    </div>
 
     <!-- ======== 页脚 ======== -->
     <footer class="site-footer">
@@ -871,6 +875,12 @@
         }
         function hideQr() {
             document.getElementById('qrModal').classList.remove('show');
+        }
+        function showDouyinQr() {
+            document.getElementById('douyinModal').classList.add('show');
+        }
+        function hideDouyinQr() {
+            document.getElementById('douyinModal').classList.remove('show');
         }
         // 点击导航栏"联系我"滚动到底部
         document.querySelector('.nav-cta').addEventListener('click', function(e) {
