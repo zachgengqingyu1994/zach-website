@@ -810,7 +810,7 @@
             <p class="section-desc">无论你是候选人还是企业，欢迎 connect</p>
         </div>
         <div class="connect-grid">
-            <a href="https://xhslink.com/m/55zHXGBF1Up" target="_blank" class="connect-item">
+            <a href="javascript:void(0)" onclick="showXiaohongshuQr()" class="connect-item">
                 <span class="connect-icon">📕</span>
                 <span class="connect-name">小红书</span>
                 <span class="connect-desc">日常分享 · AI 洞察</span>
@@ -869,6 +869,14 @@
         </div>
     </div>
 
+    <div class="modal-overlay" id="xiaohongshuModal" onclick="hideXiaohongshuQr()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="hideXiaohongshuQr()">✕</button>
+            <img src="xiaohongshu-qr.jpg" alt="扎克耿小红书">
+            <a href="https://xhslink.com/m/55zHXGBF1Up" target="_blank" class="modal-link">📕 在小红书打开</a>
+        </div>
+    </div>
+
     <style>
     .modal-content {
         text-align: center;
@@ -910,6 +918,12 @@
         }
         function hideDouyinQr() {
             document.getElementById('douyinModal').classList.remove('show');
+        }
+        function showXiaohongshuQr() {
+            document.getElementById('xiaohongshuModal').classList.add('show');
+        }
+        function hideXiaohongshuQr() {
+            document.getElementById('xiaohongshuModal').classList.remove('show');
         }
         // 点击导航栏"联系我"滚动到底部
         document.querySelector('.nav-cta').addEventListener('click', function(e) {
