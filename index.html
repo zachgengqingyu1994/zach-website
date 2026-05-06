@@ -31,53 +31,14 @@
         body {
             font-family: 'PingFang SC', 'Microsoft YaHei', -apple-system, sans-serif;
             background: var(--black);
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', -apple-system, sans-serif;
+            background: var(--black);
             color: #fff;
             position: relative;
             background-image:
-                /* 顶部主光晕 */
-                radial-gradient(ellipse 90% 45% at 50% -5%, rgba(212,175,55,0.10) 0%, transparent 60%),
-                /* 底部辅助光晕 */
-                radial-gradient(ellipse 60% 30% at 50% 100%, rgba(212,175,55,0.04) 0%, transparent 60%),
-                /* 细微科技网格纹理 */
-                linear-gradient(rgba(255,255,255,0.012) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px);
-            background-size: 100% 100%, 100% 100%, 48px 48px, 48px 48px;
-        }
-        /* ZG 品牌水印暗纹 */
-        body::before {
-            content: 'ZG';
-            position: fixed;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: clamp(200px, 40vw, 500px);
-            font-weight: 900;
-            color: rgba(212,175,55,0.025);
-            letter-spacing: 20px;
-            pointer-events: none;
-            z-index: 0;
-            user-select: none;
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-        }
-        /* 金色星尘粒子层 */
-        body::after {
-            content: '';
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 1;
-            background-image:
-                radial-gradient(1px 1px at 10% 20%, rgba(212,175,55,0.15) 0%, transparent 100%),
-                radial-gradient(1px 1px at 25% 55%, rgba(212,175,55,0.10) 0%, transparent 100%),
-                radial-gradient(1px 1px at 40% 80%, rgba(212,175,55,0.12) 0%, transparent 100%),
-                radial-gradient(1.5px 1.5px at 55% 15%, rgba(212,175,55,0.08) 0%, transparent 100%),
-                radial-gradient(1px 1px at 70% 50%, rgba(212,175,55,0.10) 0%, transparent 100%),
-                radial-gradient(1px 1px at 85% 30%, rgba(212,175,55,0.06) 0%, transparent 100%),
-                radial-gradient(1.5px 1.5px at 15% 75%, rgba(212,175,55,0.08) 0%, transparent 100%),
-                radial-gradient(1px 1px at 45% 90%, rgba(212,175,55,0.10) 0%, transparent 100%),
-                radial-gradient(1px 1px at 65% 10%, rgba(212,175,55,0.06) 0%, transparent 100%),
-                radial-gradient(1px 1px at 92% 65%, rgba(212,175,55,0.08) 0%, transparent 100%),
-                radial-gradient(1px 1px at 30% 35%, rgba(212,175,55,0.05) 0%, transparent 100%),
-                radial-gradient(1px 1px at 78% 85%, rgba(212,175,55,0.07) 0%, transparent 100%);
+                radial-gradient(ellipse 80% 40% at 50% -8%, rgba(212,175,55,0.12) 0%, transparent 65%),
+                radial-gradient(ellipse 50% 25% at 50% 100%, rgba(212,175,55,0.04) 0%, transparent 55%);
         }
 
         /* ============================================
@@ -290,35 +251,7 @@
             flex-wrap: wrap;
             animation: fadeUp 0.8s ease-out 0.5s both;
         }
-        .btn-primary {
-            padding: 12px 32px;
-            border-radius: 30px;
-            background: linear-gradient(135deg, var(--gold), #b8860b);
-            color: var(--black);
-            font-weight: 700;
-            font-size: 0.9rem;
-            text-decoration: none;
-            transition: all 0.3s;
-            letter-spacing: 0.5px;
-        }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px var(--gold-glow);
-        }
-        .btn-outline {
-            padding: 12px 32px;
-            border-radius: 30px;
-            border: 1px solid var(--black-border);
-            color: var(--text-body);
-            font-size: 0.9rem;
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-        .btn-outline:hover {
-            border-color: var(--gold);
-            color: var(--gold);
-            transform: translateY(-2px);
-        }
+
 
         /* 滚动指示器 */
         .scroll-indicator {
@@ -351,6 +284,82 @@
         }
 
         /* ============================================
+           Apple 式毛玻璃卡片
+           ============================================ */
+        .glass-card {
+            background: rgba(19,19,19,0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .glass-card:hover {
+            border-color: rgba(212,175,55,0.2);
+            box-shadow: 0 12px 40px rgba(212,175,55,0.06);
+            transform: translateY(-2px);
+        }
+
+        /* Apple 式按钮 */
+        .apple-btn {
+            padding: 12px 32px;
+            border-radius: 980px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            letter-spacing: 0.3px;
+        }
+        .apple-btn-primary {
+            background: linear-gradient(135deg, var(--gold), #c9a032);
+            color: var(--black);
+        }
+        .apple-btn-primary:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 30px rgba(212,175,55,0.25);
+        }
+        .apple-btn-secondary {
+            border: 1px solid rgba(255,255,255,0.12);
+            color: var(--text-body);
+        }
+        .apple-btn-secondary:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            transform: scale(1.02);
+        }
+
+        /* Apple 式板块标题 */
+        .apple-section-title {
+            font-size: 2.4rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+            margin-bottom: 8px;
+        }
+        .apple-section-subtitle {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        /* 滚动动效 */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+
+        /* ============================================
            内容板块通用
            ============================================ */
         .section {
@@ -366,15 +375,7 @@
             margin-bottom: 48px;
             position: relative;
         }
-        .section-header::before,
-        .section-header::after {
-            content: '✦';
-            color: var(--gold);
-            font-size: 0.6rem;
-            display: inline-block;
-            margin: 0 12px;
-            opacity: 0.5;
-        }
+
         .section-label {
             display: inline-block;
             font-size: 0.75rem;
@@ -384,16 +385,18 @@
             margin-bottom: 10px;
         }
         .section-title {
-            font-size: 2rem;
+            font-size: 2.2rem;
             font-weight: 700;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
         }
         .section-desc {
             color: var(--text-muted);
-            font-size: 0.95rem;
+            font-size: 1rem;
             max-width: 500px;
             margin: 0 auto;
             line-height: 1.7;
+            font-weight: 400;
         }
 
         /* ============================================
@@ -406,13 +409,15 @@
         }
 
         .thought-card {
-            background: var(--black-light);
-            border: 1px solid var(--black-border);
-            border-radius: var(--radius);
+            background: rgba(19,19,19,0.5);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
             padding: 28px;
             text-decoration: none;
             color: inherit;
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
             position: relative;
             overflow: hidden;
         }
@@ -432,8 +437,8 @@
 
         .thought-card:hover {
             transform: translateY(-4px);
-            border-color: var(--gold);
-            box-shadow: 0 8px 30px rgba(212,175,55,0.08);
+            border-color: rgba(212,175,55,0.25);
+            box-shadow: 0 16px 48px rgba(212,175,55,0.08);
         }
 
         .card-type {
@@ -476,13 +481,15 @@
         }
 
         .daily-card {
-            background: var(--black-light);
-            border: 1px solid var(--black-border);
-            border-radius: var(--radius);
+            background: rgba(19,19,19,0.5);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
             padding: 28px;
-            transition: border-color 0.3s;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        .daily-card:hover { border-color: var(--gold); }
+        .daily-card:hover { border-color: rgba(212,175,55,0.2); transform: translateY(-2px); }
 
         .daily-header {
             display: flex;
@@ -593,9 +600,11 @@
             gap: 14px;
         }
         .connect-item {
-            background: var(--black-light);
-            border: 1px solid var(--black-border);
-            border-radius: var(--radius);
+            background: rgba(19,19,19,0.5);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
             padding: 20px 16px;
             text-align: center;
             text-decoration: none;
@@ -608,9 +617,9 @@
             gap: 4px;
         }
         .connect-item:hover {
-            border-color: var(--gold);
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(212,175,55,0.08);
+            border-color: rgba(212,175,55,0.25);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(212,175,55,0.08);
         }
         .connect-icon { font-size: 1.6rem; display: block; margin-bottom: 6px; }
         .connect-name { font-size: 0.9rem; font-weight: 600; color: #fff; }
@@ -714,7 +723,7 @@
             <li><a href="#connect">连接</a></li>
             <li><a href="about.html">关于</a></li>
             <li><a href="jobs.html">机会</a></li>
-            <li><a href="#" class="nav-cta">联系我</a></li>
+            <li><a href="#" class="nav-cta">联系</a></li>
         </ul>
     </nav>
 
@@ -737,8 +746,8 @@
             在这里，我用深度思考和行业洞察，连接对的人与对的机会。
         </p>
         <div class="hero-actions">
-            <a href="#daily" class="btn-primary">📰 今日 AI 日报</a>
-            <a href="#connect" class="btn-outline">🔗 和我连接</a>
+            <a href="#daily" class="apple-btn apple-btn-primary">今日 AI 日报</a>
+            <a href="#connect" class="apple-btn apple-btn-secondary">和我连接</a>
         </div>
         <div class="scroll-indicator">
             <span>SCROLL</span>
@@ -748,15 +757,15 @@
 
     <!-- ======== 思想输出 ======== -->
     <section class="section" id="thoughts">
-        <div class="section-header">
+        <div class="section-header reveal">
             <div class="section-label">/ 思想输出</div>
-            <h2 class="section-title">🧠 深度 · 洞察 · 观点</h2>
+            <h2 class="section-title">深度 · 洞察 · 观点</h2>
             <p class="section-desc">关于 AI 行业、人才趋势、招聘本质的独立思考</p>
         </div>
         <div class="thought-grid">
-            <a href="blog.html" class="thought-card featured">
+            <a href="blog.html" class="thought-card featured reveal reveal-delay-1">
                 <div class="card-body">
-                    <div class="card-type">🔥 精选</div>
+                    <div class="card-type">精选</div>
                     <div class="card-title">AI 招聘的终局：当每一个候选人都被 AI 匹配，猎头的价值在哪里？</div>
                     <div class="card-excerpt">在 AI 越来越擅长匹配人和岗位的时代，猎头的核心价值从"信息差"转向"判断力"和"连接力"。</div>
                     <div class="card-meta">
@@ -766,14 +775,14 @@
                 </div>
                 <div class="card-cover"></div>
             </a>
-            <a href="blog.html" class="thought-card">
-                <div class="card-type">📝 观点</div>
+            <a href="blog.html" class="thought-card reveal reveal-delay-2">
+                <div class="card-type">观点</div>
                 <div class="card-title">为什么下一个 AI 独角兽的 CTO 可能藏在一个非科班出身的开发者里</div>
                 <div class="card-excerpt">我越来越发现，最惊艳的 AI 人才往往不来自传统的 FAANG 流水线。</div>
                 <div class="card-meta"><span>📅 2026.05.03</span></div>
             </a>
-            <a href="blog.html" class="thought-card">
-                <div class="card-type">💡 洞察</div>
+            <a href="blog.html" class="thought-card reveal reveal-delay-3">
+                <div class="card-type">洞察</div>
                 <div class="card-title">2026 AI 人才市场的三个结构性变化</div>
                 <div class="card-excerpt">从"抢人"到"抢认知"，AI 人才的竞争逻辑正在发生根本性变化。</div>
                 <div class="card-meta"><span>📅 2026.04.28</span></div>
@@ -784,13 +793,13 @@
     <!-- ======== 每日 AI 日报 ======== -->
     <section class="daily-section" id="daily">
         <div class="section" style="padding-top: 60px; padding-bottom: 60px;">
-            <div class="section-header">
+            <div class="section-header reveal">
                 <div class="section-label">/ 每日更新</div>
-                <h2 class="section-title">📰 AI 行业日报</h2>
+                <h2 class="section-title">AI 行业日报</h2>
                 <p class="section-desc">每天 5 条精选 · 扎克耿独家点评</p>
             </div>
 
-            <div class="daily-card">
+            <div class="daily-card reveal reveal-delay-1">
                 <div class="daily-header">
                     <div class="daily-badge">
                         <span class="dot"></span>
@@ -853,28 +862,28 @@
 
     <!-- ======== 连接我 ======== -->
     <section class="section" id="connect">
-        <div class="section-header">
+        <div class="section-header reveal">
             <div class="section-label">/ 连接</div>
-            <h2 class="section-title">🔗 找到扎克耿</h2>
+            <h2 class="section-title">找到扎克耿</h2>
             <p class="section-desc">无论你是候选人还是企业，欢迎 connect</p>
         </div>
         <div class="connect-grid">
-            <a href="javascript:void(0)" onclick="showXiaohongshuQr()" class="connect-item">
+            <a href="javascript:void(0)" onclick="showXiaohongshuQr()" class="connect-item reveal reveal-delay-1">
                 <span class="connect-icon">📕</span>
                 <span class="connect-name">小红书</span>
                 <span class="connect-desc">日常分享 · AI 洞察</span>
             </a>
-            <a href="javascript:void(0)" onclick="showDouyinQr()" class="connect-item">
+            <a href="javascript:void(0)" onclick="showDouyinQr()" class="connect-item reveal reveal-delay-2">
                 <span class="connect-icon">🎵</span>
                 <span class="connect-name">抖音</span>
                 <span class="connect-desc">短视频 · 行业观察</span>
             </a>
-            <a href="mailto:zachgengqingyu@163.com" class="connect-item">
+            <a href="mailto:zachgengqingyu@163.com" class="connect-item reveal reveal-delay-3">
                 <span class="connect-icon">📧</span>
                 <span class="connect-name">邮箱</span>
                 <span class="connect-desc">zachgengqingyu@163.com</span>
             </a>
-            <a href="javascript:void(0)" onclick="showQr()" class="connect-item">
+            <a href="javascript:void(0)" onclick="showQr()" class="connect-item reveal reveal-delay-4">
                 <span class="connect-icon">💬</span>
                 <span class="connect-name">微信公众号</span>
                 <span class="connect-desc">点击查看二维码</span>
@@ -883,7 +892,7 @@
     </section>
 
     <!-- ======== 统计 ======== -->
-    <div class="stats-bar">
+    <div class="stats-bar reveal">
         <div class="stat-item">
             <div class="stat-num">100+</div>
             <div class="stat-label">合作企业</div>
@@ -955,6 +964,16 @@
     </footer>
 
     <script>
+        // 滚动动效 — Apple 式淡入上浮
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
         // 图片弹窗
         function showQr() {
             document.getElementById('qrModal').classList.add('show');

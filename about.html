@@ -18,43 +18,8 @@
             background: var(--black); color: #fff; min-height: 100vh;
             position: relative;
             background-image:
-                radial-gradient(ellipse 90% 45% at 50% -5%, rgba(212,175,55,0.08) 0%, transparent 60%),
-                radial-gradient(ellipse 60% 30% at 50% 100%, rgba(212,175,55,0.03) 0%, transparent 60%),
-                linear-gradient(rgba(255,255,255,0.012) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px);
-            background-size: 100% 100%, 100% 100%, 48px 48px, 48px 48px;
-        }
-        /* ZG 品牌水印暗纹 */
-        body::before {
-            content: 'ZG';
-            position: fixed;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: clamp(200px, 40vw, 500px);
-            font-weight: 900;
-            color: rgba(212,175,55,0.025);
-            letter-spacing: 20px;
-            pointer-events: none;
-            z-index: 0;
-            user-select: none;
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-        }
-        /* 金色星尘粒子层 */
-        body::after {
-            content: '';
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 1;
-            background-image:
-                radial-gradient(1px 1px at 10% 20%, rgba(212,175,55,0.12) 0%, transparent 100%),
-                radial-gradient(1px 1px at 25% 55%, rgba(212,175,55,0.08) 0%, transparent 100%),
-                radial-gradient(1px 1px at 40% 80%, rgba(212,175,55,0.10) 0%, transparent 100%),
-                radial-gradient(1.5px 1.5px at 55% 15%, rgba(212,175,55,0.06) 0%, transparent 100%),
-                radial-gradient(1px 1px at 70% 50%, rgba(212,175,55,0.08) 0%, transparent 100%),
-                radial-gradient(1px 1px at 85% 30%, rgba(212,175,55,0.05) 0%, transparent 100%),
-                radial-gradient(1.5px 1.5px at 15% 75%, rgba(212,175,55,0.06) 0%, transparent 100%),
-                radial-gradient(1px 1px at 45% 90%, rgba(212,175,55,0.08) 0%, transparent 100%);
+                radial-gradient(ellipse 80% 40% at 50% -8%, rgba(212,175,55,0.10) 0%, transparent 65%),
+                radial-gradient(ellipse 50% 25% at 50% 100%, rgba(212,175,55,0.03) 0%, transparent 55%);
         }
 
         .navbar {
@@ -127,6 +92,17 @@
 
         @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* 滚动动效 */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         /* 我的故事 — 洞察卡片 */
         .story-section { margin-bottom: 60px; }
         .story-intro {
@@ -146,8 +122,10 @@
         .story-cards { display: flex; flex-direction: column; gap: 24px; }
         .story-card {
             position: relative;
-            background: linear-gradient(135deg, rgba(212,175,55,0.04) 0%, rgba(7,7,7,0.6) 100%);
-            border: 1px solid var(--black-border);
+            background: rgba(19,19,19,0.5);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.06);
             border-left: 3px solid var(--gold);
             border-radius: var(--radius);
             padding: 28px 32px;
@@ -155,10 +133,11 @@
             animation: fadeUp 0.6s ease-out var(--delay, 0.2s) both;
         }
         .story-card:hover {
-            border-color: var(--gold);
-            background: linear-gradient(135deg, rgba(212,175,55,0.08) 0%, rgba(7,7,7,0.8) 100%);
+            border-color: rgba(212,175,55,0.3);
+            border-left-color: var(--gold);
+            background: rgba(19,19,19,0.7);
             transform: translateX(6px);
-            box-shadow: 0 8px 30px rgba(212,175,55,0.08);
+            box-shadow: 0 12px 40px rgba(212,175,55,0.08);
         }
         .story-card-header {
             display: flex; align-items: center; gap: 12px;
@@ -211,15 +190,19 @@
         .tags-section h2 { color: var(--gold); font-size: 1.1rem; margin-bottom: 16px; }
         .tag-cloud { display: flex; flex-wrap: wrap; gap: 10px; }
         .tag-item {
-            background: var(--gold-subtle); border: 1px solid rgba(212,175,55,0.15);
+            background: rgba(212,175,55,0.06); border: 1px solid rgba(212,175,55,0.12);
             color: var(--gold); padding: 6px 18px; border-radius: 20px;
             font-size: 0.85rem; transition: all 0.3s;
         }
         .tag-item:hover { background: rgba(212,175,55,0.2); transform: translateY(-2px); box-shadow: 0 4px 15px rgba(212,175,55,0.15); }
 
         .quote {
-            text-align: center; padding: 40px; margin: 40px 0;
-            border-top: 1px solid var(--black-border); border-bottom: 1px solid var(--black-border);
+            text-align: center; padding: 48px 40px; margin: 40px 0;
+            background: rgba(19,19,19,0.3);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.06);
             animation: fadeUp 0.6s ease-out 0.4s both;
         }
         .quote blockquote {
@@ -230,23 +213,27 @@
         .quote blockquote::after { content: '"'; color: var(--gold); }
         .quote .author { color: #555; font-size: 0.85rem; margin-top: 12px; font-style: normal; }
 
-        /* 联系卡片 */
         .contact-card {
-            background: var(--black-light); border: 1px solid var(--black-border);
-            border-radius: var(--radius); padding: 32px; text-align: center;
+            background: rgba(19,19,19,0.5);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px; padding: 32px; text-align: center;
             animation: fadeUp 0.6s ease-out 0.5s both;
-            transition: border-color 0.3s;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        .contact-card:hover { border-color: var(--gold); }
+        .contact-card:hover { border-color: rgba(212,175,55,0.2); transform: translateY(-2px); }
         .contact-card h3 { font-size: 1.1rem; margin-bottom: 8px; }
         .contact-card p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; }
         .contact-btn {
-            display: inline-block; padding: 10px 28px;
-            border-radius: 30px; background: linear-gradient(135deg, var(--gold), #b8860b);
-            color: var(--black); font-weight: 700; font-size: 0.85rem;
-            text-decoration: none; transition: all 0.3s; cursor: pointer; border: none;
+            display: inline-block; padding: 12px 32px;
+            border-radius: 980px;
+            background: linear-gradient(135deg, var(--gold), #c9a032);
+            color: var(--black); font-weight: 600; font-size: 0.9rem;
+            text-decoration: none; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            cursor: pointer; border: none;
         }
-        .contact-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212,175,55,0.3); }
+        .contact-btn:hover { transform: scale(1.02); box-shadow: 0 8px 30px rgba(212,175,55,0.25); }
 
         /* 联系信息展开区 */
         .contact-details {
@@ -303,7 +290,7 @@
     </nav>
 
     <div class="container">
-        <div class="intro">
+        <div class="intro reveal" style="transition-delay:0.1s">
             <div class="intro-avatar">
                 <div class="ring-glow"></div>
                 <img src="avatar.png" alt="扎克耿">
@@ -317,7 +304,7 @@
             </div>
         </div>
 
-        <div class="story-section">
+        <div class="story-section reveal" style="transition-delay:0.2s">
             <div class="story-intro">
                 <div class="story-badge">/ MY INSIGHT</div>
                 <h2>我的 <span>洞察底座</span></h2>
@@ -326,7 +313,7 @@
 
             <div class="story-cards">
 
-                <div class="story-card" style="--delay:0.15s">
+                <div class="story-card reveal" style="--delay:0.15s; transition-delay:0.1s">
                     <div class="story-card-header">
                         <div class="story-card-dot"></div>
                         <div class="story-card-label">起点 · 洞察底座</div>
@@ -337,7 +324,7 @@
                     </div>
                 </div>
 
-                <div class="story-card" style="--delay:0.25s">
+                <div class="story-card reveal" style="--delay:0.25s; transition-delay:0.2s">
                     <div class="story-card-header">
                         <div class="story-card-dot"></div>
                         <div class="story-card-label">延伸 · 聚焦场景</div>
@@ -348,7 +335,7 @@
                     </div>
                 </div>
 
-                <div class="story-card" style="--delay:0.35s">
+                <div class="story-card reveal" style="--delay:0.35s; transition-delay:0.3s">
                     <div class="story-card-header">
                         <div class="story-card-dot"></div>
                         <div class="story-card-label">闭环 · 全局视野</div>
@@ -359,7 +346,7 @@
                     </div>
                 </div>
 
-                <div class="story-card" style="--delay:0.45s">
+                <div class="story-card reveal" style="--delay:0.45s; transition-delay:0.4s">
                     <div class="story-card-header">
                         <div class="story-card-dot"></div>
                         <div class="story-card-label">现在 · 持续进化</div>
@@ -377,7 +364,7 @@
             </div>
         </div>
 
-        <div class="tags-section">
+        <div class="tags-section reveal" style="transition-delay:0.3s">
             <h2>🏷️ 我的标签</h2>
             <div class="tag-cloud">
                 <span class="tag-item">AI 猎头</span>
@@ -391,14 +378,14 @@
             </div>
         </div>
 
-        <div class="quote">
+        <div class="quote reveal" style="transition-delay:0.4s">
             <blockquote>
                 越是深潜于代码与算力的汪洋，<br>越能看清『人』才是唯一的灯塔
             </blockquote>
             <p class="author">— 扎克耿</p>
         </div>
 
-        <div class="contact-card" id="contactCard">
+        <div class="contact-card reveal" id="contactCard" style="transition-delay:0.5s">
             <h3>📮 和我连接</h3>
             <p>如果你是 AI 领域的候选人、创业者或企业 HR，欢迎 connect</p>
             <button class="contact-btn" onclick="toggleContact()">💬 私信我</button>
@@ -423,6 +410,15 @@
         </div>
 
         <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
         function toggleContact() {
             const details = document.getElementById('contactDetails');
             details.classList.toggle('open');
