@@ -221,19 +221,24 @@
             margin-top: 20px;
         }
         .contact-item {
-            display: flex; align-items: center; justify-content: center; gap: 12px;
-            padding: 12px 0; border-top: 1px solid var(--black-border);
+            display: flex; align-items: center; justify-content: space-between; gap: 12px;
+            padding: 14px 0; border-top: 1px solid var(--black-border);
         }
         .contact-item:first-of-type { border-top: none; }
+        .contact-item-left { display: flex; align-items: center; gap: 12px; }
         .contact-item-icon { font-size: 1.2rem; }
         .contact-item-label { color: var(--text-muted); font-size: 0.82rem; min-width: 40px; }
         .contact-item-value {
             color: var(--gold); font-size: 0.95rem; font-weight: 500;
             user-select: all; letter-spacing: 0.5px;
         }
-        .contact-item .copy-hint {
-            font-size: 0.7rem; color: #555; margin-left: 8px;
+        .copy-btn {
+            padding: 5px 14px; border-radius: 16px; border: 1px solid rgba(212,175,55,0.3);
+            background: transparent; color: var(--gold); font-size: 0.75rem;
+            cursor: pointer; transition: all 0.25s; flex-shrink: 0;
         }
+        .copy-btn:hover { background: rgba(212,175,55,0.12); border-color: var(--gold); }
+        .copy-btn.copied { background: rgba(212,175,55,0.2); border-color: var(--gold); color: #fff; }
 
         .footer { text-align: center; margin-top: 60px; color: #333; font-size: 0.78rem; }
 
@@ -361,16 +366,20 @@
             <button class="contact-btn" onclick="toggleContact()">💬 私信我</button>
             <div class="contact-details" id="contactDetails">
                 <div class="contact-item">
-                    <span class="contact-item-icon">💬</span>
-                    <span class="contact-item-label">微信</span>
-                    <span class="contact-item-value">zachgengqingyu1994</span>
-                    <span class="copy-hint">(长按复制)</span>
+                    <div class="contact-item-left">
+                        <span class="contact-item-icon">💬</span>
+                        <span class="contact-item-label">微信</span>
+                        <span class="contact-item-value">zachgengqingyu1994</span>
+                    </div>
+                    <button class="copy-btn" onclick="copyText('zachgengqingyu1994', this)">复制</button>
                 </div>
                 <div class="contact-item">
-                    <span class="contact-item-icon">📧</span>
-                    <span class="contact-item-label">邮箱</span>
-                    <span class="contact-item-value">zachgengqingyu1994@gmail.com</span>
-                    <span class="copy-hint">(长按复制)</span>
+                    <div class="contact-item-left">
+                        <span class="contact-item-icon">📧</span>
+                        <span class="contact-item-label">邮箱</span>
+                        <span class="contact-item-value">zachgengqingyu1994@gmail.com</span>
+                    </div>
+                    <button class="copy-btn" onclick="copyText('zachgengqingyu1994@gmail.com', this)">复制</button>
                 </div>
             </div>
         </div>
@@ -379,6 +388,26 @@
         function toggleContact() {
             const details = document.getElementById('contactDetails');
             details.classList.toggle('open');
+        }
+        function copyText(text, btn) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    const orig = btn.textContent;
+                    btn.textContent = '已复制 ✓';
+                    btn.classList.add('copied');
+                    setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 1800);
+                });
+            } else {
+                // fallback
+                const ta = document.createElement('textarea');
+                ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+                document.body.appendChild(ta); ta.select();
+                document.execCommand('copy'); document.body.removeChild(ta);
+                const orig = btn.textContent;
+                btn.textContent = '已复制 ✓';
+                btn.classList.add('copied');
+                setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 1800);
+            }
         }
         </script>
 
