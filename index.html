@@ -54,11 +54,17 @@
             z-index: 100;
         }
         .nav-brand {
-            font-size: 1.05rem;
+            font-size: 1rem;
             font-weight: 700;
             color: #fff;
             letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
+        .brand-cn { color: #fff; }
+        .brand-divider { color: var(--gold); opacity: 0.6; font-weight: 300; }
+        .brand-en { color: var(--gold); font-size: 0.78rem; font-weight: 400; letter-spacing: 2px; text-transform: uppercase; }
         .nav-brand span { color: var(--gold); }
         .nav-links { display: flex; gap: 28px; list-style: none; }
         .nav-links a {
@@ -625,7 +631,7 @@
 
     <!-- ======== 导航 ======== -->
     <nav class="navbar">
-        <div class="nav-brand">扎克<span>耿</span></div>
+        <div class="nav-brand"><span class="brand-cn">扎克耿</span><span class="brand-divider">·</span><span class="brand-en">AI猎头</span></div>
         <ul class="nav-links">
             <li><a href="#thoughts">思想</a></li>
             <li><a href="#daily">日报</a></li>
@@ -642,7 +648,7 @@
         <div class="hero-watermark">ZG</div>
         <div class="avatar-wrapper">
             <div class="avatar-ring"></div>
-            <img src="avatar.svg" alt="扎克耿">
+            <img src="avatar.png" alt="扎克耿">
         </div>
         <div class="hero-tag">AI 猎头 · 行业观察者 · 人才连接器</div>
         <h1>

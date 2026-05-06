@@ -26,8 +26,18 @@
             backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
             border-bottom: 1px solid var(--black-border); z-index: 100;
         }
-        .nav-brand { font-size: 1.05rem; font-weight: 700; color: #fff; letter-spacing: 1px; }
-        .nav-brand span { color: var(--gold); }
+        .nav-brand {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .brand-cn { color: #fff; }
+        .brand-divider { color: var(--gold); opacity: 0.6; font-weight: 300; }
+        .brand-en { color: var(--gold); font-size: 0.78rem; font-weight: 400; letter-spacing: 2px; text-transform: uppercase; }
         .nav-back { color: var(--text-muted); text-decoration: none; font-size: 0.85rem; transition: color 0.3s; }
         .nav-back:hover { color: var(--gold); }
 
@@ -163,7 +173,7 @@
 </head>
 <body>
     <nav class="navbar">
-        <div class="nav-brand">扎克<span>耿</span></div>
+        <div class="nav-brand"><span class="brand-cn">扎克耿</span><span class="brand-divider">·</span><span class="brand-en">AI猎头</span></div>
         <a href="index.html" class="nav-back">← 首页</a>
     </nav>
 
@@ -171,7 +181,7 @@
         <div class="intro">
             <div class="intro-avatar">
                 <div class="ring-glow"></div>
-                <img src="avatar.svg" alt="扎克耿">
+                <img src="avatar.png" alt="扎克耿">
             </div>
             <div class="intro-text">
                 <h1>我是 <span>扎克耿</span></h1>
