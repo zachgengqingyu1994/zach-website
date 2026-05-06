@@ -562,6 +562,28 @@
         .connect-name { font-size: 0.9rem; font-weight: 600; color: #fff; }
         .connect-desc { font-size: 0.75rem; color: #555; margin-top: 4px; }
 
+        /* 图片弹窗 */
+        .modal-overlay {
+            display: none; position: fixed; inset: 0; z-index: 9999;
+            background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+            align-items: center; justify-content: center;
+            cursor: pointer; animation: fadeIn 0.3s ease;
+        }
+        .modal-overlay.show { display: flex; }
+        .modal-overlay img {
+            max-width: 85vw; max-height: 85vh; border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+            animation: scaleIn 0.3s ease; cursor: default;
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes scaleIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .modal-close {
+            position: fixed; top: 24px; right: 32px; z-index: 10000;
+            color: #fff; font-size: 2rem; cursor: pointer; opacity: 0.7;
+            transition: opacity 0.3s; background: none; border: none;
+        }
+        .modal-close:hover { opacity: 1; }
+
         /* ============================================
            统计条
            ============================================ */
@@ -798,7 +820,7 @@
                 <span class="connect-name">邮箱</span>
                 <span class="connect-desc">zachgengqingyu@163.com</span>
             </a>
-            <a href="#" class="connect-item">
+            <a href="javascript:void(0)" onclick="showQr()" class="connect-item">
                 <span class="connect-icon">💬</span>
                 <span class="connect-name">微信公众号</span>
                 <span class="connect-desc">搜索「扎克耿」关注</span>
@@ -826,12 +848,25 @@
         </div>
     </div>
 
+    <!-- ======== 图片弹窗 ======== -->
+    <div class="modal-overlay" id="qrModal" onclick="hideQr()">
+        <button class="modal-close" onclick="hideQr()">✕</button>
+        <img src="wechat-qr.png" alt="扎克耿微信公众号" onclick="event.stopPropagation()">
+    </div>
+
     <!-- ======== 页脚 ======== -->
     <footer class="site-footer">
         <span>⚡</span> 2026 扎克耿 · 连接 AI 人才与未来
     </footer>
 
     <script>
+        // 图片弹窗
+        function showQr() {
+            document.getElementById('qrModal').classList.add('show');
+        }
+        function hideQr() {
+            document.getElementById('qrModal').classList.remove('show');
+        }
         // 点击导航栏"联系我"滚动到底部
         document.querySelector('.nav-cta').addEventListener('click', function(e) {
             e.preventDefault();
