@@ -15,6 +15,9 @@
     }
     </script>
 
+    <!-- Spline Viewer -->
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.86/build/spline-viewer.js"></script>
+
     <style>
         /* ═══════════════════════════════════════════
            Variables
@@ -414,6 +417,35 @@
         }
 
         /* ═══════════════════════════════════════════
+           Hero Layout — 文字 + Spline 3D 角色
+           ═══════════════════════════════════════════ */
+        .hero-layout {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 60px;
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            position: relative;
+        }
+        .hero-layout .hero-glass { flex: 0 1 auto; }
+
+        .spline-character {
+            flex-shrink: 0;
+            width: 340px;
+            height: 400px;
+            position: relative;
+            opacity: 0;
+            animation: heroIn 1s ease 0.6s forwards;
+        }
+        .spline-character spline-viewer {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        /* ═══════════════════════════════════════════
            Scroll Reveal
            ═══════════════════════════════════════════ */
         .reveal {
@@ -771,6 +803,8 @@
             .navbar .nav-brand { position: static; }
             .nav-cta { position: static; }
             .navbar a:not(.nav-brand):not(.nav-cta):nth-child(n+3) { display: none; }
+            .hero-layout { flex-direction: column; gap: 0; }
+            .spline-character { display: none; }
             .hero-glass { padding: 36px 24px; border-radius: 20px; }
             .hero h1 { font-size: clamp(2rem, 8vw, 3rem); letter-spacing: -1px; }
             .hero-sub { font-size: 0.9rem; }
@@ -1089,19 +1123,29 @@
 
     <!-- ════════ Hero ════════ -->
     <section class="hero" id="hero">
-        <div class="hero-glass">
-            <div class="hero-tag">AI 猎头 · 行业观察者 · 人才连接器</div>
-            <h1>
-                <span class="line">连接 <span class="highlight">AI 人才</span></span>
-                <span class="line">与 <span class="accent">未来</span></span>
-            </h1>
-            <p class="hero-sub">
-                好奇技术发展，想象突破天际，拒绝循规蹈矩。<br>
-                在这里，连接对的人与对的机会。
-            </p>
-            <div class="hero-actions">
-                <a href="#daily" class="glass-btn glass-btn-primary">今日 AI 日报</a>
-                <a href="#connect" class="glass-btn glass-btn-secondary">和我连接 →</a>
+        <div class="hero-layout">
+            <div class="hero-glass">
+                <div class="hero-tag">AI 猎头 · 行业观察者 · 人才连接器</div>
+                <h1>
+                    <span class="line">连接 <span class="highlight">AI 人才</span></span>
+                    <span class="line">与 <span class="accent">未来</span></span>
+                </h1>
+                <p class="hero-sub">
+                    好奇技术发展，想象突破天际，拒绝循规蹈矩。<br>
+                    在这里，连接对的人与对的机会。
+                </p>
+                <div class="hero-actions">
+                    <a href="#daily" class="glass-btn glass-btn-primary">今日 AI 日报</a>
+                    <a href="#connect" class="glass-btn glass-btn-secondary">和我连接 →</a>
+                </div>
+            </div>
+            <div class="spline-character">
+                <spline-viewer
+                    url="https://prod.spline.design/5XRvfKNPoJcWxnBs/scene.splinecode"
+                    background="#08080E"
+                    loading-anim="true"
+                    events-target="global">
+                </spline-viewer>
             </div>
         </div>
         <div class="scroll-indicator">
