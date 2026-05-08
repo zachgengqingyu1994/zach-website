@@ -1485,7 +1485,7 @@
            4. Three.js 粒子背景
            ═══════════════════════════════════════════ */
         (function initThreeBg() {
-            import('three').then(({ Scene, PerspectiveCamera, WebGLRenderer, BufferGeometry, PointsMaterial, Points, Float32BufferAttribute, AdditiveBlending, Clock, Color }) => {
+            import('three').then(({ Scene, PerspectiveCamera, WebGLRenderer, BufferGeometry, PointsMaterial, Points, Float32BufferAttribute, AdditiveBlending, Clock, Color, CanvasTexture }) => {
                 const canvas = document.getElementById('three-bg');
                 if (!canvas) return;
 
@@ -1529,14 +1529,31 @@
                 geometry.setAttribute('position', new Float32BufferAttribute(positions, 3));
                 geometry.setAttribute('color', new Float32BufferAttribute(colors, 3));
 
+                // Generate a soft circle texture (replaces default square points)
+                function makeCircleTexture() {
+                    const size = 64;
+                    const c = document.createElement('canvas');
+                    c.width = c.height = size;
+                    const ctx = c.getContext('2d');
+                    const gradient = ctx.createRadialGradient(size/2, size/2, 0, size/2, size/2, size/2);
+                    gradient.addColorStop(0, 'rgba(255,255,255,1)');
+                    gradient.addColorStop(0.3, 'rgba(255,255,255,0.9)');
+                    gradient.addColorStop(0.7, 'rgba(255,255,255,0.5)');
+                    gradient.addColorStop(1, 'rgba(255,255,255,0)');
+                    ctx.fillStyle = gradient;
+                    ctx.fillRect(0, 0, size, size);
+                    return new CanvasTexture(c);
+                }
+
                 const material = new PointsMaterial({
-                    size: 5,
+                    size: 6,
                     vertexColors: true,
                     transparent: true,
-                    opacity: 0.95,
+                    opacity: 0.9,
                     blending: AdditiveBlending,
                     depthWrite: false,
                     sizeAttenuation: true,
+                    map: makeCircleTexture(),
                 });
 
                 const particles = new Points(geometry, material);
