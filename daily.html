@@ -1,570 +1,186 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+
     <title>AI 行业日报 | 扎克耿</title>
-    <link rel="icon" href="favicon.svg" type="image/svg+xml">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        :root {
-            --gold: #C9A84C;
-            --gold-light: #E0C46A;
-            --gold-subtle: rgba(201,168,76,0.08);
-            --bg: #FAFAF7;
-            --bg-card: #FFFFFF;
-            --text-primary: #1C1C1E;
-            --text-body: #4A4A4A;
-            --text-muted: #8E8E93;
-            --text-faint: #C7C7CC;
-            --border: #E8E4DC;
-            --radius-md: 20px;
-        }
-        html { scroll-behavior: smooth; }
-        body {
-            font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
-            background: var(--bg);
-            color: var(--text-body);
-            min-height: 100vh;
-            position: relative;
-        }
-        /* ═══════════════════════════════════════════
-           背景：AI + 猎头网络图案
-           — 神经网络节点 + 人才连接线 + 数据流
-           ═══════════════════════════════════════════ */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            z-index: 0;
-            pointer-events: none;
-            background:
-                /* 重复网络纹理（节点+连接线） */
-                repeating-linear-gradient(0deg, transparent, transparent 300px),
-                url("static/network-pattern.svg") repeat,
-                /* 大型网络节点 — 分布在页面各处 */
-                radial-gradient(circle 5px at 15% 20%, rgba(201,168,76,0.12) 0%, transparent 100%),
-                radial-gradient(circle 3px at 18% 22%, rgba(201,168,76,0.08) 0%, transparent 100%),
-                radial-gradient(circle 8px at 30% 45%, rgba(201,168,76,0.06) 0%, transparent 100%),
-                radial-gradient(circle 4px at 33% 48%, rgba(201,168,76,0.08) 0%, transparent 100%),
-                radial-gradient(circle 6px at 70% 30%, rgba(201,168,76,0.07) 0%, transparent 100%),
-                radial-gradient(circle 3px at 73% 33%, rgba(201,168,76,0.09) 0%, transparent 100%),
-                radial-gradient(circle 7px at 85% 65%, rgba(201,168,76,0.06) 0%, transparent 100%),
-                radial-gradient(circle 3px at 82% 68%, rgba(201,168,76,0.08) 0%, transparent 100%),
-                radial-gradient(circle 10px at 50% 75%, rgba(201,168,76,0.05) 0%, transparent 100%),
-                radial-gradient(circle 4px at 47% 72%, rgba(201,168,76,0.07) 0%, transparent 100%),
-                radial-gradient(circle 5px at 10% 60%, rgba(201,168,76,0.06) 0%, transparent 100%),
-                radial-gradient(circle 6px at 60% 55%, rgba(201,168,76,0.05) 0%, transparent 100%),
-                radial-gradient(circle 4px at 55% 10%, rgba(201,168,76,0.08) 0%, transparent 100%),
-                radial-gradient(circle 3px at 90% 15%, rgba(201,168,76,0.07) 0%, transparent 100%),
-                /* 连接线 — 角度直线连接节点簇 */
-                linear-gradient(35deg, transparent 18%, rgba(201,168,76,0.03) 18.5%, transparent 19%),
-                linear-gradient(35deg, transparent 48%, rgba(201,168,76,0.025) 48.5%, transparent 49%),
-                linear-gradient(145deg, transparent 25%, rgba(201,168,76,0.025) 25.5%, transparent 26%),
-                linear-gradient(145deg, transparent 65%, rgba(201,168,76,0.02) 65.5%, transparent 66%),
-                linear-gradient(70deg, transparent 35%, rgba(201,168,76,0.02) 35.5%, transparent 36%),
-                linear-gradient(200deg, transparent 55%, rgba(201,168,76,0.02) 55.5%, transparent 56%),
-                /* 柔和暖光环境 */
-                radial-gradient(ellipse 60% 45% at 50% -5%, rgba(201,168,76,0.07) 0%, transparent 60%),
-                radial-gradient(ellipse 30% 20% at 80% 30%, rgba(201,168,76,0.03) 0%, transparent 50%);
-        }
 
-        /* === 导航 === */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 56px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 32px;
-            background: rgba(255,255,255,0.78);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border);
-            z-index: 100;
-        }
-        .nav-brand {
-            position: absolute;
-            left: 28px;
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            text-decoration: none;
-        }
-        .nav-brand .dot { color: var(--gold); opacity: 0.6; font-weight: 300; }
-        .nav-brand .tag { color: var(--gold); font-size: 0.78rem; font-weight: 400; letter-spacing: 2px; text-transform: uppercase; }
-        .navbar a:not(.nav-brand):not(.nav-back) {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.85rem;
-            transition: color 0.3s;
-            letter-spacing: 0.3px;
-        }
-        .navbar a:not(.nav-brand):not(.nav-back):hover { color: var(--text-primary); }
-        .nav-back {
-            position: absolute;
-            right: 28px;
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.85rem;
-            transition: color 0.3s;
-        }
-        .nav-back:hover { color: var(--gold); }
-
-        .container {
-            max-width: 720px;
-            margin: 0 auto;
-            padding: 100px 24px 60px;
-            position: relative;
-            z-index: 1;
-        }
-
-        header { margin-bottom: 44px; text-align: center; }
-        h1 {
-            font-size: 2rem;
-            background: linear-gradient(135deg, #d4a843, var(--gold));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 8px;
-            letter-spacing: -0.5px;
-        }
-        .subtitle { color: var(--text-muted); font-size: 0.9rem; letter-spacing: 0.3px; }
-
-        /* === 卡片 === */
-        .daily-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            padding: 28px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
-            transition: all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
-        }
-        .daily-card:hover {
-            border-color: var(--gold);
-            box-shadow: 0 4px 24px rgba(201,168,76,0.10);
-        }
-        .daily-card.reveal {
-            opacity: 0;
-            transform: translateY(24px);
-            transition: opacity 0.7s cubic-bezier(0.25,0.46,0.45,0.94),
-                        transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94),
-                        border-color 0.4s ease,
-                        box-shadow 0.4s ease;
-        }
-        .daily-card.reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .daily-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        .daily-date {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .daily-date .day { color: var(--gold); }
-        .daily-header-right { display: flex; align-items: center; gap: 12px; }
-        .daily-status {
-            font-size: 0.72rem;
-            letter-spacing: 1px;
-            color: var(--text-muted);
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-        .daily-status .dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: #22c55e;
-            display: inline-block;
-            animation: blink 1.5s ease-in-out infinite;
-        }
-        @keyframes blink { 50% { opacity: 0.3; } }
-        .daily-count { font-size: 0.78rem; color: var(--text-muted); }
-
-        .news-list { display: flex; flex-direction: column; gap: 10px; }
-
-        .news-item {
-            display: flex;
-            gap: 14px;
-            padding: 14px 16px;
-            background: rgba(201,168,76,0.04);
-            border-radius: 12px;
-            transition: all 0.3s;
-            border-left: 2px solid transparent;
-        }
-        .news-item:hover {
-            background: rgba(201,168,76,0.08);
-            border-left-color: var(--gold);
-        }
-
-        .news-index {
-            flex-shrink: 0;
-            width: 26px;
-            height: 26px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            background: rgba(201,168,76,0.12);
-            color: var(--gold);
-            font-size: 0.78rem;
-            font-weight: 600;
-        }
-        .news-content { flex: 1; min-width: 0; }
-        .news-title {
-            font-size: 0.95rem;
-            font-weight: 500;
-            color: var(--text-primary);
-            margin-bottom: 4px;
-            line-height: 1.5;
-        }
-        .news-source { font-size: 0.75rem; color: var(--text-faint); margin-bottom: 6px; }
-        .news-comment {
-            font-size: 0.82rem;
-            color: var(--text-body);
-            line-height: 1.6;
-            background: rgba(201,168,76,0.06);
-            padding: 8px 12px;
-            border-radius: 6px;
-            margin-top: 6px;
-        }
-        .news-comment::before { content: '💬'; margin-right: 4px; }
-
-        .daily-footer {
-            margin-top: 16px;
-            padding-top: 14px;
-            border-top: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        .daily-tags { display: flex; gap: 6px; flex-wrap: wrap; }
-        .daily-tag {
-            font-size: 0.7rem;
-            padding: 2px 10px;
-            border-radius: 10px;
-            background: rgba(201,168,76,0.08);
-            color: var(--text-muted);
-        }
-        .daily-share {
-            font-size: 0.78rem;
-            color: var(--text-muted);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        .daily-share:hover { color: var(--gold); }
-
-        .subscribe-bar {
-            text-align: center;
-            margin-top: 44px;
-            padding: 32px;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
-            transition: all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
-        }
-        .subscribe-bar.reveal {
-            opacity: 0;
-            transform: translateY(24px);
-            transition: opacity 0.7s cubic-bezier(0.25,0.46,0.45,0.94),
-                        transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94),
-                        border-color 0.4s ease,
-                        box-shadow 0.4s ease;
-        }
-        .subscribe-bar.reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .subscribe-bar:hover { border-color: var(--gold); box-shadow: 0 4px 24px rgba(201,168,76,0.10); }
-        .subscribe-bar h3 { font-size: 1.05rem; margin-bottom: 8px; color: var(--text-primary); }
-        .subscribe-bar p { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 18px; }
-
-        .subscribe-input-group {
-            display: flex;
-            gap: 10px;
-            max-width: 400px;
-            margin: 0 auto;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .subscribe-btn {
-            display: inline-block;
-            padding: 8px 24px;
-            border-radius: 20px;
-            background: linear-gradient(135deg, var(--gold), #b8860b);
-            color: #fff;
-            font-weight: 600;
-            font-size: 0.85rem;
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-        .subscribe-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(201,168,76,0.3);
-        }
-        .subscribe-btn-outline {
-            background: transparent;
-            border: 1px solid var(--gold);
-            color: var(--gold);
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 60px;
-            color: var(--text-faint);
-            font-size: 0.78rem;
-        }
-
-        /* 薄滚动条 4px */
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: var(--bg); }
-        ::-webkit-scrollbar-thumb { background: var(--text-faint); border-radius: 2px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
-
-        @media (max-width: 600px) {
-            .navbar {
-                gap: 16px;
-                padding: 0 16px;
-                justify-content: center;
-            }
-            .nav-brand { left: 16px; }
-            .nav-back { right: 16px; }
-            .navbar a:not(.nav-brand):not(.nav-back) { font-size: 0.75rem; }
-            .container { padding: 80px 16px 40px; }
-            h1 { font-size: 1.5rem; }
-            .daily-card { padding: 20px; }
-            .news-item { padding: 12px; }
-            .news-title { font-size: 0.88rem; }
-        }
-        @media (max-width: 480px) {
-            .navbar a:not(.nav-brand):not(.nav-back):nth-child(n+4) { display: none; }
-        }
-        @media (prefers-reduced-motion: reduce) {
-            * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
-        }
-    </style>
 </head>
 <body>
-    <nav class="navbar">
-        <a href="index.html" class="nav-brand">扎克耿<span class="dot"> · </span><span class="tag">AI猎头</span></a>
+    <nav>
+        <a href="index.html">扎克耿<span> · </span><span>AI猎头</span></a>
         <a href="index.html#thoughts">思想</a>
         <a href="index.html#daily">日报</a>
         <a href="index.html#connect">连接</a>
         <a href="about.html">关于</a>
         <a href="jobs.html">机会</a>
-        <a href="index.html" class="nav-back">首页</a>
+        <a href="index.html">首页</a>
     </nav>
 
-    <div class="container">
+    <div>
         <header>
             <h1>📰 AI 行业日报</h1>
-            <p class="subtitle">每天 5 条精选 · 扎克耿独家点评</p>
+            <p>每天 5 条精选 · 扎克耿独家点评</p>
         </header>
 
         <!-- 今日 -->
-        <div class="daily-card reveal">
-            <div class="daily-header">
-                <div class="daily-date"><span class="day">05.05</span> 星期二</div>
-                <div class="daily-header-right">
-                    <span class="daily-status"><span class="dot"></span> 今日更新</span>
-                    <span class="daily-count">5 条</span>
+        <div>
+            <div>
+                <div><span>05.05</span> 星期二</div>
+                <div>
+                    <span> 今日更新</span>
+                    <span>5 条</span>
                 </div>
             </div>
 
-            <div class="news-list">
-                <div class="news-item">
-                    <div class="news-index">1</div>
-                    <div class="news-content">
-                        <div class="news-title">OpenAI 发布 GPT-5，推理能力提升 3 倍</div>
-                        <div class="news-source">OpenAI 官网 · 1 小时前</div>
-                        <div class="news-comment">模型能力还在加速增长，推理成本的下降会催生下一波应用创新。这对 AI 创业公司的人才需求结构会有很大影响。</div>
+            <div>
+                <div>
+                    <div>1</div>
+                    <div>
+                        <div>OpenAI 发布 GPT-5，推理能力提升 3 倍</div>
+                        <div>OpenAI 官网 · 1 小时前</div>
+                        <div>模型能力还在加速增长，推理成本的下降会催生下一波应用创新。这对 AI 创业公司的人才需求结构会有很大影响。</div>
                     </div>
                 </div>
-                <div class="news-item">
-                    <div class="news-index">2</div>
-                    <div class="news-content">
-                        <div class="news-title">Anthropic 成立日本办公室，加速亚太布局</div>
-                        <div class="news-source">TechCrunch · 3 小时前</div>
-                        <div class="news-comment">亚太 AI 人才争夺战升级。日本市场对顶级 AI 研究人才的需求将大幅上升，这对国内人才流动也是一次机会。</div>
+                <div>
+                    <div>2</div>
+                    <div>
+                        <div>Anthropic 成立日本办公室，加速亚太布局</div>
+                        <div>TechCrunch · 3 小时前</div>
+                        <div>亚太 AI 人才争夺战升级。日本市场对顶级 AI 研究人才的需求将大幅上升，这对国内人才流动也是一次机会。</div>
                     </div>
                 </div>
-                <div class="news-item">
-                    <div class="news-index">3</div>
-                    <div class="news-content">
-                        <div class="news-title">字节跳动发布自研 AI 芯片，用于大模型训练</div>
-                        <div class="news-source">36氪 · 5 小时前</div>
-                        <div class="news-comment">国内大厂自研芯片已成趋势。芯片架构师、AI 编译器工程师、推理优化人才将持续紧俏。</div>
+                <div>
+                    <div>3</div>
+                    <div>
+                        <div>字节跳动发布自研 AI 芯片，用于大模型训练</div>
+                        <div>36氪 · 5 小时前</div>
+                        <div>国内大厂自研芯片已成趋势。芯片架构师、AI 编译器工程师、推理优化人才将持续紧俏。</div>
                     </div>
                 </div>
-                <div class="news-item">
-                    <div class="news-index">4</div>
-                    <div class="news-content">
-                        <div class="news-title">AI 编程助手 Cursor 估值突破 100 亿美元</div>
-                        <div class="news-source">Bloomberg · 8 小时前</div>
-                        <div class="news-comment">AI 开发者工具的爆发说明了一件事：AI 时代的开发者需要新工具，而新工具公司需要最懂 AI 的人。这是一个新的人才赛道。</div>
+                <div>
+                    <div>4</div>
+                    <div>
+                        <div>AI 编程助手 Cursor 估值突破 100 亿美元</div>
+                        <div>Bloomberg · 8 小时前</div>
+                        <div>AI 开发者工具的爆发说明了一件事：AI 时代的开发者需要新工具，而新工具公司需要最懂 AI 的人。这是一个新的人才赛道。</div>
                     </div>
                 </div>
-                <div class="news-item">
-                    <div class="news-index">5</div>
-                    <div class="news-content">
-                        <div class="news-title">斯坦福 AI 指数报告：2025 年 AI 投资增长 40%</div>
-                        <div class="news-source">Stanford HAI · 12 小时前</div>
-                        <div class="news-comment">资本还在加速涌入。对猎头来说，这意味着客户需求不会降温，但对人才的筛选标准会更加严格——泡沫期更需要火眼金睛。</div>
+                <div>
+                    <div>5</div>
+                    <div>
+                        <div>斯坦福 AI 指数报告：2025 年 AI 投资增长 40%</div>
+                        <div>Stanford HAI · 12 小时前</div>
+                        <div>资本还在加速涌入。对猎头来说，这意味着客户需求不会降温，但对人才的筛选标准会更加严格——泡沫期更需要火眼金睛。</div>
                     </div>
                 </div>
             </div>
 
-            <div class="daily-footer">
-                <div class="daily-tags">
-                    <span class="daily-tag">OpenAI</span>
-                    <span class="daily-tag">Anthropic</span>
-                    <span class="daily-tag">芯片</span>
-                    <span class="daily-tag">投资</span>
+            <div>
+                <div>
+                    <span>OpenAI</span>
+                    <span>Anthropic</span>
+                    <span>芯片</span>
+                    <span>投资</span>
                 </div>
-                <a href="#" class="daily-share">🔗 复制链接</a>
+                <a href="#">🔗 复制链接</a>
             </div>
         </div>
 
         <!-- 往期 1 -->
-        <div class="daily-card reveal">
-            <div class="daily-header">
-                <div class="daily-date"><span class="day">05.04</span> 星期一</div>
-                <div class="daily-header-right">
-                    <span class="daily-count">5 条</span>
+        <div>
+            <div>
+                <div><span>05.04</span> 星期一</div>
+                <div>
+                    <span>5 条</span>
                 </div>
             </div>
 
-            <div class="news-list">
-                <div class="news-item">
-                    <div class="news-index">1</div>
-                    <div class="news-content">
-                        <div class="news-title">Google DeepMind 推出新一代机器人模型</div>
-                        <div class="news-source">DeepMind Blog · 2 小时前</div>
-                        <div class="news-comment">具身智能正在从实验室走向真实场景。这个方向的人才缺口在未来 1-2 年会急剧扩大。</div>
+            <div>
+                <div>
+                    <div>1</div>
+                    <div>
+                        <div>Google DeepMind 推出新一代机器人模型</div>
+                        <div>DeepMind Blog · 2 小时前</div>
+                        <div>具身智能正在从实验室走向真实场景。这个方向的人才缺口在未来 1-2 年会急剧扩大。</div>
                     </div>
                 </div>
-                <div class="news-item">
-                    <div class="news-index">2</div>
-                    <div class="news-content">
-                        <div class="news-title">月之暗面 Kimi 月活突破 3000 万</div>
-                        <div class="news-source">晚点 LatePost · 5 小时前</div>
-                        <div class="news-comment">国内 C 端 AI 产品的用户增长在加速，产品侧的人才争夺会更加激烈。</div>
+                <div>
+                    <div>2</div>
+                    <div>
+                        <div>月之暗面 Kimi 月活突破 3000 万</div>
+                        <div>晚点 LatePost · 5 小时前</div>
+                        <div>国内 C 端 AI 产品的用户增长在加速，产品侧的人才争夺会更加激烈。</div>
                     </div>
                 </div>
-                <div class="news-item">
-                    <div class="news-index">5</div>
-                    <div class="news-content">
-                        <div class="news-title">YC 最新批次：70% 的创业公司是 AI Native</div>
-                        <div class="news-source">Y Combinator · 10 小时前</div>
-                        <div class="news-comment">AI Native 创业已经是常态。这些公司每个都需要顶尖的 AI 人才，但往往给不起大厂的薪水——股权和愿景变得更重要。</div>
+                <div>
+                    <div>5</div>
+                    <div>
+                        <div>YC 最新批次：70% 的创业公司是 AI Native</div>
+                        <div>Y Combinator · 10 小时前</div>
+                        <div>AI Native 创业已经是常态。这些公司每个都需要顶尖的 AI 人才，但往往给不起大厂的薪水——股权和愿景变得更重要。</div>
                     </div>
                 </div>
             </div>
 
-            <div class="daily-footer">
-                <div class="daily-tags">
-                    <span class="daily-tag">DeepMind</span>
-                    <span class="daily-tag">Kimi</span>
-                    <span class="daily-tag">YC</span>
+            <div>
+                <div>
+                    <span>DeepMind</span>
+                    <span>Kimi</span>
+                    <span>YC</span>
                 </div>
             </div>
         </div>
 
         <!-- 往期 2 -->
-        <div class="daily-card reveal">
-            <div class="daily-header">
-                <div class="daily-date"><span class="day">05.03</span> 星期日</div>
-                <div class="daily-header-right">
-                    <span class="daily-count">4 条</span>
+        <div>
+            <div>
+                <div><span>05.03</span> 星期日</div>
+                <div>
+                    <span>4 条</span>
                 </div>
             </div>
 
-            <div class="news-list">
-                <div class="news-item">
-                    <div class="news-index">1</div>
-                    <div class="news-content">
-                        <div class="news-title">Meta 发布 Llama 4 开源模型，支持多模态</div>
-                        <div class="news-source">Meta AI · 4 小时前</div>
-                        <div class="news-comment">开源模型的进步速度远超预期，这意味着基于开源做应用的创业公司有了更多选择，也意味着对垂直场景深度理解的人才更值钱。</div>
+            <div>
+                <div>
+                    <div>1</div>
+                    <div>
+                        <div>Meta 发布 Llama 4 开源模型，支持多模态</div>
+                        <div>Meta AI · 4 小时前</div>
+                        <div>开源模型的进步速度远超预期，这意味着基于开源做应用的创业公司有了更多选择，也意味着对垂直场景深度理解的人才更值钱。</div>
                     </div>
                 </div>
-                <div class="news-item">
-                    <div class="news-index">4</div>
-                    <div class="news-content">
-                        <div class="news-title">全球 AI 人才报告：中国 AI 研究者数量全球第二</div>
-                        <div class="news-source">MacroPolo · 8 小时前</div>
-                        <div class="news-comment">数量上来了，但高质量人才依然稀缺。这是结构性机会——对猎头来说，精准识别"真人才"的能力就是核心竞争力。</div>
+                <div>
+                    <div>4</div>
+                    <div>
+                        <div>全球 AI 人才报告：中国 AI 研究者数量全球第二</div>
+                        <div>MacroPolo · 8 小时前</div>
+                        <div>数量上来了，但高质量人才依然稀缺。这是结构性机会——对猎头来说，精准识别"真人才"的能力就是核心竞争力。</div>
                     </div>
                 </div>
             </div>
 
-            <div class="daily-footer">
-                <div class="daily-tags">
-                    <span class="daily-tag">Meta</span>
-                    <span class="daily-tag">开源</span>
-                    <span class="daily-tag">人才报告</span>
+            <div>
+                <div>
+                    <span>Meta</span>
+                    <span>开源</span>
+                    <span>人才报告</span>
                 </div>
             </div>
         </div>
 
         <!-- 订阅 -->
-        <div class="subscribe-bar reveal">
+        <div>
             <h3>📬 订阅 AI 日报</h3>
             <p>每天收到精选 AI 行业动态 + 扎克耿独家点评</p>
-            <div class="subscribe-input-group">
-                <a href="#" class="subscribe-btn">📩 关注微信公众号</a>
-                <a href="#" class="subscribe-btn subscribe-btn-outline">📡 RSS 订阅</a>
+            <div>
+                <a href="#">📩 关注微信公众号</a>
+                <a href="#">📡 RSS 订阅</a>
             </div>
         </div>
 
-        <div class="footer">⚡ 2026 扎克耿 · 连接 AI 人才与未来</div>
+        <div>⚡ 2026 扎克耿 · 连接 AI 人才与未来</div>
     </div>
 
-    <script>
-        // IntersectionObserver — scroll reveal animation
-        document.addEventListener('DOMContentLoaded', function() {
-            const revealElements = document.querySelectorAll('.reveal');
-            if (revealElements.length === 0) return;
-
-            const observer = new IntersectionObserver(function(entries) {
-                entries.forEach(function(entry) {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, {
-                threshold: 0.1,
-                rootMargin: '0px 0px -40px 0px'
-            });
-
-            revealElements.forEach(function(el) {
-                observer.observe(el);
-            });
-        });
-    </script>
 </body>
 </html>

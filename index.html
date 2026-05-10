@@ -1,1304 +1,215 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+
     <title>扎克耿 | 连接 AI 人才与未来</title>
-    <link rel="icon" href="favicon.svg" type="image/svg+xml">
 
-    <!-- Three.js Import Map -->
-    <script type="importmap">
-    {
-        "imports": {
-            "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js"
-        }
-    }
-    </script>
-
-    <!-- Spline Viewer -->
-    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.86/build/spline-viewer.js"></script>
-
-    <style>
-        /* ═══════════════════════════════════════════
-           Variables
-           ═══════════════════════════════════════════ */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        :root {
-            --gold:         #C9A84C;
-            --gold-light:   #E0C46A;
-            --bg-deep:      #08080E;
-            --bg-mid:       #0E0E18;
-            --bg-card:      rgba(255,255,255,0.04);
-            --border-glass: rgba(255,255,255,0.06);
-            --border-glow:  rgba(201,168,76,0.08);
-            --text-primary: #F0EDE8;
-            --text-body:    #A9A6A0;
-            --text-muted:   #6B6966;
-            --text-faint:   #4A4845;
-            --radius-glass: 20px;
-        }
-
-        html { }
-
-        body {
-            font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
-            background: var(--bg-deep);
-            color: var(--text-body);
-            min-height: 100vh;
-            -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
-        }
-
-        /* ═══════════════════════════════════════════
-           体积光 / 聚光灯
-           ═══════════════════════════════════════════ */
-        .spotlight {
-            position: fixed;
-            top: -20%; left: 50%;
-            transform: translateX(-50%);
-            width: 60vw;
-            height: 70vh;
-            z-index: 1;
-            pointer-events: none;
-            background: radial-gradient(ellipse 50% 100% at 50% 0%,
-                rgba(201,168,76,0.06) 0%,
-                rgba(201,168,76,0.03) 30%,
-                transparent 70%
-            );
-            mix-blend-mode: screen;
-        }
-        .spotlight::after {
-            content: '';
-            position: absolute;
-            top: 10%; left: 50%;
-            transform: translateX(-50%);
-            width: 30%;
-            height: 100%;
-            background: radial-gradient(ellipse 50% 100% at 50% 0%,
-                rgba(255,255,255,0.02) 0%,
-                transparent 60%
-            );
-        }
-
-        /* ═══════════════════════════════════════════
-           内容层（在背景之上，聚光灯之下）
-           ═══════════════════════════════════════════ */
-        .content-wrapper {
-            position: relative;
-            z-index: 2;
-        }
-
-        /* ═══════════════════════════════════════════
-           滚动进度条
-           ═══════════════════════════════════════════ */
-        .scroll-progress {
-            position: fixed;
-            top: 0; left: 0;
-            height: 2px;
-            z-index: 200;
-            background: linear-gradient(90deg, var(--gold), var(--gold-light));
-            transform-origin: left;
-            transform: scaleX(0);
-            transition: transform 0.1s linear;
-        }
-
-        /* ═══════════════════════════════════════════
-           导航 — 暗色毛玻璃
-           ═══════════════════════════════════════════ */
-        .navbar {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            height: 56px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 40px;
-            background: rgba(8,8,14,0.75);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border-bottom: 1px solid rgba(255,255,255,0.04);
-            z-index: 100;
-        }
-        .navbar a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.8rem;
-            font-weight: 500;
-            letter-spacing: 0.8px;
-            transition: color 0.3s;
-            position: relative;
-        }
-        .navbar a::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 50%;
-            width: 0;
-            height: 1.5px;
-            background: linear-gradient(90deg, var(--gold), var(--gold-light));
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            border-radius: 2px;
-            transform: translateX(-50%);
-        }
-        .navbar a:hover { color: var(--text-primary); }
-        .navbar a:hover::after { width: 100%; }
-        .nav-brand {
-            position: absolute;
-            left: 28px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            letter-spacing: 1px;
-        }
-        .nav-brand span { color: var(--gold); }
-        .nav-cta {
-            position: absolute;
-            right: 28px;
-            padding: 5px 16px;
-            border: 1px solid var(--gold);
-            border-radius: 980px;
-            color: var(--gold) !important;
-            font-size: 0.75rem !important;
-            transition: all 0.3s !important;
-        }
-        .nav-cta:hover {
-            background: var(--gold);
-            color: var(--bg-deep) !important;
-            box-shadow: 0 0 20px rgba(201,168,76,0.3), 0 0 40px rgba(201,168,76,0.1);
-            transform: translateY(-1px);
-        }
-        .nav-cta::after { display: none !important; }
-
-        /* ═══════════════════════════════════════════
-           Hero 玻璃容器
-           ═══════════════════════════════════════════ */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 120px 24px 80px;
-            position: relative;
-        }
-
-        /* ═══════════════════════════════════════════
-           Hero 文字内容
-           ═══════════════════════════════════════════ */
-        .hero-tag {
-            display: inline-block;
-            padding: 4px 14px;
-            border-radius: 980px;
-            background: rgba(201,168,76,0.06);
-            border: 1px solid rgba(201,168,76,0.12);
-            color: var(--gold);
-            font-size: 0.6rem;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            margin-bottom: 24px;
-            opacity: 0;
-            animation: heroIn 1s ease 0.2s forwards;
-        }
-
-        .hero-content h1 {
-            font-size: clamp(2.4rem, 5.5vw, 4.8rem);
-            font-weight: 800;
-            line-height: 1.08;
-            letter-spacing: -2px;
-            margin-bottom: 20px;
-            color: var(--text-primary);
-            text-shadow: 0 2px 40px rgba(0,0,0,0.4);
-        }
-        .hero-content h1 .line { display: block; }
-        .hero-content h1 .line:first-child {
-            opacity: 0;
-            animation: heroLineIn 1s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s forwards;
-        }
-        .hero-content h1 .line:last-child {
-            opacity: 0;
-            animation: heroLineIn 1s cubic-bezier(0.34, 1.56, 0.64, 1) 0.7s forwards;
-        }
-        .hero-content h1 .highlight {
-            background: linear-gradient(135deg, var(--gold-light), var(--gold), #b8943b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        @keyframes heroLineIn {
-            from { opacity: 0; transform: translateY(40px) scale(0.97); }
-            to   { opacity: 1; transform: translateY(0) scale(1); }
-        }
-        @keyframes heroIn {
-            from { opacity: 0; transform: translateY(16px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
-        .hero-sub {
-            font-size: clamp(0.88rem, 1.1vw, 1rem);
-            color: var(--text-muted);
-            max-width: 500px;
-            margin: 0 auto 36px;
-            line-height: 1.9;
-            font-weight: 400;
-            opacity: 0;
-            animation: heroIn 1s ease 1s forwards;
-        }
-
-        .hero-actions {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            flex-wrap: wrap;
-            opacity: 0;
-            animation: heroIn 1s ease 1.2s forwards;
-        }
-
-        .glass-btn {
-            padding: 12px 32px;
-            border-radius: 980px;
-            font-size: 0.82rem;
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            letter-spacing: 0.5px;
-        }
-        .glass-btn-primary {
-            background: rgba(201,168,76,0.12);
-            border: 1px solid rgba(201,168,76,0.25);
-            color: var(--gold);
-        }
-        .glass-btn-primary:hover {
-            background: rgba(201,168,76,0.2);
-            transform: scale(1.04);
-            box-shadow: 0 8px 32px rgba(201,168,76,0.12), 0 0 24px rgba(201,168,76,0.06);
-        }
-        .glass-btn-secondary {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.08);
-            color: var(--text-body);
-        }
-        .glass-btn-secondary:hover {
-            border-color: rgba(201,168,76,0.2);
-            color: var(--gold);
-            transform: scale(1.03);
-        }
-
-        .scroll-indicator {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-            color: var(--text-faint);
-            font-size: 0.55rem;
-            letter-spacing: 3px;
-            opacity: 0;
-            animation: heroIn 1s ease 2s forwards;
-        }
-        .scroll-indicator .line {
-            width: 1px;
-            height: 24px;
-            background: linear-gradient(to bottom, var(--gold), transparent);
-            animation: scrollPulse 2s ease-in-out infinite;
-        }
-        @keyframes scrollPulse {
-            0%, 100% { opacity: 0.6; transform: scaleY(1); }
-            50% { opacity: 1; transform: scaleY(1.3); }
-        }
-
-        /* ═══════════════════════════════════════════
-           Section 通用
-           ═══════════════════════════════════════════ */
-        .section {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 120px 24px;
-            position: relative;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 48px;
-            position: relative;
-        }
-        .section-header::before {
-            content: '';
-            display: block;
-            width: 40px;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--gold), transparent);
-            margin: 0 auto 16px;
-            border-radius: 2px;
-            opacity: 0.4;
-        }
-        .section-label {
-            font-size: 0.65rem;
-            letter-spacing: 4px;
-            color: var(--gold);
-            text-transform: uppercase;
-            margin-bottom: 10px;
-            font-weight: 500;
-            opacity: 0.7;
-        }
-        .section-title {
-            font-size: clamp(1.6rem, 2.8vw, 2.4rem);
-            font-weight: 700;
-            letter-spacing: -1px;
-            margin-bottom: 10px;
-            color: var(--text-primary);
-        }
-        .section-desc {
-            color: var(--text-muted);
-            font-size: 0.92rem;
-            max-width: 420px;
-            margin: 0 auto;
-            line-height: 1.7;
-        }
-
-        /* ═══════════════════════════════════════════
-           玻璃卡片通用
-           ═══════════════════════════════════════════ */
-        .glass-card {
-            background: rgba(255,255,255,0.03);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: var(--radius-glass);
-            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-            box-shadow: 0 0 40px rgba(201,168,76,0.02);
-        }
-        .glass-card:hover {
-            border-color: rgba(201,168,76,0.2);
-            box-shadow: 0 8px 48px rgba(201,168,76,0.06), 0 0 30px rgba(201,168,76,0.03);
-            transform: translateY(-4px);
-        }
-
-        /* ═══════════════════════════════════════════
-           Hero — Spline 全屏背景 + 文字叠加
-           ═══════════════════════════════════════════ */
-        .hero-spline-bg {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: 0;
-            overflow: hidden;
-            pointer-events: none;
-        }
-        .hero-spline-bg spline-viewer {
-            width: 100%;
-            height: 100%;
-            display: block;
-            pointer-events: auto;
-        }
-
-        .hero-overlay {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: 1;
-            background: radial-gradient(ellipse at center, rgba(8,8,14,0.10) 0%, rgba(8,8,14,0.45) 50%, rgba(8,8,14,0.75) 100%);
-            pointer-events: none;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            width: 100%;
-            max-width: 800px;
-            padding: 0 24px;
-        }
-
-        /* ═══════════════════════════════════════════
-           Scroll Reveal
-           ═══════════════════════════════════════════ */
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .reveal-d1 { transition-delay: 0.1s; }
-        .reveal-d2 { transition-delay: 0.2s; }
-        .reveal-d3 { transition-delay: 0.35s; }
-        .reveal-d4 { transition-delay: 0.5s; }
-
-        /* ═══════════════════════════════════════════
-           思想输出 — 玻璃卡片列表
-           ═══════════════════════════════════════════ */
-        .thought-list {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-        }
-
-        .thought-card {
-            display: flex;
-            align-items: flex-start;
-            padding: 24px 28px;
-            background: rgba(255,255,255,0.03);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: var(--radius-glass);
-            text-decoration: none;
-            color: inherit;
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            gap: 18px;
-        }
-        .thought-card:hover {
-            border-color: rgba(201,168,76,0.2);
-            transform: translateY(-4px);
-            box-shadow: 0 8px 40px rgba(201,168,76,0.06), 0 0 24px rgba(201,168,76,0.03);
-        }
-
-        .thought-number {
-            flex-shrink: 0;
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(201,168,76,0.06);
-            color: var(--gold);
-            font-size: 0.75rem;
-            font-weight: 700;
-            border: 1px solid rgba(201,168,76,0.1);
-        }
-
-        .thought-body { flex: 1; min-width: 0; }
-
-        .thought-card .card-type {
-            font-size: 0.6rem;
-            letter-spacing: 2px;
-            color: var(--gold);
-            font-weight: 600;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-            opacity: 0.8;
-        }
-        .thought-card .card-title {
-            font-size: 1rem;
-            font-weight: 600;
-            margin-bottom: 8px;
-            line-height: 1.5;
-            color: var(--text-primary);
-            transition: color 0.3s;
-        }
-        .thought-card:hover .card-title { color: var(--gold); }
-        .thought-card .card-excerpt {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            line-height: 1.7;
-        }
-        .thought-card .card-meta {
-            margin-top: 10px;
-            font-size: 0.72rem;
-            color: var(--text-faint);
-            display: flex;
-            gap: 14px;
-        }
-
-        /* ═══════════════════════════════════════════
-           每日 AI 日报
-           ═══════════════════════════════════════════ */
-        .daily-section {
-            position: relative;
-        }
-        .daily-section::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(201,168,76,0.08), transparent);
-        }
-        .daily-section::after {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(201,168,76,0.08), transparent);
-        }
-
-        .daily-card {
-            padding: 28px;
-            background: rgba(255,255,255,0.03);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: var(--radius-glass);
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        .daily-card:hover {
-            border-color: rgba(201,168,76,0.15);
-            box-shadow: 0 8px 40px rgba(201,168,76,0.05);
-            transform: translateY(-3px);
-        }
-
-        .daily-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-        .daily-badge {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.82rem;
-            color: var(--gold);
-            font-weight: 600;
-        }
-        .daily-badge .dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--gold);
-            animation: pulseDot 1.5s ease-in-out infinite;
-        }
-        @keyframes pulseDot { 50% { opacity: 0.3; } }
-        .daily-date { font-size: 0.78rem; color: var(--text-faint); }
-        .daily-archive-link {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        .daily-archive-link:hover { color: var(--gold); }
-
-        .daily-news-list { display: flex; flex-direction: column; gap: 8px; }
-
-        .daily-news-item {
-            display: flex;
-            gap: 12px;
-            padding: 12px 16px;
-            background: rgba(255,255,255,0.02);
-            border-radius: 12px;
-            transition: all 0.3s;
-            border-left: 2px solid transparent;
-        }
-        .daily-news-item:hover {
-            background: rgba(201,168,76,0.04);
-            border-left-color: rgba(201,168,76,0.25);
-        }
-
-        .daily-news-index {
-            flex-shrink: 0;
-            width: 22px;
-            height: 22px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            background: rgba(201,168,76,0.06);
-            color: var(--gold);
-            font-size: 0.65rem;
-            font-weight: 700;
-        }
-        .daily-news-content { flex: 1; min-width: 0; }
-        .daily-news-title {
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: var(--text-primary);
-            margin-bottom: 3px;
-            line-height: 1.5;
-        }
-        .daily-news-source {
-            font-size: 0.7rem;
-            color: var(--text-faint);
-        }
-        .daily-news-comment {
-            font-size: 0.78rem;
-            color: var(--gold);
-            margin-top: 5px;
-            line-height: 1.5;
-            font-style: italic;
-            opacity: 0.8;
-        }
-
-        .daily-footer {
-            margin-top: 18px;
-            padding-top: 14px;
-            border-top: 1px solid rgba(255,255,255,0.04);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-        .daily-footer-text { font-size: 0.75rem; color: var(--text-faint); }
-
-        /* ═══════════════════════════════════════════
-           连接卡片
-           ═══════════════════════════════════════════ */
-        .connect-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-            max-width: 560px;
-            margin: 0 auto;
-        }
-        .connect-item {
-            padding: 28px 20px;
-            text-align: center;
-            text-decoration: none;
-            color: inherit;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            cursor: pointer;
-            background: rgba(255,255,255,0.03);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: var(--radius-glass);
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        .connect-item:hover {
-            border-color: rgba(201,168,76,0.25);
-            transform: translateY(-6px);
-            box-shadow: 0 16px 48px rgba(201,168,76,0.08), 0 0 30px rgba(201,168,76,0.05);
-        }
-        .connect-icon { font-size: 1.8rem; display: block; margin-bottom: 4px; }
-        .connect-name {
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            letter-spacing: 0.5px;
-        }
-        .connect-desc { font-size: 0.72rem; color: var(--text-muted); }
-
-        /* ═══════════════════════════════════════════
-           统计条
-           ═══════════════════════════════════════════ */
-        .stats-bar {
-            display: flex;
-            justify-content: center;
-            gap: 56px;
-            padding: 40px 24px;
-        }
-        .stat-item { text-align: center; }
-        .stat-num {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--gold);
-            letter-spacing: -1px;
-            line-height: 1;
-            text-shadow: 0 0 20px rgba(201,168,76,0.1);
-        }
-        .stat-label {
-            font-size: 0.7rem;
-            color: var(--text-faint);
-            margin-top: 6px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        /* ═══════════════════════════════════════════
-           图片弹窗
-           ═══════════════════════════════════════════ */
-        .modal-overlay {
-            display: none; position: fixed; inset: 0; z-index: 9999;
-            background: rgba(0,0,0,0.8); backdrop-filter: blur(16px);
-            align-items: center; justify-content: center;
-            cursor: pointer;
-        }
-        .modal-overlay.show { display: flex; }
-        .modal-content {
-            text-align: center;
-            animation: modalIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-            position: relative;
-        }
-        .modal-content img {
-            max-width: 80vw; max-height: 70vh; border-radius: 14px;
-            box-shadow: 0 24px 80px rgba(0,0,0,0.6), 0 0 40px rgba(201,168,76,0.05);
-            display: block;
-            border: 1px solid rgba(201,168,76,0.08);
-        }
-        @keyframes modalIn {
-            from { transform: scale(0.92); opacity: 0; }
-            to   { transform: scale(1); opacity: 1; }
-        }
-        .modal-close {
-            position: fixed; top: 24px; right: 32px; z-index: 10000;
-            color: #fff; font-size: 1.4rem; cursor: pointer; opacity: 0.5;
-            transition: opacity 0.3s; background: none; border: none;
-        }
-        .modal-close:hover { opacity: 1; }
-        .modal-link {
-            display: inline-block; margin-top: 18px;
-            padding: 10px 32px; border-radius: 980px;
-            background: rgba(201,168,76,0.12);
-            border: 1px solid rgba(201,168,76,0.2);
-            color: var(--gold); font-weight: 700; font-size: 0.82rem;
-            text-decoration: none; transition: all 0.3s;
-        }
-        .modal-link:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 24px rgba(201,168,76,0.08);
-        }
-
-        /* ═══════════════════════════════════════════
-           页脚
-           ═══════════════════════════════════════════ */
-        .site-footer {
-            text-align: center;
-            padding: 40px 24px 48px;
-            color: var(--text-faint);
-            font-size: 0.72rem;
-            letter-spacing: 0.5px;
-            border-top: 1px solid rgba(255,255,255,0.04);
-        }
-        .site-footer span { color: var(--gold); }
-
-        /* ═══════════════════════════════════════════
-           Responsive
-           ═══════════════════════════════════════════ */
-        @media (max-width: 768px) {
-            .navbar { justify-content: flex-end; padding-right: 16px; gap: 20px; }
-            .navbar .nav-brand { position: static; }
-            .nav-cta { position: static; }
-            .navbar a:not(.nav-brand):not(.nav-cta):nth-child(n+3) { display: none; }
-            .hero-content h1 { font-size: clamp(2rem, 8vw, 3rem); letter-spacing: -1px; }
-            .hero-sub { font-size: 0.9rem; }
-            .section { padding: 60px 20px; }
-            .section-title { font-size: 1.4rem; }
-            .thought-card { padding: 18px 20px; flex-direction: column; }
-            .thought-card .card-title { font-size: 0.92rem; }
-            .connect-grid { grid-template-columns: 1fr 1fr; max-width: 100%; }
-            .connect-item { padding: 22px 16px; }
-            .connect-icon { font-size: 1.5rem; }
-            .stats-bar { gap: 28px; flex-wrap: wrap; }
-            .stat-num { font-size: 1.4rem; }
-        }
-        @media (max-width: 420px) {
-            .connect-grid { grid-template-columns: 1fr 1fr; }
-        }
-        @media (prefers-reduced-motion: reduce) {
-            * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
-        }
-
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: var(--bg-deep); }
-        ::-webkit-scrollbar-thumb { background: #1A1A2A; border-radius: 2px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
-
-        /* ═══════════════════════════════════════════
-           Custom Cursor
-           ═══════════════════════════════════════════ */
-        .custom-cursor-dot {
-            position: fixed;
-            width: 8px; height: 8px;
-            background: var(--gold);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 99999;
-            transform: translate(-50%, -50%);
-            transition: width 0.3s, height 0.3s, background 0.3s;
-            box-shadow: 0 0 12px rgba(201,168,76,0.5), 0 0 24px rgba(201,168,76,0.2);
-        }
-        .custom-cursor-ring {
-            position: fixed;
-            width: 36px; height: 36px;
-            border: 1.5px solid rgba(201,168,76,0.3);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 99998;
-            transform: translate(-50%, -50%);
-            transition: width 0.3s, height 0.3s, border-color 0.3s;
-            backdrop-filter: blur(2px);
-        }
-        .custom-cursor-hover .custom-cursor-dot {
-            width: 14px; height: 14px;
-            background: var(--gold-light);
-        }
-        .custom-cursor-hover .custom-cursor-ring {
-            width: 52px; height: 52px;
-            border-color: rgba(201,168,76,0.5);
-            border-width: 2px;
-        }
-
-        /* ═══════════════════════════════════════════
-           Three.js 粒子背景 Canvas
-           ═══════════════════════════════════════════ */
-        #three-bg {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            z-index: 0;
-            pointer-events: none;
-            display: block;
-        }
-
-        /* ═══════════════════════════════════════════
-           3D 翻转卡片
-           ═══════════════════════════════════════════ */
-        .expertise-section {
-            max-width: 960px;
-            margin: 0 auto;
-            padding: 120px 24px;
-        }
-        .expertise-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-top: 48px;
-        }
-        .expertise-card {
-            perspective: 1200px;
-            height: 320px;
-            cursor: pointer;
-        }
-        .expertise-card-inner {
-            position: relative;
-            width: 100%; height: 100%;
-            transform-style: preserve-3d;
-            transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        .expertise-card.flipped .expertise-card-inner {
-            transform: rotateY(180deg);
-        }
-        .expertise-card-front,
-        .expertise-card-back {
-            position: absolute;
-            inset: 0;
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
-            border-radius: var(--radius-glass);
-            padding: 32px 28px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            background: rgba(255,255,255,0.03);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.06);
-            box-shadow: 0 0 40px rgba(201,168,76,0.02);
-            transition: box-shadow 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        .expertise-card-front::before {
-            content: '';
-            position: absolute;
-            top: -1px; left: 25%; right: 25%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, rgba(201,168,76,0.35), rgba(224,196,106,0.5), rgba(201,168,76,0.35), transparent);
-            border-radius: 2px;
-            filter: blur(1px);
-        }
-        .expertise-card.flipped .expertise-card-inner .expertise-card-back {
-            box-shadow: 0 0 40px rgba(201,168,76,0.08), 0 0 80px rgba(201,168,76,0.04);
-        }
-        .expertise-card-back {
-            transform: rotateY(180deg);
-            background: rgba(201,168,76,0.04);
-            border-color: rgba(201,168,76,0.1);
-        }
-        .expertise-card-icon {
-            font-size: 2.2rem;
-            margin-bottom: 16px;
-        }
-        .expertise-card-front h3 {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 10px;
-            letter-spacing: -0.5px;
-        }
-        .expertise-card-front p {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            line-height: 1.7;
-            max-width: 260px;
-        }
-        .expertise-card-back h4 {
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: var(--gold);
-            margin-bottom: 16px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-        .expertise-card-back ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .expertise-card-back ul li {
-            font-size: 0.8rem;
-            color: var(--text-body);
-            padding: 6px 14px;
-            background: rgba(255,255,255,0.03);
-            border-radius: 980px;
-            border: 1px solid rgba(255,255,255,0.04);
-        }
-        .expertise-card-back ul li::before {
-            content: '▸ ';
-            color: var(--gold);
-            font-weight: 700;
-        }
-        .expertise-card .flip-hint {
-            font-size: 0.6rem;
-            color: var(--text-faint);
-            margin-top: 16px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            opacity: 0.6;
-        }
-
-        /* ═══════════════════════════════════════════
-           Matter.js 物理页脚
-           ═══════════════════════════════════════════ */
-        .physics-footer {
-            position: relative;
-            width: 100%;
-            height: 80vh;
-            overflow: hidden;
-            border-top: 1px solid rgba(255,255,255,0.04);
-        }
-        .physics-footer canvas {
-            display: block;
-            width: 100%;
-            height: 100%;
-        }
-        .physics-footer-overlay {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            z-index: 10;
-            pointer-events: none;
-            background: linear-gradient(0deg, rgba(201,168,76,0.04) 0%, transparent 40%);
-        }
-        .physics-footer-overlay h2 {
-            font-size: clamp(2.2rem, 4.5vw, 3.8rem);
-            font-weight: 800;
-            color: var(--text-primary);
-            letter-spacing: -1.5px;
-            margin-bottom: 14px;
-            text-shadow: 0 4px 30px rgba(0,0,0,0.5);
-        }
-        .physics-footer-overlay h2 span {
-            background: linear-gradient(135deg, var(--gold-light), var(--gold), #b8943b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            background-size: 200% 200%;
-            animation: gradientShift 4s ease-in-out infinite;
-        }
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-        .physics-footer-overlay p {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            margin-bottom: 24px;
-            max-width: 400px;
-            line-height: 1.7;
-        }
-        .physics-footer-overlay .physics-cta {
-            pointer-events: auto;
-            padding: 14px 40px;
-            border-radius: 980px;
-            background: rgba(201,168,76,0.12);
-            border: 1px solid rgba(201,168,76,0.25);
-            color: var(--gold);
-            font-size: 0.85rem;
-            font-weight: 700;
-            text-decoration: none;
-            letter-spacing: 0.5px;
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
-        }
-        .physics-footer-overlay .physics-cta:hover {
-            background: var(--gold);
-            color: var(--bg-deep);
-            transform: scale(1.05);
-            box-shadow: 0 8px 32px rgba(201,168,76,0.3), 0 0 60px rgba(201,168,76,0.15);
-        }
-        .physics-footer-credit {
-            position: absolute;
-            bottom: 24px;
-            left: 0; right: 0;
-            text-align: center;
-            z-index: 10;
-            pointer-events: none;
-            font-size: 0.72rem;
-            color: var(--text-faint);
-            letter-spacing: 0.5px;
-        }
-        .physics-footer-credit span { color: var(--gold); }
-
-        /* Responsive tweaks */
-        @media (max-width: 768px) {
-            .expertise-grid { grid-template-columns: 1fr; }
-            .expertise-card { height: 280px; }
-            .custom-cursor-dot,
-            .custom-cursor-ring { display: none; }
-            body { cursor: auto; }
-        }
-    </style>
 </head>
 <body>
 
-    <!-- ════════ 自定义光标 ════════ -->
-    <div class="custom-cursor-dot" id="cursorDot"></div>
-    <div class="custom-cursor-ring" id="cursorRing"></div>
-
-    <!-- ════════ Three.js 粒子背景（替换 CSS 山脉） ════════ -->
-    <canvas id="three-bg"></canvas>
-
-    <!-- ════════ 体积聚光灯 ════════ -->
-    <div class="spotlight"></div>
-
-    <!-- ════════ 滚动进度条 ════════ -->
-    <div class="scroll-progress" id="scrollProgress"></div>
-
-    <!-- ════════ 导航 ════════ -->
-    <div class="content-wrapper">
-    <nav class="navbar">
-        <div class="nav-brand">扎克耿<span> · </span>AI猎头</div>
+    <div>
+    <nav>
+        <div>扎克耿<span> · </span>AI猎头</div>
         <a href="#thoughts">思想</a>
         <a href="#daily">日报</a>
         <a href="#connect">连接</a>
         <a href="about.html">关于</a>
         <a href="jobs.html">机会</a>
-        <a href="uncertain.html">宇宙</a>
-        <a href="#connect" class="nav-cta">联系</a>
+
+        <a href="#connect">联系</a>
     </nav>
 
-    <!-- ════════ Hero ════════ -->
-    <section class="hero" id="hero">
-        <!-- Spline 全屏背景 -->
-        <div class="hero-spline-bg">
-            <spline-viewer
-                url="https://prod.spline.design/7FQcK5OtVvrhpqoO/scene.splinecode"
-                background="#08080E"
-                loading-anim="true"
-                events-target="global">
-            </spline-viewer>
-        </div>
-        <!-- 暗色叠加层 -->
-        <div class="hero-overlay"></div>
-        <!-- 文字内容 -->
-        <div class="hero-content">
-            <div class="hero-tag">AI 猎头 · 行业观察者 · 人才连接器</div>
+    <section>
+
+        <div>
+            <div>AI 猎头 · 行业观察者 · 人才连接器</div>
             <h1>
-                <span class="line">涌现与回响 <span class="highlight">Emergence</span></span>
+                <span>涌现与回响 <span>Emergence</span></span>
             </h1>
-            <p class="hero-sub">
+            <p>
                 在 AI 的浪潮里，连接对的人与对的机会。
             </p>
-            <div class="hero-actions">
-                <a href="#daily" class="glass-btn glass-btn-primary">今日 AI 日报</a>
-                <a href="#connect" class="glass-btn glass-btn-secondary">和我连接 →</a>
+            <div>
+                <a href="#daily">今日 AI 日报</a>
+                <a href="#connect">和我连接 →</a>
             </div>
         </div>
-        <div class="scroll-indicator">
+        <div>
             <span>SCROLL</span>
-            <div class="line"></div>
+            
         </div>
     </section>
 
-    <!-- ════════ 思想输出 ════════ -->
-    <section class="section" id="thoughts">
-        <div class="section-header reveal">
-            <div class="section-label">/ 思想输出</div>
-            <h2 class="section-title">深度 · 洞察 · 观点</h2>
-            <p class="section-desc">关于 AI 行业、人才趋势、招聘本质的独立思考</p>
+    <section>
+        <div>
+            <div>/ 思想输出</div>
+            <h2>深度 · 洞察 · 观点</h2>
+            <p>关于 AI 行业、人才趋势、招聘本质的独立思考</p>
         </div>
-        <div class="thought-list">
-            <a href="blog.html" class="thought-card reveal reveal-d1">
-                <div class="thought-number">01</div>
-                <div class="thought-body">
-                    <div class="card-type">精选</div>
-                    <div class="card-title">AI 招聘的终局：当每一个候选人都被 AI 匹配，猎头的价值在哪里？</div>
-                    <div class="card-excerpt">在 AI 越来越擅长匹配人和岗位的时代，猎头的核心价值从「信息差」转向「判断力」和「连接力」。</div>
-                    <div class="card-meta">
+        <div>
+            <a href="blog.html">
+                <div>01</div>
+                <div>
+                    <div>精选</div>
+                    <div>AI 招聘的终局：当每一个候选人都被 AI 匹配，猎头的价值在哪里？</div>
+                    <div>在 AI 越来越擅长匹配人和岗位的时代，猎头的核心价值从「信息差」转向「判断力」和「连接力」。</div>
+                    <div>
                         <span>2026.05.05</span>
                         <span>AI · 招聘 · 思考</span>
                     </div>
                 </div>
             </a>
-            <a href="blog.html" class="thought-card reveal reveal-d2">
-                <div class="thought-number">02</div>
-                <div class="thought-body">
-                    <div class="card-type">观点</div>
-                    <div class="card-title">为什么下一个 AI 独角兽的 CTO 可能藏在一个非科班出身的开发者里</div>
-                    <div class="card-excerpt">我越来越发现，最惊艳的 AI 人才往往不来自传统的 FAANG 流水线。</div>
-                    <div class="card-meta"><span>2026.05.03</span></div>
+            <a href="blog.html">
+                <div>02</div>
+                <div>
+                    <div>观点</div>
+                    <div>为什么下一个 AI 独角兽的 CTO 可能藏在一个非科班出身的开发者里</div>
+                    <div>我越来越发现，最惊艳的 AI 人才往往不来自传统的 FAANG 流水线。</div>
+                    <div><span>2026.05.03</span></div>
                 </div>
             </a>
-            <a href="blog.html" class="thought-card reveal reveal-d3">
-                <div class="thought-number">03</div>
-                <div class="thought-body">
-                    <div class="card-type">洞察</div>
-                    <div class="card-title">2026 AI 人才市场的三个结构性变化</div>
-                    <div class="card-excerpt">从「抢人」到「抢认知」，AI 人才的竞争逻辑正在发生根本性变化。</div>
-                    <div class="card-meta"><span>2026.04.28</span></div>
+            <a href="blog.html">
+                <div>03</div>
+                <div>
+                    <div>洞察</div>
+                    <div>2026 AI 人才市场的三个结构性变化</div>
+                    <div>从「抢人」到「抢认知」，AI 人才的竞争逻辑正在发生根本性变化。</div>
+                    <div><span>2026.04.28</span></div>
                 </div>
             </a>
         </div>
     </section>
 
-    <!-- ════════ 每日 AI 日报 ════════ -->
-    <section class="daily-section" id="daily">
-        <div class="section" style="padding-top: 60px; padding-bottom: 60px;">
-            <div class="section-header reveal">
-                <div class="section-label">/ 每日更新</div>
-                <h2 class="section-title">AI 行业日报</h2>
-                <p class="section-desc">每天 5 条精选 · 扎克耿独家点评</p>
+    <section>
+        <div>
+            <div>
+                <div>/ 每日更新</div>
+                <h2>AI 行业日报</h2>
+                <p>每天 5 条精选 · 扎克耿独家点评</p>
             </div>
-            <div class="daily-card reveal reveal-d1">
-                <div class="daily-header">
-                    <div class="daily-badge">
-                        <span class="dot"></span>
+            <div>
+                <div>
+                    <div>
+                        
                         今日更新
                     </div>
-                    <span class="daily-date">2026 年 5 月 5 日</span>
-                    <a href="daily.html" class="daily-archive-link">查看全部 →</a>
+                    <span>2026 年 5 月 5 日</span>
+                    <a href="daily.html">查看全部 →</a>
                 </div>
-                <div class="daily-news-list">
-                    <div class="daily-news-item">
-                        <div class="daily-news-index">1</div>
-                        <div class="daily-news-content">
-                            <div class="daily-news-title">OpenAI 发布 GPT-5，推理能力提升 3 倍</div>
-                            <div class="daily-news-source">OpenAI 官网 · 1 小时前</div>
-                            <div class="daily-news-comment">模型能力还在加速增长，推理成本的下降会催生下一波应用创新。</div>
+                <div>
+                    <div>
+                        <div>1</div>
+                        <div>
+                            <div>OpenAI 发布 GPT-5，推理能力提升 3 倍</div>
+                            <div>OpenAI 官网 · 1 小时前</div>
+                            <div>模型能力还在加速增长，推理成本的下降会催生下一波应用创新。</div>
                         </div>
                     </div>
-                    <div class="daily-news-item">
-                        <div class="daily-news-index">2</div>
-                        <div class="daily-news-content">
-                            <div class="daily-news-title">Anthropic 成立日本办公室，加速亚太布局</div>
-                            <div class="daily-news-source">TechCrunch · 3 小时前</div>
-                            <div class="daily-news-comment">亚太 AI 人才争夺战升级。日本市场对顶级 AI 研究人才的需求将大幅上升。</div>
+                    <div>
+                        <div>2</div>
+                        <div>
+                            <div>Anthropic 成立日本办公室，加速亚太布局</div>
+                            <div>TechCrunch · 3 小时前</div>
+                            <div>亚太 AI 人才争夺战升级。日本市场对顶级 AI 研究人才的需求将大幅上升。</div>
                         </div>
                     </div>
-                    <div class="daily-news-item">
-                        <div class="daily-news-index">3</div>
-                        <div class="daily-news-content">
-                            <div class="daily-news-title">字节跳动发布自研 AI 芯片，用于大模型训练</div>
-                            <div class="daily-news-source">36氪 · 5 小时前</div>
-                            <div class="daily-news-comment">国内大厂自研芯片已成趋势，芯片架构师和 AI 工程化人才将持续紧俏。</div>
+                    <div>
+                        <div>3</div>
+                        <div>
+                            <div>字节跳动发布自研 AI 芯片，用于大模型训练</div>
+                            <div>36氪 · 5 小时前</div>
+                            <div>国内大厂自研芯片已成趋势，芯片架构师和 AI 工程化人才将持续紧俏。</div>
                         </div>
                     </div>
-                    <div class="daily-news-item">
-                        <div class="daily-news-index">4</div>
-                        <div class="daily-news-content">
-                            <div class="daily-news-title">AI 编程助手 Cursor 估值突破 100 亿美元</div>
-                            <div class="daily-news-source">Bloomberg · 8 小时前</div>
-                            <div class="daily-news-comment">AI 开发者工具的爆发说明了一件事：AI 时代的开发者需要新工具。</div>
+                    <div>
+                        <div>4</div>
+                        <div>
+                            <div>AI 编程助手 Cursor 估值突破 100 亿美元</div>
+                            <div>Bloomberg · 8 小时前</div>
+                            <div>AI 开发者工具的爆发说明了一件事：AI 时代的开发者需要新工具。</div>
                         </div>
                     </div>
-                    <div class="daily-news-item">
-                        <div class="daily-news-index">5</div>
-                        <div class="daily-news-content">
-                            <div class="daily-news-title">斯坦福 AI 指数报告：2025 年 AI 投资增长 40%</div>
-                            <div class="daily-news-source">Stanford HAI · 12 小时前</div>
-                            <div class="daily-news-comment">资本还在加速涌入。对猎头来说，这意味着客户需求不会降温。</div>
+                    <div>
+                        <div>5</div>
+                        <div>
+                            <div>斯坦福 AI 指数报告：2025 年 AI 投资增长 40%</div>
+                            <div>Stanford HAI · 12 小时前</div>
+                            <div>资本还在加速涌入。对猎头来说，这意味着客户需求不会降温。</div>
                         </div>
                     </div>
                 </div>
-                <div class="daily-footer">
-                    <span class="daily-footer-text">每日精选 · 仅代表个人观点</span>
-                    <a href="daily.html" class="daily-archive-link" style="color: var(--gold);">查看往期 →</a>
+                <div>
+                    <span>每日精选 · 仅代表个人观点</span>
+                    <a href="daily.html">查看往期 →</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ════════ 连接 ════════ -->
-    <section class="section" id="connect">
-        <div class="section-header reveal">
-            <div class="section-label">/ 连接</div>
-            <h2 class="section-title">找到扎克耿</h2>
-            <p class="section-desc">候选人 or 企业，欢迎 connect</p>
+    <section>
+        <div>
+            <div>/ 连接</div>
+            <h2>找到扎克耿</h2>
+            <p>候选人 or 企业，欢迎 connect</p>
         </div>
-        <div class="connect-grid">
-            <a href="javascript:void(0)" onclick="showXiaohongshuQr()" class="connect-item reveal reveal-d1">
-                <span class="connect-icon">📕</span>
-                <span class="connect-name">小红书</span>
-                <span class="connect-desc">日常分享 · AI 洞察</span>
+        <div>
+            <a href="javascript:void(0)">
+                <span>📕</span>
+                <span>小红书</span>
+                <span>日常分享 · AI 洞察</span>
             </a>
-            <a href="javascript:void(0)" onclick="showDouyinQr()" class="connect-item reveal reveal-d2">
-                <span class="connect-icon">🎵</span>
-                <span class="connect-name">抖音</span>
-                <span class="connect-desc">短视频 · 行业观察</span>
+            <a href="javascript:void(0)">
+                <span>🎵</span>
+                <span>抖音</span>
+                <span>短视频 · 行业观察</span>
             </a>
-            <a href="mailto:zachgengqingyu@163.com" class="connect-item reveal reveal-d3">
-                <span class="connect-icon">✉️</span>
-                <span class="connect-name">邮箱</span>
-                <span class="connect-desc">zachgengqingyu@163.com</span>
+            <a href="mailto:zachgengqingyu@163.com">
+                <span>✉️</span>
+                <span>邮箱</span>
+                <span>zachgengqingyu@163.com</span>
             </a>
-            <a href="javascript:void(0)" onclick="showQr()" class="connect-item reveal reveal-d4">
-                <span class="connect-icon">💬</span>
-                <span class="connect-name">微信公众号</span>
-                <span class="connect-desc">涌现与回响 Emergence</span>
+            <a href="javascript:void(0)">
+                <span>💬</span>
+                <span>微信公众号</span>
+                <span>涌现与回响 Emergence</span>
             </a>
         </div>
 
         <!-- 统计 -->
-        <div class="stats-bar reveal">
-            <div class="stat-item">
-                <div class="stat-num">100+</div>
-                <div class="stat-label">合作企业</div>
+        <div>
+            <div>
+                <div>100+</div>
+                <div>合作企业</div>
             </div>
-            <div class="stat-item">
-                <div class="stat-num">1000+</div>
-                <div class="stat-label">成功匹配</div>
+            <div>
+                <div>1000+</div>
+                <div>成功匹配</div>
             </div>
-            <div class="stat-item">
-                <div class="stat-num">3000+</div>
-                <div class="stat-label">AI 人才库</div>
+            <div>
+                <div>3000+</div>
+                <div>AI 人才库</div>
             </div>
         </div>
     </section>
 
-    <!-- ════════ 3D 翻转能力卡片 ════════ -->
-    <section class="expertise-section section" id="expertise">
-        <div class="section-header reveal">
-            <div class="section-label">/ 专业能力</div>
-            <h2 class="section-title">连接 · 洞察 · 落地</h2>
-            <p class="section-desc">点击卡片翻转，查看技能详情</p>
+    <section>
+        <div>
+            <div>/ 专业能力</div>
+            <h2>连接 · 洞察 · 落地</h2>
+            <p>点击卡片翻转，查看技能详情</p>
         </div>
-        <div class="expertise-grid">
+        <div>
             <!-- 卡片 1 -->
-            <div class="expertise-card reveal reveal-d1" data-auto-flip>
-                <div class="expertise-card-inner">
-                    <div class="expertise-card-front">
-                        <div class="expertise-card-icon">🎯</div>
+            <div data-auto-flip>
+                <div>
+                    <div>
+                        <div>🎯</div>
                         <h3>AI 人才地图</h3>
                         <p>深度 mapping 全球 AI 人才分布，精准定位关键决策者与技术领袖</p>
-                        <span class="flip-hint">点击翻转 →</span>
+                        <span>点击翻转 →</span>
                     </div>
-                    <div class="expertise-card-back">
+                    <div>
                         <h4>核心技能</h4>
                         <ul>
                             <li>人才 Mapping</li>
@@ -1311,15 +222,15 @@
                 </div>
             </div>
             <!-- 卡片 2 -->
-            <div class="expertise-card reveal reveal-d2" data-auto-flip>
-                <div class="expertise-card-inner">
-                    <div class="expertise-card-front">
-                        <div class="expertise-card-icon">🧠</div>
+            <div data-auto-flip>
+                <div>
+                    <div>
+                        <div>🧠</div>
                         <h3>行业深度洞察</h3>
                         <p>从大模型到 AI 应用层，持续追踪技术趋势与人才市场变化</p>
-                        <span class="flip-hint">点击翻转 →</span>
+                        <span>点击翻转 →</span>
                     </div>
-                    <div class="expertise-card-back">
+                    <div>
                         <h4>覆盖领域</h4>
                         <ul>
                             <li>大模型 / AGI</li>
@@ -1332,15 +243,15 @@
                 </div>
             </div>
             <!-- 卡片 3 -->
-            <div class="expertise-card reveal reveal-d3" data-auto-flip>
-                <div class="expertise-card-inner">
-                    <div class="expertise-card-front">
-                        <div class="expertise-card-icon">🤝</div>
+            <div data-auto-flip>
+                <div>
+                    <div>
+                        <div>🤝</div>
                         <h3>高端招聘服务</h3>
                         <p>从需求分析到 offer 谈判，端到端交付 C-Level 与核心技术岗位</p>
-                        <span class="flip-hint">点击翻转 →</span>
+                        <span>点击翻转 →</span>
                     </div>
-                    <div class="expertise-card-back">
+                    <div>
                         <h4>服务流程</h4>
                         <ul>
                             <li>需求深度诊断</li>
@@ -1355,601 +266,37 @@
         </div>
     </section>
 
-    <!-- ════════ 弹窗 ════════ -->
-    <div class="modal-overlay" id="qrModal" onclick="hideQr()">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <button class="modal-close" onclick="hideQr()">✕</button>
+    <div>
+        <div>
+            <button>✕</button>
             <img src="wechat-qr.png" alt="扎克耿微信公众号">
-            <span class="modal-link" style="background: transparent; border: 1px solid var(--gold); color: var(--gold); cursor: default;">微信搜索「涌现与回响 Emergence」</span>
+            <span>微信搜索「涌现与回响 Emergence」</span>
         </div>
     </div>
-    <div class="modal-overlay" id="douyinModal" onclick="hideDouyinQr()">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <button class="modal-close" onclick="hideDouyinQr()">✕</button>
+    <div>
+        <div>
+            <button>✕</button>
             <img src="douyin-qr.jpg" alt="扎克耿抖音">
-            <a href="https://v.douyin.com/y7D8iLEa2JA/" target="_blank" class="modal-link">在抖音打开</a>
+            <a href="https://v.douyin.com/y7D8iLEa2JA/" target="_blank">在抖音打开</a>
         </div>
     </div>
-    <div class="modal-overlay" id="xiaohongshuModal" onclick="hideXiaohongshuQr()">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <button class="modal-close" onclick="hideXiaohongshuQr()">✕</button>
+    <div>
+        <div>
+            <button>✕</button>
             <img src="xiaohongshu-qr.jpg" alt="扎克耿小红书">
-            <a href="https://xhslink.com/m/55zHXGBF1Up" target="_blank" class="modal-link">在小红书打开</a>
+            <a href="https://xhslink.com/m/55zHXGBF1Up" target="_blank">在小红书打开</a>
         </div>
     </div>
 
-    <!-- ════════ Matter.js 物理页脚 ════════ -->
-    <section class="physics-footer" id="physicsFooter">
-        <div class="physics-footer-overlay">
+    <section>
+        <div>
             <h2>Let's work <span>together</span></h2>
             <p>如果你在找 AI 方向的机会，或者需要 AI 人才，我们聊一聊</p>
-            <a href="mailto:zachgengqingyu@163.com" class="physics-cta">联系扎克耿 →</a>
+            <a href="mailto:zachgengqingyu@163.com">联系扎克耿 →</a>
         </div>
-        <div class="physics-footer-credit"><span>⚡</span> 2026 扎克耿 · 连接 AI 人才与未来</div>
+        <div><span>⚡</span> 2026 扎克耿 · 连接 AI 人才与未来</div>
     </section>
     </div>
 
-    <!-- CDN Scripts (loaded before main JS) -->
-    <script src="https://unpkg.com/lenis@1.2.3/dist/lenis.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.20.0/matter.min.js"></script>
-
-    <script>
-        /* ═══════════════════════════════════════════
-           1. 滚动动画 Reveal
-           ═══════════════════════════════════════════ */
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.08 });
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-        /* ═══════════════════════════════════════════
-           2. 数字滚动动画
-           ═══════════════════════════════════════════ */
-        function animateNumbers() {
-            const nums = document.querySelectorAll('.stat-num');
-            nums.forEach(el => {
-                const text = el.textContent;
-                const suffix = text.replace(/[0-9]/g, '');
-                const target = parseInt(text.replace(/[^0-9]/g, ''), 10);
-                if (isNaN(target)) return;
-                let current = 0;
-                const duration = 2000;
-                const start = performance.now();
-                function step(now) {
-                    const elapsed = now - start;
-                    const progress = Math.min(elapsed / duration, 1);
-                    const eased = 1 - Math.pow(1 - progress, 3);
-                    current = Math.round(eased * target);
-                    el.textContent = current + suffix;
-                    if (progress < 1) requestAnimationFrame(step);
-                    else el.textContent = target + suffix;
-                }
-                requestAnimationFrame(step);
-            });
-        }
-
-        const statsObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    statsObserver.unobserve(entry.target);
-                    animateNumbers();
-                }
-            });
-        }, { threshold: 0.3 });
-        const statsBar = document.querySelector('.stats-bar');
-        if (statsBar) statsObserver.observe(statsBar);
-
-        /* ═══════════════════════════════════════════
-           3. 图片弹窗
-           ═══════════════════════════════════════════ */
-        function showQr() { document.getElementById('qrModal').classList.add('show'); }
-        function hideQr() { document.getElementById('qrModal').classList.remove('show'); }
-        function showDouyinQr() { document.getElementById('douyinModal').classList.add('show'); }
-        function hideDouyinQr() { document.getElementById('douyinModal').classList.remove('show'); }
-        function showXiaohongshuQr() { document.getElementById('xiaohongshuModal').classList.add('show'); }
-        function hideXiaohongshuQr() { document.getElementById('xiaohongshuModal').classList.remove('show'); }
-
-        /* ═══════════════════════════════════════════
-           4. Three.js 粒子背景
-           ═══════════════════════════════════════════ */
-        (function initThreeBg() {
-            import('three').then(({ Scene, PerspectiveCamera, WebGLRenderer, BufferGeometry, PointsMaterial, Points, Float32BufferAttribute, AdditiveBlending, Clock, Color, CanvasTexture }) => {
-                const canvas = document.getElementById('three-bg');
-                if (!canvas) return;
-
-                const scene = new Scene();
-                const camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 2000);
-                camera.position.z = 500;
-
-                const renderer = new WebGLRenderer({ canvas, alpha: true, antialias: true });
-                renderer.setSize(window.innerWidth, window.innerHeight);
-                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-                // 5000 particles
-                const count = 5000;
-                const positions = new Float32Array(count * 3);
-                const colors = new Float32Array(count * 3);
-
-                const palette = [
-                    new Color('#C9A84C'), // gold
-                    new Color('#E0C46A'), // gold-light
-                    new Color('#4ECDC4'), // teal
-                    new Color('#6C5CE7'), // purple
-                    new Color('#74B9FF'), // blue
-                ];
-
-                for (let i = 0; i < count; i++) {
-                    const radius = 600 * Math.cbrt(Math.random());
-                    const theta = Math.random() * Math.PI * 2;
-                    const phi = Math.acos(2 * Math.random() - 1);
-
-                    positions[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
-                    positions[i * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
-                    positions[i * 3 + 2] = radius * Math.cos(phi);
-
-                    const c = palette[Math.floor(Math.random() * palette.length)];
-                    colors[i * 3] = c.r;
-                    colors[i * 3 + 1] = c.g;
-                    colors[i * 3 + 2] = c.b;
-                }
-
-                const geometry = new BufferGeometry();
-                geometry.setAttribute('position', new Float32BufferAttribute(positions, 3));
-                geometry.setAttribute('color', new Float32BufferAttribute(colors, 3));
-
-                // Generate a soft circle texture (replaces default square points)
-                function makeCircleTexture() {
-                    const size = 64;
-                    const c = document.createElement('canvas');
-                    c.width = c.height = size;
-                    const ctx = c.getContext('2d');
-                    const gradient = ctx.createRadialGradient(size/2, size/2, 0, size/2, size/2, size/2);
-                    gradient.addColorStop(0, 'rgba(255,255,255,1)');
-                    gradient.addColorStop(0.3, 'rgba(255,255,255,0.9)');
-                    gradient.addColorStop(0.7, 'rgba(255,255,255,0.5)');
-                    gradient.addColorStop(1, 'rgba(255,255,255,0)');
-                    ctx.fillStyle = gradient;
-                    ctx.fillRect(0, 0, size, size);
-                    return new CanvasTexture(c);
-                }
-
-                const material = new PointsMaterial({
-                    size: 6,
-                    vertexColors: true,
-                    transparent: true,
-                    opacity: 0.9,
-                    blending: AdditiveBlending,
-                    depthWrite: false,
-                    sizeAttenuation: true,
-                    map: makeCircleTexture(),
-                });
-
-                const particles = new Points(geometry, material);
-                scene.add(particles);
-
-                // Mouse interaction
-                const mouse = { x: 0, y: 0, targetX: 0, targetY: 0 };
-                const mousePos = { x: 0, y: 0 };
-
-                document.addEventListener('mousemove', (e) => {
-                    mouse.targetX = (e.clientX / window.innerWidth) * 2 - 1;
-                    mouse.targetY = -(e.clientY / window.innerHeight) * 2 + 1;
-                });
-
-                const clock = new Clock();
-
-                function animate() {
-                    requestAnimationFrame(animate);
-
-                    const elapsed = clock.getElapsedTime();
-
-                    // Smooth mouse interpolation
-                    mouse.x += (mouse.targetX - mouse.x) * 0.05;
-                    mouse.y += (mouse.targetY - mouse.y) * 0.05;
-
-                    // Slow rotation
-                    particles.rotation.x = elapsed * 0.02 + mouse.y * 0.05;
-                    particles.rotation.y = elapsed * 0.03 + mouse.x * 0.05;
-
-                    // Repulsion effect on particles near mouse
-                    const positions = geometry.attributes.position.array;
-                    const halfW = window.innerWidth / 2;
-                    const halfH = window.innerHeight / 2;
-
-                    // Subtle wave effect
-                    for (let i = 0; i < count; i++) {
-                        const i3 = i * 3;
-                        const x = positions[i3];
-                        const y = positions[i3 + 1];
-                        const z = positions[i3 + 2];
-
-                        // Original positions are stored - we do a gentle oscillation
-                        // The rotation handles most of the visual movement
-                    }
-
-                    renderer.render(scene, camera);
-                }
-
-                animate();
-
-                // Resize handler
-                window.addEventListener('resize', () => {
-                    const w = window.innerWidth;
-                    const h = window.innerHeight;
-                    camera.aspect = w / h;
-                    camera.updateProjectionMatrix();
-                    renderer.setSize(w, h);
-                });
-            }).catch(err => console.warn('Three.js init error:', err));
-        })();
-
-        /* ═══════════════════════════════════════════
-           5a. Spline 场景 — 隐藏内置文字
-           ═══════════════════════════════════════════ */
-        (function hideSplineText() {
-            const viewer = document.querySelector('#hero spline-viewer');
-            if (!viewer) return;
-            viewer.addEventListener('load', () => {
-                const app = viewer.spline;
-                if (!app) return;
-                // Try to find and hide text objects embedded in the Spline scene
-                const namesToHide = ['Text 2', 'Text', 'SPACE + R'];
-                namesToHide.forEach(name => {
-                    try {
-                        const obj = app.findObjectByName(name);
-                        if (obj) obj.visible = false;
-                    } catch(e) { /* ignore */ }
-                });
-                // Also traverse and hide any remaining text meshes
-                try {
-                    const allObjects = app.getAllObjects?.();
-                    if (allObjects) {
-                        allObjects.forEach(obj => {
-                            if (obj.type === 'Text' && obj.visible !== false) {
-                                obj.visible = false;
-                            }
-                        });
-                    }
-                } catch(e) { /* ignore */ }
-            });
-        })();
-
-        /* ═══════════════════════════════════════════
-           5. 自定义光标
-           ═══════════════════════════════════════════ */
-        (function initCursor() {
-            const dot = document.getElementById('cursorDot');
-            const ring = document.getElementById('cursorRing');
-            if (!dot || !ring) return;
-
-            // Check for touch device
-            if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
-                dot.style.display = 'none';
-                ring.style.display = 'none';
-                document.body.style.cursor = 'auto';
-                return;
-            }
-
-            // Hide default cursor
-            document.body.style.cursor = 'none';
-            const allEls = document.querySelectorAll('*');
-            // We use a style tag approach instead
-            const cursorStyle = document.createElement('style');
-            cursorStyle.textContent = '* { cursor: none !important; }';
-            document.head.appendChild(cursorStyle);
-
-            let mouseX = 0, mouseY = 0;
-            let ringX = 0, ringY = 0;
-
-            document.addEventListener('mousemove', (e) => {
-                mouseX = e.clientX;
-                mouseY = e.clientY;
-                dot.style.left = mouseX + 'px';
-                dot.style.top = mouseY + 'px';
-            });
-
-            // Cursor hover effect
-            document.querySelectorAll('a, button, .glass-btn, .connect-item, .thought-card, .expertise-card, .physics-cta, .nav-cta').forEach(el => {
-                el.addEventListener('mouseenter', () => document.body.classList.add('custom-cursor-hover'));
-                el.addEventListener('mouseleave', () => document.body.classList.remove('custom-cursor-hover'));
-            });
-
-            function animateCursor() {
-                ringX += (mouseX - ringX) * 0.12;
-                ringY += (mouseY - ringY) * 0.12;
-                ring.style.left = ringX + 'px';
-                ring.style.top = ringY + 'px';
-                requestAnimationFrame(animateCursor);
-            }
-            animateCursor();
-
-            // Handle iframe / canvas edge cases
-            document.addEventListener('mouseleave', () => {
-                dot.style.opacity = '0';
-                ring.style.opacity = '0';
-            });
-            document.addEventListener('mouseenter', () => {
-                dot.style.opacity = '1';
-                ring.style.opacity = '1';
-            });
-        })();
-
-        /* ═══════════════════════════════════════════
-           6. 3D 翻转卡片 (IntersectionObserver + Click)
-           ═══════════════════════════════════════════ */
-        (function initFlipCards() {
-            const cards = document.querySelectorAll('.expertise-card');
-
-            // Click to flip
-            cards.forEach(card => {
-                card.addEventListener('click', () => {
-                    card.classList.toggle('flipped');
-                });
-            });
-
-            // Auto-flip on scroll into view
-            const flipObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('flipped');
-                        // Un-flip after 3s
-                        setTimeout(() => {
-                            entry.target.classList.remove('flipped');
-                        }, 3000);
-                    }
-                });
-            }, { threshold: 0.3 });
-
-            cards.forEach(card => flipObserver.observe(card));
-        })();
-
-        /* ═══════════════════════════════════════════
-           7. Lenis 平滑滚动
-           ═══════════════════════════════════════════ */
-        (function initLenis() {
-            if (typeof Lenis === 'undefined') return;
-            const lenis = new Lenis({
-                duration: 1.2,
-                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-                orientation: 'vertical',
-                gestureOrientation: 'vertical',
-                smoothWheel: true,
-                wheelMultiplier: 1,
-            });
-
-            // Update scroll progress and indicator
-            lenis.on('scroll', (e) => {
-                // Progress bar
-                const progressBar = document.getElementById('scrollProgress');
-                if (progressBar) {
-                    const scrollTop = e.animatedScroll || e.scroll || 0;
-                    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-                    progressBar.style.transform = `scaleX(${docHeight > 0 ? scrollTop / docHeight : 0})`;
-                }
-
-                // Scroll indicator
-                const indicator = document.querySelector('.scroll-indicator');
-                if (indicator) {
-                    const scrollY = e.animatedScroll || e.scroll || 0;
-                    indicator.style.opacity = scrollY > 100 ? '0' : '1';
-                    indicator.style.pointerEvents = scrollY > 100 ? 'none' : 'auto';
-                }
-            });
-
-            function raf(time) {
-                lenis.raf(time);
-                requestAnimationFrame(raf);
-            }
-            requestAnimationFrame(raf);
-
-            // Override native scrollIntoView for nav-cta
-            document.querySelector('.nav-cta')?.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.getElementById('connect');
-                if (target) lenis.scrollTo(target);
-            });
-
-            // Make lenis accessible for other scroll needs
-            window.__lenis = lenis;
-        })();
-
-        /* ═══════════════════════════════════════════
-           8. Matter.js 物理页脚
-           ═══════════════════════════════════════════ */
-        (function initMatterFooter() {
-            if (typeof Matter === 'undefined') return;
-
-            const footer = document.getElementById('physicsFooter');
-            if (!footer) return;
-
-            // Create canvas inside footer
-            const canvas = document.createElement('canvas');
-            canvas.width = footer.offsetWidth;
-            canvas.height = footer.offsetHeight;
-            footer.insertBefore(canvas, footer.firstChild);
-
-            const {
-                Engine, Render, Runner, Bodies, Body, World, Events,
-                Mouse, MouseConstraint, Composite, Vector
-            } = Matter;
-
-            const engine = Engine.create({
-                gravity: { x: 0, y: 0.6 }
-            });
-
-            const render = Render.create({
-                canvas: canvas,
-                engine: engine,
-                options: {
-                    width: footer.offsetWidth,
-                    height: footer.offsetHeight,
-                    background: 'transparent',
-                    wireframes: false,
-                    pixelRatio: Math.min(window.devicePixelRatio, 2),
-                }
-            });
-
-            // Colors
-            const palette = [
-                '#C9A84C', '#E0C46A', // golds
-                '#FF6B6B', // coral
-                '#4ECDC4', // teal
-                '#6C5CE7', // purple
-                '#74B9FF', // blue
-                '#00B894', // green
-                '#FDCB6E', // orange
-                '#FD79A8', // pink
-                '#A29BFE', // lavender
-            ];
-
-            // Walls
-            const walls = [
-                Bodies.rectangle(footer.offsetWidth / 2, -15, footer.offsetWidth, 30, { isStatic: true }),
-                Bodies.rectangle(footer.offsetWidth / 2, footer.offsetHeight + 15, footer.offsetWidth, 30, { isStatic: true }),
-                Bodies.rectangle(-15, footer.offsetHeight / 2, 30, footer.offsetHeight, { isStatic: true }),
-                Bodies.rectangle(footer.offsetWidth + 15, footer.offsetHeight / 2, 30, footer.offsetHeight, { isStatic: true }),
-            ];
-            Composite.add(engine.world, walls);
-
-            // Create 200 shapes
-            const shapes = [];
-            const shapeTypes = ['circle', 'triangle', 'rect', 'capsule'];
-
-            for (let i = 0; i < 200; i++) {
-                const color = palette[Math.floor(Math.random() * palette.length)];
-                const x = Math.random() * (footer.offsetWidth - 60) + 30;
-                const y = -Math.random() * footer.offsetHeight * 0.8;
-
-                let body;
-                const size = 8 + Math.random() * 18;
-                const type = shapeTypes[Math.floor(Math.random() * shapeTypes.length)];
-
-                switch (type) {
-                    case 'circle':
-                        body = Bodies.circle(x, y, size / 2, {
-                            restitution: 0.3,
-                            friction: 0.8,
-                            frictionAir: 0.01,
-                            render: { fillStyle: color }
-                        });
-                        break;
-                    case 'triangle':
-                        body = Bodies.polygon(x, y, 3, size / 2, {
-                            restitution: 0.2,
-                            friction: 0.8,
-                            frictionAir: 0.01,
-                            render: { fillStyle: color }
-                        });
-                        break;
-                    case 'rect':
-                        body = Bodies.rectangle(x, y, size, size * 1.2, {
-                            restitution: 0.2,
-                            friction: 0.8,
-                            frictionAir: 0.01,
-                            render: { fillStyle: color }
-                        });
-                        break;
-                    case 'capsule':
-                        // Use a rectangle with chamfer for capsule-like shape
-                        body = Bodies.rectangle(x, y, size * 0.6, size, {
-                            chamfer: { radius: size * 0.3 },
-                            restitution: 0.25,
-                            friction: 0.8,
-                            frictionAir: 0.01,
-                            render: { fillStyle: color }
-                        });
-                        break;
-                }
-
-                if (body) {
-                    // Random rotation
-                    Body.setAngle(body, Math.random() * Math.PI * 2);
-                    shapes.push(body);
-                }
-            }
-
-            Composite.add(engine.world, shapes);
-
-            // Mouse interaction
-            const mouse = Mouse.create(canvas);
-            const mouseConstraint = MouseConstraint.create(engine, {
-                mouse: mouse,
-                constraint: {
-                    stiffness: 0.2,
-                    render: { visible: false }
-                }
-            });
-            Composite.add(engine.world, mouseConstraint);
-
-            // Keep mouse in sync with canvas position
-            canvas.addEventListener('mousemove', (e) => {
-                const rect = canvas.getBoundingClientRect();
-                mouse.position.x = e.clientX - rect.left;
-                mouse.position.y = e.clientY - rect.top;
-            });
-
-            // Allow scrolling from within canvas
-            canvas.style.touchAction = 'none';
-
-            // Run the engine
-            const runner = Runner.create();
-            Runner.run(runner, engine);
-            Render.run(render);
-
-            // Resize handler
-            window.addEventListener('resize', () => {
-                const w = footer.offsetWidth;
-                const h = footer.offsetHeight;
-                render.options.width = w;
-                render.options.height = h;
-                render.bounds.max.x = w;
-                render.bounds.max.y = h;
-
-                // Update walls
-                World.remove(engine.world, walls);
-                const newWalls = [
-                    Bodies.rectangle(w / 2, -15, w, 30, { isStatic: true }),
-                    Bodies.rectangle(w / 2, h + 15, w, 30, { isStatic: true }),
-                    Bodies.rectangle(-15, h / 2, 30, h, { isStatic: true }),
-                    Bodies.rectangle(w + 15, h / 2, 30, h, { isStatic: true }),
-                ];
-                walls.length = 0;
-                newWalls.forEach(wall => walls.push(wall));
-                Composite.add(engine.world, walls);
-
-                Render.setPixelRatio(render, Math.min(window.devicePixelRatio, 2));
-            });
-
-            // Clean up periodic shapes when they pile too high
-            Events.on(engine, 'afterUpdate', () => {
-                const bodies = Composite.allBodies(engine.world);
-                const movingBodies = bodies.filter(b => !b.isStatic);
-                if (movingBodies.length > 300) {
-                    // Remove some bottom shapes periodically
-                    const sorted = [...movingBodies].sort((a, b) => b.position.y - a.position.y);
-                    const toRemove = sorted.slice(0, 20);
-                    toRemove.forEach(b => Composite.remove(engine.world, b));
-                }
-            });
-
-            // Handle visibility
-            const visibilityObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        Render.run(render);
-                        Runner.run(runner, engine);
-                    } else {
-                        Render.stop(render);
-                        Runner.stop(runner);
-                    }
-                });
-            }, { threshold: 0.01 });
-            visibilityObserver.observe(footer);
-        })();
-    </script>
 </body>
 </html>
