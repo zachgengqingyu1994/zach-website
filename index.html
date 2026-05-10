@@ -2,301 +2,665 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>扎克耿 | 连接 AI 人才与未来</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+    font-family:'Inter', -apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
+    background:#000912;
+    color:#E8E6E1;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.6;
+}
+::selection { background:rgba(255,255,255,0.1); }
 
-    <title>扎克耿 | 连接 AI 人才与未来</title>
+/* ─── Navigation ─── */
+nav {
+    position:fixed; top:0; left:0; right:0;
+    display:flex; align-items:center; justify-content:center;
+    gap:32px; height:64px;
+    background:linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 60%, transparent 100%);
+    z-index:100; padding:0 24px;
+}
+nav a {
+    color:#8E8E93; text-decoration:none;
+    font-size:0.8rem; font-weight:500; letter-spacing:0.3px;
+    transition:color 0.3s;
+}
+nav a:hover { color:#FFFFFF; }
+nav .brand {
+    position:absolute; left:28px;
+    font-size:0.85rem; font-weight:600; color:#FFFFFF; letter-spacing:0.5px;
+}
+nav .brand span { color:#D4AF37; }
+nav .cta {
+    position:absolute; right:28px;
+    padding:8px 20px; border-radius:8px;
+    background:#FFFFFF; color:#000912 !important;
+    font-size:0.78rem; font-weight:600;
+    transition:all 0.3s;
+}
+nav .cta:hover { background:#E8E6E1; transform:translateY(-1px); }
 
+/* ─── Hero ─── */
+.hero {
+    min-height:100vh; display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    text-align:center; padding:140px 24px 60px;
+    position:relative; overflow:hidden;
+}
+.hero::before {
+    content:''; position:absolute;
+    top:-30%; left:-20%; right:-20%; bottom:-30%;
+    background:radial-gradient(ellipse 70% 50% at 50% 30%, rgba(212,175,55,0.04) 0%, transparent 60%),
+               radial-gradient(ellipse 40% 30% at 30% 60%, rgba(78,205,196,0.03) 0%, transparent 50%),
+               radial-gradient(ellipse 30% 40% at 70% 40%, rgba(108,92,231,0.02) 0%, transparent 50%);
+    pointer-events:none;
+}
+.hero-tag {
+    display:inline-block; padding:6px 16px; margin-bottom:24px;
+    border-radius:6px; background:rgba(255,255,255,0.04);
+    border:1px solid rgba(255,255,255,0.06);
+    color:#8E8E93; font-size:0.7rem; letter-spacing:2px; text-transform:uppercase;
+    position:relative; z-index:1;
+}
+.hero h1 {
+    font-size:clamp(2.4rem, 5vw, 4.2rem); font-weight:700;
+    line-height:1.1; letter-spacing:-1.5px;
+    color:#FFFFFF; max-width:700px; margin-bottom:20px;
+    position:relative; z-index:1;
+}
+.hero h1 .gold {
+    background:linear-gradient(135deg, #E0C46A, #D4AF37);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    background-clip:text;
+}
+.hero p {
+    font-size:1.05rem; color:#8E8E93;
+    max-width:500px; margin-bottom:40px; line-height:1.7;
+    position:relative; z-index:1;
+}
+
+/* ─── Search Box ─── */
+.search-container {
+    width:100%; max-width:560px;
+    position:relative; z-index:1;
+}
+.search-box {
+    display:flex; align-items:center;
+    background:rgba(255,255,255,0.04);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:12px; padding:4px;
+    transition:all 0.3s;
+}
+.search-box:focus-within {
+    border-color:rgba(212,175,55,0.3);
+    background:rgba(255,255,255,0.06);
+    box-shadow:0 0 30px rgba(212,175,55,0.04);
+}
+.search-box input {
+    flex:1; background:none; border:none; outline:none;
+    padding:14px 16px; color:#FFFFFF; font-size:0.95rem;
+    font-family:inherit;
+}
+.search-box input::placeholder { color:#4A4845; }
+.search-box button {
+    padding:10px 24px; border-radius:8px; border:none;
+    background:#FFFFFF; color:#000912;
+    font-size:0.82rem; font-weight:600; cursor:pointer;
+    transition:all 0.3s; font-family:inherit;
+}
+.search-box button:hover { background:#E8E6E1; }
+
+/* ─── Search Results Dropdown ─── */
+.search-results {
+    position:absolute; top:calc(100% + 8px); left:0; right:0;
+    background:rgba(10,15,28,0.95); backdrop-filter:blur(20px);
+    border:1px solid rgba(255,255,255,0.06); border-radius:12px;
+    max-height:400px; overflow-y:auto;
+    display:none; z-index:10;
+}
+.search-results.active { display:block; }
+.search-result-item {
+    display:block; padding:14px 20px; text-decoration:none;
+    border-bottom:1px solid rgba(255,255,255,0.04);
+    transition:background 0.2s; cursor:pointer;
+}
+.search-result-item:last-child { border-bottom:none; }
+.search-result-item:hover { background:rgba(255,255,255,0.03); }
+.search-result-item .sr-title {
+    font-size:0.88rem; font-weight:500; color:#FFFFFF; margin-bottom:4px;
+}
+.search-result-item .sr-meta {
+    font-size:0.75rem; color:#6B6966;
+}
+.search-result-item .sr-tags {
+    display:flex; gap:6px; margin-top:6px; flex-wrap:wrap;
+}
+.search-result-item .sr-tag {
+    font-size:0.65rem; padding:2px 8px;
+    background:rgba(212,175,55,0.08);
+    border:1px solid rgba(212,175,55,0.12);
+    border-radius:4px; color:#A9A6A0;
+}
+.search-empty {
+    padding:24px; text-align:center; color:#6B6966; font-size:0.82rem;
+}
+
+/* ─── Section ─── */
+.section {
+    max-width:900px; margin:0 auto; padding:100px 24px;
+    position:relative;
+}
+.section-label {
+    font-size:0.65rem; letter-spacing:4px; text-transform:uppercase;
+    color:#6B6966; margin-bottom:12px;
+}
+.section-title {
+    font-size:clamp(1.6rem, 3vw, 2.2rem); font-weight:600;
+    color:#FFFFFF; letter-spacing:-0.5px; margin-bottom:16px;
+}
+.section-desc {
+    font-size:0.95rem; color:#8E8E93; max-width:500px;
+    margin-bottom:48px; line-height:1.7;
+}
+
+/* ─── Article Cards ─── */
+.article-list { display:flex; flex-direction:column; gap:10px; }
+.article-card {
+    display:flex; align-items:flex-start; gap:20px;
+    padding:20px 24px; text-decoration:none;
+    background:rgba(255,255,255,0.02);
+    border:1px solid rgba(255,255,255,0.04);
+    border-radius:12px;
+    transition:all 0.3s;
+}
+.article-card:hover {
+    background:rgba(255,255,255,0.04);
+    border-color:rgba(212,175,55,0.15);
+}
+.article-num {
+    font-size:1.6rem; font-weight:700; color:rgba(255,255,255,0.04);
+    line-height:1; flex-shrink:0; width:40px;
+}
+.article-type {
+    font-size:0.65rem; color:#D4AF37; letter-spacing:2px;
+    text-transform:uppercase; margin-bottom:6px;
+}
+.article-title {
+    font-size:1rem; font-weight:600; color:#FFFFFF;
+    margin-bottom:6px; line-height:1.4;
+}
+.article-excerpt {
+    font-size:0.85rem; color:#6B6966; line-height:1.6;
+    margin-bottom:8px;
+}
+.article-meta {
+    font-size:0.72rem; color:#4A4845;
+}
+
+/* ─── Daily Section ─── */
+.daily-header {
+    display:flex; justify-content:space-between; align-items:center;
+    margin-bottom:24px; flex-wrap:wrap; gap:12px;
+}
+.daily-date { color:#6B6966; font-size:0.85rem; }
+.daily-link { color:#D4AF37; text-decoration:none; font-size:0.82rem; }
+.daily-link:hover { opacity:0.7; }
+.daily-item {
+    display:flex; gap:16px; padding:16px 0;
+    border-bottom:1px solid rgba(255,255,255,0.04);
+}
+.daily-item:last-child { border-bottom:none; }
+.daily-num {
+    width:28px; height:28px; border-radius:6px;
+    background:rgba(255,255,255,0.04);
+    display:flex; align-items:center; justify-content:center;
+    font-size:0.72rem; font-weight:600; color:#6B6966; flex-shrink:0; margin-top:2px;
+}
+.daily-content .daily-news-title {
+    font-size:0.92rem; font-weight:500; color:#E8E6E1; margin-bottom:4px;
+}
+.daily-content .daily-source {
+    font-size:0.75rem; color:#4A4845; margin-bottom:6px;
+}
+.daily-content .daily-comment {
+    font-size:0.82rem; color:#6B6966; line-height:1.6;
+}
+
+/* ─── Connect Grid ─── */
+.connect-grid {
+    display:grid; grid-template-columns:1fr 1fr; gap:10px;
+}
+.connect-item {
+    display:flex; align-items:center; gap:14px;
+    padding:18px 20px; text-decoration:none;
+    background:rgba(255,255,255,0.02);
+    border:1px solid rgba(255,255,255,0.04);
+    border-radius:12px;
+    transition:all 0.3s;
+}
+.connect-item:hover {
+    background:rgba(255,255,255,0.04);
+    border-color:rgba(212,175,55,0.15);
+}
+.connect-icon { font-size:1.4rem; }
+.connect-label { font-size:0.82rem; color:#FFFFFF; font-weight:500; }
+.connect-sub { font-size:0.72rem; color:#6B6966; }
+
+/* ─── Stats ─── */
+.stats {
+    display:flex; gap:40px; justify-content:center; margin-top:40px; flex-wrap:wrap;
+}
+.stat-num { font-size:1.8rem; font-weight:700; color:#D4AF37; }
+.stat-label { font-size:0.78rem; color:#6B6966; margin-top:4px; }
+
+/* ─── Skills Cards ─── */
+.skills-grid {
+    display:grid; grid-template-columns:repeat(3,1fr); gap:14px;
+}
+.skill-card {
+    padding:24px; background:rgba(255,255,255,0.02);
+    border:1px solid rgba(255,255,255,0.04); border-radius:12px;
+    transition:all 0.3s;
+}
+.skill-card:hover { border-color:rgba(212,175,55,0.15); }
+.skill-icon { font-size:1.5rem; margin-bottom:12px; }
+.skill-card h3 { font-size:0.92rem; color:#FFFFFF; margin-bottom:8px; font-weight:600; }
+.skill-card p { font-size:0.82rem; color:#6B6966; line-height:1.6; }
+.skill-card ul { list-style:none; margin-top:12px; }
+.skill-card li {
+    font-size:0.78rem; color:#8E8E93; padding:4px 0;
+    position:relative; padding-left:12px;
+}
+.skill-card li::before { content:'▸'; position:absolute; left:0; color:#D4AF37; }
+
+/* ─── Footer CTA ─── */
+.footer-cta {
+    text-align:center; padding:80px 24px;
+    background:rgba(255,255,255,0.01);
+    border-top:1px solid rgba(255,255,255,0.04);
+}
+.footer-cta h2 { font-size:1.4rem; color:#FFFFFF; margin-bottom:12px; font-weight:600; }
+.footer-cta p { color:#6B6966; margin-bottom:24px; font-size:0.9rem; }
+.footer-cta a {
+    display:inline-block; padding:12px 32px; border-radius:8px;
+    background:#FFFFFF; color:#000912; text-decoration:none;
+    font-size:0.85rem; font-weight:600;
+    transition:all 0.3s;
+}
+.footer-cta a:hover { background:#E8E6E1; transform:translateY(-2px); }
+.footer-bar {
+    text-align:center; padding:24px; color:#4A4845; font-size:0.75rem;
+    border-top:1px solid rgba(255,255,255,0.04);
+}
+
+/* ─── Modals ─── */
+.modal {
+    display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+    background:rgba(0,0,0,0.6); backdrop-filter:blur(8px);
+    z-index:200; align-items:center; justify-content:center;
+}
+.modal.show { display:flex; }
+.modal-content {
+    background:#0A0F1C; border:1px solid rgba(255,255,255,0.06);
+    border-radius:16px; padding:32px; max-width:400px; width:90%;
+    text-align:center; position:relative;
+}
+.modal-content img { max-width:100%; border-radius:8px; margin-bottom:16px; }
+.modal-content p { color:#8E8E93; font-size:0.82rem; }
+.modal-close {
+    position:absolute; top:12px; right:16px;
+    background:none; border:none; color:#6B6966;
+    font-size:1.2rem; cursor:pointer;
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar { width:4px; }
+::-webkit-scrollbar-track { background:#000912; }
+::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.06); border-radius:2px; }
+
+/* ─── Responsive ─── */
+@media (max-width:768px) {
+    nav { gap:20px; justify-content:flex-end; }
+    nav a:not(.brand):not(.cta):nth-child(n+3) { display:none; }
+    nav .brand { left:16px; font-size:0.78rem; }
+    nav .cta { right:16px; font-size:0.72rem; padding:6px 14px; }
+    .hero h1 { font-size:clamp(1.8rem, 7vw, 2.6rem); }
+    .skills-grid { grid-template-columns:1fr; }
+    .connect-grid { grid-template-columns:1fr; }
+    .section { padding:60px 16px; }
+    .article-card { flex-direction:column; gap:8px; }
+    .stats { gap:24px; }
+}
+</style>
 </head>
 <body>
 
-    <div>
-    <nav>
-        <div>扎克耿<span> · </span>AI猎头</div>
-        <a href="#thoughts">思想</a>
-        <a href="#daily">日报</a>
-        <a href="#connect">连接</a>
-        <a href="about.html">关于</a>
-        <a href="jobs.html">机会</a>
+<!-- ═══ Navigation ═══ -->
+<nav>
+    <a href="#hero" class="brand">扎克耿<span> · </span>AI猎头</a>
+    <a href="#thoughts">思想</a>
+    <a href="#daily">日报</a>
+    <a href="#connect">连接</a>
+    <a href="about.html">关于</a>
+    <a href="jobs.html">机会</a>
+    <a href="#connect" class="cta">联系</a>
+</nav>
 
-        <a href="#connect">联系</a>
-    </nav>
+<!-- ═══ Hero ═══ -->
+<section class="hero" id="hero">
+    <div class="hero-tag">AI 猎头 · 行业观察者 · 人才连接器</div>
+    <h1>连接 <span class="gold">AI 人才</span><br>与未来</h1>
+    <p>在 AI 的浪潮里，连接对的人与对的机会。</p>
+    
+    <!-- Search Box -->
+    <div class="search-container">
+        <div class="search-box">
+            <input type="text" id="jobSearch" placeholder="搜索 AI 岗位... 试试输入 LLM、Agent、Python">
+            <button onclick="searchJobs()">搜索</button>
+        </div>
+        <div class="search-results" id="searchResults"></div>
+    </div>
+</section>
 
-    <section>
-
-        <div>
-            <div>AI 猎头 · 行业观察者 · 人才连接器</div>
-            <h1>
-                <span>涌现与回响 <span>Emergence</span></span>
-            </h1>
-            <p>
-                在 AI 的浪潮里，连接对的人与对的机会。
-            </p>
+<!-- ═══ 思想输出 ═══ -->
+<section class="section" id="thoughts">
+    <div class="section-label">/ 思想输出</div>
+    <h2 class="section-title">深度 · 洞察 · 观点</h2>
+    <p class="section-desc">关于 AI 行业、人才趋势、招聘本质的独立思考</p>
+    <div class="article-list">
+        <a href="blog.html" class="article-card">
+            <div class="article-num">01</div>
             <div>
-                <a href="#daily">今日 AI 日报</a>
-                <a href="#connect">和我连接 →</a>
+                <div class="article-type">精选</div>
+                <div class="article-title">AI 招聘的终局：当每一个候选人都被 AI 匹配，猎头的价值在哪里？</div>
+                <div class="article-excerpt">在 AI 越来越擅长匹配人和岗位的时代，猎头的核心价值从「信息差」转向「判断力」和「连接力」。</div>
+                <div class="article-meta">2026.05.05 · AI · 招聘 · 思考</div>
             </div>
-        </div>
-        <div>
-            <span>SCROLL</span>
-            
-        </div>
-    </section>
-
-    <section>
-        <div>
-            <div>/ 思想输出</div>
-            <h2>深度 · 洞察 · 观点</h2>
-            <p>关于 AI 行业、人才趋势、招聘本质的独立思考</p>
-        </div>
-        <div>
-            <a href="blog.html">
-                <div>01</div>
-                <div>
-                    <div>精选</div>
-                    <div>AI 招聘的终局：当每一个候选人都被 AI 匹配，猎头的价值在哪里？</div>
-                    <div>在 AI 越来越擅长匹配人和岗位的时代，猎头的核心价值从「信息差」转向「判断力」和「连接力」。</div>
-                    <div>
-                        <span>2026.05.05</span>
-                        <span>AI · 招聘 · 思考</span>
-                    </div>
-                </div>
-            </a>
-            <a href="blog.html">
-                <div>02</div>
-                <div>
-                    <div>观点</div>
-                    <div>为什么下一个 AI 独角兽的 CTO 可能藏在一个非科班出身的开发者里</div>
-                    <div>我越来越发现，最惊艳的 AI 人才往往不来自传统的 FAANG 流水线。</div>
-                    <div><span>2026.05.03</span></div>
-                </div>
-            </a>
-            <a href="blog.html">
-                <div>03</div>
-                <div>
-                    <div>洞察</div>
-                    <div>2026 AI 人才市场的三个结构性变化</div>
-                    <div>从「抢人」到「抢认知」，AI 人才的竞争逻辑正在发生根本性变化。</div>
-                    <div><span>2026.04.28</span></div>
-                </div>
-            </a>
-        </div>
-    </section>
-
-    <section>
-        <div>
+        </a>
+        <a href="blog.html" class="article-card">
+            <div class="article-num">02</div>
             <div>
-                <div>/ 每日更新</div>
-                <h2>AI 行业日报</h2>
-                <p>每天 5 条精选 · 扎克耿独家点评</p>
+                <div class="article-type">观点</div>
+                <div class="article-title">为什么下一个 AI 独角兽的 CTO 可能藏在一个非科班出身的开发者里</div>
+                <div class="article-excerpt">我越来越发现，最惊艳的 AI 人才往往不来自传统的 FAANG 流水线。</div>
+                <div class="article-meta">2026.05.03</div>
             </div>
+        </a>
+        <a href="blog.html" class="article-card">
+            <div class="article-num">03</div>
             <div>
-                <div>
-                    <div>
-                        
-                        今日更新
-                    </div>
-                    <span>2026 年 5 月 5 日</span>
-                    <a href="daily.html">查看全部 →</a>
-                </div>
-                <div>
-                    <div>
-                        <div>1</div>
-                        <div>
-                            <div>OpenAI 发布 GPT-5，推理能力提升 3 倍</div>
-                            <div>OpenAI 官网 · 1 小时前</div>
-                            <div>模型能力还在加速增长，推理成本的下降会催生下一波应用创新。</div>
-                        </div>
-                    </div>
-                    <div>
-                        <div>2</div>
-                        <div>
-                            <div>Anthropic 成立日本办公室，加速亚太布局</div>
-                            <div>TechCrunch · 3 小时前</div>
-                            <div>亚太 AI 人才争夺战升级。日本市场对顶级 AI 研究人才的需求将大幅上升。</div>
-                        </div>
-                    </div>
-                    <div>
-                        <div>3</div>
-                        <div>
-                            <div>字节跳动发布自研 AI 芯片，用于大模型训练</div>
-                            <div>36氪 · 5 小时前</div>
-                            <div>国内大厂自研芯片已成趋势，芯片架构师和 AI 工程化人才将持续紧俏。</div>
-                        </div>
-                    </div>
-                    <div>
-                        <div>4</div>
-                        <div>
-                            <div>AI 编程助手 Cursor 估值突破 100 亿美元</div>
-                            <div>Bloomberg · 8 小时前</div>
-                            <div>AI 开发者工具的爆发说明了一件事：AI 时代的开发者需要新工具。</div>
-                        </div>
-                    </div>
-                    <div>
-                        <div>5</div>
-                        <div>
-                            <div>斯坦福 AI 指数报告：2025 年 AI 投资增长 40%</div>
-                            <div>Stanford HAI · 12 小时前</div>
-                            <div>资本还在加速涌入。对猎头来说，这意味着客户需求不会降温。</div>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <span>每日精选 · 仅代表个人观点</span>
-                    <a href="daily.html">查看往期 →</a>
-                </div>
+                <div class="article-type">洞察</div>
+                <div class="article-title">2026 AI 人才市场的三个结构性变化</div>
+                <div class="article-excerpt">从「抢人」到「抢认知」，AI 人才的竞争逻辑正在发生根本性变化。</div>
+                <div class="article-meta">2026.04.28</div>
             </div>
-        </div>
-    </section>
+        </a>
+    </div>
+</section>
 
-    <section>
-        <div>
-            <div>/ 连接</div>
-            <h2>找到扎克耿</h2>
-            <p>候选人 or 企业，欢迎 connect</p>
-        </div>
-        <div>
-            <a href="javascript:void(0)">
-                <span>📕</span>
-                <span>小红书</span>
-                <span>日常分享 · AI 洞察</span>
-            </a>
-            <a href="javascript:void(0)">
-                <span>🎵</span>
-                <span>抖音</span>
-                <span>短视频 · 行业观察</span>
-            </a>
-            <a href="mailto:zachgengqingyu@163.com">
-                <span>✉️</span>
-                <span>邮箱</span>
-                <span>zachgengqingyu@163.com</span>
-            </a>
-            <a href="javascript:void(0)">
-                <span>💬</span>
-                <span>微信公众号</span>
-                <span>涌现与回响 Emergence</span>
-            </a>
-        </div>
-
-        <!-- 统计 -->
-        <div>
-            <div>
-                <div>100+</div>
-                <div>合作企业</div>
-            </div>
-            <div>
-                <div>1000+</div>
-                <div>成功匹配</div>
-            </div>
-            <div>
-                <div>3000+</div>
-                <div>AI 人才库</div>
-            </div>
-        </div>
-    </section>
-
-    <section>
-        <div>
-            <div>/ 专业能力</div>
-            <h2>连接 · 洞察 · 落地</h2>
-            <p>点击卡片翻转，查看技能详情</p>
-        </div>
-        <div>
-            <!-- 卡片 1 -->
-            <div data-auto-flip>
-                <div>
-                    <div>
-                        <div>🎯</div>
-                        <h3>AI 人才地图</h3>
-                        <p>深度 mapping 全球 AI 人才分布，精准定位关键决策者与技术领袖</p>
-                        <span>点击翻转 →</span>
-                    </div>
-                    <div>
-                        <h4>核心技能</h4>
-                        <ul>
-                            <li>人才 Mapping</li>
-                            <li>竞品组织架构分析</li>
-                            <li>关键决策者触达</li>
-                            <li>多语言人才搜索</li>
-                            <li>冷启动人脉拓展</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!-- 卡片 2 -->
-            <div data-auto-flip>
-                <div>
-                    <div>
-                        <div>🧠</div>
-                        <h3>行业深度洞察</h3>
-                        <p>从大模型到 AI 应用层，持续追踪技术趋势与人才市场变化</p>
-                        <span>点击翻转 →</span>
-                    </div>
-                    <div>
-                        <h4>覆盖领域</h4>
-                        <ul>
-                            <li>大模型 / AGI</li>
-                            <li>AI Infra & 工具链</li>
-                            <li>AI 应用 / Agent</li>
-                            <li>具身智能 / 机器人</li>
-                            <li>自动驾驶</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!-- 卡片 3 -->
-            <div data-auto-flip>
-                <div>
-                    <div>
-                        <div>🤝</div>
-                        <h3>高端招聘服务</h3>
-                        <p>从需求分析到 offer 谈判，端到端交付 C-Level 与核心技术岗位</p>
-                        <span>点击翻转 →</span>
-                    </div>
-                    <div>
-                        <h4>服务流程</h4>
-                        <ul>
-                            <li>需求深度诊断</li>
-                            <li>定向人才寻访</li>
-                            <li>候选人评估与背书</li>
-                            <li>面试流程管理</li>
-                            <li>Offer 谈判 & 入职跟进</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div>
-        <div>
-            <button>✕</button>
-            <img src="wechat-qr.png" alt="扎克耿微信公众号">
-            <span>微信搜索「涌现与回响 Emergence」</span>
+<!-- ═══ 每日 AI 日报 ═══ -->
+<section class="section" id="daily">
+    <div class="section-label">/ 每日更新</div>
+    <h2 class="section-title">AI 行业日报</h2>
+    <p class="section-desc">每天 5 条精选 · 扎克耿独家点评</p>
+    
+    <div class="daily-header">
+        <span class="daily-date">2026 年 5 月 5 日 · 今日更新</span>
+        <a href="daily.html" class="daily-link">查看全部 →</a>
+    </div>
+    
+    <div class="daily-item">
+        <div class="daily-num">1</div>
+        <div class="daily-content">
+            <div class="daily-news-title">OpenAI 发布 GPT-5，推理能力提升 3 倍</div>
+            <div class="daily-source">OpenAI 官网 · 1 小时前</div>
+            <div class="daily-comment">模型能力还在加速增长，推理成本的下降会催生下一波应用创新。</div>
         </div>
     </div>
-    <div>
-        <div>
-            <button>✕</button>
-            <img src="douyin-qr.jpg" alt="扎克耿抖音">
-            <a href="https://v.douyin.com/y7D8iLEa2JA/" target="_blank">在抖音打开</a>
+    <div class="daily-item">
+        <div class="daily-num">2</div>
+        <div class="daily-content">
+            <div class="daily-news-title">Anthropic 成立日本办公室，加速亚太布局</div>
+            <div class="daily-source">TechCrunch · 3 小时前</div>
+            <div class="daily-comment">亚太 AI 人才争夺战升级。日本市场对顶级 AI 研究人才的需求将大幅上升。</div>
         </div>
     </div>
-    <div>
-        <div>
-            <button>✕</button>
-            <img src="xiaohongshu-qr.jpg" alt="扎克耿小红书">
-            <a href="https://xhslink.com/m/55zHXGBF1Up" target="_blank">在小红书打开</a>
+    <div class="daily-item">
+        <div class="daily-num">3</div>
+        <div class="daily-content">
+            <div class="daily-news-title">字节跳动发布自研 AI 芯片，用于大模型训练</div>
+            <div class="daily-source">36氪 · 5 小时前</div>
+            <div class="daily-comment">国内大厂自研芯片已成趋势，芯片架构师和 AI 工程化人才将持续紧俏。</div>
         </div>
     </div>
+    <div class="daily-item">
+        <div class="daily-num">4</div>
+        <div class="daily-content">
+            <div class="daily-news-title">AI 编程助手 Cursor 估值突破 100 亿美元</div>
+            <div class="daily-source">Bloomberg · 8 小时前</div>
+            <div class="daily-comment">AI 开发者工具的爆发说明了一件事：AI 时代的开发者需要新工具。</div>
+        </div>
+    </div>
+    <div class="daily-item">
+        <div class="daily-num">5</div>
+        <div class="daily-content">
+            <div class="daily-news-title">斯坦福 AI 指数报告：2025 年 AI 投资增长 40%</div>
+            <div class="daily-source">Stanford HAI · 12 小时前</div>
+            <div class="daily-comment">资本还在加速涌入。对猎头来说，这意味着客户需求不会降温。</div>
+        </div>
+    </div>
+    
+    <div style="margin-top:16px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+        <span style="font-size:0.75rem; color:#4A4845;">每日精选 · 仅代表个人观点</span>
+        <a href="daily.html" class="daily-link">查看往期 →</a>
+    </div>
+</section>
 
-    <section>
-        <div>
-            <h2>Let's work <span>together</span></h2>
-            <p>如果你在找 AI 方向的机会，或者需要 AI 人才，我们聊一聊</p>
-            <a href="mailto:zachgengqingyu@163.com">联系扎克耿 →</a>
-        </div>
-        <div><span>⚡</span> 2026 扎克耿 · 连接 AI 人才与未来</div>
-    </section>
+<!-- ═══ 连接 ═══ -->
+<section class="section" id="connect">
+    <div class="section-label">/ 连接</div>
+    <h2 class="section-title">找到扎克耿</h2>
+    <p class="section-desc">候选人 or 企业，欢迎 connect</p>
+    
+    <div class="connect-grid">
+        <a href="javascript:void(0)" class="connect-item" onclick="showQr('wechat')">
+            <span class="connect-icon">💬</span>
+            <div>
+                <div class="connect-label">微信公众号</div>
+                <div class="connect-sub">涌现与回响 Emergence</div>
+            </div>
+        </a>
+        <a href="javascript:void(0)" class="connect-item" onclick="showQr('douyin')">
+            <span class="connect-icon">🎵</span>
+            <div>
+                <div class="connect-label">抖音</div>
+                <div class="connect-sub">短视频 · 行业观察</div>
+            </div>
+        </a>
+        <a href="javascript:void(0)" class="connect-item" onclick="showQr('xiaohongshu')">
+            <span class="connect-icon">📕</span>
+            <div>
+                <div class="connect-label">小红书</div>
+                <div class="connect-sub">日常分享 · AI 洞察</div>
+            </div>
+        </a>
+        <a href="mailto:zachgengqingyu@163.com" class="connect-item">
+            <span class="connect-icon">✉️</span>
+            <div>
+                <div class="connect-label">邮箱</div>
+                <div class="connect-sub">zachgengqingyu@163.com</div>
+            </div>
+        </a>
     </div>
+    
+    <div class="stats">
+        <div><div class="stat-num">100+</div><div class="stat-label">合作企业</div></div>
+        <div><div class="stat-num">1000+</div><div class="stat-label">成功匹配</div></div>
+        <div><div class="stat-num">3000+</div><div class="stat-label">AI 人才库</div></div>
+    </div>
+</section>
+
+<!-- ═══ 专业能力 ═══ -->
+<section class="section">
+    <div class="section-label">/ 专业能力</div>
+    <h2 class="section-title">连接 · 洞察 · 落地</h2>
+    <p class="section-desc">覆盖 AI 人才全链路</p>
+    
+    <div class="skills-grid">
+        <div class="skill-card">
+            <div class="skill-icon">🎯</div>
+            <h3>AI 人才地图</h3>
+            <p>深度 mapping 全球 AI 人才分布，精准定位关键决策者与技术领袖</p>
+            <ul>
+                <li>人才 Mapping</li>
+                <li>竞品组织架构分析</li>
+                <li>关键决策者触达</li>
+                <li>多语言人才搜索</li>
+                <li>冷启动人脉拓展</li>
+            </ul>
+        </div>
+        <div class="skill-card">
+            <div class="skill-icon">🧠</div>
+            <h3>行业深度洞察</h3>
+            <p>从大模型到 AI 应用层，持续追踪技术趋势与人才市场变化</p>
+            <ul>
+                <li>大模型 / AGI</li>
+                <li>AI Infra & 工具链</li>
+                <li>AI 应用 / Agent</li>
+                <li>具身智能 / 机器人</li>
+                <li>自动驾驶</li>
+            </ul>
+        </div>
+        <div class="skill-card">
+            <div class="skill-icon">🤝</div>
+            <h3>高端招聘服务</h3>
+            <p>从需求分析到 offer 谈判，端到端交付 C-Level 与核心技术岗位</p>
+            <ul>
+                <li>需求深度诊断</li>
+                <li>定向人才寻访</li>
+                <li>候选人评估与背书</li>
+                <li>面试流程管理</li>
+                <li>Offer 谈判 & 入职跟进</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ Modal ═══ -->
+<div class="modal" id="qrModal">
+    <div class="modal-content">
+        <button class="modal-close" onclick="hideQr()">✕</button>
+        <img id="qrImage" src="" alt="二维码">
+        <p id="qrText"></p>
+    </div>
+</div>
+
+<!-- ═══ Footer ═══ -->
+<div class="footer-cta">
+    <h2>Let's work together</h2>
+    <p>如果你在找 AI 方向的机会，或者需要 AI 人才，我们聊一聊</p>
+    <a href="mailto:zachgengqingyu@163.com">联系扎克耿 →</a>
+</div>
+<div class="footer-bar">⚡ 2026 扎克耿 · 连接 AI 人才与未来</div>
+
+<script>
+// ─── Job Search Data ───
+const jobData = [
+    {t:'Growth Engineer (mkt方向)',c:'AI 视频理解与多模态创业公司',l:'上海 / 北京',tags:['Python','Growth','SEO']},
+    {t:'Founding Engineer, Post-Training/SFT/RLHF',c:'AI 视频理解与多模态创业公司',l:'北京 / 杭州',tags:['PyTorch','SFT','多模态']},
+    {t:'Founding Engineer（Agent & Backend）',c:'AI 视频理解与多模态创业公司',l:'北京 / 杭州',tags:['Python','AI Agent','Docker/K8s']},
+    {t:'Founding Engineer（多媒体研发）',c:'AI 视频理解与多模态创业公司',l:'北京 / 杭州',tags:['C/C++','FFmpeg','编解码']},
+    {t:'Founding Product Engineer（AI 工具）',c:'AI 视频理解与多模态创业公司',l:'北京 / 杭州',tags:['产品','AI工具','VibeCoding']},
+    {t:'Founding Engineer（全栈，偏前端）',c:'AI 视频理解与多模态创业公司',l:'北京 / 杭州',tags:['React','Electron','Python']},
+    {t:'Founding Engineer（Web 多媒体）',c:'AI 视频理解与多模态创业公司',l:'北京 / 杭州',tags:['WebGPU','WebGL','WASM']},
+    {t:'AI产品经理',c:'AI + K12 教育科技平台',l:'北京 / 上海',tags:['LLM','产品管理','AI教育']},
+    {t:'智能体应用研发工程师',c:'大型金融集团 AI 团队',l:'上海',tags:['AI Agent','RAG','Python']},
+    {t:'语言大模型算法工程师',c:'大型金融集团 AI 团队',l:'上海',tags:['LLM','PyTorch','分布式训练']},
+    {t:'大模型后训练算法工程师',c:'AI 驱动药物研发公司',l:'上海',tags:['SFT','AI for Science','LLM']},
+    {t:'技术部负责人',c:'金融科技/资产管理公司',l:'上海',tags:['团队管理','架构设计','DevOps']},
+    {t:'Agentic支付业务团队负责人',c:'出海数字营销与广告平台',l:'北京',tags:['支付系统','团队管理','产品']},
+    {t:'Cyberklick-海外红人电商营销',c:'出海数字营销与广告平台',l:'广州 / 上海',tags:['跨境电商','KOL','TikTok']},
+    {t:'SDK 产品经理',c:'出海数字营销与广告平台',l:'上海 / 北京 / 深圳',tags:['产品','广告技术','SDK']},
+    {t:'协同办公 Agent 工程师',c:'头部社交媒体平台 AI 团队',l:'上海',tags:['AI Agent','Python','LLM']},
+    {t:'搜广推训练框架研发工程师',c:'头部社交媒体平台 AI 团队',l:'上海 / 北京',tags:['PyTorch','分布式训练','GPU']},
+    {t:'大模型 Platform 全栈工程师',c:'头部社交媒体平台 AI 团队',l:'北京 / 上海 / 杭州',tags:['Python','Docker/K8s','LLM']},
+    {t:'大模型推理框架研发工程师',c:'头部社交媒体平台 AI 团队',l:'上海 / 北京',tags:['LLM','GPU/CUDA','Rust']},
+    {t:'大模型训练框架研发工程师',c:'头部社交媒体平台 AI 团队',l:'上海 / 北京',tags:['PyTorch','分布式','RLHF']},
+];
+
+function searchJobs() {
+    const query = document.getElementById('jobSearch').value.toLowerCase().trim();
+    const results = document.getElementById('searchResults');
+    
+    if (!query) { results.classList.remove('active'); return; }
+    
+    const matches = jobData.filter(j => 
+        j.t.toLowerCase().includes(query) ||
+        j.c.toLowerCase().includes(query) ||
+        j.tags.some(t => t.toLowerCase().includes(query))
+    );
+    
+    if (matches.length === 0) {
+        results.innerHTML = '<div class="search-empty">没有找到匹配的职位，试试其他关键词</div>';
+    } else {
+        results.innerHTML = matches.map(j => `
+            <a href="jobs.html" class="search-result-item">
+                <div class="sr-title">${highlight(j.t, query)}</div>
+                <div class="sr-meta">🏢 ${highlight(j.c, query)} · 📍 ${j.l}</div>
+                <div class="sr-tags">${j.tags.map(t => `<span class="sr-tag">${highlight(t, query)}</span>`).join('')}</div>
+            </a>
+        `).join('');
+    }
+    results.classList.add('active');
+}
+
+function highlight(text, query) {
+    if (!query) return text;
+    const idx = text.toLowerCase().indexOf(query);
+    if (idx === -1) return text;
+    return text.slice(0, idx) + '<span style="color:#D4AF37">' + text.slice(idx, idx + query.length) + '</span>' + text.slice(idx + query.length);
+}
+
+// Search on input
+document.getElementById('jobSearch').addEventListener('input', searchJobs);
+document.getElementById('jobSearch').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') searchJobs();
+    if (e.key === 'Escape') document.getElementById('searchResults').classList.remove('active');
+});
+
+// Close search on click outside
+document.addEventListener('click', (e) => {
+    if (!e.target.closest('.search-container')) {
+        document.getElementById('searchResults').classList.remove('active');
+    }
+});
+
+// ─── QR Modals ───
+const qrData = {
+    wechat: { src:'wechat-qr.png', text:'微信搜索「涌现与回响 Emergence」' },
+    douyin: { src:'douyin-qr.jpg', text:'抖音扫码关注' },
+    xiaohongshu: { src:'xiaohongshu-qr.jpg', text:'小红书扫码关注' },
+};
+
+function showQr(platform) {
+    const data = qrData[platform];
+    if (!data) return;
+    document.getElementById('qrImage').src = data.src;
+    document.getElementById('qrText').textContent = data.text;
+    document.getElementById('qrModal').classList.add('show');
+}
+
+function hideQr() {
+    document.getElementById('qrModal').classList.remove('show');
+}
+</script>
 
 </body>
 </html>
