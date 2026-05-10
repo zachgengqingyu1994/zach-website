@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 人才宇宙 | 扎克耿</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<script type="importmap">
+{
+    "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js"
+    }
+}
+</script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; height: 100%; overflow: hidden; background: #08080E; color: #F0EDE8; font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif; }
+
+#three-container {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+}
+
+/* Header */
+#header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 28px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    pointer-events: none;
+}
+#header > * { pointer-events: auto; }
+#logo-link {
+    text-decoration: none;
+    color: #F0EDE8;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    transition: opacity 0.3s;
+}
+#logo-link:hover { opacity: 0.7; }
+#logo-link span { color: #D4AF37; }
+#menu-trigger {
+    color: #A9A6A0;
+    text-decoration: none;
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    transition: color 0.3s;
+    cursor: pointer;
+}
+#menu-trigger:hover { color: #F0EDE8; }
+
+/* Footer nav */
+#footer-nav {
+    position: fixed;
+    bottom: 32px;
+    left: 32px;
+    z-index: 100;
+    display: flex;
+    gap: 24px;
+}
+#footer-nav a {
+    color: #6B6966;
+    text-decoration: none;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: color 0.3s, border-color 0.3s;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 2px;
+}
+#footer-nav a:hover { color: #D4AF37; border-bottom-color: #D4AF37; }
+#footer-nav a.active { color: #F0EDE8; border-bottom-color: #D4AF37; }
+
+/* View navigation */
+#view-nav {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    z-index: 100;
+    display: flex;
+    gap: 4px;
+}
+#view-nav a {
+    color: #6B6966;
+    text-decoration: none;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 980px;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+#view-nav a:hover { color: #D4AF37; border-color: rgba(212,175,55,0.3); }
+#view-nav a.active { color: #D4AF37; background: rgba(212,175,55,0.08); border-color: rgba(212,175,55,0.2); }
+
+/* Item label (artwork name on hover) */
+#item-label-wrapper {
+    position: fixed;
+    z-index: 50;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+#item-label-wrapper.visible {
+    opacity: 1;
+}
+#item-label {
+    font-size: 0.8rem;
+    color: #D4AF37;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.8);
+    white-space: nowrap;
+}
+
+/* Detail panel */
+#detail-panel {
+    position: fixed;
+    top: 0; right: 0;
+    width: 420px;
+    height: 100%;
+    z-index: 200;
+    background: rgba(8,8,14,0.85);
+    backdrop-filter: blur(32px);
+    -webkit-backdrop-filter: blur(32px);
+    border-left: 1px solid rgba(212,175,55,0.1);
+    padding: 80px 32px 40px;
+    overflow-y: auto;
+    transform: translateX(100%);
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+#detail-panel.open { transform: translateX(0); }
+#detail-panel .close-btn {
+    position: absolute;
+    top: 28px;
+    right: 28px;
+    color: #6B6966;
+    font-size: 1.4rem;
+    cursor: pointer;
+    transition: color 0.3s;
+    background: none;
+    border: none;
+    font-family: inherit;
+}
+#detail-panel .close-btn:hover { color: #D4AF37; }
+#detail-panel .detail-company {
+    font-size: 0.7rem;
+    color: #D4AF37;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+#detail-panel .detail-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #F0EDE8;
+    margin-bottom: 8px;
+    line-height: 1.3;
+}
+#detail-panel .detail-location {
+    font-size: 0.8rem;
+    color: #6B6966;
+    margin-bottom: 20px;
+}
+#detail-panel .detail-section {
+    margin-bottom: 20px;
+    padding: 16px 20px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.04);
+    border-radius: 12px;
+}
+#detail-panel .detail-section h4 {
+    font-size: 0.7rem;
+    color: #D4AF37;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+#detail-panel .detail-section p {
+    font-size: 0.82rem;
+    color: #A9A6A0;
+    line-height: 1.8;
+}
+#detail-panel .detail-cta {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 10px 28px;
+    border-radius: 980px;
+    background: rgba(212,175,55,0.12);
+    border: 1px solid rgba(212,175,55,0.25);
+    color: #D4AF37;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all 0.3s;
+}
+#detail-panel .detail-cta:hover {
+    background: rgba(212,175,55,0.2);
+    transform: scale(1.04);
+}
+
+/* Loading */
+#loading {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #08080E;
+    transition: opacity 0.8s;
+}
+#loading.hidden { opacity: 0; pointer-events: none; }
+#loading .spinner {
+    width: 40px; height: 40px;
+    border: 2px solid rgba(212,175,55,0.1);
+    border-top-color: #D4AF37;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+#loading p {
+    color: #6B6966;
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* Tags mode - tag spheres labels */
+.tag-label {
+    position: fixed;
+    z-index: 30;
+    pointer-events: none;
+    font-size: 0.65rem;
+    color: #D4AF37;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0;
+    transition: opacity 0.5s;
+    text-shadow: 0 0 30px rgba(212,175,55,0.3);
+}
+.tag-label.visible { opacity: 1; }
+
+/* Search overlay */
+#search-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 150;
+    background: rgba(8,8,14,0.6);
+    backdrop-filter: blur(12px);
+    display: none;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 120px;
+}
+#search-overlay.open { display: flex; }
+#search-overlay input {
+    width: 400px;
+    max-width: 80vw;
+    padding: 14px 24px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(212,175,55,0.15);
+    border-radius: 12px;
+    color: #F0EDE8;
+    font-size: 1rem;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.3s;
+}
+#search-overlay input:focus { border-color: #D4AF37; }
+#search-overlay input::placeholder { color: #4A4845; }
+
+/* Connection lines canvas layer */
+#connections-canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.8s;
+}
+#connections-canvas.visible { opacity: 1; }
+
+@media (max-width: 600px) {
+    #header { padding: 20px 16px; }
+    #view-nav { right: 50%; transform: translateX(50%); bottom: 16px; gap: 2px; }
+    #view-nav a { font-size: 0.6rem; padding: 4px 10px; }
+    #footer-nav { left: 16px; bottom: 60px; flex-direction: column; gap: 12px; }
+    #detail-panel { width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<div id="loading">
+    <div class="spinner"></div>
+    <p>加载 AI 人才宇宙...</p>
+</div>
+
+<div id="three-container"></div>
+<canvas id="connections-canvas"></canvas>
+
+<!-- Header -->
+<div id="header">
+    <a href="index.html" id="logo-link">扎克耿<span> · </span>AI猎头</a>
+    <a href="index.html" id="menu-trigger">返回首页</a>
+</div>
+
+<!-- Footer nav -->
+<div id="footer-nav">
+    <a href="#" class="active" id="nav-info">关于</a>
+</div>
+
+<!-- View nav -->
+<div id="view-nav">
+    <a href="#" class="active" data-mode="drift">Drift</a>
+    <a href="#" data-mode="tags">Tags</a>
+    <a href="#" data-mode="search">Search</a>
+</div>
+
+<!-- Item label -->
+<div id="item-label-wrapper">
+    <div id="item-label"></div>
+</div>
+
+<!-- Search overlay -->
+<div id="search-overlay">
+    <input type="text" id="search-input" placeholder="搜索职位..." autocomplete="off">
+</div>
+
+<!-- Detail panel -->
+<div id="detail-panel">
+    <button class="close-btn" id="detail-close">✕</button>
+    <div class="detail-company" id="detail-company"></div>
+    <div class="detail-title" id="detail-title"></div>
+    <div class="detail-location" id="detail-location"></div>
+    <div class="detail-section">
+        <h4>📋 职位描述</h4>
+        <p id="detail-desc"></p>
+    </div>
+    <div class="detail-section">
+        <h4>🎯 任职要求</h4>
+        <p id="detail-req"></p>
+    </div>
+    <a class="detail-cta" id="detail-cta" href="mailto:zachgengqingyu@163.com">💬 私信了解 →</a>
+</div>
+
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/controls/OrbitControls.js';
+
+// ─── Job Data ───
+const JOBS = [
+    { title: 'Growth Engineer (mkt方向)', company: 'AI 视频理解与多模态创业公司（天使轮）', location: '上海 / 北京', desc: '构建自动化 SEO 内容生成系统，涵盖关键词挖掘、页面模板、内容生成和落地页规模化。开发轻量级工具页面矩阵，搭建推荐/分成系统。', req: '精通 Python/Node/Go，熟悉 React/Vue，具备产品意识和数据分析基础。', tags: ['Python', 'Growth', 'SEO'] },
+    { title: 'Founding Engineer, Post-Training/SFT/RLHF', company: 'AI 视频理解与多模态创业公司（天使轮）', location: '北京 / 杭州', desc: '主导视频理解与多模态核心算法设计与实现，搭建从数据预处理、模型后训练到部署的全流程。', req: '2年+视频理解/多模态经验，具备 LLM SFT/RL 或推理优化经验。', tags: ['PyTorch', 'SFT/RLHF', '多模态'] },
+    { title: 'Founding Engineer（Agent & Backend）', company: 'AI 视频理解与多模态创业公司（天使轮）', location: '北京 / 杭州', desc: '负责 AI 核心产品后端架构，构建高可用低延迟后端系统。负责桌面端 AI Agent 功能开发。', req: '3年+后端经验，精通 Python/FastAPI，有 Agent 开发经验。', tags: ['Python', 'AI Agent', 'Docker/K8s'] },
+    { title: 'Founding Engineer（多媒体研发）', company: 'AI 视频理解与多模态创业公司（天使轮）', location: '北京 / 杭州', desc: '负责 H.264/H.265/AV1 编解码开发，音视频 SDK 开发迭代，非线编功能多平台适配。', req: '精通 C/C++，深入理解音视频编解码，熟悉 FFmpeg 和 OpenGL/Metal。', tags: ['C/C++', 'FFmpeg', '编解码'] },
+    { title: 'AI产品经理', company: 'AI + K12 教育科技平台', location: '北京 / 上海', desc: '深入分析大模型在教育领域的机会，参与大模型+教育的规划和产品设计，通过PE、workflow搭建产品demo。', req: '熟练使用模型，有丰富的PE和workflow经验，学习能力强。', tags: ['LLM', '产品管理', 'AI教育'] },
+    { title: '智能体应用研发工程师', company: '大型金融集团 AI 技术团队', location: '上海', desc: '负责构建和交付基于AI智能体的端到端应用系统，使用 LangChain/LlamaIndex 框架，负责 RAG 管线工程实现。', req: '5年+研发经验，2年+智能体开发经验，精通RAG技术栈。', tags: ['AI Agent', 'RAG', 'Python'] },
+    { title: '语言大模型算法工程师', company: '大型金融集团 AI 技术团队', location: '上海', desc: '研究、开发、优化和部署大语言模型，包括预训练、微调与优化，提升模型性能与适配能力。', req: '3年+ NLP 经验，2年+ LLM 训练/微调经验，精通 PyTorch。', tags: ['LLM/大模型', 'PyTorch', '分布式训练'] },
+    { title: '大模型后训练算法工程师', company: 'AI 驱动药物研发公司', location: '上海', desc: '将药物研发数据转化为可用于模型测试和训练的数据，微调开源模型用于 AI for Science 任务。', req: '有开源模型后训练环境搭建经验，能优化训练效率降低成本。', tags: ['SFT/RLHF', 'AI for Science', 'LLM'] },
+    { title: '技术部负责人', company: '金融科技/资产管理公司', location: '上海', desc: '领导10人+开发团队，统筹技术方案设计与项目管理，推动产品高质量交付。', req: '本科以上，具有大型互联网架构设计经验，具备项目负责人管理经验。', tags: ['团队管理', '架构设计', 'DevOps'] },
+    { title: 'Agentic支付业务团队负责人', company: '出海数字营销与广告技术平台', location: '北京', desc: '负责支付产品团队0-1的产研、商业化、运营，推动 Agentic 支付系统持续迭代。', req: '5年+支付行业经验，有20人+团队管理经验优先。', tags: ['支付系统', '团队管理', '产品管理'] },
+    { title: 'Cyberklick-海外红人电商营销', company: '出海数字营销与广告技术平台', location: '广州 / 上海', desc: '负责亚马逊、TikTok等平台海外红人营销全链路策划与执行，建立带货红人矩阵。', req: '2年+跨境电商或海外红人营销经验，熟悉 TikTok 带货模式。', tags: ['跨境电商', '红人/KOL营销', '数据分析'] },
+    { title: 'SDK 产品经理', company: '出海数字营销与广告技术平台', location: '上海 / 北京 / 深圳', desc: '负责程序化广告 SDK 产品全生命周期管理，包括产品规划、需求分析、功能设计。', req: '3年+互联网产品经验，1年+ SDK 或程序化广告产品经验。', tags: ['产品管理', '广告技术', '数据分析'] },
+    { title: '协同办公 Agent 工程师', company: '头部社交媒体平台 AI 团队', location: '上海', desc: '探索协同办公套件的 Agentic 化转型，将套件能力从"为人设计"过渡到"为 Agent 设计"。', req: '工程能力扎实，AI 工具重度用户，对 Agent 工具链有深入实践。', tags: ['AI Agent', 'Python', 'LLM'] },
+    { title: '搜广推训练框架研发工程师', company: '头部社交媒体平台 AI 团队', location: '上海 / 北京', desc: '参与大规模分布式训练框架研发与优化，解决千卡级集群的扩展性、容错与性能瓶颈。', req: '熟悉 C++，理解大规模分布式系统，熟悉 PyTorch 框架。', tags: ['Python', '分布式训练', 'GPU/CUDA'] },
+    { title: '大模型 Platform 全栈工程师', company: '头部社交媒体平台 AI 团队', location: '北京 / 上海 / 杭州', desc: '参与大模型平台全栈研发，构建覆盖全链路的监控告警与可观测数据体系。', req: 'AI Native 研发能力，熟悉 Go/Python + Vue/TS，了解云原生。', tags: ['Python', 'Docker/K8s', 'LLM'] },
+    { title: '大模型推理框架研发工程师', company: '头部社交媒体平台 AI 团队', location: '上海 / 北京', desc: '研发面向 LLM/MLLM 的高性能推理服务框架，主导 KV Router、PD 分离能力建设。', req: '熟悉 Rust/C++/Python，了解 vLLM/SGLang 等推理框架。', tags: ['LLM/大模型', 'GPU/CUDA', 'Rust'] },
+];
+
+// ─── Scene Setup ───
+const container = document.getElementById('three-container');
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x08080E);
+scene.fog = new THREE.FogExp2(0x08080E, 0.003);
+
+const camera = new THREE.PerspectiveCamera(60, container.clientWidth / container.clientHeight, 0.1, 500);
+camera.position.set(0, -5, 60);
+
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(container.clientWidth, container.clientHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.domElement.style.cssText = 'display: block; width: 100%; height: 100%;';
+container.appendChild(renderer.domElement);
+
+// ─── Sky Dome ───
+const skyGeo = new THREE.SphereGeometry(200, 40, 40);
+const skyMat = new THREE.ShaderMaterial({
+    side: THREE.BackSide,
+    uniforms: {
+        topColor: { value: new THREE.Color(0x1a1a2e) },
+        bottomColor: { value: new THREE.Color(0x08080E) },
+        offset: { value: 20 },
+        exponent: { value: 0.5 }
+    },
+    vertexShader: `
+        varying vec3 vWorldPosition;
+        void main() {
+            vec4 worldPos = modelMatrix * vec4(position, 1.0);
+            vWorldPosition = worldPos.xyz;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+    `,
+    fragmentShader: `
+        uniform vec3 topColor;
+        uniform vec3 bottomColor;
+        uniform float offset;
+        uniform float exponent;
+        varying vec3 vWorldPosition;
+        void main() {
+            float h = normalize(vWorldPosition + offset).y;
+            gl_FragColor = vec4(mix(bottomColor, topColor, max(pow(max(h, 0.0), exponent), 0.0)), 1.0);
+        }
+    `
+});
+scene.add(new THREE.Mesh(skyGeo, skyMat));
+
+// ─── Ambient Particles ───
+const particleCount = 2000;
+const pPos = new Float32Array(particleCount * 3);
+const pCol = new Float32Array(particleCount * 3);
+const gold = new THREE.Color(0xD4AF37);
+const goldLight = new THREE.Color(0xE0C46A);
+const blue = new THREE.Color(0x4ECDC4);
+const purple = new THREE.Color(0x6C5CE7);
+const palette = [gold, goldLight, blue, purple];
+
+for (let i = 0; i < particleCount; i++) {
+    const radius = 120 * Math.cbrt(Math.random());
+    const theta = Math.random() * Math.PI * 2;
+    const phi = Math.acos(2 * Math.random() - 1);
+    pPos[i*3] = radius * Math.sin(phi) * Math.cos(theta);
+    pPos[i*3+1] = (Math.random() - 0.5) * 60;
+    pPos[i*3+2] = radius * Math.sin(phi) * Math.sin(theta);
+    const c = palette[Math.floor(Math.random() * palette.length)];
+    pCol[i*3] = c.r; pCol[i*3+1] = c.g; pCol[i*3+2] = c.b;
+}
+
+const pGeo = new THREE.BufferGeometry();
+pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+pGeo.setAttribute('color', new THREE.BufferAttribute(pCol, 3));
+const pMat = new THREE.PointsMaterial({
+    size: 2.5, vertexColors: true, transparent: true, opacity: 0.6,
+    blending: THREE.AdditiveBlending, depthWrite: false, sizeAttenuation: true
+});
+const particles = new THREE.Points(pGeo, pMat);
+scene.add(particles);
+
+// ─── Job Cards as 3D Planes ───
+const itemGroup = new THREE.Group();
+scene.add(itemGroup);
+const items = [];
+const itemPositions = [];
+
+function makeCanvasTexture(job, index) {
+    const canvas = document.createElement('canvas');
+    canvas.width = 480; canvas.height = 320;
+    const ctx = canvas.getContext('2d');
+
+    // Background
+    const grad = ctx.createRadialGradient(240, 160, 0, 240, 160, 240);
+    grad.addColorStop(0, 'rgba(20,18,26,0.95)');
+    grad.addColorStop(1, 'rgba(8,8,14,0.95)');
+    ctx.fillStyle = grad;
+    ctx.roundRect(0, 0, 480, 320, 16);
+    ctx.fill();
+
+    // Border
+    ctx.strokeStyle = 'rgba(212,175,55,0.15)';
+    ctx.lineWidth = 1;
+    ctx.roundRect(0, 0, 480, 320, 16);
+    ctx.stroke();
+
+    // Gold top line
+    ctx.strokeStyle = 'rgba(212,175,55,0.3)';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(40, 0);
+    ctx.lineTo(440, 0);
+    ctx.stroke();
+
+    // Title
+    ctx.fillStyle = '#F0EDE8';
+    ctx.font = '600 18px -apple-system, PingFang SC, sans-serif';
+    ctx.textBaseline = 'top';
+    const title = job.title.length > 35 ? job.title.slice(0, 32) + '...' : job.title;
+    ctx.fillText(title, 28, 28);
+
+    // Company
+    ctx.fillStyle = '#D4AF37';
+    ctx.font = '12px -apple-system, PingFang SC, sans-serif';
+    ctx.fillText('🏢 ' + job.company, 28, 62);
+
+    // Location
+    ctx.fillStyle = '#6B6966';
+    ctx.font = '12px -apple-system, PingFang SC, sans-serif';
+    ctx.fillText('📍 ' + job.location, 28, 84);
+
+    // Tags
+    const tags = job.tags || [];
+    tags.forEach((tag, i) => {
+        const x = 28 + i * (70 + 8);
+        if (x > 420) return;
+        ctx.fillStyle = 'rgba(212,175,55,0.1)';
+        ctx.beginPath();
+        ctx.roundRect(x, 108, ctx.measureText(tag).width + 20, 22, 6);
+        ctx.fill();
+        ctx.fillStyle = '#A9A6A0';
+        ctx.font = '11px -apple-system, PingFang SC, sans-serif';
+        ctx.fillText(tag, x + 10, 113);
+    });
+
+    // Description
+    ctx.fillStyle = '#8E8E93';
+    ctx.font = '13px -apple-system, PingFang SC, sans-serif';
+    const desc = job.desc.length > 80 ? job.desc.slice(0, 77) + '...' : job.desc;
+    ctx.fillText(desc, 28, 148);
+
+    return new THREE.CanvasTexture(canvas);
+}
+
+// Poisson-disk-like distribution
+const minDist = 18;
+const attempts = 50;
+
+function isValidPosition(pos, existing) {
+    for (const e of existing) {
+        const dx = pos.x - e.x, dy = pos.y - e.y, dz = pos.z - e.z;
+        if (dx*dx + dy*dy + dz*dz < minDist * minDist) return false;
+    }
+    return true;
+}
+
+JOBS.forEach((job, i) => {
+    const texture = makeCanvasTexture(job, i);
+    texture.needsUpdate = true;
+    
+    const aspect = 480 / 320;
+    const width = 12;
+    const height = width / aspect;
+    
+    const geo = new THREE.PlaneGeometry(width, height);
+    const mat = new THREE.MeshBasicMaterial({
+        map: texture,
+        transparent: true,
+        opacity: 0.9,
+        side: THREE.DoubleSide,
+        depthWrite: true
+    });
+    const mesh = new THREE.Mesh(geo, mat);
+    
+    // Position with poisson-like distribution
+    let pos;
+    for (let attempt = 0; attempt < attempts; attempt++) {
+        const candidate = {
+            x: (Math.random() - 0.5) * 80,
+            y: (Math.random() - 0.5) * 50,
+            z: (Math.random() - 0.5) * 50 - 15
+        };
+        if (isValidPosition(candidate, itemPositions)) {
+            pos = candidate;
+            break;
+        }
+    }
+    if (!pos) {
+        pos = {
+            x: (Math.random() - 0.5) * 80,
+            y: (Math.random() - 0.5) * 50,
+            z: (Math.random() - 0.5) * 50 - 15
+        };
+    }
+    itemPositions.push(pos);
+    
+    mesh.position.set(pos.x, pos.y, pos.z);
+    
+    // Random rotation
+    mesh.rotation.x = (Math.random() - 0.5) * 0.3;
+    mesh.rotation.y = (Math.random() - 0.5) * 0.3;
+    
+    // Store original position for drift
+    mesh.userData = {
+        origPos: { x: pos.x, y: pos.y, z: pos.z },
+        phase: Math.random() * Math.PI * 2,
+        speed: 0.3 + Math.random() * 0.3,
+        amp: 0.3 + Math.random() * 0.5,
+        job: job,
+        targetOpacity: 1
+    };
+    
+    itemGroup.add(mesh);
+    items.push(mesh);
+});
+
+// ─── Controls ───
+let isDragging = false;
+let previousMouse = { x: 0, y: 0 };
+let velocity = { x: 0, y: 0 };
+const dampFactor = 0.95;
+const sensitivity = 0.003;
+let currentMode = 'drift';
+
+container.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    previousMouse.x = e.clientX;
+    previousMouse.y = e.clientY;
+});
+
+window.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    const dx = e.clientX - previousMouse.x;
+    const dy = e.clientY - previousMouse.y;
+    
+    if (currentMode === 'drift') {
+        velocity.x += dx * sensitivity;
+        velocity.y += dy * sensitivity;
+    } else if (currentMode === 'tags') {
+        // Rotate around Y for tags mode
+        velocity.x += dx * sensitivity;
+    }
+    
+    previousMouse.x = e.clientX;
+    previousMouse.y = e.clientY;
+});
+
+window.addEventListener('mouseup', () => { isDragging = false; });
+
+container.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    const zoomSpeed = 0.8;
+    const direction = e.deltaY > 0 ? 1 : -1;
+    const newZ = camera.position.z + direction * zoomSpeed;
+    camera.position.z = Math.max(15, Math.min(150, newZ));
+}, { passive: false });
+
+// Touch support
+let touchStart = { x: 0, y: 0 };
+container.addEventListener('touchstart', (e) => {
+    if (e.touches.length === 1) {
+        touchStart.x = e.touches[0].clientX;
+        touchStart.y = e.touches[0].clientY;
+    }
+}, { passive: true });
+
+container.addEventListener('touchmove', (e) => {
+    if (e.touches.length === 1) {
+        const dx = e.touches[0].clientX - touchStart.x;
+        const dy = e.touches[0].clientY - touchStart.y;
+        velocity.x += dx * sensitivity;
+        velocity.y += dy * sensitivity;
+        touchStart.x = e.touches[0].clientX;
+        touchStart.y = e.touches[0].clientY;
+    }
+}, { passive: true });
+
+// ─── Raycaster (Click/Hover) ───
+const raycaster = new THREE.Raycaster();
+const pointer = new THREE.Vector2();
+let hoveredItem = null;
+let selectedItem = null;
+
+const labelWrapper = document.getElementById('item-label-wrapper');
+const labelEl = document.getElementById('item-label');
+
+function onPointerMove(event) {
+    const rect = container.getBoundingClientRect();
+    pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+    pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+}
+container.addEventListener('pointermove', onPointerMove);
+
+function onPointerClick(event) {
+    raycaster.setFromCamera(pointer, camera);
+    const intersects = raycaster.intersectObjects(items);
+    
+    if (intersects.length > 0) {
+        const hit = intersects[0].object;
+        openDetail(hit.userData.job);
+    }
+}
+container.addEventListener('click', onPointerClick);
+
+function openDetail(job) {
+    document.getElementById('detail-company').textContent = job.company;
+    document.getElementById('detail-title').textContent = job.title;
+    document.getElementById('detail-location').textContent = '📍 ' + job.location;
+    document.getElementById('detail-desc').textContent = job.desc;
+    document.getElementById('detail-req').textContent = job.req;
+    document.getElementById('detail-cta').href = 'mailto:zachgengqingyu@163.com?subject=关于【' + job.title + '】的咨询';
+    document.getElementById('detail-panel').classList.add('open');
+}
+
+document.getElementById('detail-close').addEventListener('click', () => {
+    document.getElementById('detail-panel').classList.remove('open');
+});
+
+document.getElementById('detail-panel').addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) {
+        document.getElementById('detail-panel').classList.remove('open');
+    }
+});
+
+// ─── Mode Switching ───
+const modeLinks = document.querySelectorAll('#view-nav a');
+let tagModeActive = false;
+let searchModeActive = false;
+
+modeLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        modeLinks.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+        
+        currentMode = link.dataset.mode;
+        
+        if (currentMode === 'drift') {
+            tagModeActive = false;
+            searchModeActive = false;
+            document.getElementById('search-overlay').classList.remove('open');
+            document.getElementById('connections-canvas').classList.remove('visible');
+            items.forEach(item => {
+                item.userData.targetOpacity = 1;
+            });
+        } else if (currentMode === 'tags') {
+            tagModeActive = true;
+            searchModeActive = false;
+            document.getElementById('search-overlay').classList.remove('open');
+            document.getElementById('connections-canvas').classList.add('visible');
+            // Group items by tags
+            organizeByTags();
+        } else if (currentMode === 'search') {
+            searchModeActive = true;
+            tagModeActive = false;
+            document.getElementById('search-overlay').classList.add('open');
+            document.getElementById('connections-canvas').classList.remove('visible');
+            setTimeout(() => document.getElementById('search-input').focus(), 300);
+        }
+    });
+});
+
+// Tags organization
+function organizeByTags() {
+    const tagGroups = {};
+    JOBS.forEach((job, i) => {
+        (job.tags || ['AI']).forEach(tag => {
+            if (!tagGroups[tag]) tagGroups[tag] = [];
+            tagGroups[tag].push(i);
+        });
+    });
+    
+    const tagEntries = Object.entries(tagGroups);
+    const angleStep = (Math.PI * 2) / tagEntries.length;
+    const tagRadius = 35;
+    
+    tagEntries.forEach(([tag, indices], i) => {
+        const angle = angleStep * i;
+        const cx = Math.cos(angle) * tagRadius;
+        const cz = Math.sin(angle) * tagRadius;
+        
+        indices.forEach((itemIdx, j) => {
+            const mesh = items[itemIdx];
+            const offset = (j - (indices.length - 1) / 2) * 3;
+            mesh.userData.targetX = cx + Math.cos(angle + Math.PI/2) * offset;
+            mesh.userData.targetY = -offset * 0.5;
+            mesh.userData.targetZ = cz + Math.sin(angle + Math.PI/2) * offset;
+            mesh.userData.targetOpacity = 0.9;
+        });
+    });
+    
+    // Hide items not in any tag
+    items.forEach((mesh, idx) => {
+        if (!tagEntries.some(([_, indices]) => indices.includes(idx))) {
+            mesh.userData.targetOpacity = 0;
+        }
+    });
+}
+
+// Search
+document.getElementById('search-input').addEventListener('input', (e) => {
+    const query = e.target.value.toLowerCase();
+    items.forEach((mesh, i) => {
+        const job = mesh.userData.job;
+        const match = job.title.toLowerCase().includes(query) || 
+                       job.company.toLowerCase().includes(query) ||
+                       (job.tags || []).some(t => t.toLowerCase().includes(query));
+        mesh.userData.targetOpacity = match || !query ? 0.9 : 0;
+    });
+});
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        document.getElementById('detail-panel').classList.remove('open');
+        document.getElementById('search-overlay').classList.remove('open');
+        searchModeActive = false;
+        document.querySelector('#view-nav a[data-mode="drift"]').click();
+    }
+    if (e.key === '/' && !document.getElementById('search-overlay').classList.contains('open')) {
+        e.preventDefault();
+        document.querySelector('#view-nav a[data-mode="search"]').click();
+    }
+});
+
+// ─── Animation Loop ───
+const clock = new THREE.Clock();
+let time = 0;
+
+function animate() {
+    requestAnimationFrame(animate);
+    const delta = clock.getDelta();
+    time += delta;
+
+    // Drift rotation with momentum
+    if (currentMode === 'drift') {
+        velocity.x *= dampFactor;
+        velocity.y *= dampFactor;
+        
+        // Rotate item group
+        itemGroup.rotation.x += velocity.y;
+        itemGroup.rotation.y += velocity.x;
+        
+        // Gentle auto-rotation
+        itemGroup.rotation.y += delta * 0.03;
+        
+        // Individual item float animation
+        items.forEach((mesh, i) => {
+            const ud = mesh.userData;
+            const floatY = Math.sin(time * ud.speed + ud.phase) * ud.amp;
+            mesh.position.y = ud.origPos.y + floatY;
+            // Gentle billboard tilt
+            mesh.rotation.z = Math.sin(time * ud.speed * 0.5 + ud.phase) * 0.02;
+        });
+    } else if (currentMode === 'tags') {
+        velocity.x *= dampFactor;
+        itemGroup.rotation.y += velocity.x;
+        
+        items.forEach((mesh) => {
+            const ud = mesh.userData;
+            if (ud.targetX !== undefined) {
+                mesh.position.x += (ud.targetX - mesh.position.x) * 0.02;
+                mesh.position.y += (ud.targetY - mesh.position.y) * 0.02;
+                mesh.position.z += (ud.targetZ - mesh.position.z) * 0.02;
+                mesh.lookAt(camera.position);
+            }
+        });
+    }
+
+    // Smooth opacity transitions
+    items.forEach((mesh) => {
+        const ud = mesh.userData;
+        mesh.material.opacity += (ud.targetOpacity - mesh.material.opacity) * 0.05;
+    });
+
+    // Particle rotation
+    particles.rotation.y += delta * 0.01;
+
+    // Hover detection
+    raycaster.setFromCamera(pointer, camera);
+    const intersects = raycaster.intersectObjects(items);
+    
+    if (intersects.length > 0 && currentMode !== 'search') {
+        const hit = intersects[0].object;
+        if (hoveredItem !== hit) {
+            if (hoveredItem) {
+                hoveredItem.material.opacity = 0.9;
+            }
+            hoveredItem = hit;
+            hoveredItem.material.opacity = 1;
+        }
+        // Update label
+        const job = hit.userData.job;
+        labelEl.textContent = job.title + ' · ' + job.company;
+        
+        // Position label near mouse
+        const rect = container.getBoundingClientRect();
+        const mouseX = (pointer.x * 0.5 + 0.5) * rect.width;
+        const mouseY = -(pointer.y * 0.5 - 0.5) * rect.height;
+        labelWrapper.style.left = (mouseX + 16) + 'px';
+        labelWrapper.style.top = (mouseY - 20) + 'px';
+        labelWrapper.classList.add('visible');
+        container.style.cursor = 'pointer';
+    } else {
+        if (hoveredItem) {
+            hoveredItem.material.opacity = 0.9;
+            hoveredItem = null;
+        }
+        labelWrapper.classList.remove('visible');
+        container.style.cursor = 'default';
+    }
+
+    renderer.render(scene, camera);
+}
+
+// Start animation after a brief delay
+setTimeout(() => {
+    document.getElementById('loading').classList.add('hidden');
+    animate();
+}, 800);
+
+// ─── Resize ───
+window.addEventListener('resize', () => {
+    const w = container.clientWidth;
+    const h = container.clientHeight;
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w, h);
+});
+
+// ─── About panel (info mode) ───
+document.getElementById('nav-info').addEventListener('click', (e) => {
+    e.preventDefault();
+    openDetail({
+        title: 'AI 人才宇宙',
+        company: '扎克耿 · 连接 AI 人才与未来',
+        location: '全球',
+        desc: '这是一个交互式 3D 人才宇宙，每个漂浮的卡片代表一个精选 AI 岗位。点击卡片查看详情，使用 Drift/Tags/Search 模式浏览。\n\nDrift — 自由漂流，在 3D 空间中探索所有机会。\nTags — 按标签分类，查看不同领域的岗位集群。\nSearch — 搜索关键词，快速定位感兴趣的职位。',
+        req: '如果你在找 AI 方向的机会，或者需要 AI 人才，欢迎联系我。\n\n微信: Headhunter_Zach\n邮箱: zachgengqingyu@163.com'
+    });
+});
+</script>
+</body>
+</html>
