@@ -89,6 +89,34 @@ nav .cta:hover { background:#E8E6E1; transform:translateY(-1px); }
     -webkit-background-clip:text; -webkit-text-fill-color:transparent;
     background-clip:text;
 }
+
+/* ─── Per-Char Hover Effect (Vattention style) ─── */
+.hero h1 .char {
+    display:inline-block; position:relative;
+    transition:transform 0.3s cubic-bezier(0.4,0,0.2,1), color 0.3s, text-shadow 0.3s;
+    cursor:default;
+}
+.hero h1 .char:hover {
+    transform:translateY(-8px) scale(1.15);
+    color:#ff2bff;
+    text-shadow:0 0 10px #ff2bff, 0 0 20px #ff2bff, 0 0 40px rgba(255,43,255,0.6);
+    animation:vattention-glow 1.5s ease-in-out infinite;
+}
+@keyframes vattention-glow {
+    0%   { text-shadow:0 0 5px #ff2bff; }
+    50%  { text-shadow:0 0 10px #ff2bff, 0 0 20px #ff2bff, 0 0 30px rgba(255,43,255,0.6), 0 0 40px rgba(0,255,255,0.3); }
+    100% { text-shadow:0 0 5px #ff2bff; }
+}
+.hero h1 .char::before {
+    content:''; position:absolute; top:50%; left:50%;
+    width:0; height:0;
+    background:radial-gradient(circle, rgba(0,255,255,0.2) 0%, transparent 70%);
+    border-radius:50%; transform:translate(-50%,-50%);
+    transition:all 0.3s; pointer-events:none;
+}
+.hero h1 .char:hover::before {
+    width:60px; height:60px;
+}
 .hero p {
     font-size:1.05rem; color:#8E8E93;
     max-width:500px; margin-bottom:40px; line-height:1.7;
@@ -697,6 +725,53 @@ function showQr(platform) {
 function hideQr() {
     document.getElementById('qrModal').classList.remove('show');
 }
+
+/* ─── Char Split: Vattention-style per-letter hover ─── */
+(function(){
+    var h1 = document.querySelector('.hero h1');
+    if(!h1||h1.dataset.charsplit)return;
+    h1.dataset.charsplit='1';
+    var walker=document.createTreeWalker(h1,NodeFilter.SHOW_TEXT,null,false);
+    var texts=[];
+    while(walker.nextNode()) texts.push(walker.currentNode);
+    texts.forEach(function(tn){
+        var txt=tn.textContent;
+        if(!txt.trim())return;
+        var frag=document.createDocumentFragment();
+        for(var i=0;i<txt.length;i++){
+            var ch=txt[i];
+            if(ch===' '){frag.appendChild(document.createTextNode(' '));continue;}
+            var span=document.createElement('span');
+            span.className='char';
+            span.dataset.char=ch;
+            span.textContent=ch;
+            frag.appendChild(span);
+        }
+        tn.parentNode.replaceChild(frag,tn);
+    });
+    // Fix gold span: move char class to individual chars inside it
+    var gold=h1.querySelector('.gold');
+    if(gold){
+        var gw=document.createTreeWalker(gold,NodeFilter.SHOW_TEXT,null,false);
+        var gt=[];
+        while(gw.nextNode()) gt.push(gw.currentNode);
+        gt.forEach(function(tn){
+            var txt=tn.textContent;
+            if(!txt.trim())return;
+            var frag=document.createDocumentFragment();
+            for(var i=0;i<txt.length;i++){
+                var ch=txt[i];
+                if(ch===' '){frag.appendChild(document.createTextNode(' '));continue;}
+                var span=document.createElement('span');
+                span.className='char';
+                span.dataset.char=ch;
+                span.textContent=ch;
+                frag.appendChild(span);
+            }
+            tn.parentNode.replaceChild(frag,tn);
+        });
+    }
+})();
 </script>
 
 </body>
