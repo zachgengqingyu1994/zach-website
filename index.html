@@ -367,9 +367,10 @@ nav .cta:hover { background:#E8E6E1; transform:translateY(-1px); }
 
 <!-- ═══ Hero ═══ -->
 <section class="hero" id="hero">
-    <video class="hero-video" autoplay muted loop playsinline preload="auto">
+    <video class="hero-video" autoplay muted playsinline preload="auto">
         <source src="static/bg-hero.mp4" type="video/mp4">
     </video>
+    <script>(function(){var v=document.querySelector('.hero-video');if(v){var t=function(){v.play().catch(function(){})};document.addEventListener('visibilitychange',t);t()}})()</script>
     <div class="hero-overlay"></div>
     <div class="hero-tag">AI 猎头 · 行业观察者 · 人才连接器</div>
     <h1>连接 <span class="gold">AI 人才</span><br>与未来</h1>
