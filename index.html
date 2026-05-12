@@ -90,36 +90,17 @@ nav .cta:hover { background:#E8E6E1; transform:translateY(-1px); }
     line-height:1.1; letter-spacing:-1.5px;
     color:#E8E6E1; max-width:700px; margin-bottom:20px;
     position:relative; z-index:1;
+    transition:color 0.4s ease, text-shadow 0.4s ease;
     cursor:default;
+}
+.hero h1:hover {
+    color:#FFFFFF;
+    text-shadow:0 0 40px rgba(212,175,55,0.15);
 }
 .hero h1 .gold {
     background:linear-gradient(135deg, #E0C46A, #D4AF37);
     -webkit-background-clip:text; -webkit-text-fill-color:transparent;
     background-clip:text;
-}
-/* ─── Per-Character Hover Background Highlight ─── */
-.char {
-    display:inline-block; position:relative;
-    padding:4px 6px; margin:-4px -4px;
-    cursor:default;
-    transition:transform 0.25s cubic-bezier(0.4,0,0.2,1), color 0.25s, text-shadow 0.25s;
-    border-radius:6px;
-}
-.char::before {
-    content:''; position:absolute; inset:0;
-    border-radius:6px; opacity:0;
-    transition:opacity 0.3s ease;
-    pointer-events:none;
-}
-.char:hover::before { opacity:1; }
-.char:not(.gold):hover::before { background:rgba(255,255,255,0.08); }
-.char.gold:hover::before { background:rgba(212,175,55,0.12); }
-.char:hover {
-    color:#FFFFFF;
-    transform:translateY(-3px);
-}
-.char.gold:hover {
-    -webkit-text-fill-color:#FFFFFF;
 }
 .hero p {
     font-size:1.05rem; color:#C5C3BE;
@@ -425,33 +406,7 @@ nav .cta:hover { background:#E8E6E1; transform:translateY(-1px); }
     </video>
     <script>(function(){var v=document.querySelector('.hero-video');if(v){var t=function(){v.play().catch(function(){})};document.addEventListener('visibilitychange',t);t()}})()</script>
     <div class="hero-tag">AI 猎头 · 行业观察者 · 人才连接器</div>
-    <h1 id="heroTitle"><span class="gold">涌现与回响</span> Emergence</h1>
-    <script>(function(){
-        var h1=document.getElementById('heroTitle');
-        if(!h1||h1.dataset.charsplit)return;
-        h1.dataset.charsplit='1';
-        function splitNodes(root,cls){
-            var w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,null,false),a=[];
-            while(w.nextNode())a.push(w.currentNode);
-            a.forEach(function(tn){
-                var t=tn.textContent;
-                if(!t.trim())return;
-                var f=document.createDocumentFragment();
-                for(var i=0;i<t.length;i++){
-                    var c=t[i];
-                    if(c===' '){f.appendChild(document.createTextNode(' '));continue;}
-                    var s=document.createElement('span');
-                    s.className='char'+(cls?' '+cls:'');
-                    s.textContent=c;
-                    f.appendChild(s);
-                }
-                tn.parentNode.replaceChild(f,tn);
-            });
-        }
-        var g=h1.querySelector('.gold');
-        if(g){splitNodes(g,'gold');g.removeAttribute('class');}
-        splitNodes(h1);
-    })()</script>
+    <h1><span class="gold">涌现与回响</span> Emergence</h1>
     <p>在 AI 的浪潮里，连接对的人与对的机会。</p>
     
     <!-- Search Box -->
