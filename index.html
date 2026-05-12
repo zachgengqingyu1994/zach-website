@@ -64,6 +64,13 @@ nav .cta:hover { background:#E8E6E1; transform:translateY(-1px); }
     opacity:0.7;
     pointer-events:none;
 }
+/* ─── Hero Bottom Gradient (blend into black) ─── */
+.hero::after {
+    content:''; position:absolute;
+    left:0; right:0; bottom:0; height:40%;
+    background:linear-gradient(to bottom, transparent 0%, #000912 100%);
+    pointer-events:none; z-index:0;
+}
 .hero::before {
     content:''; position:absolute;
     top:-30%; left:-20%; right:-20%; bottom:-30%;
