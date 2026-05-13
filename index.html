@@ -133,26 +133,68 @@ nav .cta:hover { background:rgba(255,255,255,0.14); transform:translateY(-1px); 
 @keyframes chipUp {
     to { opacity:1; transform:translateY(0); }
 }
-.hero h1 {
-    font-size:clamp(2.4rem, 5vw, 4.2rem); font-weight:700;
-    line-height:1.1; letter-spacing:-1.5px;
-    color:#E8E6E1; max-width:700px; margin-bottom:20px;
-    position:relative; z-index:1;
-    transition:color 0.4s ease, text-shadow 0.4s ease;
-    cursor:default;
+/* ─── Hero Title — 涌现与回响 ─── */
+.hero-title-wrapper {
+    text-align:center;
+    position:relative;
+    padding:40px 0;
+    background:transparent;
 }
-.hero h1:hover {
-    text-shadow:0 0 40px rgba(212,175,55,0.15);
+.hero-title {
+    position:relative;
+    font-size:clamp(2.6rem, 6vw, 4.5rem);
+    font-weight:600;
+    letter-spacing:6px;
+    margin:0;
+    font-family:"PingFang SC","Microsoft YaHei",-apple-system,sans-serif;
+    line-height:1.15;
 }
-.hero h1 .gold {
-    background:linear-gradient(135deg, #E0C46A, #D4AF37);
-    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+.text-glow {
+    position:absolute;
+    top:0; left:0; right:0;
+    color:transparent;
+    text-shadow:0 0 60px rgba(110,150,255,0.4), 0 0 20px rgba(255,255,255,0.1);
+    animation:pulse-glow 4s ease-in-out infinite alternate;
+    z-index:1;
+}
+.text-gradient {
+    position:relative;
+    z-index:2;
+    background:linear-gradient(
+        110deg,
+        #555555 0%,
+        #ffffff 20%,
+        #888888 40%,
+        #ffffff 60%,
+        #bfa87a 80%,
+        #555555 100%
+    );
+    background-size:200% auto;
+    color:transparent;
+    -webkit-background-clip:text;
     background-clip:text;
+    animation:shine-sweep 6s linear infinite;
 }
-.hero p {
-    font-size:1.05rem; color:#C5C3BE;
-    max-width:500px; margin-bottom:40px; line-height:1.7;
+.hero-subtitle {
+    margin-top:16px;
+    font-size:clamp(0.85rem, 2vw, 1.2rem);
+    font-weight:300;
+    letter-spacing:clamp(14px, 3vw, 24px);
+    text-transform:uppercase;
+    background:linear-gradient(90deg, #666 0%, #fff 50%, #666 100%);
+    background-size:200% auto;
+    color:transparent;
+    -webkit-background-clip:text;
+    background-clip:text;
+    animation:shine-sweep 8s linear infinite reverse;
     position:relative; z-index:1;
+}
+@keyframes shine-sweep {
+    to { background-position:200% center; }
+}
+@keyframes pulse-glow {
+    0% { opacity:0.5; transform:scale(1); }
+    100% { opacity:1; transform:scale(1.02); }
 }
 
 /* ─── Search Box ─── */
@@ -636,8 +678,13 @@ nav .cta:hover { background:rgba(255,255,255,0.14); transform:translateY(-1px); 
         <span class="divider">◆</span>
         <span class="chip"><span class="text">人才连接器</span></span>
     </div>
-    <h1><span class="gold">涌现与回响</span> Emergence</h1>
-    <p>在 AI 的浪潮里，连接对的人与对的机会。</p>
+    <div class="hero-title-wrapper">
+        <h1 class="hero-title">
+            <span class="text-glow">涌现与回响</span>
+            <span class="text-gradient">涌现与回响</span>
+        </h1>
+        <div class="hero-subtitle">EMERGENCE</div>
+    </div>
     
     <!-- Search Box -->
     <div class="search-container">
