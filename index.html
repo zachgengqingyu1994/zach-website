@@ -230,10 +230,11 @@ section { position:relative; padding:160px 0; }
 }
 .hero-video {
     position:absolute; top:0; left:0; width:100%; height:100%;
-    object-fit:cover; z-index:0;
-    filter:contrast(1.1) brightness(0.6) saturate(0.8);
-    mix-blend-mode:screen;
+    object-fit:cover;
+    filter:brightness(0.5) contrast(1.2) saturate(0.7);
+    transition:transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     pointer-events:none;
+    z-index:-2;
 }
 .hero::after {
     content:''; position:absolute;
@@ -796,20 +797,23 @@ section { position:relative; padding:160px 0; }
 }
 .glass-card {
     position:relative;
+    overflow:hidden;
     background:rgba(10,15,25,0.4);
-    -webkit-backdrop-filter:blur(24px) saturate(120%);
-    backdrop-filter:blur(24px) saturate(120%);
-    border:1px solid rgba(255,255,255,0.05) !important;
+    -webkit-backdrop-filter:blur(24px) saturate(150%);
+    backdrop-filter:blur(24px) saturate(150%);
+    border:1px solid rgba(255,255,255,0.08);
     border-top:1px solid rgba(255,255,255,0.1);
     border-radius:16px;
     padding:40px 32px;
-    transition:all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     box-shadow:0 10px 40px -10px rgba(0,0,0,0.8);
     cursor:default;
+    transform-style:preserve-3d;
+    transition:transform 0.5s cubic-bezier(0.23,1,0.32,1), backdrop-filter 0.5s ease;
 }
 .glass-card:hover {
-    transform:translateY(-8px) scale(1.01);
-    box-shadow:0 30px 60px -12px rgba(0,0,0,0.7);
+    backdrop-filter:blur(40px) brightness(1.2);
+    border-color:rgba(191,168,122,0.5);
+    box-shadow:0 0 50px rgba(110,150,255,0.1), 0 20px 80px rgba(0,0,0,0.8);
 }
 
 /* ─── 磁吸高光效应 ─── */
@@ -825,6 +829,21 @@ section { position:relative; padding:160px 0; }
 }
 .insight-card:hover::before, .glass-card:hover::before, .connect-card:hover::before {
     opacity:1;
+}
+
+/* ─── 能量涟漪 ─── */
+.energy-ripple {
+    position:fixed;
+    width:200px; height:200px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(191,168,122,0.15) 0%, transparent 70%);
+    transform:translate(-50%,-50%) scale(0);
+    animation:ripple-out 0.6s ease-out forwards;
+    pointer-events:none;
+    z-index:9999;
+}
+@keyframes ripple-out {
+    to { transform:translate(-50%,-50%) scale(4); opacity:0; }
 }
 
 /* ─── Card Internals ─── */
@@ -1447,7 +1466,7 @@ document.addEventListener("DOMContentLoaded", function(){
     });
 })();
 
-/* ─── 磁吸光影跟随 ─── */
+/* ─── 磁吸光影跟随 + 引力形变 ─── */
 document.querySelectorAll('.insight-card, .glass-card, .connect-card').forEach(function(card){
     card.addEventListener('mousemove', function(e){
         var rect=card.getBoundingClientRect();
@@ -1456,6 +1475,35 @@ document.querySelectorAll('.insight-card, .glass-card, .connect-card').forEach(f
         card.style.setProperty('--x', x+'px');
         card.style.setProperty('--y', y+'px');
     });
+});
+/* ─── 视频视差 + 毛玻璃折射倾斜 ─── */
+(function(){
+    var video=document.querySelector('.hero-video');
+    document.addEventListener('mousemove', function(e){
+        var x=(e.clientX-window.innerWidth/2)*0.01;
+        var y=(e.clientY-window.innerHeight/2)*0.01;
+        if(video) video.style.transform='scale(1.05) translate('+(-x)+'px,'+(-y)+'px)';
+        document.querySelectorAll('.glass-card').forEach(function(card){
+            var rect=card.getBoundingClientRect();
+            var dx=(e.clientX-(rect.left+rect.width/2))*0.05;
+            var dy=(e.clientY-(rect.top+rect.height/2))*0.05;
+            card.style.transform='perspective(1000px) rotateY('+dx+'deg) rotateX('+(-dy)+'deg) translateY(-10px)';
+        });
+    });
+})();
+/* ─── 能量涟漪点击 ─── */
+document.addEventListener('mousedown', function(e){
+    var ripple=document.createElement('div');
+    ripple.className='energy-ripple';
+    ripple.style.left=e.clientX+'px';
+    ripple.style.top=e.clientY+'px';
+    document.body.appendChild(ripple);
+    var video=document.querySelector('.hero-video');
+    if(video) video.style.filter='brightness(0.8) blur(5px)';
+    setTimeout(function(){
+        if(video) video.style.filter='brightness(0.5) blur(0px)';
+        ripple.remove();
+    },600);
 });
 
 /* ─── 数字滚动涌现 ─── */
