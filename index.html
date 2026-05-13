@@ -76,6 +76,10 @@ section::after {
 /* ─── Manifesto ─── */
 .manifesto-section {
     padding:80px 0 120px;
+    margin-top:-2px;
+    position:relative;
+    z-index:2;
+    background-color:#05080f !important;
 }
 .manifesto-text {
     font-size:20px;
@@ -264,16 +268,14 @@ section::after {
 }
 .hero::after {
     content:''; position:absolute;
-    top:0; left:50%;
-    transform:translateX(-50%);
+    top:0; left:0;
     width:100vw;
-    height:100%;
+    height:calc(100% + 5px);
     background:linear-gradient(
         to bottom,
         rgba(5,8,15,0) 0%,
-        rgba(5,8,15,0) 40%,
-        rgba(5,8,15,0.3) 70%,
-        rgba(5,8,15,0.8) 92%,
+        rgba(5,8,15,0) 60%,
+        rgba(5,8,15,0.8) 90%,
         #05080f 100%
     );
     z-index:1;
