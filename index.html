@@ -321,12 +321,12 @@ section { position:relative; padding:160px 0; }
 .text-gradient {
     position:relative;
     z-index:2;
-    background:linear-gradient(110deg, #888 0%, #fff 30%, #555 50%, #fff 70%, #888 100%);
+    background: linear-gradient(110deg, #555 0%, #fff 25%, #888 50%, #fff 75%, #555 100%);
     background-size:200% auto;
     color:transparent;
     -webkit-background-clip:text;
     background-clip:text;
-    animation:shine-sweep 6s linear infinite;
+    animation:shine-sweep 8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 .hero-subtitle {
     margin-top:16px;
@@ -501,6 +501,8 @@ section { position:relative; padding:160px 0; }
     gap:24px;
 }
 .insight-card {
+    position:relative;
+    overflow:hidden;
     display:flex;
     align-items:flex-start;
     gap:32px;
@@ -513,13 +515,11 @@ section { position:relative; padding:160px 0; }
     border-top:1px solid rgba(255,255,255,0.1);
     box-shadow:0 10px 40px -10px rgba(0,0,0,0.8);
     text-decoration:none;
-    transition:all 0.4s cubic-bezier(0.16,1,0.3,1);
+    transition:transform 0.6s cubic-bezier(0.16,1,0.3,1), box-shadow 0.6s;
 }
 .insight-card:hover {
-    background:rgba(255,255,255,0.06);
-    border-color:rgba(255,255,255,0.15);
-    transform:translateY(-4px);
-    box-shadow:0 20px 40px -10px rgba(0,0,0,0.6);
+    transform:translateY(-8px) scale(1.01);
+    box-shadow:0 30px 60px -12px rgba(0,0,0,0.7);
 }
 .insight-num {
     font-family:"Playfair Display","Times New Roman",serif;
@@ -693,6 +693,8 @@ section { position:relative; padding:160px 0; }
     margin-bottom:80px;
 }
 .connect-card {
+    position:relative;
+    overflow:hidden;
     display:flex;
     align-items:center;
     padding:24px 32px;
@@ -704,14 +706,12 @@ section { position:relative; padding:160px 0; }
     border-radius:16px;
     box-shadow:0 10px 40px -10px rgba(0,0,0,0.8);
     text-decoration:none;
-    transition:all 0.4s cubic-bezier(0.16,1,0.3,1);
+    transition:transform 0.6s cubic-bezier(0.16,1,0.3,1), box-shadow 0.6s;
     text-align:left;
 }
 .connect-card:hover {
-    background:rgba(255,255,255,0.06);
-    border-color:rgba(191,168,122,0.3);
-    transform:translateY(-4px);
-    box-shadow:0 20px 40px -10px rgba(0,0,0,0.6);
+    transform:translateY(-8px) scale(1.01);
+    box-shadow:0 30px 60px -12px rgba(0,0,0,0.7);
 }
 .connect-protocol {
     font-family:'SF Mono', Consolas, monospace;
@@ -806,11 +806,23 @@ section { position:relative; padding:160px 0; }
     cursor:default;
 }
 .glass-card:hover {
-    transform:translateY(-8px);
-    border-color:rgba(255,255,255,0.12);
-    background:rgba(255,255,255,0.04);
-    box-shadow:0 20px 40px -10px rgba(0,0,0,0.5),
-               0 0 20px -5px rgba(255,255,255,0.03);
+    transform:translateY(-8px) scale(1.01);
+    box-shadow:0 30px 60px -12px rgba(0,0,0,0.7);
+}
+
+/* ─── 磁吸高光效应 ─── */
+.insight-card::after, .glass-card::after, .connect-card::after {
+    content:'';
+    position:absolute;
+    inset:0;
+    background:radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255, 255, 255, 0.12) 0%, transparent 60%);
+    opacity:0;
+    transition:opacity 0.5s;
+    pointer-events:none;
+    z-index:1;
+}
+.insight-card:hover::after, .glass-card:hover::after, .connect-card:hover::after {
+    opacity:1;
 }
 
 /* ─── Card Internals ─── */
@@ -1431,6 +1443,45 @@ document.addEventListener("DOMContentLoaded", function(){
             inner.classList.remove('hover');
         }
     });
+})();
+
+/* ─── 磁吸光影跟随 ─── */
+document.querySelectorAll('.insight-card, .glass-card, .connect-card').forEach(function(card){
+    card.addEventListener('mousemove', function(e){
+        var rect=card.getBoundingClientRect();
+        var x=((e.clientX-rect.left)/rect.width)*100;
+        var y=((e.clientY-rect.top)/rect.height)*100;
+        card.style.setProperty('--x', x+'%');
+        card.style.setProperty('--y', y+'%');
+    });
+});
+
+/* ─── 数字滚动涌现 ─── */
+(function(){
+    var stats=document.querySelectorAll('.data-num');
+    if(!stats.length)return;
+    var observer=new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+            if(entry.isIntersecting){
+                var el=entry.target;
+                var targetValue=parseInt(el.innerText.replace(/[^0-9]/g,''));
+                var startValue=0;
+                var duration=2000;
+                var startTime=performance.now();
+                function update(now){
+                    var elapsed=now-startTime;
+                    var progress=Math.min(elapsed/duration,1);
+                    var easeOutExpo=1-Math.pow(2,-10*progress);
+                    var current=Math.floor(easeOutExpo*targetValue);
+                    el.innerHTML='<span>[</span> '+current.toLocaleString()+'+ <span>]</span>';
+                    if(progress<1) requestAnimationFrame(update);
+                }
+                requestAnimationFrame(update);
+                observer.unobserve(el);
+            }
+        });
+    },{threshold:0.5});
+    stats.forEach(function(s){ observer.observe(s); });
 })();
 
 </script>
