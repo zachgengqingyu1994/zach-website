@@ -364,11 +364,11 @@ section { padding:150px 0; }
 .search-box {
     display:flex; align-items:center;
     position:relative;
-    background:rgba(255,255,255,0.08);
-    -webkit-backdrop-filter:blur(2px) saturate(180%);
-    backdrop-filter:blur(2px) saturate(180%);
+    background:rgba(255,255,255,0.04);
+    -webkit-backdrop-filter:blur(16px) saturate(180%);
+    backdrop-filter:blur(16px) saturate(180%);
     border:1px solid rgba(255,255,255,0.25);
-    border-radius:1.5rem;
+    border-radius:16px;
     box-shadow:0 4px 24px rgba(0,0,0,0.3), inset 0 2px 12px rgba(255,255,255,0.2);
     padding:4px;
     transition:all 0.3s;
@@ -377,7 +377,7 @@ section { padding:150px 0; }
     content:''; position:absolute; top:0; left:0;
     width:100%; height:100%;
     background:rgba(255,255,255,0.05);
-    border-radius:1.5rem;
+    border-radius:16px;
     backdrop-filter:blur(1px);
     box-shadow:inset -10px -8px 0px -11px rgba(255,255,255,1),
                inset 0px -9px 0px -8px rgba(255,255,255,1);
@@ -612,7 +612,7 @@ section { padding:150px 0; }
     max-width:1100px; margin:0 auto;
     color:#ffffff;
 }
-.intelligence-section .section-header { margin-bottom:48px; }
+.intelligence-section .section-header { text-align:left; }
 .header-status {
     display:flex; align-items:center; gap:10px;
     margin-bottom:16px;
@@ -647,6 +647,18 @@ section { padding:150px 0; }
     padding-left:40px;
     max-width:800px;
 }
+/* ─── Asymmetric Layout ─── */
+.intel-layout { display:flex; gap:60px; }
+.feed-sidebar { width:140px; flex-shrink:0; padding-top:110px; }
+.coord-display { margin-bottom:32px; }
+.coord-label { font-family:'SF Mono',Consolas,monospace; font-size:10px; color:#4a5568; letter-spacing:2px; margin-bottom:8px; display:block; }
+.coord-value { font-family:'SF Mono',Consolas,monospace; font-size:13px; color:#94a3b8; letter-spacing:1px; }
+.feed-main { flex-grow:1; min-width:0; }
+@media (max-width:768px) {
+  .intel-layout { flex-direction:column; gap:0; }
+  .feed-sidebar { display:none; }
+}
+
 .feed-item {
     position:relative;
     padding:32px;
@@ -850,6 +862,7 @@ section { padding:150px 0; }
 }
 .glass-card .card-icon svg {
     display:block;
+    filter:drop-shadow(0 0 6px rgba(110,150,255,0.08));
 }
 .glass-card .card-title {
     font-size:1.2rem; font-weight:500;
@@ -923,6 +936,29 @@ section { padding:150px 0; }
     .feed-item::before { display:none; }
     .feed-item { padding:20px; }
     .feed-item:hover { transform:none; }
+}
+
+/* ─── Light Leaks ─── */
+.core-value-section { position:relative; }
+.core-value-section::before {
+  content:''; position:absolute; top:-20%; left:-10%;
+  width:600px; height:600px;
+  background:radial-gradient(circle at center, rgba(110,150,255,0.04) 0%, transparent 70%);
+  pointer-events:none; z-index:0;
+}
+.insight-section { position:relative; }
+.insight-section::before {
+  content:''; position:absolute; top:10%; right:-10%;
+  width:500px; height:500px;
+  background:radial-gradient(circle at center, rgba(191,168,122,0.04) 0%, transparent 70%);
+  pointer-events:none; z-index:0;
+}
+.connect-section { position:relative; }
+.connect-section::after {
+  content:''; position:absolute; bottom:-10%; left:30%;
+  width:400px; height:400px;
+  background:radial-gradient(circle at center, rgba(110,150,255,0.03) 0%, transparent 70%);
+  pointer-events:none; z-index:0;
 }
 
 /* ─── Cinematic Footer ─── */
@@ -1112,6 +1148,59 @@ section { padding:150px 0; }
     </div>
 </section>
 
+<!-- ═══ 全域矩阵 ═══ -->
+<section class="core-value-section reveal-up" id="matrix">
+    <div class="section-header">
+        <div class="kicker">/ 全域矩阵</div>
+        <h2 class="main-title">见证涌现 · 锚定节点 · 促成回响</h2>
+        <p class="subtitle">覆盖 AI 人才全链路，穿透底层架构与商业闭环</p>
+    </div>
+    <div class="cards-grid">
+        <div class="glass-card">
+            <div class="card-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </div>
+            <h3 class="card-title">洞察 · 全栈产业链解码</h3>
+            <p class="card-desc">穿透技术与商业的边界，持续追踪从大模型基座到超级应用的范式转移</p>
+            <ul class="feature-list">
+                <li>底层算力与 AI Infra 演进</li>
+                <li>Agent 与具身智能应用架构</li>
+                <li>PMF 验证与产品交互创新</li>
+                <li>GTM 策略与商业化变现路径</li>
+                <li>用户增长与生态运营体系</li>
+            </ul>
+        </div>
+        <div class="glass-card">
+            <div class="card-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="12" r="2"/><circle cx="6" cy="18" r="2"/><line x1="8" y1="7" x2="16" y2="11"/><line x1="8" y1="17" x2="16" y2="13"/></svg>
+            </div>
+            <h3 class="card-title">连接 · 全域超级节点拓扑</h3>
+            <p class="card-desc">摒弃静态名单，构建以技术领袖、产品先锋与商业大拿交织的立体神经网络</p>
+            <ul class="feature-list">
+                <li>顶尖科学家与技术领袖 Mapping</li>
+                <li>C-Level 商业化与运营操盘手</li>
+                <li>破局型 AI 产品与增长黑客</li>
+                <li>跨界复合人才的冷启动拓展</li>
+                <li>全球多语种前沿阵营触达</li>
+            </ul>
+        </div>
+        <div class="glass-card">
+            <div class="card-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="11"/></svg>
+            </div>
+            <h3 class="card-title">回响 · 商业与组织力涌现</h3>
+            <p class="card-desc">超越单点招聘，从业务线痛点切入，端到端交付能引发组织质变的破局者</p>
+            <ul class="feature-list">
+                <li>组织架构与业务深度诊断</li>
+                <li>核心高管定向寻访与背书</li>
+                <li>跨界商业化资源协同对接</li>
+                <li>团队融合与伴随式效能演进</li>
+                <li>促成技术与商业的化学反应</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
 <!-- ═══ 思想输出 ═══ -->
 <section id="insights" class="insight-section reveal-up">
     <div class="container" style="max-width:900px; margin:0 auto;">
@@ -1166,48 +1255,66 @@ section { padding:150px 0; }
 
 <!-- ═══ 全域情报流 ═══ -->
 <section id="daily" class="intelligence-section reveal-up">
-    <div class="section-header">
-        <div class="header-status">
-            <span class="live-dot"></span>
-            <span class="status-text">SYSTEM_LIVE</span>
+    <div class="intel-layout">
+        <aside class="feed-sidebar">
+            <div class="coord-display">
+                <span class="coord-label">NODE</span>
+                <span class="coord-value">PEK · SJC · HKG</span>
+            </div>
+            <div class="coord-display">
+                <span class="coord-label">TZ</span>
+                <span class="coord-value">UTC +08:00</span>
+            </div>
+            <div class="coord-display">
+                <span class="coord-label">CLOCK</span>
+                <span class="coord-value">00:00 UTC</span>
+            </div>
+        </aside>
+        <div class="feed-main">
+            <div class="section-header" style="text-align:left">
+                <div class="header-status">
+                    <span class="live-dot"></span>
+                    <span class="status-text">SYSTEM_LIVE</span>
+                </div>
+                <h2 class="main-title">全域情报流</h2>
+                <p class="subtitle">AI 产业链前沿异动与商业变现观测</p>
+            </div>
+            <div class="feed-timeline">
+                <article class="feed-item">
+                    <div class="feed-meta">
+                        <span class="feed-date">[ 2026.05.13_UPDATE ]</span>
+                        <span class="feed-tag">/ AGENTIC_AI /</span>
+                    </div>
+                    <div class="feed-content">
+                        <h3 class="feed-title">对话式 AI 赛道底层重构：从 WebRTC 到端到端大模型</h3>
+                        <p class="feed-desc">深度解析 LiveKit 开源生态对 B 端市场的冲击，以及闭源巨头如 Agora 如何通过 SD-RTN 结合端到端模型构建极低延迟壁垒。商业化闭环的胜负手在于打断机制（Barge-in）的鲁棒性。</p>
+                        <a href="#" class="feed-link">DECRYPT LOG <span>→</span></a>
+                    </div>
+                </article>
+                <article class="feed-item">
+                    <div class="feed-meta">
+                        <span class="feed-date">[ 2026.04.28_INSIGHT ]</span>
+                        <span class="feed-tag">/ AI_INFRA /</span>
+                    </div>
+                    <div class="feed-content">
+                        <h3 class="feed-title">大模型算法与算力底座的变现十字路口</h3>
+                        <p class="feed-desc">接触多位硅谷 AI Infra 核心架构师后发现，当前技术选型的核心矛盾已从"如何训练得更好"转移到"如何推理得更便宜"。了解算力成本（ROI）的高管正在成为市场上的稀缺超级节点。</p>
+                        <a href="#" class="feed-link">DECRYPT LOG <span>→</span></a>
+                    </div>
+                </article>
+                <article class="feed-item">
+                    <div class="feed-meta">
+                        <span class="feed-date">[ 2026.03.15_OBSERVATION ]</span>
+                        <span class="feed-tag">/ PMF_STRATEGY /</span>
+                    </div>
+                    <div class="feed-content">
+                        <h3 class="feed-title">破局产品先锋：To C 体验如何降维打击 To B 赛道</h3>
+                        <p class="feed-desc">传统的 SaaS 界面正在死亡。新一代企业级应用正在经历"Agent 化"重构，拥有千万级 DAU 操盘经验的产品经理，正在将极简的交互体验引入沉重的 B 端工作流，这是今年最重要的用人趋势。</p>
+                        <a href="#" class="feed-link">DECRYPT LOG <span>→</span></a>
+                    </div>
+                </article>
+            </div>
         </div>
-        <h2 class="main-title">全域情报流</h2>
-        <p class="subtitle">AI 产业链前沿异动与商业变现观测</p>
-    </div>
-    <div class="feed-timeline">
-        <article class="feed-item">
-            <div class="feed-meta">
-                <span class="feed-date">[ 2026.05.13_UPDATE ]</span>
-                <span class="feed-tag">/ AGENTIC_AI /</span>
-            </div>
-            <div class="feed-content">
-                <h3 class="feed-title">对话式 AI 赛道底层重构：从 WebRTC 到端到端大模型</h3>
-                <p class="feed-desc">深度解析 LiveKit 开源生态对 B 端市场的冲击，以及闭源巨头如 Agora 如何通过 SD-RTN 结合端到端模型构建极低延迟壁垒。商业化闭环的胜负手在于打断机制（Barge-in）的鲁棒性。</p>
-                <a href="#" class="feed-link">DECRYPT LOG <span>→</span></a>
-            </div>
-        </article>
-        <article class="feed-item">
-            <div class="feed-meta">
-                <span class="feed-date">[ 2026.04.28_INSIGHT ]</span>
-                <span class="feed-tag">/ AI_INFRA /</span>
-            </div>
-            <div class="feed-content">
-                <h3 class="feed-title">大模型算法与算力底座的变现十字路口</h3>
-                <p class="feed-desc">接触多位硅谷 AI Infra 核心架构师后发现，当前技术选型的核心矛盾已从"如何训练得更好"转移到"如何推理得更便宜"。了解算力成本（ROI）的高管正在成为市场上的稀缺超级节点。</p>
-                <a href="#" class="feed-link">DECRYPT LOG <span>→</span></a>
-            </div>
-        </article>
-        <article class="feed-item">
-            <div class="feed-meta">
-                <span class="feed-date">[ 2026.03.15_OBSERVATION ]</span>
-                <span class="feed-tag">/ PMF_STRATEGY /</span>
-            </div>
-            <div class="feed-content">
-                <h3 class="feed-title">破局产品先锋：To C 体验如何降维打击 To B 赛道</h3>
-                <p class="feed-desc">传统的 SaaS 界面正在死亡。新一代企业级应用正在经历"Agent 化"重构，拥有千万级 DAU 操盘经验的产品经理，正在将极简的交互体验引入沉重的 B 端工作流，这是今年最重要的用人趋势。</p>
-                <a href="#" class="feed-link">DECRYPT LOG <span>→</span></a>
-            </div>
-        </article>
     </div>
 </section>
 
@@ -1266,59 +1373,6 @@ section { padding:150px 0; }
                 <div class="data-num"><span>[</span> 2,990+ <span>]</span></div>
                 <div class="data-label">AI 人才库</div>
             </div>
-        </div>
-    </div>
-</section>
-
-<!-- ═══ 全域矩阵 ═══ -->
-<section class="core-value-section reveal-up" id="matrix">
-    <div class="section-header">
-        <div class="kicker">/ 全域矩阵</div>
-        <h2 class="main-title">见证涌现 · 锚定节点 · 促成回响</h2>
-        <p class="subtitle">覆盖 AI 人才全链路，穿透底层架构与商业闭环</p>
-    </div>
-    <div class="cards-grid">
-        <div class="glass-card">
-            <div class="card-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-            </div>
-            <h3 class="card-title">洞察 · 全栈产业链解码</h3>
-            <p class="card-desc">穿透技术与商业的边界，持续追踪从大模型基座到超级应用的范式转移</p>
-            <ul class="feature-list">
-                <li>底层算力与 AI Infra 演进</li>
-                <li>Agent 与具身智能应用架构</li>
-                <li>PMF 验证与产品交互创新</li>
-                <li>GTM 策略与商业化变现路径</li>
-                <li>用户增长与生态运营体系</li>
-            </ul>
-        </div>
-        <div class="glass-card">
-            <div class="card-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="12" r="2"/><circle cx="6" cy="18" r="2"/><line x1="8" y1="7" x2="16" y2="11"/><line x1="8" y1="17" x2="16" y2="13"/></svg>
-            </div>
-            <h3 class="card-title">连接 · 全域超级节点拓扑</h3>
-            <p class="card-desc">摒弃静态名单，构建以技术领袖、产品先锋与商业大拿交织的立体神经网络</p>
-            <ul class="feature-list">
-                <li>顶尖科学家与技术领袖 Mapping</li>
-                <li>C-Level 商业化与运营操盘手</li>
-                <li>破局型 AI 产品与增长黑客</li>
-                <li>跨界复合人才的冷启动拓展</li>
-                <li>全球多语种前沿阵营触达</li>
-            </ul>
-        </div>
-        <div class="glass-card">
-            <div class="card-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="11"/></svg>
-            </div>
-            <h3 class="card-title">回响 · 商业与组织力涌现</h3>
-            <p class="card-desc">超越单点招聘，从业务线痛点切入，端到端交付能引发组织质变的破局者</p>
-            <ul class="feature-list">
-                <li>组织架构与业务深度诊断</li>
-                <li>核心高管定向寻访与背书</li>
-                <li>跨界商业化资源协同对接</li>
-                <li>团队融合与伴随式效能演进</li>
-                <li>促成技术与商业的化学反应</li>
-            </ul>
         </div>
     </div>
 </section>
@@ -1410,6 +1464,24 @@ document.addEventListener("DOMContentLoaded", function(){
         observer.observe(el);
     });
 });
+
+/* ─── Manifesto Parallax ─── */
+(function(){
+    var manifestoText=document.querySelector('.manifesto-text');
+    if(!manifestoText)return;
+    var ticking=false;
+    function updateParallax(){
+        var scrollY=window.scrollY||window.pageYOffset;
+        manifestoText.style.transform='translateY('+(scrollY*0.08)+'px)';
+        ticking=false;
+    }
+    window.addEventListener('scroll',function(){
+        if(!ticking){
+            requestAnimationFrame(updateParallax);
+            ticking=true;
+        }
+    },{passive:true});
+})();
 
 /* ─── Nav Scroll State ─── */
 (function(){
