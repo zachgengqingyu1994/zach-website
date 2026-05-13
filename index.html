@@ -82,7 +82,7 @@ nav .cta:hover { background:#E8E6E1; transform:translateY(-1px); }
     display:inline-block; padding:6px 16px; margin-bottom:24px;
     border-radius:6px; background:rgba(255,255,255,0.04);
     border:1px solid rgba(255,255,255,0.06);
-    color:#B0ADA8; font-size:0.7rem; letter-spacing:2px; text-transform:uppercase;
+    color:#C5C3BE; font-size:0.7rem; letter-spacing:2px; text-transform:uppercase;
     position:relative; z-index:1;
 }
 .hero h1 {
@@ -182,14 +182,20 @@ nav .cta:hover { background:#E8E6E1; transform:translateY(-1px); }
 }
 .section-label {
     font-size:0.65rem; letter-spacing:4px; text-transform:uppercase;
-    color:#9A9793; margin-bottom:12px;
+    color:#C5C3BE; margin-bottom:12px;
+    position:relative; padding-left:16px;
+}
+.section-label::before {
+    content:''; position:absolute; left:0; top:50%; transform:translateY(-50%);
+    width:3px; height:10px; border-radius:2px;
+    background:linear-gradient(to bottom, #D4AF37, #E0C46A);
 }
 .section-title {
     font-size:clamp(1.6rem, 3vw, 2.2rem); font-weight:600;
     color:#FFFFFF; letter-spacing:-0.5px; margin-bottom:16px;
 }
 .section-desc {
-    font-size:0.95rem; color:#B0ADA8; max-width:500px;
+    font-size:0.95rem; color:#C5C3BE; max-width:500px;
     margin-bottom:48px; line-height:1.7;
 }
 
@@ -220,7 +226,10 @@ nav .cta:hover { background:#E8E6E1; transform:translateY(-1px); }
     box-shadow:0 8px 32px rgba(0,0,0,0.3);
 }
 .article-num {
-    font-size:1.6rem; font-weight:700; color:rgba(255,255,255,0.04);
+    font-size:1.6rem; font-weight:700;
+    background:linear-gradient(135deg, rgba(212,175,55,0.2), rgba(212,175,55,0.08));
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    background-clip:text;
     line-height:1; flex-shrink:0; width:40px;
 }
 .article-type {
@@ -232,11 +241,11 @@ nav .cta:hover { background:#E8E6E1; transform:translateY(-1px); }
     margin-bottom:6px; line-height:1.4;
 }
 .article-excerpt {
-    font-size:0.85rem; color:#9A9793; line-height:1.6;
+    font-size:0.85rem; color:#C5C3BE; line-height:1.6;
     margin-bottom:8px;
 }
 .article-meta {
-    font-size:0.72rem; color:#7A7875;
+    font-size:0.72rem; color:#B0ADA8;
 }
 
 /* ─── Daily Section ─── */
@@ -244,7 +253,7 @@ nav .cta:hover { background:#E8E6E1; transform:translateY(-1px); }
     display:flex; justify-content:space-between; align-items:center;
     margin-bottom:24px; flex-wrap:wrap; gap:12px;
 }
-.daily-date { color:#9A9793; font-size:0.85rem; }
+.daily-date { color:#C5C3BE; font-size:0.85rem; }
 .daily-link { color:#D4AF37; text-decoration:none; font-size:0.82rem; }
 .daily-link:hover { opacity:0.7; }
 .daily-item {
@@ -256,16 +265,16 @@ nav .cta:hover { background:#E8E6E1; transform:translateY(-1px); }
     width:28px; height:28px; border-radius:6px;
     background:rgba(255,255,255,0.04);
     display:flex; align-items:center; justify-content:center;
-    font-size:0.72rem; font-weight:600; color:#9A9793; flex-shrink:0; margin-top:2px;
+    font-size:0.72rem; font-weight:600; color:#C5C3BE; flex-shrink:0; margin-top:2px;
 }
 .daily-content .daily-news-title {
     font-size:0.92rem; font-weight:500; color:#F0EEE9; margin-bottom:4px;
 }
 .daily-content .daily-source {
-    font-size:0.75rem; color:#7A7875; margin-bottom:6px;
+    font-size:0.75rem; color:#9A9793; margin-bottom:6px;
 }
 .daily-content .daily-comment {
-    font-size:0.82rem; color:#9A9793; line-height:1.6;
+    font-size:0.82rem; color:#C5C3BE; line-height:1.6;
 }
 
 /* ─── Connect Grid ─── */
@@ -290,14 +299,14 @@ nav .cta:hover { background:#E8E6E1; transform:translateY(-1px); }
 }
 .connect-icon { font-size:1.4rem; }
 .connect-label { font-size:0.82rem; color:#FFFFFF; font-weight:500; }
-.connect-sub { font-size:0.72rem; color:#9A9793; }
+.connect-sub { font-size:0.72rem; color:#C5C3BE; }
 
 /* ─── Stats ─── */
 .stats {
     display:flex; gap:40px; justify-content:center; margin-top:40px; flex-wrap:wrap;
 }
 .stat-num { font-size:1.8rem; font-weight:700; color:#D4AF37; }
-.stat-label { font-size:0.78rem; color:#9A9793; margin-top:4px; }
+.stat-label { font-size:0.78rem; color:#C5C3BE; margin-top:4px; }
 
 /* ─── Skills Cards ─── */
 .skills-grid {
@@ -317,7 +326,7 @@ nav .cta:hover { background:#E8E6E1; transform:translateY(-1px); }
 }
 .skill-icon { font-size:1.5rem; margin-bottom:12px; }
 .skill-card h3 { font-size:0.92rem; color:#FFFFFF; margin-bottom:8px; font-weight:600; }
-.skill-card p { font-size:0.82rem; color:#9A9793; line-height:1.6; }
+.skill-card p { font-size:0.82rem; color:#C5C3BE; line-height:1.6; }
 .skill-card ul { list-style:none; margin-top:12px; }
 .skill-card li {
     font-size:0.78rem; color:#B0ADA8; padding:4px 0;
@@ -332,7 +341,7 @@ nav .cta:hover { background:#E8E6E1; transform:translateY(-1px); }
     border-top:1px solid rgba(255,255,255,0.04);
 }
 .footer-cta h2 { font-size:1.4rem; color:#FFFFFF; margin-bottom:12px; font-weight:600; }
-.footer-cta p { color:#9A9793; margin-bottom:24px; font-size:0.9rem; }
+.footer-cta p { color:#C5C3BE; margin-bottom:24px; font-size:0.9rem; }
 .footer-cta a {
     display:inline-block; padding:12px 32px; border-radius:8px;
     background:#FFFFFF; color:#000912; text-decoration:none;
@@ -341,7 +350,7 @@ nav .cta:hover { background:#E8E6E1; transform:translateY(-1px); }
 }
 .footer-cta a:hover { background:#E8E6E1; transform:translateY(-2px); }
 .footer-bar {
-    text-align:center; padding:24px; color:#7A7875; font-size:0.75rem;
+    text-align:center; padding:24px; color:#B0ADA8; font-size:0.75rem;
     border-top:1px solid rgba(255,255,255,0.04);
 }
 
