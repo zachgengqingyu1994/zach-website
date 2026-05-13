@@ -482,17 +482,17 @@ section { position:relative; padding:160px 0; }
     margin-bottom:12px;
 }
 .section-header .main-title {
-    font-size:clamp(2rem, 4vw, 2.8rem);
-    font-weight:600;
-    color:#FFFFFF;
-    letter-spacing:2px;
-    margin-bottom:16px;
+    font-size:clamp(2.2rem, 5vw, 3.5rem);
+    font-weight:700;
+    letter-spacing:4px;
+    margin-bottom:20px;
+    color:#ffffff;
 }
 .section-header .subtitle {
-    color:#94a3b8;
-    font-size:15px;
-    line-height:1.8;
-    max-width:600px;
+    font-size:14px;
+    color:#64748b;
+    letter-spacing:1px;
+    max-width:500px;
 }
 
 .insight-list {
@@ -539,17 +539,19 @@ section { position:relative; padding:160px 0; }
     flex-grow:1;
 }
 .insight-tag {
-    font-size:12px;
+    font-size:10px;
+    padding:2px 8px;
+    letter-spacing:3px;
     color:#bfa87a;
-    letter-spacing:2px;
     margin-bottom:12px;
 }
 .insight-title {
-    font-size:20px;
+    font-size:18px !important;
+    letter-spacing:1px;
+    line-height:1.4;
     font-weight:500;
     color:#ffffff;
     margin:0 0 12px 0;
-    line-height:1.5;
     display:flex;
     align-items:center;
     transition:color 0.3s ease;
@@ -570,16 +572,19 @@ section { position:relative; padding:160px 0; }
     transform:translate(6px,-6px);
 }
 .insight-desc {
-    font-size:14px;
+    font-size:13px !important;
+    line-height:1.8;
     color:#94a3b8;
-    line-height:1.7;
+    font-weight:300;
     margin:0 0 24px 0;
 }
 .insight-meta {
     font-family:'SF Mono', Consolas, monospace;
-    font-size:12px;
+    font-size:11px !important;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    opacity:0.6;
     color:#64748b;
-    letter-spacing:1px;
 }
 @media (max-width:768px) {
     .insight-card { flex-direction:column; gap:20px; padding:24px; }
@@ -642,20 +647,29 @@ section { position:relative; padding:160px 0; }
 }
 .feed-meta {
     font-family:'SF Mono',Consolas,'Courier New',monospace;
-    font-size:13px;
+    font-size:11px !important;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    opacity:0.6;
     margin-bottom:16px;
     display:flex; gap:16px;
 }
 .feed-date { color:#94a3b8; }
 .feed-tag { color:#bfa87a; }
 .feed-title {
-    font-size:clamp(1.1rem, 2vw, 1.35rem);
-    font-weight:500; letter-spacing:1px;
-    margin-bottom:16px; color:#ffffff;
+    font-size:18px !important;
+    letter-spacing:1px;
+    line-height:1.4;
+    font-weight:500;
+    margin-bottom:16px;
+    color:#ffffff;
 }
 .feed-desc {
-    font-size:0.92rem; line-height:1.7;
-    color:#cbd5e1; margin-bottom:24px;
+    font-size:13px !important;
+    line-height:1.8;
+    color:#94a3b8;
+    font-weight:300;
+    margin-bottom:24px;
 }
 .feed-link {
     font-family:'SF Mono',Consolas,monospace;
@@ -701,7 +715,10 @@ section { position:relative; padding:160px 0; }
 }
 .connect-protocol {
     font-family:'SF Mono', Consolas, monospace;
-    font-size:14px;
+    font-size:11px !important;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    opacity:0.6;
     color:#ffffff;
     width:100px;
     flex-shrink:0;
@@ -739,7 +756,8 @@ section { position:relative; padding:160px 0; }
 }
 .data-num {
     font-family:'SF Mono', Consolas, monospace;
-    font-size:36px;
+    font-size:42px;
+    letter-spacing:-1px;
     font-weight:600;
     color:#bfa87a;
     margin-bottom:12px;
@@ -751,8 +769,8 @@ section { position:relative; padding:160px 0; }
     font-size:32px;
 }
 .data-label {
-    font-size:14px;
-    color:#94a3b8;
+    font-size:12px;
+    color:#4a5568;
     letter-spacing:2px;
 }
 @media (max-width:768px) {
@@ -804,12 +822,18 @@ section { position:relative; padding:160px 0; }
     display:block;
 }
 .glass-card .card-title {
-    font-size:1.2rem; font-weight:500;
-    color:#FFFFFF; margin-bottom:16px; letter-spacing:-0.3px;
+    font-size:18px !important;
+    letter-spacing:1px;
+    line-height:1.4;
+    font-weight:500;
+    color:#FFFFFF;
+    margin-bottom:16px;
 }
 .glass-card .card-desc {
-    color:#9A9793;
-    font-size:0.85rem; line-height:1.7;
+    font-size:13px !important;
+    line-height:1.8;
+    color:#94a3b8;
+    font-weight:300;
     margin-bottom:28px;
     min-height:44px;
 }
