@@ -12,12 +12,17 @@
 html { scroll-behavior:smooth; }
 body {
     font-family:'Inter', -apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
-    background-image:
-        linear-gradient(to bottom, rgba(5,8,15,0.6) 0%, rgba(5,8,15,0.98) 100%);
+    background-color:#05080f;
+    background-image:linear-gradient(
+        to bottom,
+        rgba(5,8,15,0.2) 0%,
+        rgba(10,15,25,0.8) 20%,
+        rgba(5,8,15,1) 50%,
+        rgba(2,4,8,1) 100%
+    );
+    background-attachment:scroll;
     background-size:cover;
     background-position:center;
-    background-attachment:fixed;
-    background-color:#05080f;
     color:#cbd5e1;
     line-height:1.7;
     font-weight:300;
@@ -25,10 +30,31 @@ body {
     -webkit-font-smoothing:antialiased;
     cursor:none;
 }
+
+/* ─── 贵族噪声 Film Grain ─── */
+body::before {
+    content:"";
+    position:fixed;
+    top:0; left:0; width:100%; height:100%;
+    background-image:url('https://grainy-gradients.vercel.app/noise.svg');
+    opacity:0.03;
+    pointer-events:none;
+    z-index:999;
+}
 ::selection { background:rgba(255,255,255,0.1); }
 
 /* ─── Section Breathing ─── */
-section { position:relative; padding:160px 0; }
+section { position:relative; padding:160px 0; border-bottom:1px solid rgba(255,255,255,0.02); }
+section::after {
+    content:'';
+    position:absolute;
+    top:50%; left:50%;
+    transform:translate(-50%,-50%);
+    width:80%; height:80%;
+    background:radial-gradient(circle, rgba(110,150,255,0.03) 0%, transparent 70%);
+    pointer-events:none;
+    z-index:-1;
+}
 
 /* ─── Light Leaks ─── */
 #matrix::before, #daily::before {
@@ -1476,6 +1502,14 @@ document.querySelectorAll('.insight-card, .glass-card, .connect-card').forEach(f
         });
     });
 })();
+
+/* ─── 动态背景流体位移 ─── */
+document.addEventListener('mousemove', function(e){
+    var x=(e.clientX/window.innerWidth)*100;
+    var y=(e.clientY/window.innerHeight)*100;
+    document.body.style.background='radial-gradient(circle at '+x+'% '+y+'%, rgba(15,23,42,1) 0%, rgba(5,8,15,1) 100%)';
+});
+
 /* ─── 数字滚动涌现 ─── */
 (function(){
     var stats=document.querySelectorAll('.data-num');
