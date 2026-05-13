@@ -452,6 +452,87 @@ nav .cta:hover { background:rgba(255,255,255,0.14); transform:translateY(-1px); 
 }
 .stat-label { font-size:0.78rem; color:#C5C3BE; margin-top:4px; }
 
+/* ─── Core Values ─── */
+.values-grid {
+    display:grid; grid-template-columns:1fr 1fr; gap:14px;
+}
+.value-card {
+    padding:28px 28px 32px;
+    position:relative;
+    background:rgba(255,255,255,0.08);
+    -webkit-backdrop-filter:blur(2px) saturate(180%);
+    backdrop-filter:blur(2px) saturate(180%);
+    border:1px solid rgba(255,255,255,0.2);
+    border-radius:1.5rem;
+    box-shadow:0 8px 32px rgba(0,0,0,0.25), inset 0 4px 20px rgba(255,255,255,0.1);
+    transition:all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    cursor:default;
+}
+.value-card::after {
+    content:''; position:absolute; top:0; left:0;
+    width:100%; height:100%;
+    background:rgba(255,255,255,0.04);
+    border-radius:1.5rem;
+    backdrop-filter:blur(1px);
+    box-shadow:inset -10px -8px 0px -11px rgba(255,255,255,1),
+               inset 0px -9px 0px -8px rgba(255,255,255,1);
+    opacity:0.5; z-index:-1;
+    filter:blur(1px) drop-shadow(10px 4px 6px black) brightness(115%);
+    pointer-events:none;
+}
+.value-card:hover {
+    transform:translateY(-6px);
+    background:rgba(255,255,255,0.14);
+    border-color:rgba(255,255,255,0.5);
+    box-shadow:0 20px 60px rgba(0,0,0,0.35),
+               0 0 0 1px rgba(255,255,255,0.08),
+               inset 0 4px 24px rgba(255,255,255,0.18);
+}
+.value-card .v-icon {
+    width:36px; height:36px;
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom:18px;
+    border-radius:10px;
+    background:rgba(212,175,55,0.1);
+    border:1px solid rgba(212,175,55,0.15);
+    color:#D4AF37;
+    font-size:1rem; font-weight:400;
+    transition:all 0.3s;
+}
+.value-card:hover .v-icon {
+    background:rgba(212,175,55,0.15);
+    border-color:rgba(212,175,55,0.3);
+    box-shadow:0 0 20px rgba(212,175,55,0.08);
+}
+.value-card h3 {
+    font-size:1.05rem; font-weight:600; color:#FFFFFF;
+    margin-bottom:10px; letter-spacing:-0.2px;
+}
+.value-card .v-desc {
+    font-size:0.82rem; color:#B0ADA8; line-height:1.7;
+    margin-bottom:16px;
+}
+.value-card ul {
+    list-style:none;
+}
+.value-card li {
+    font-size:0.78rem; color:#9A9793;
+    padding:5px 0 5px 14px;
+    position:relative;
+    line-height:1.5;
+}
+.value-card li::before {
+    content:''; position:absolute; left:0; top:11px;
+    width:5px; height:5px; border-radius:50%;
+    background:#D4AF37;
+    box-shadow:0 0 6px rgba(212,175,55,0.4);
+    opacity:0.7;
+}
+.value-card:hover li::before {
+    opacity:1;
+    box-shadow:0 0 8px rgba(212,175,55,0.6);
+}
+
 /* ─── Skills Cards ─── */
 .skills-grid {
     display:grid; grid-template-columns:repeat(3,1fr); gap:14px;
@@ -565,6 +646,7 @@ nav .cta:hover { background:rgba(255,255,255,0.14); transform:translateY(-1px); 
     .connect-item { border-radius:1.5rem; }
     .connect-item::after { border-radius:1.5rem; }
     .stats { gap:24px; }
+    .values-grid { grid-template-columns:1fr; }
 }
 </style>
 </head>
@@ -576,6 +658,7 @@ nav .cta:hover { background:rgba(255,255,255,0.14); transform:translateY(-1px); 
     <a href="#thoughts">思想</a>
     <a href="#daily">日报</a>
     <a href="#connect">连接</a>
+    <a href="#values">价值</a>
     <a href="about.html">关于</a>
     <a href="jobs.html">机会</a>
     <a href="#connect" class="cta">联系</a>
@@ -736,6 +819,55 @@ nav .cta:hover { background:rgba(255,255,255,0.14); transform:translateY(-1px); 
         <div><div class="stat-num" data-target="100">0</div><div class="stat-label">合作企业</div></div>
         <div><div class="stat-num" data-target="1000">0</div><div class="stat-label">成功匹配</div></div>
         <div><div class="stat-num" data-target="3000">0</div><div class="stat-label">AI 人才库</div></div>
+    </div>
+</section>
+
+<!-- ═══ 核心价值 ═══ -->
+<section class="section" id="values">
+    <div class="section-label">/ 核心价值</div>
+    <h2 class="section-title">信念 · 方法 · 承诺</h2>
+    <p class="section-desc">驱动每一次人才连接的底层逻辑</p>
+    <div class="values-grid">
+        <div class="value-card">
+            <div class="v-icon">◇</div>
+            <h3>深度洞察</h3>
+            <p class="v-desc">不止于简历筛选，而是对 AI 人才市场的结构性理解与前瞻判断</p>
+            <ul>
+                <li>持续追踪 3000+ AI 人才动态</li>
+                <li>覆盖大模型 / Infra / 应用全链路</li>
+                <li>每份推荐附行业趋势佐证</li>
+            </ul>
+        </div>
+        <div class="value-card">
+            <div class="v-icon">◇</div>
+            <h3>精准连接</h3>
+            <p class="v-desc">猎头的核心不是「找人」，而是用嗅觉把对的人放到对的位置</p>
+            <ul>
+                <li>职位需求深度诊断与拆解</li>
+                <li>定向匹配而非海量投递</li>
+                <li>人岗契合度三维评估模型</li>
+            </ul>
+        </div>
+        <div class="value-card">
+            <div class="v-icon">◇</div>
+            <h3>信任背书</h3>
+            <p class="v-desc">每份推荐都是一次声誉的押注，不做流水线式的简历搬运</p>
+            <ul>
+                <li>候选人能力深度访谈与验证</li>
+                <li>企业端需求理解优于岗位描述</li>
+                <li>入职后跟进，确保双向满意</li>
+            </ul>
+        </div>
+        <div class="value-card">
+            <div class="v-icon">◇</div>
+            <h3>长期主义</h3>
+            <p class="v-desc">不是填一个坑，而是为 AI 企业构建可持续的人才版图</p>
+            <ul>
+                <li>人才 mapping 而非一次性招聘</li>
+                <li>竞品组织架构持续追踪</li>
+                <li>陪伴企业从 A 轮走到上市</li>
+            </ul>
+        </div>
     </div>
 </section>
 
