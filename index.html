@@ -441,7 +441,15 @@ nav .cta:hover { background:rgba(255,255,255,0.14); transform:translateY(-1px); 
 .stats {
     display:flex; gap:40px; justify-content:center; margin-top:40px; flex-wrap:wrap;
 }
-.stat-num { font-size:1.8rem; font-weight:700; color:#D4AF37; }
+.stat-num {
+    font-size:1.8rem; font-weight:700; color:#D4AF37;
+    font-variant-numeric:tabular-nums;
+    transition:color 0.5s;
+}
+.stat-num.counted {
+    color:#E8D48B;
+    text-shadow:0 0 20px rgba(212,175,55,0.15);
+}
 .stat-label { font-size:0.78rem; color:#C5C3BE; margin-top:4px; }
 
 /* ─── Skills Cards ─── */
@@ -724,10 +732,10 @@ nav .cta:hover { background:rgba(255,255,255,0.14); transform:translateY(-1px); 
         </a>
     </div>
     
-    <div class="stats">
-        <div><div class="stat-num">100+</div><div class="stat-label">合作企业</div></div>
-        <div><div class="stat-num">1000+</div><div class="stat-label">成功匹配</div></div>
-        <div><div class="stat-num">3000+</div><div class="stat-label">AI 人才库</div></div>
+    <div class="stats" id="stats">
+        <div><div class="stat-num" data-target="100">0</div><div class="stat-label">合作企业</div></div>
+        <div><div class="stat-num" data-target="1000">0</div><div class="stat-label">成功匹配</div></div>
+        <div><div class="stat-num" data-target="3000">0</div><div class="stat-label">AI 人才库</div></div>
     </div>
 </section>
 
@@ -818,6 +826,37 @@ function showQR(p){var m=document.getElementById('qrModal'),i=document.getElemen
 var q={'wechat':'wechat-qr.png','douyin':'douyin-qr.jpg','xiaohongshu':'xiaohongshu-qr.jpg'};
 i.src=q[p];t.textContent={'wechat':'扫码关注微信公众号','douyin':'扫码关注抖音','xiaohongshu':'扫码关注小红书'}[p];m.classList.add('show')}
 function closeQR(){document.getElementById('qrModal').classList.remove('show')}
+
+/* ─── Stats Counter Animation ─── */
+(function(){
+    var counted=false;
+    var els=document.querySelectorAll('#stats .stat-num');
+    function easeOut(t){return 1-Math.pow(1-t,3)}
+    function animate(){
+        if(counted)return;
+        counted=true;
+        els.forEach(function(el){
+            var target=parseInt(el.getAttribute('data-target'));
+            var suffix=target>=1000?'+':'+';
+            var duration=1500;
+            var start=performance.now();
+            function step(now){
+                var t=Math.min((now-start)/duration,1);
+                var val=Math.round(easeOut(t)*target);
+                el.textContent=val+suffix;
+                if(val===target){el.classList.add('counted')}
+                if(t<1){requestAnimationFrame(step)}
+            }
+            requestAnimationFrame(step);
+        });
+    }
+    if('IntersectionObserver' in window){
+        var obs=new IntersectionObserver(function(entries){
+            entries.forEach(function(e){if(e.isIntersecting){animate();obs.disconnect()}});
+        },{threshold:0.5});
+        obs.observe(document.getElementById('stats'));
+    } else { animate() }
+})();
 </script>
 </body>
 </html>
