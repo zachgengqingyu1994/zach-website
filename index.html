@@ -1029,6 +1029,71 @@ section::after {
     .footer-quote { font-size:24px; letter-spacing:6px; }
 }
 
+/* --- 1. 强化核心 IP 视觉效果 --- */
+.hero-content {
+    position:relative;
+    z-index:2;
+    text-align:center;
+}
+.hero-content h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 10vw, 6rem);
+    letter-spacing: 0.15em;
+    color: #fff;
+    text-shadow: 0 0 30px rgba(191, 168, 122, 0.4);
+    margin-bottom: 0.2em;
+    animation: textEmergence 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.hero-content .subtitle {
+    font-family: 'Space Mono', monospace;
+    font-size: 1.2rem;
+    letter-spacing: 0.8em;
+    color: #bfa87a;
+    text-transform: uppercase;
+    opacity: 0.8;
+}
+@keyframes textEmergence {
+    0% { opacity: 0; transform: translateY(20px); letter-spacing: 0.3em; }
+    100% { opacity: 1; transform: translateY(0); letter-spacing: 0.15em; }
+}
+/* --- 2. 搜索框嵌入 Open Roles --- */
+.connect-card.glass-card {
+    position: relative;
+    padding-bottom: 80px !important;
+}
+.embedded-search {
+    margin-top: 24px;
+    display: flex;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 8px 12px;
+    transition: all 0.3s ease;
+}
+.embedded-search:focus-within {
+    border-color: #bfa87a;
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 15px rgba(191, 168, 122, 0.2);
+}
+.embedded-search input {
+    background: transparent;
+    border: none;
+    color: #fff;
+    width: 100%;
+    outline: none;
+    font-size: 0.9rem;
+}
+.embedded-search input::placeholder {
+    color: #64748b;
+}
+.embedded-search button {
+    background: transparent;
+    border: none;
+    color: #bfa87a;
+    cursor: pointer;
+    padding-left: 8px;
+}
+
 /* ─── Floating Radar ─── */
 .floating-radar {
     position:fixed;
@@ -1103,36 +1168,25 @@ section::after {
 
 <!-- ═══ Hero ═══ -->
 <section class="hero" id="hero">
-    <video class="hero-video" autoplay muted playsinline preload="auto">
+    <video class="hero-video" autoplay muted loop playsinline preload="auto">
         <source src="static/bg-hero.mp4" type="video/mp4">
     </video>
     <script>(function(){var v=document.querySelector('.hero-video');if(v){var t=function(){v.play().catch(function(){})};document.addEventListener('visibilitychange',t);t()}})()</script>
-    <div class="container" style="position:relative; z-index:2;">
-    <div class="hero-tag">
-        <span class="chip"><span class="text">AI 猎头</span></span>
-        <span class="divider">◆</span>
-        <span class="chip"><span class="text-light">行业观察者</span></span>
-        <span class="divider">◆</span>
-        <span class="chip"><span class="text">人才连接器</span></span>
-    </div>
-    <div class="hero-title-wrapper">
-        <h1 class="hero-title">
-            <span class="text-glow">涌现与回响</span>
-            <span class="text-gradient">涌现与回响</span>
-        </h1>
-        <div class="hero-subtitle">EMERGENCE</div>
-    </div>
-    
-    <!-- Search Box -->
-    <div class="search-container">
-        <div class="search-box">
-            <input type="text" id="jobSearch" placeholder="搜索 AI 岗位... 试试输入 LLM、Agent、Python">
-            <button onclick="searchJobs()">搜索席位</button>
-        </div>
-        <div class="search-results" id="searchResults"></div>
-    </div>
+    <div class="container hero-content">
+        <h1>涌现与回响</h1>
+        <div class="subtitle">Emergence & Resonance</div>
     </div>
 </section>
+
+<div class="connect-card glass-card" style="max-width:540px; margin:-60px auto 0; position:relative; z-index:10;">
+    <h3 style="font-size:18px; letter-spacing:1px; font-weight:500; color:#fff;">Open Roles</h3>
+    <p style="color:#94a3b8; font-size:14px; margin-top:8px;">探索正在发生的 AI 全链路机会</p>
+    <div class="embedded-search">
+        <input type="text" placeholder="搜索岗位、技术栈或方向...">
+        <button><i class="fas fa-search"></i></button>
+    </div>
+    <a href="#jobs" class="footer-cta-btn" style="margin-top:20px; display:inline-block;">查看全部岗位</a>
+</div>
 
 <!-- ═══ Manifesto ═══ -->
 <section class="manifesto-section reveal-up">
