@@ -1052,7 +1052,7 @@ section { position:relative; padding:160px 0; }
 <!-- ═══ Manifesto ═══ -->
 <section class="manifesto-section reveal-up">
     <div class="container" style="max-width:800px; margin:0 auto; text-align:center;">
-        <p class="manifesto-text" id="parallaxText">
+        <p class="manifesto-text">
             技术不应只是冰冷的硅基代码，它是人类智慧涌现的载体。<br>
             在算法、算力与超级应用的交汇处，<br>
             我致力于寻找那些能穿透周期的破局者。<br>
@@ -1409,21 +1409,6 @@ document.addEventListener("DOMContentLoaded", function(){
     });
 })();
 
-/* ─── Parallax Depth ─── */
-(function(){
-    var el=document.getElementById('parallaxText');
-    if(!el)return;
-    var ticking=false;
-    window.addEventListener('scroll',function(){
-        if(!ticking){
-            requestAnimationFrame(function(){
-                el.style.transform='translateY('+(window.scrollY*0.05)+'px)';
-                ticking=false;
-            });
-            ticking=true;
-        }
-    },{passive:true});
-})();
 </script>
 </body>
 </html>
