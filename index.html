@@ -32,13 +32,19 @@ body {
 }
 .glass-nav .nav-brand {
     display:flex; align-items:center; gap:12px;
-    font-size:0.8rem; font-weight:500; color:#fff; letter-spacing:3px;
+    font-size:0.95rem; font-weight:600; color:#fff; letter-spacing:4px;
     text-transform:uppercase;
 }
+.glass-nav .nav-brand .brand-name {
+    background: linear-gradient(135deg, #fff 40%, #bfa87a 100%);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    background-clip:text;
+}
 .glass-nav .brand-dot {
-    width:6px; height:6px; border-radius:50%;
+    width:7px; height:7px; border-radius:50%;
     background:#bfa87a;
-    box-shadow:0 0 8px rgba(191,168,122,0.4);
+    box-shadow:0 0 10px rgba(191,168,122,0.6);
 }
 .menu-trigger {
     background:none; border:none;
@@ -777,7 +783,7 @@ body {
 <!-- ═══ Navigation ═══ -->
 <nav class="glass-nav minimal">
     <div class="nav-brand">
-        <span class="brand-dot"></span> ZACK GENG
+        <span class="brand-dot"></span><span class="brand-name">ZACH GENG</span>
     </div>
     <button class="menu-trigger" id="menuToggle">
         <span class="line"></span>
