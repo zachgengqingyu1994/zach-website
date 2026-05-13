@@ -1101,6 +1101,33 @@ section::after {
     padding-left: 8px;
 }
 
+/* 进度条轨道：深色半透明胶囊 */
+.vertical-scroll-tracker {
+position: fixed;
+right: 20px;
+top: 50%;
+transform: translateY(-50%);
+width: 8px;
+height: 200px;
+background: rgba(255, 255, 255, 0.05);
+backdrop-filter: blur(8px);
+border: 1px solid rgba(255, 255, 255, 0.1);
+border-radius: 20px;
+z-index: 9999;
+padding: 2px;
+display: flex;
+flex-direction: column;
+}
+/* 进度滑块：金色发光胶囊 */
+.scroll-capsule {
+width: 100%;
+height: 0%;
+background: linear-gradient(to bottom, #bfa87a, #e5d5b0);
+border-radius: 20px;
+box-shadow: 0 0 12px rgba(191, 168, 122, 0.4);
+transition: height 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 /* ─── Floating Radar (可展开搜索面板) ─── */
 .floating-radar {
     position:fixed;
@@ -1461,6 +1488,11 @@ section::after {
     </div>
 </section>
 
+<!-- ═══ 滚动进度胶囊 ═══ -->
+<div class="vertical-scroll-tracker">
+    <div class="scroll-capsule" id="scrollCapsule"></div>
+</div>
+
 <!-- ═══ Floating Radar (Open Roles 可展开面板) ═══ -->
 <div class="floating-radar" id="openRolesRadar">
     <div class="radar-header" onclick="toggleRadar(event)">
@@ -1660,6 +1692,17 @@ document.querySelectorAll('.insight-card, .glass-card, .connect-card').forEach(f
     },{threshold:0.5});
     stats.forEach(function(s){ observer.observe(s); });
 })();
+
+/* --- 垂直胶囊进度计算 --- */
+window.addEventListener('scroll', () => {
+const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+const scrolled = (winScroll / height) * 100;
+const capsule = document.getElementById("scrollCapsule");
+if (capsule) {
+capsule.style.height = scrolled + "%";
+}
+});
 
 /* ─── Open Roles 雷达面板展开 ─── */
 function toggleRadar(e){
