@@ -11,21 +11,18 @@
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior:smooth; }
 body {
-    font-family:'Inter', -apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
+    font-family:'Inter', -apple-system, sans-serif;
     background-color:#05080f;
     background-image:linear-gradient(
         to bottom,
         #05080f 0%,
-        #0a101f 25%,
-        #05080f 60%,
+        #0a101f 15%,
+        #05080f 50%,
         #020408 100%
     );
     background-attachment:scroll;
-    background-size:cover;
-    background-position:center;
+    background-size:100% 100%;
     color:#cbd5e1;
-    line-height:1.7;
-    font-weight:300;
     overflow-x:hidden;
     -webkit-font-smoothing:antialiased;
     cursor:none;
@@ -252,11 +249,9 @@ section::after {
     position:relative;
     width:100%;
     min-height:100vh;
-    overflow:visible;
-    background:#05080f;
+    background:transparent;
     display:flex; flex-direction:column;
     align-items:center; justify-content:center;
-    text-align:center; padding:140px 24px 60px;
 }
 .hero-video {
     position:absolute; top:0; left:0;
@@ -269,14 +264,16 @@ section::after {
 }
 .hero::after {
     content:''; position:absolute;
-    top:0; left:0;
+    top:0; left:50%;
+    transform:translateX(-50%);
     width:100vw;
-    height:100.5%;
+    height:100%;
     background:linear-gradient(
         to bottom,
         rgba(5,8,15,0) 0%,
-        rgba(5,8,15,0.2) 50%,
-        rgba(5,8,15,0.8) 85%,
+        rgba(5,8,15,0) 40%,
+        rgba(5,8,15,0.3) 70%,
+        rgba(5,8,15,0.8) 92%,
         #05080f 100%
     );
     z-index:1;
@@ -1517,13 +1514,6 @@ document.querySelectorAll('.insight-card, .glass-card, .connect-card').forEach(f
         });
     });
 })();
-
-/* ─── 动态背景流体位移 ─── */
-document.addEventListener('mousemove', function(e){
-    var x=(e.clientX/window.innerWidth)*100;
-    var y=(e.clientY/window.innerHeight)*100;
-    document.body.style.background='radial-gradient(circle at '+x+'% '+y+'%, rgba(15,23,42,1) 0%, rgba(5,8,15,1) 100%)';
-});
 
 /* ─── 数字滚动涌现 ─── */
 (function(){
