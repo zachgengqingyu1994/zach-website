@@ -831,21 +831,25 @@ function closeQR(){document.getElementById('qrModal').classList.remove('show')}
 (function(){
     var counted=false;
     var els=document.querySelectorAll('#stats .stat-num');
-    function easeOut(t){return 1-Math.pow(1-t,3)}
+    function easeOut(t){return 1-Math.pow(1-t,4)}
     function animate(){
         if(counted)return;
         counted=true;
-        els.forEach(function(el){
+        els.forEach(function(el,i){
             var target=parseInt(el.getAttribute('data-target'));
-            var suffix=target>=1000?'+':'+';
-            var duration=1500;
-            var start=performance.now();
+            var suffix='+';
+            var duration=2200;
+            var delay=i*250;
+            var start;
             function step(now){
-                var t=Math.min((now-start)/duration,1);
+                if(!start)start=now;
+                var elapsed=now-start-delay;
+                if(elapsed<0){requestAnimationFrame(step);return}
+                var t=Math.min(elapsed/duration,1);
                 var val=Math.round(easeOut(t)*target);
-                el.textContent=val+suffix;
-                if(val===target){el.classList.add('counted')}
-                if(t<1){requestAnimationFrame(step)}
+                el.textContent=val.toLocaleString()+suffix;
+                if(t>=1){el.classList.add('counted')}
+                else{requestAnimationFrame(step)}
             }
             requestAnimationFrame(step);
         });
@@ -853,7 +857,7 @@ function closeQR(){document.getElementById('qrModal').classList.remove('show')}
     if('IntersectionObserver' in window){
         var obs=new IntersectionObserver(function(entries){
             entries.forEach(function(e){if(e.isIntersecting){animate();obs.disconnect()}});
-        },{threshold:0.5});
+        },{threshold:0.4});
         obs.observe(document.getElementById('stats'));
     } else { animate() }
 })();
