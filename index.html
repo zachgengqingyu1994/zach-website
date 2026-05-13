@@ -62,14 +62,12 @@ nav .cta:hover { background:rgba(255,255,255,0.14); transform:translateY(-1px); 
     text-align:center; padding:140px 24px 60px;
     position:relative; overflow:hidden;
 }
-/* ─── Hero Video Background ─── */
 .hero-video {
     position:absolute; top:0; left:0; width:100%; height:100%;
     object-fit:cover; z-index:0;
     opacity:0.7;
     pointer-events:none;
 }
-/* ─── Hero Bottom Gradient (blend into black) ─── */
 .hero::after {
     content:''; position:absolute;
     left:0; right:0; bottom:0; height:40%;
@@ -452,130 +450,92 @@ nav .cta:hover { background:rgba(255,255,255,0.14); transform:translateY(-1px); 
 }
 .stat-label { font-size:0.78rem; color:#C5C3BE; margin-top:4px; }
 
-/* ─── Core Values ─── */
-.values-grid {
-    display:grid; grid-template-columns:1fr 1fr; gap:14px;
+/* ═══════════════════════════════════
+   ─── 全域矩阵 · Core Values ───
+   ═══════════════════════════════════ */
+.core-value-section {
+    padding:100px 24px;
+    max-width:1100px; margin:0 auto;
 }
-.value-card {
-    padding:28px 28px 32px;
-    position:relative;
-    background:rgba(255,255,255,0.08);
-    -webkit-backdrop-filter:blur(2px) saturate(180%);
-    backdrop-filter:blur(2px) saturate(180%);
-    border:1px solid rgba(255,255,255,0.2);
-    border-radius:1.5rem;
-    box-shadow:0 8px 32px rgba(0,0,0,0.25), inset 0 4px 20px rgba(255,255,255,0.1);
-    transition:all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-    cursor:default;
+.core-value-section .section-header {
+    margin-bottom:60px;
 }
-.value-card::after {
-    content:''; position:absolute; top:0; left:0;
-    width:100%; height:100%;
-    background:rgba(255,255,255,0.04);
-    border-radius:1.5rem;
-    backdrop-filter:blur(1px);
-    box-shadow:inset -10px -8px 0px -11px rgba(255,255,255,1),
-               inset 0px -9px 0px -8px rgba(255,255,255,1);
-    opacity:0.5; z-index:-1;
-    filter:blur(1px) drop-shadow(10px 4px 6px black) brightness(115%);
-    pointer-events:none;
+.core-value-section .kicker {
+    color:#C5C3BE;
+    font-size:0.7rem; letter-spacing:4px; text-transform:uppercase;
+    margin-bottom:12px;
 }
-.value-card:hover {
-    transform:translateY(-6px);
-    background:rgba(255,255,255,0.14);
-    border-color:rgba(255,255,255,0.5);
-    box-shadow:0 20px 60px rgba(0,0,0,0.35),
-               0 0 0 1px rgba(255,255,255,0.08),
-               inset 0 4px 24px rgba(255,255,255,0.18);
+.core-value-section .main-title {
+    font-size:clamp(1.6rem, 3vw, 2.2rem); font-weight:600;
+    color:#FFFFFF; letter-spacing:-0.5px; margin-bottom:12px;
 }
-.value-card .v-icon {
-    width:36px; height:36px;
-    display:flex; align-items:center; justify-content:center;
-    margin-bottom:18px;
-    border-radius:10px;
-    background:rgba(212,175,55,0.1);
-    border:1px solid rgba(212,175,55,0.15);
-    color:#D4AF37;
-    font-size:1rem; font-weight:400;
-    transition:all 0.3s;
-}
-.value-card:hover .v-icon {
-    background:rgba(212,175,55,0.15);
-    border-color:rgba(212,175,55,0.3);
-    box-shadow:0 0 20px rgba(212,175,55,0.08);
-}
-.value-card h3 {
-    font-size:1.05rem; font-weight:600; color:#FFFFFF;
-    margin-bottom:10px; letter-spacing:-0.2px;
-}
-.value-card .v-desc {
-    font-size:0.82rem; color:#B0ADA8; line-height:1.7;
-    margin-bottom:16px;
-}
-.value-card ul {
-    list-style:none;
-}
-.value-card li {
-    font-size:0.78rem; color:#9A9793;
-    padding:5px 0 5px 14px;
-    position:relative;
-    line-height:1.5;
-}
-.value-card li::before {
-    content:''; position:absolute; left:0; top:11px;
-    width:5px; height:5px; border-radius:50%;
-    background:#D4AF37;
-    box-shadow:0 0 6px rgba(212,175,55,0.4);
-    opacity:0.7;
-}
-.value-card:hover li::before {
-    opacity:1;
-    box-shadow:0 0 8px rgba(212,175,55,0.6);
+.core-value-section .subtitle {
+    color:#C5C3BE;
+    font-size:0.95rem; line-height:1.7;
 }
 
-/* ─── Skills Cards ─── */
-.skills-grid {
-    display:grid; grid-template-columns:repeat(3,1fr); gap:14px;
+/* ─── Glass Cards Grid ─── */
+.cards-grid {
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:20px;
 }
-.skill-card {
-    padding:24px;
+.glass-card {
     position:relative;
-    background:rgba(255,255,255,0.08);
-    -webkit-backdrop-filter:blur(2px) saturate(180%);
-    backdrop-filter:blur(2px) saturate(180%);
-    border:1px solid rgba(255,255,255,0.25);
-    border-radius:2rem;
-    box-shadow:0 8px 32px rgba(0,0,0,0.3), inset 0 4px 20px rgba(255,255,255,0.12);
-    transition:all 0.3s;
+    background:rgba(255,255,255,0.03);
+    -webkit-backdrop-filter:blur(16px);
+    backdrop-filter:blur(16px);
+    border:1px solid rgba(255,255,255,0.06);
+    border-radius:20px;
+    padding:40px 32px;
+    transition:all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    cursor:default;
 }
-.skill-card::after {
-    content:''; position:absolute; top:0; left:0;
-    width:100%; height:100%;
+.glass-card:hover {
+    transform:translateY(-8px);
+    border-color:rgba(255,255,255,0.2);
     background:rgba(255,255,255,0.05);
-    border-radius:2rem;
-    backdrop-filter:blur(1px);
-    box-shadow:inset -10px -8px 0px -11px rgba(255,255,255,1),
-               inset 0px -9px 0px -8px rgba(255,255,255,1);
-    opacity:0.6;
-    z-index:-1;
-    filter:blur(1px) drop-shadow(10px 4px 6px black) brightness(115%);
-    pointer-events:none;
+    box-shadow:0 20px 40px -10px rgba(0,0,0,0.5),
+               0 0 20px -5px rgba(255,255,255,0.05);
 }
-.skill-card:hover { 
-    background:rgba(255,255,255,0.14);
-    border-color:rgba(212,175,55,0.6);
-    transform:translateY(-2px);
-    box-shadow:0 12px 40px rgba(212,175,55,0.08), inset 0 4px 20px rgba(255,255,255,0.25);
+
+/* ─── Card Internals ─── */
+.glass-card .card-icon {
+    color:#B0ADA8;
+    margin-bottom:24px;
 }
-.skill-icon { font-size:1.5rem; margin-bottom:12px; }
-.skill-card h3 { font-size:0.92rem; color:#FFFFFF; margin-bottom:8px; font-weight:600; }
-.skill-card p { font-size:0.82rem; color:#C5C3BE; line-height:1.6; }
-.skill-card ul { list-style:none; margin-top:12px; }
-.skill-card li {
-    font-size:0.78rem; color:#B0ADA8; padding:4px 0;
-    position:relative; padding-left:12px;
+.glass-card .card-icon svg {
+    display:block;
 }
-.skill-card li::before { content:'▸'; position:absolute; left:0; color:#D4AF37; }
+.glass-card .card-title {
+    font-size:1.2rem; font-weight:500;
+    color:#FFFFFF; margin-bottom:16px; letter-spacing:-0.3px;
+}
+.glass-card .card-desc {
+    color:#9A9793;
+    font-size:0.85rem; line-height:1.7;
+    margin-bottom:28px;
+    min-height:44px;
+}
+.glass-card .feature-list {
+    list-style:none; padding:0;
+}
+.glass-card .feature-list li {
+    position:relative;
+    padding-left:20px;
+    margin-bottom:12px;
+    color:#B0ADA8;
+    font-size:0.82rem;
+    transition:color 0.3s ease;
+}
+.glass-card .feature-list li::before {
+    content:"—";
+    position:absolute; left:0;
+    color:#5A6878; font-size:0.82rem;
+}
+.glass-card:hover .feature-list li {
+    color:#C5C3BE;
+}
 
 /* ─── Footer CTA ─── */
 .footer-cta {
@@ -636,17 +596,16 @@ nav .cta:hover { background:rgba(255,255,255,0.14); transform:translateY(-1px); 
     nav .brand { left:16px; font-size:0.78rem; }
     nav .cta { right:16px; font-size:0.72rem; padding:6px 14px; }
     .hero h1 { font-size:clamp(1.8rem, 7vw, 2.6rem); }
-    .skills-grid { grid-template-columns:1fr; }
-    .connect-grid { grid-template-columns:1fr; }
     .section { padding:60px 16px; }
     .article-card { flex-direction:column; gap:8px; border-radius:1.5rem; }
     .article-card::after { border-radius:1.5rem; }
-    .skill-card { border-radius:1.5rem; }
-    .skill-card::after { border-radius:1.5rem; }
+    .connect-grid { grid-template-columns:1fr; }
     .connect-item { border-radius:1.5rem; }
     .connect-item::after { border-radius:1.5rem; }
     .stats { gap:24px; }
-    .values-grid { grid-template-columns:1fr; }
+    .cards-grid { grid-template-columns:1fr; }
+    .core-value-section { padding:60px 16px; }
+    .glass-card { padding:32px 24px; }
 }
 </style>
 </head>
@@ -658,7 +617,7 @@ nav .cta:hover { background:rgba(255,255,255,0.14); transform:translateY(-1px); 
     <a href="#thoughts">思想</a>
     <a href="#daily">日报</a>
     <a href="#connect">连接</a>
-    <a href="#values">价值</a>
+    <a href="#matrix">价值</a>
     <a href="about.html">关于</a>
     <a href="jobs.html">机会</a>
     <a href="#connect" class="cta">联系</a>
@@ -822,66 +781,21 @@ nav .cta:hover { background:rgba(255,255,255,0.14); transform:translateY(-1px); 
     </div>
 </section>
 
-<!-- ═══ 核心价值 ═══ -->
-<section class="section" id="values">
-    <div class="section-label">/ 核心价值</div>
-    <h2 class="section-title">信念 · 方法 · 承诺</h2>
-    <p class="section-desc">驱动每一次人才连接的底层逻辑</p>
-    <div class="values-grid">
-        <div class="value-card">
-            <div class="v-icon">◇</div>
-            <h3>深度洞察</h3>
-            <p class="v-desc">不止于简历筛选，而是对 AI 人才市场的结构性理解与前瞻判断</p>
-            <ul>
-                <li>持续追踪 3000+ AI 人才动态</li>
-                <li>覆盖大模型 / Infra / 应用全链路</li>
-                <li>每份推荐附行业趋势佐证</li>
-            </ul>
-        </div>
-        <div class="value-card">
-            <div class="v-icon">◇</div>
-            <h3>精准连接</h3>
-            <p class="v-desc">猎头的核心不是「找人」，而是用嗅觉把对的人放到对的位置</p>
-            <ul>
-                <li>职位需求深度诊断与拆解</li>
-                <li>定向匹配而非海量投递</li>
-                <li>人岗契合度三维评估模型</li>
-            </ul>
-        </div>
-        <div class="value-card">
-            <div class="v-icon">◇</div>
-            <h3>信任背书</h3>
-            <p class="v-desc">每份推荐都是一次声誉的押注，不做流水线式的简历搬运</p>
-            <ul>
-                <li>候选人能力深度访谈与验证</li>
-                <li>企业端需求理解优于岗位描述</li>
-                <li>入职后跟进，确保双向满意</li>
-            </ul>
-        </div>
-        <div class="value-card">
-            <div class="v-icon">◇</div>
-            <h3>长期主义</h3>
-            <p class="v-desc">不是填一个坑，而是为 AI 企业构建可持续的人才版图</p>
-            <ul>
-                <li>人才 mapping 而非一次性招聘</li>
-                <li>竞品组织架构持续追踪</li>
-                <li>陪伴企业从 A 轮走到上市</li>
-            </ul>
-        </div>
+<!-- ═══ 全域矩阵 ═══ -->
+<section class="core-value-section" id="matrix">
+    <div class="section-header">
+        <div class="kicker">/ 全域矩阵</div>
+        <h2 class="main-title">见证涌现 · 锚定节点 · 促成回响</h2>
+        <p class="subtitle">覆盖 AI 人才全链路，穿透底层架构与商业闭环</p>
     </div>
-</section>
-
-<!-- ═══ 专业能力 ═══ -->
-<section class="section" id="skills">
-    <div class="section-label">/ 专业能力</div>
-    <h2 class="section-title">连接 · 洞察 · 落地</h2>
-    <p class="section-desc">覆盖 AI 人才全链路</p>
-    <div class="skills-grid">
-        <div class="skill-card">
-            <div class="skill-icon">🎯</div>
-            <h3>AI 人才地图</h3>
-            <p>深度 mapping 全球 AI 人才分布，精准定位关键决策者与技术领袖</p>
-            <ul>
+    <div class="cards-grid">
+        <div class="glass-card">
+            <div class="card-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path><path d="M12 8v4l3 3"></path></svg>
+            </div>
+            <h3 class="card-title">AI 全球人才拓扑</h3>
+            <p class="card-desc">深度 mapping 全球 AI 人才分布，精准定位关键决策者与技术领袖</p>
+            <ul class="feature-list">
                 <li>人才 Mapping</li>
                 <li>竞品组织架构分析</li>
                 <li>关键决策者触达</li>
@@ -889,11 +803,13 @@ nav .cta:hover { background:rgba(255,255,255,0.14); transform:translateY(-1px); 
                 <li>冷启动人脉拓展</li>
             </ul>
         </div>
-        <div class="skill-card">
-            <div class="skill-icon">🧠</div>
-            <h3>行业深度洞察</h3>
-            <p>从大模型到 AI 应用层，持续追踪技术趋势与人才市场变化</p>
-            <ul>
+        <div class="glass-card">
+            <div class="card-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12h4l2-9 5 18 2-9h5"></path></svg>
+            </div>
+            <h3 class="card-title">全产业链深度解码</h3>
+            <p class="card-desc">从大模型到 AI 应用层，持续追踪技术趋势与人才市场变化</p>
+            <ul class="feature-list">
                 <li>大模型 / AGI</li>
                 <li>AI Infra & 工具链</li>
                 <li>AI 应用 / Agent</li>
@@ -901,11 +817,13 @@ nav .cta:hover { background:rgba(255,255,255,0.14); transform:translateY(-1px); 
                 <li>自动驾驶</li>
             </ul>
         </div>
-        <div class="skill-card">
-            <div class="skill-icon">🤝</div>
-            <h3>高端招聘服务</h3>
-            <p>从需求分析到 offer 谈判，端到端交付 C-Level 与核心技术岗位</p>
-            <ul>
+        <div class="glass-card">
+            <div class="card-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
+            </div>
+            <h3 class="card-title">关键节点交付闭环</h3>
+            <p class="card-desc">从需求分析到 offer 谈判，端到端交付 C-Level 与核心技术岗位</p>
+            <ul class="feature-list">
                 <li>需求深度诊断</li>
                 <li>定向人才寻访</li>
                 <li>候选人评估与背书</li>
