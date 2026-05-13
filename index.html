@@ -704,59 +704,95 @@ section { padding:150px 0; }
 .feed-item:hover .feed-link { color:#ffffff; }
 .feed-item:hover .feed-link span { transform:translateX(4px); }
 
-/* ─── Connect Grid ─── */
+/* ─── Connect Section ─── */
+.connect-section {
+    padding:120px 0;
+}
 .connect-grid {
-    display:grid; grid-template-columns:1fr 1fr; gap:10px;
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:24px;
+    margin-bottom:80px;
 }
-.connect-item {
-    display:flex; align-items:center; gap:14px;
-    padding:18px 20px; text-decoration:none;
-    position:relative;
-    background:rgba(255,255,255,0.08);
-    -webkit-backdrop-filter:blur(2px) saturate(180%);
-    backdrop-filter:blur(2px) saturate(180%);
-    border:1px solid rgba(255,255,255,0.25);
-    border-radius:2rem;
-    box-shadow:0 8px 32px rgba(0,0,0,0.3), inset 0 4px 20px rgba(255,255,255,0.12);
-    transition:all 0.3s;
+.connect-card {
+    display:flex;
+    align-items:center;
+    padding:24px 32px;
+    background:rgba(255,255,255,0.03);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+    border:1px solid rgba(255,255,255,0.06);
+    border-radius:16px;
+    text-decoration:none;
+    transition:all 0.4s cubic-bezier(0.16,1,0.3,1);
+    text-align:left;
 }
-.connect-item::after {
-    content:''; position:absolute; top:0; left:0;
-    width:100%; height:100%;
-    background:rgba(255,255,255,0.05);
-    border-radius:2rem;
-    backdrop-filter:blur(1px);
-    box-shadow:inset -10px -8px 0px -11px rgba(255,255,255,1),
-               inset 0px -9px 0px -8px rgba(255,255,255,1);
-    opacity:0.6;
-    z-index:-1;
-    filter:blur(1px) drop-shadow(10px 4px 6px black) brightness(115%);
-    pointer-events:none;
+.connect-card:hover {
+    background:rgba(255,255,255,0.06);
+    border-color:rgba(191,168,122,0.3);
+    transform:translateY(-4px);
+    box-shadow:0 20px 40px -10px rgba(0,0,0,0.6);
 }
-.connect-item:hover {
-    background:rgba(255,255,255,0.14);
-    border-color:rgba(212,175,55,0.6);
-    transform:translateY(-2px);
-    box-shadow:0 12px 40px rgba(212,175,55,0.08), inset 0 4px 20px rgba(255,255,255,0.25);
+.connect-protocol {
+    font-family:'SF Mono', Consolas, monospace;
+    font-size:14px;
+    color:#ffffff;
+    width:100px;
+    flex-shrink:0;
 }
-.connect-icon { font-size:1.4rem; }
-.connect-label { font-size:0.82rem; color:#FFFFFF; font-weight:500; }
-.connect-sub { font-size:0.72rem; color:#C5C3BE; }
-
-/* ─── Stats ─── */
-.stats {
-    display:flex; gap:40px; justify-content:center; margin-top:40px; flex-wrap:wrap;
+.connect-protocol span {
+    color:#64748b;
 }
-.stat-num {
-    font-size:1.8rem; font-weight:700; color:#D4AF37;
-    font-variant-numeric:tabular-nums;
-    transition:color 0.5s;
+.connect-info {
+    flex-grow:1;
 }
-.stat-num.counted {
-    color:#E8D48B;
-    text-shadow:0 0 20px rgba(212,175,55,0.15);
+.connect-platform {
+    font-size:16px;
+    font-weight:500;
+    color:#cbd5e1;
+    margin:0 0 6px 0;
+    transition:color 0.3s ease;
 }
-.stat-label { font-size:0.78rem; color:#C5C3BE; margin-top:4px; }
+.connect-id {
+    font-size:13px;
+    color:#64748b;
+    margin:0;
+}
+.connect-card:hover .connect-platform {
+    color:#ffffff;
+}
+.data-dashboard {
+    display:flex;
+    justify-content:center;
+    gap:80px;
+    border-top:1px solid rgba(255,255,255,0.05);
+    padding-top:60px;
+}
+.data-item {
+    text-align:center;
+}
+.data-num {
+    font-family:'SF Mono', Consolas, monospace;
+    font-size:36px;
+    font-weight:600;
+    color:#bfa87a;
+    margin-bottom:12px;
+    text-shadow:0 0 20px rgba(191,168,122,0.2);
+}
+.data-num span {
+    color:#4a5568;
+    font-weight:300;
+    font-size:32px;
+}
+.data-label {
+    font-size:14px;
+    color:#94a3b8;
+    letter-spacing:2px;
+}
+@media (max-width:768px) {
+    .connect-grid { grid-template-columns:1fr; }
+    .data-dashboard { flex-direction:column; gap:40px; }
+}
 
 /* ═══════════════════════════════════
    ─── 全域矩阵 · Core Values ───
@@ -880,9 +916,6 @@ section { padding:150px 0; }
     .overlay-links a { font-size:1.5rem; gap:12px; letter-spacing:4px; }
     .section { padding:60px 16px; }
     .connect-grid { grid-template-columns:1fr; }
-    .connect-item { border-radius:1.5rem; }
-    .connect-item::after { border-radius:1.5rem; }
-    .stats { gap:24px; }
     .cards-grid { grid-template-columns:1fr; }
     .core-value-section { padding:60px 16px; }
     .glass-card { padding:32px 24px; }
@@ -1179,45 +1212,61 @@ section { padding:150px 0; }
 </section>
 
 <!-- ═══ 连接 ═══ -->
-<section class="section reveal-up" id="connect">
-    <div class="section-label">/ 连接</div>
-    <h2 class="section-title">找到扎克耿</h2>
-    <p class="section-desc">候选人 or 企业，欢迎 connect</p>
-    <div class="connect-grid">
-        <a href="javascript:void(0)" class="connect-item" onclick="showQR('wechat')">
-            <span class="connect-icon">💬</span>
-            <div>
-                <div class="connect-label">微信公众号</div>
-                <div class="connect-sub">涌现与回响 Emergence</div>
+<section id="connect" class="connect-section reveal-up">
+    <div class="container" style="max-width:900px; margin:0 auto; text-align:center;">
+        <div class="section-header">
+            <h4 class="kicker">/ 连接</h4>
+            <h2 class="main-title">发起共振 · 接入节点</h2>
+            <p class="subtitle">无论你是寻求破局的组织，还是寻找杠杆的先锋个体</p>
+        </div>
+        <div class="connect-grid">
+            <a href="javascript:void(0)" class="connect-card" onclick="showQR('wechat')">
+                <div class="connect-protocol"><span>[</span> WeChat <span>]</span></div>
+                <div class="connect-info">
+                    <h3 class="connect-platform">微信公众号</h3>
+                    <p class="connect-id">涌现与回响 Emergence</p>
+                </div>
+                <span class="arrow-icon">↗</span>
+            </a>
+            <a href="javascript:void(0)" class="connect-card" onclick="showQR('douyin')">
+                <div class="connect-protocol"><span>[</span> TikTok_CN <span>]</span></div>
+                <div class="connect-info">
+                    <h3 class="connect-platform">抖音</h3>
+                    <p class="connect-id">短视频 · 行业观察</p>
+                </div>
+                <span class="arrow-icon">↗</span>
+            </a>
+            <a href="javascript:void(0)" class="connect-card" onclick="showQR('xiaohongshu')">
+                <div class="connect-protocol"><span>[</span> RED <span>]</span></div>
+                <div class="connect-info">
+                    <h3 class="connect-platform">小红书</h3>
+                    <p class="connect-id">日常分享 · AI 洞察</p>
+                </div>
+                <span class="arrow-icon">↗</span>
+            </a>
+            <a href="mailto:zachgengqingyu@163.com" class="connect-card">
+                <div class="connect-protocol"><span>[</span> E-Mail <span>]</span></div>
+                <div class="connect-info">
+                    <h3 class="connect-platform">专属邮箱</h3>
+                    <p class="connect-id">zachgengqingyu@163.com</p>
+                </div>
+                <span class="arrow-icon">↗</span>
+            </a>
+        </div>
+        <div class="data-dashboard">
+            <div class="data-item">
+                <div class="data-num"><span>[</span> 100+ <span>]</span></div>
+                <div class="data-label">合作企业</div>
             </div>
-        </a>
-        <a href="javascript:void(0)" class="connect-item" onclick="showQR('douyin')">
-            <span class="connect-icon">🎵</span>
-            <div>
-                <div class="connect-label">抖音</div>
-                <div class="connect-sub">短视频 · 行业观察</div>
+            <div class="data-item">
+                <div class="data-num"><span>[</span> 1,000+ <span>]</span></div>
+                <div class="data-label">成功匹配</div>
             </div>
-        </a>
-        <a href="javascript:void(0)" class="connect-item" onclick="showQR('xiaohongshu')">
-            <span class="connect-icon">📕</span>
-            <div>
-                <div class="connect-label">小红书</div>
-                <div class="connect-sub">日常分享 · AI 洞察</div>
+            <div class="data-item">
+                <div class="data-num"><span>[</span> 2,990+ <span>]</span></div>
+                <div class="data-label">AI 人才库</div>
             </div>
-        </a>
-        <a href="mailto:zachgengqingyu@163.com" class="connect-item">
-            <span class="connect-icon">✉️</span>
-            <div>
-                <div class="connect-label">邮箱</div>
-                <div class="connect-sub">zachgengqingyu@163.com</div>
-            </div>
-        </a>
-    </div>
-    
-    <div class="stats" id="stats">
-        <div><div class="stat-num" data-target="100">0</div><div class="stat-label">合作企业</div></div>
-        <div><div class="stat-num" data-target="1000">0</div><div class="stat-label">成功匹配</div></div>
-        <div><div class="stat-num" data-target="3000">0</div><div class="stat-label">AI 人才库</div></div>
+        </div>
     </div>
 </section>
 
@@ -1348,40 +1397,6 @@ if(toggleBtn&&overlay){
 }
 
 /* ─── Stats Counter Animation ─── */
-(function(){
-    var counted=false;
-    var els=document.querySelectorAll('#stats .stat-num');
-    function easeOut(t){return 1-Math.pow(1-t,4)}
-    function animate(){
-        if(counted)return;
-        counted=true;
-        els.forEach(function(el,i){
-            var target=parseInt(el.getAttribute('data-target'));
-            var suffix='+';
-            var duration=2200;
-            var delay=i*250;
-            var start;
-            function step(now){
-                if(!start)start=now;
-                var elapsed=now-start-delay;
-                if(elapsed<0){requestAnimationFrame(step);return}
-                var t=Math.min(elapsed/duration,1);
-                var val=Math.round(easeOut(t)*target);
-                el.textContent=val.toLocaleString()+suffix;
-                if(t>=1){el.classList.add('counted')}
-                else{requestAnimationFrame(step)}
-            }
-            requestAnimationFrame(step);
-        });
-    }
-    if('IntersectionObserver' in window){
-        var obs=new IntersectionObserver(function(entries){
-            entries.forEach(function(e){if(e.isIntersecting){animate();obs.disconnect()}});
-        },{threshold:0.4});
-        obs.observe(document.getElementById('stats'));
-    } else { animate() }
-})();
-
 /* ─── Scroll Reveal Observer ─── */
 document.addEventListener("DOMContentLoaded", function(){
     var observer=new IntersectionObserver(function(entries){
