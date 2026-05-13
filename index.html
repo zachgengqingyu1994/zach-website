@@ -425,30 +425,6 @@ section { position:relative; padding:160px 0; }
     padding:24px; text-align:center; color:#8E8E93; font-size:0.82rem;
 }
 
-/* ─── Section ─── */
-.section {
-    max-width:900px; margin:0 auto; padding:100px 24px;
-    position:relative;
-}
-.section-label {
-    font-size:0.65rem; letter-spacing:4px; text-transform:uppercase;
-    color:#C5C3BE; margin-bottom:12px;
-    position:relative; padding-left:16px;
-}
-.section-label::before {
-    content:''; position:absolute; left:0; top:50%; transform:translateY(-50%);
-    width:3px; height:10px; border-radius:2px;
-    background:linear-gradient(to bottom, #D4AF37, #E0C46A);
-}
-.section-title {
-    font-size:clamp(1.6rem, 3vw, 2.2rem); font-weight:600;
-    color:#FFFFFF; letter-spacing:-0.5px; margin-bottom:16px;
-}
-.section-desc {
-    font-size:0.95rem; color:#C5C3BE; max-width:500px;
-    margin-bottom:48px; line-height:1.7;
-}
-
 /* ─── Liquid Glass ─── */
 .glass {
     position:relative;
@@ -481,24 +457,44 @@ section { position:relative; padding:160px 0; }
 .insight-section {
     padding:120px 0;
 }
-.text-center {
-    text-align:center;
+
+/* ─── 统一全局容器 ─── */
+.container {
+    max-width:1040px;
+    margin:0 auto;
+    padding:0 24px;
+}
+
+/* ─── 统一冷峻左对齐标题 ─── */
+.section-header {
+    text-align:left;
     margin-bottom:60px;
+    position:relative;
+    padding-left:20px;
+    border-left:2px solid rgba(191,168,122,0.4);
 }
-.header-indicator {
-    display:flex;
-    justify-content:center;
-    margin-bottom:24px;
+.section-header .kicker {
+    font-family:'SF Mono', Consolas, monospace;
+    color:#6e96ff;
+    font-size:13px;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    margin-bottom:12px;
 }
-.glow-dot-blue {
-    width:8px; height:8px;
-    background-color:#6e96ff;
-    border-radius:50%;
-    box-shadow:0 0 12px #6e96ff, 0 0 24px rgba(110,150,255,0.4);
-    border:1px solid rgba(110,150,255,0.8);
-    padding:2px;
-    background-clip:content-box;
+.section-header .main-title {
+    font-size:clamp(2rem, 4vw, 2.8rem);
+    font-weight:600;
+    color:#FFFFFF;
+    letter-spacing:2px;
+    margin-bottom:16px;
 }
+.section-header .subtitle {
+    color:#94a3b8;
+    font-size:15px;
+    line-height:1.8;
+    max-width:600px;
+}
+
 .insight-list {
     display:flex;
     flex-direction:column;
@@ -596,28 +592,12 @@ section { position:relative; padding:160px 0; }
     max-width:1100px; margin:0 auto;
     color:#ffffff;
 }
-.intelligence-section .section-header { margin-bottom:48px; }
-.header-status {
-    display:flex; align-items:center; gap:10px;
-    margin-bottom:16px;
-    font-family:'SF Mono',Consolas,'Courier New',monospace;
-    font-size:13px; letter-spacing:2px;
-    color:#6e96ff;
-}
 .live-dot {
     width:8px; height:8px;
     background-color:#6e96ff;
     border-radius:50%;
     box-shadow:0 0 10px #6e96ff;
     animation:pulse-live 2s infinite;
-}
-.intelligence-section .main-title {
-    font-size:clamp(1.6rem, 3vw, 2.2rem); font-weight:600;
-    color:#FFFFFF; letter-spacing:-0.5px; margin-bottom:12px;
-}
-.intelligence-section .subtitle {
-    color:#C5C3BE;
-    font-size:0.95rem; line-height:1.7;
 }
 @keyframes pulse-live {
     0% { transform:scale(0.95); box-shadow:0 0 0 0 rgba(110,150,255,0.7); }
@@ -786,22 +766,6 @@ section { position:relative; padding:160px 0; }
 .core-value-section {
     padding:100px 24px;
     max-width:1100px; margin:0 auto;
-}
-.core-value-section .section-header {
-    margin-bottom:60px;
-}
-.core-value-section .kicker {
-    color:#C5C3BE;
-    font-size:0.7rem; letter-spacing:4px; text-transform:uppercase;
-    margin-bottom:12px;
-}
-.core-value-section .main-title {
-    font-size:clamp(1.6rem, 3vw, 2.2rem); font-weight:600;
-    color:#FFFFFF; letter-spacing:-0.5px; margin-bottom:12px;
-}
-.core-value-section .subtitle {
-    color:#C5C3BE;
-    font-size:0.95rem; line-height:1.7;
 }
 
 /* ─── Glass Cards Grid ─── */
@@ -1102,12 +1066,13 @@ section { position:relative; padding:160px 0; }
 
 <!-- ═══ 全域矩阵 ═══ -->
 <section class="core-value-section reveal-up" id="matrix">
-    <div class="section-header">
-        <div class="kicker">/ 全域矩阵</div>
-        <h2 class="main-title">见证涌现 · 锚定节点 · 促成回响</h2>
-        <p class="subtitle">覆盖 AI 人才全链路，穿透底层架构与商业闭环</p>
-    </div>
-    <div class="cards-grid">
+    <div class="container">
+        <div class="section-header">
+            <div class="kicker">/ 全域矩阵</div>
+            <h2 class="main-title">见证涌现 · 锚定节点 · 促成回响</h2>
+            <p class="subtitle">覆盖 AI 人才全链路，穿透底层架构与商业闭环</p>
+        </div>
+        <div class="cards-grid">
         <div class="glass-card">
             <div class="card-icon">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
@@ -1151,16 +1116,14 @@ section { position:relative; padding:160px 0; }
             </ul>
         </div>
     </div>
+    </div>
 </section>
 
 <!-- ═══ 思想输出 ═══ -->
 <section id="insights" class="insight-section reveal-up">
-    <div class="container" style="max-width:900px; margin:0 auto;">
-        <div class="section-header text-center">
-            <div class="header-indicator">
-                <span class="glow-dot-blue"></span>
-            </div>
-            <h4 class="kicker">/ 思想输出</h4>
+    <div class="container">
+        <div class="section-header">
+            <div class="kicker">/ 思想输出</div>
             <h2 class="main-title">深度·洞察·观点</h2>
             <p class="subtitle">关于 AI 行业、人才趋势、招聘本质的独立思考</p>
         </div>
@@ -1207,15 +1170,13 @@ section { position:relative; padding:160px 0; }
 
 <!-- ═══ 全域情报流 ═══ -->
 <section id="daily" class="intelligence-section reveal-up">
-    <div class="section-header" style="text-align:left; max-width:1100px; margin:0 auto 48px;">
-        <div class="header-status">
-            <span class="live-dot"></span>
-            <span class="status-text">SYSTEM_LIVE</span>
+    <div class="container">
+        <div class="section-header">
+            <div class="kicker"><span class="live-dot"></span> SYSTEM_LIVE</div>
+            <h2 class="main-title">全域情报流</h2>
+            <p class="subtitle">AI 产业链前沿异动与商业变现观测</p>
         </div>
-        <h2 class="main-title">全域情报流</h2>
-        <p class="subtitle">AI 产业链前沿异动与商业变现观测</p>
-    </div>
-    <div class="feed-timeline" style="margin-left:100px;">
+        <div class="feed-timeline" style="margin-left:100px;">
         <article class="feed-item">
             <div class="feed-meta">
                 <span class="feed-date">[ 2026.05.13_UPDATE ]</span>
@@ -1250,13 +1211,14 @@ section { position:relative; padding:160px 0; }
             </div>
         </article>
     </div>
+    </div>
 </section>
 
 <!-- ═══ 连接 ═══ -->
 <section id="connect" class="connect-section reveal-up">
-    <div class="container" style="max-width:900px; margin:0 auto; text-align:center;">
+    <div class="container">
         <div class="section-header">
-            <h4 class="kicker">/ 连接</h4>
+            <div class="kicker">/ 连接</div>
             <h2 class="main-title">发起共振 · 接入节点</h2>
             <p class="subtitle">无论你是寻求破局的组织，还是寻找杠杆的先锋个体</p>
         </div>
