@@ -1126,7 +1126,10 @@ background: linear-gradient(to bottom, #bfa87a, #e5d5b0);
 border-radius: 20px;
 box-shadow: 0 0 12px rgba(191, 168, 122, 0.4);
 transition: height 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+cursor: pointer;
 }
+.vertical-scroll-tracker { cursor: grab; }
+.vertical-scroll-tracker:active { cursor: grabbing; }
 
 /* ─── Floating Radar (可展开搜索面板) ─── */
 .floating-radar {
@@ -1693,16 +1696,38 @@ document.querySelectorAll('.insight-card, .glass-card, .connect-card').forEach(f
     stats.forEach(function(s){ observer.observe(s); });
 })();
 
-/* --- 垂直胶囊进度计算 --- */
-window.addEventListener('scroll', () => {
-const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-const scrolled = (winScroll / height) * 100;
-const capsule = document.getElementById("scrollCapsule");
-if (capsule) {
-capsule.style.height = scrolled + "%";
-}
-});
+/* --- 垂直胶囊可拖拽进度条 --- */
+(function(){
+    var tracker=document.querySelector('.vertical-scroll-tracker');
+    var capsule=document.getElementById('scrollCapsule');
+    if(!tracker||!capsule)return;
+    var isDragging=false;
+
+    function updateFromScroll(){
+        var s=document.body.scrollTop||document.documentElement.scrollTop;
+        var h=document.documentElement.scrollHeight-document.documentElement.clientHeight;
+        capsule.style.height=((s/h)*100)+'%';
+    }
+
+    function scrollFromY(clientY){
+        var rect=tracker.getBoundingClientRect();
+        var p=Math.max(0,Math.min(1,(clientY-rect.top)/rect.height));
+        window.scrollTo(0,p*(document.documentElement.scrollHeight-document.documentElement.clientHeight));
+    }
+
+    capsule.addEventListener('mousedown',function(e){isDragging=true;e.preventDefault()});
+    document.addEventListener('mousemove',function(e){if(isDragging)scrollFromY(e.clientY)});
+    document.addEventListener('mouseup',function(){isDragging=false});
+
+    tracker.addEventListener('click',function(e){if(e.target!==capsule)scrollFromY(e.clientY)});
+
+    capsule.addEventListener('touchstart',function(e){isDragging=true;e.preventDefault()});
+    document.addEventListener('touchmove',function(e){if(isDragging)scrollFromY(e.touches[0].clientY)});
+    document.addEventListener('touchend',function(){isDragging=false});
+
+    window.addEventListener('scroll',updateFromScroll,{passive:true});
+    updateFromScroll();
+})();
 
 /* ─── Open Roles 雷达面板展开 ─── */
 function toggleRadar(e){
