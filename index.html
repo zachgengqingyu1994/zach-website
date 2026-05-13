@@ -24,15 +24,15 @@ nav {
     position:fixed; top:0; left:0; right:0;
     display:flex; align-items:center; justify-content:center;
     gap:32px; height:64px;
-    background:linear-gradient(180deg, rgba(0,9,18,0.92) 0%, rgba(0,9,18,0.78) 100%);
-    -webkit-backdrop-filter:blur(40px) saturate(1.3);
-    backdrop-filter:blur(40px) saturate(1.3);
-    border-bottom:1px solid rgba(255,255,255,0.06);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,0.04);
+    background:rgba(0,9,18,0.85);
+    -webkit-backdrop-filter:blur(2px) saturate(180%);
+    backdrop-filter:blur(2px) saturate(180%);
+    border-bottom:1px solid rgba(255,255,255,0.5);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.15), 0 4px 24px rgba(0,0,0,0.3);
     z-index:100; padding:0 24px;
 }
 nav a {
-    color:#8E8E93; text-decoration:none;
+    color:#B0ADA8; text-decoration:none;
     font-size:0.8rem; font-weight:500; letter-spacing:0.3px;
     transition:color 0.3s;
 }
@@ -44,12 +44,16 @@ nav .brand {
 nav .brand span { color:#D4AF37; }
 nav .cta {
     position:absolute; right:28px;
-    padding:8px 20px; border-radius:8px;
-    background:#FFFFFF; color:#000912 !important;
+    padding:8px 20px; border-radius:12px;
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(2px) saturate(180%);
+    border:1px solid rgba(255,255,255,0.5);
+    color:#FFFFFF !important;
     font-size:0.78rem; font-weight:600;
+    box-shadow:inset 0 2px 8px rgba(255,255,255,0.2), 0 4px 12px rgba(0,0,0,0.2);
     transition:all 0.3s;
 }
-nav .cta:hover { background:#E8E6E1; transform:translateY(-1px); }
+nav .cta:hover { background:rgba(255,255,255,0.25); transform:translateY(-1px); }
 
 /* ─── Hero ─── */
 .hero {
@@ -80,15 +84,29 @@ nav .cta:hover { background:#E8E6E1; transform:translateY(-1px); }
     pointer-events:none;
 }
 .hero-tag {
-    display:inline-block; padding:6px 16px; margin-bottom:24px;
-    border-radius:8px;
-    background:linear-gradient(145deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.04) 100%);
-    -webkit-backdrop-filter:blur(40px) saturate(1.3);
-    backdrop-filter:blur(40px) saturate(1.3);
-    border:1px solid rgba(255,255,255,0.08);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,0.10), 0 4px 20px rgba(0,0,0,0.2);
+    display:inline-flex; align-items:center; padding:6px 16px; margin-bottom:24px;
+    position:relative;
+    background:rgba(255,255,255,0.12);
+    -webkit-backdrop-filter:blur(2px) saturate(180%);
+    backdrop-filter:blur(2px) saturate(180%);
+    border:1px solid rgba(255,255,255,0.5);
+    border-radius:1rem;
+    box-shadow:0 4px 16px rgba(0,0,0,0.3), inset 0 2px 12px rgba(255,255,255,0.2);
     color:#C5C3BE; font-size:0.7rem; letter-spacing:2px; text-transform:uppercase;
-    position:relative; z-index:1;
+    z-index:1;
+}
+.hero-tag::after {
+    content:''; position:absolute; top:0; left:0;
+    width:100%; height:100%;
+    background:rgba(255,255,255,0.08);
+    border-radius:1rem;
+    backdrop-filter:blur(1px);
+    box-shadow:inset -10px -8px 0px -11px rgba(255,255,255,1),
+               inset 0px -9px 0px -8px rgba(255,255,255,1);
+    opacity:0.5;
+    z-index:-1;
+    filter:blur(1px) drop-shadow(10px 4px 6px black) brightness(115%);
+    pointer-events:none;
 }
 .hero h1 {
     font-size:clamp(2.4rem, 5vw, 4.2rem); font-weight:700;
@@ -119,27 +137,42 @@ nav .cta:hover { background:#E8E6E1; transform:translateY(-1px); }
 }
 .search-box {
     display:flex; align-items:center;
-    background:linear-gradient(145deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.04) 100%);
-    -webkit-backdrop-filter:blur(40px) saturate(1.3);
-    backdrop-filter:blur(40px) saturate(1.3);
-    border:1px solid rgba(255,255,255,0.08);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,0.10), 0 4px 24px rgba(0,0,0,0.2);
-    border-radius:14px; padding:4px;
+    position:relative;
+    background:rgba(255,255,255,0.12);
+    -webkit-backdrop-filter:blur(2px) saturate(180%);
+    backdrop-filter:blur(2px) saturate(180%);
+    border:1px solid rgba(255,255,255,0.5);
+    border-radius:1.5rem;
+    box-shadow:0 4px 24px rgba(0,0,0,0.3), inset 0 2px 12px rgba(255,255,255,0.2);
+    padding:4px;
     transition:all 0.3s;
 }
+.search-box::after {
+    content:''; position:absolute; top:0; left:0;
+    width:100%; height:100%;
+    background:rgba(255,255,255,0.08);
+    border-radius:1.5rem;
+    backdrop-filter:blur(1px);
+    box-shadow:inset -10px -8px 0px -11px rgba(255,255,255,1),
+               inset 0px -9px 0px -8px rgba(255,255,255,1);
+    opacity:0.5;
+    z-index:-1;
+    filter:blur(1px) drop-shadow(10px 4px 6px black) brightness(115%);
+    pointer-events:none;
+}
 .search-box:focus-within {
-    border-color:rgba(212,175,55,0.35);
-    background:linear-gradient(145deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.05) 100%);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,0.12), 0 0 0 1px rgba(212,175,55,0.15), 0 8px 32px rgba(212,175,55,0.06);
+    border-color:rgba(212,175,55,0.6);
+    background:rgba(255,255,255,0.18);
+    box-shadow:0 8px 32px rgba(212,175,55,0.1), inset 0 2px 12px rgba(255,255,255,0.25);
 }
 .search-box input {
     flex:1; background:none; border:none; outline:none;
     padding:14px 16px; color:#FFFFFF; font-size:0.95rem;
     font-family:inherit;
 }
-.search-box input::placeholder { color:#6B6966; }
+.search-box input::placeholder { color:#8E8E93; }
 .search-box button {
-    padding:10px 24px; border-radius:8px; border:none;
+    padding:10px 24px; border-radius:12px; border:none;
     background:#FFFFFF; color:#000912;
     font-size:0.82rem; font-weight:600; cursor:pointer;
     transition:all 0.3s; font-family:inherit;
@@ -149,26 +182,27 @@ nav .cta:hover { background:#E8E6E1; transform:translateY(-1px); }
 /* ─── Search Results Dropdown ─── */
 .search-results {
     position:absolute; top:calc(100% + 8px); left:0; right:0;
-    background:linear-gradient(145deg, rgba(10,15,28,0.98) 0%, rgba(10,15,28,0.92) 100%);
-    backdrop-filter:blur(40px) saturate(1.2);
-    border:1px solid rgba(255,255,255,0.08); border-radius:14px;
-    box-shadow:inset 0 1px 0 rgba(255,255,255,0.06), 0 8px 40px rgba(0,0,0,0.4);
+    background:rgba(10,15,28,0.95);
+    backdrop-filter:blur(2px) saturate(180%);
+    border:1px solid rgba(255,255,255,0.4);
+    border-radius:1.5rem;
+    box-shadow:0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
     max-height:400px; overflow-y:auto;
     display:none; z-index:10;
 }
 .search-results.active { display:block; }
 .search-result-item {
     display:block; padding:14px 20px; text-decoration:none;
-    border-bottom:1px solid rgba(255,255,255,0.04);
+    border-bottom:1px solid rgba(255,255,255,0.06);
     transition:background 0.2s; cursor:pointer;
 }
 .search-result-item:last-child { border-bottom:none; }
-.search-result-item:hover { background:rgba(255,255,255,0.03); }
+.search-result-item:hover { background:rgba(255,255,255,0.05); }
 .search-result-item .sr-title {
     font-size:0.88rem; font-weight:500; color:#FFFFFF; margin-bottom:4px;
 }
 .search-result-item .sr-meta {
-    font-size:0.75rem; color:#8E8E93;
+    font-size:0.75rem; color:#B0ADA8;
 }
 .search-result-item .sr-tags {
     display:flex; gap:6px; margin-top:6px; flex-wrap:wrap;
@@ -207,19 +241,32 @@ nav .cta:hover { background:#E8E6E1; transform:translateY(-1px); }
     margin-bottom:48px; line-height:1.7;
 }
 
-/* ─── Apple Liquid Glass Effect ─── */
+/* ─── Liquid Glass ─── */
 .glass {
-    background:linear-gradient(145deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.04) 100%);
-    -webkit-backdrop-filter:blur(40px) saturate(1.3);
-    backdrop-filter:blur(40px) saturate(1.3);
-    border:1px solid rgba(255,255,255,0.08);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,0.10), 0 4px 24px rgba(0,0,0,0.2);
+    position:relative;
+    background:rgba(255,255,255,0.12);
+    -webkit-backdrop-filter:blur(2px) saturate(180%);
+    backdrop-filter:blur(2px) saturate(180%);
+    border:1px solid rgba(255,255,255,0.5);
+    border-radius:2rem;
+    box-shadow:0 8px 32px rgba(0,0,0,0.3),
+               inset 0 4px 20px rgba(255,255,255,0.2);
+    transition:all 0.3s;
 }
-.glass-hover:hover {
-    background:linear-gradient(145deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.06) 100%);
-    border-color:rgba(212,175,55,0.25);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,0.12), 0 8px 32px rgba(0,0,0,0.3);
-    transform:translateY(-2px);
+.glass::after {
+    content:'';
+    position:absolute;
+    top:0; left:0;
+    width:100%; height:100%;
+    background:rgba(255,255,255,0.08);
+    border-radius:2rem;
+    backdrop-filter:blur(1px);
+    box-shadow:inset -10px -8px 0px -11px rgba(255,255,255,1),
+               inset 0px -9px 0px -8px rgba(255,255,255,1);
+    opacity:0.6;
+    z-index:-1;
+    filter:blur(1px) drop-shadow(10px 4px 6px black) brightness(115%);
+    pointer-events:none;
 }
 
 /* ─── Article Cards ─── */
@@ -227,23 +274,37 @@ nav .cta:hover { background:#E8E6E1; transform:translateY(-1px); }
 .article-card {
     display:flex; align-items:flex-start; gap:20px;
     padding:20px 24px; text-decoration:none;
-    background:linear-gradient(145deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.04) 100%);
-    -webkit-backdrop-filter:blur(40px) saturate(1.3);
-    backdrop-filter:blur(40px) saturate(1.3);
-    border:1px solid rgba(255,255,255,0.08);
-    border-radius:14px;
-    box-shadow:inset 0 1px 0 rgba(255,255,255,0.10), 0 4px 24px rgba(0,0,0,0.2);
+    position:relative;
+    background:rgba(255,255,255,0.12);
+    -webkit-backdrop-filter:blur(2px) saturate(180%);
+    backdrop-filter:blur(2px) saturate(180%);
+    border:1px solid rgba(255,255,255,0.5);
+    border-radius:2rem;
+    box-shadow:0 8px 32px rgba(0,0,0,0.3), inset 0 4px 20px rgba(255,255,255,0.2);
     transition:all 0.3s;
 }
+.article-card::after {
+    content:''; position:absolute; top:0; left:0;
+    width:100%; height:100%;
+    background:rgba(255,255,255,0.08);
+    border-radius:2rem;
+    backdrop-filter:blur(1px);
+    box-shadow:inset -10px -8px 0px -11px rgba(255,255,255,1),
+               inset 0px -9px 0px -8px rgba(255,255,255,1);
+    opacity:0.6;
+    z-index:-1;
+    filter:blur(1px) drop-shadow(10px 4px 6px black) brightness(115%);
+    pointer-events:none;
+}
 .article-card:hover {
-    background:linear-gradient(145deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.06) 100%);
-    border-color:rgba(212,175,55,0.25);
+    background:rgba(255,255,255,0.2);
+    border-color:rgba(212,175,55,0.5);
     transform:translateY(-2px);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,0.12), 0 8px 32px rgba(0,0,0,0.3);
+    box-shadow:0 12px 40px rgba(212,175,55,0.08), inset 0 4px 20px rgba(255,255,255,0.25);
 }
 .article-num {
     font-size:1.6rem; font-weight:700;
-    background:linear-gradient(135deg, rgba(212,175,55,0.2), rgba(212,175,55,0.08));
+    background:linear-gradient(135deg, rgba(212,175,55,0.25), rgba(212,175,55,0.1));
     -webkit-background-clip:text; -webkit-text-fill-color:transparent;
     background-clip:text;
     line-height:1; flex-shrink:0; width:40px;
@@ -278,11 +339,27 @@ nav .cta:hover { background:#E8E6E1; transform:translateY(-1px); }
 }
 .daily-item:last-child { border-bottom:none; }
 .daily-num {
-    width:28px; height:28px; border-radius:8px;
-    background:linear-gradient(145deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.03) 100%);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,0.08), 0 2px 8px rgba(0,0,0,0.15);
+    width:28px; height:28px; border-radius:0.75rem;
+    position:relative;
+    background:rgba(255,255,255,0.12);
+    backdrop-filter:blur(2px) saturate(180%);
+    border:1px solid rgba(255,255,255,0.4);
+    box-shadow:0 2px 8px rgba(0,0,0,0.3), inset 0 1px 4px rgba(255,255,255,0.15);
     display:flex; align-items:center; justify-content:center;
     font-size:0.72rem; font-weight:600; color:#C5C3BE; flex-shrink:0; margin-top:2px;
+}
+.daily-num::after {
+    content:''; position:absolute; top:0; left:0;
+    width:100%; height:100%;
+    background:rgba(255,255,255,0.06);
+    border-radius:0.75rem;
+    backdrop-filter:blur(1px);
+    box-shadow:inset -10px -8px 0px -11px rgba(255,255,255,1),
+               inset 0px -9px 0px -8px rgba(255,255,255,1);
+    opacity:0.5;
+    z-index:-1;
+    filter:blur(1px) drop-shadow(10px 4px 6px black) brightness(115%);
+    pointer-events:none;
 }
 .daily-content .daily-news-title {
     font-size:0.92rem; font-weight:500; color:#F0EEE9; margin-bottom:4px;
@@ -301,19 +378,33 @@ nav .cta:hover { background:#E8E6E1; transform:translateY(-1px); }
 .connect-item {
     display:flex; align-items:center; gap:14px;
     padding:18px 20px; text-decoration:none;
-    background:linear-gradient(145deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.04) 100%);
-    -webkit-backdrop-filter:blur(40px) saturate(1.3);
-    backdrop-filter:blur(40px) saturate(1.3);
-    border:1px solid rgba(255,255,255,0.08);
-    border-radius:14px;
-    box-shadow:inset 0 1px 0 rgba(255,255,255,0.10), 0 4px 24px rgba(0,0,0,0.2);
+    position:relative;
+    background:rgba(255,255,255,0.12);
+    -webkit-backdrop-filter:blur(2px) saturate(180%);
+    backdrop-filter:blur(2px) saturate(180%);
+    border:1px solid rgba(255,255,255,0.5);
+    border-radius:2rem;
+    box-shadow:0 8px 32px rgba(0,0,0,0.3), inset 0 4px 20px rgba(255,255,255,0.2);
     transition:all 0.3s;
 }
+.connect-item::after {
+    content:''; position:absolute; top:0; left:0;
+    width:100%; height:100%;
+    background:rgba(255,255,255,0.08);
+    border-radius:2rem;
+    backdrop-filter:blur(1px);
+    box-shadow:inset -10px -8px 0px -11px rgba(255,255,255,1),
+               inset 0px -9px 0px -8px rgba(255,255,255,1);
+    opacity:0.6;
+    z-index:-1;
+    filter:blur(1px) drop-shadow(10px 4px 6px black) brightness(115%);
+    pointer-events:none;
+}
 .connect-item:hover {
-    background:linear-gradient(145deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.06) 100%);
-    border-color:rgba(212,175,55,0.25);
+    background:rgba(255,255,255,0.2);
+    border-color:rgba(212,175,55,0.5);
     transform:translateY(-2px);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,0.12), 0 8px 32px rgba(0,0,0,0.3);
+    box-shadow:0 12px 40px rgba(212,175,55,0.08), inset 0 4px 20px rgba(255,255,255,0.25);
 }
 .connect-icon { font-size:1.4rem; }
 .connect-label { font-size:0.82rem; color:#FFFFFF; font-weight:500; }
@@ -332,18 +423,33 @@ nav .cta:hover { background:#E8E6E1; transform:translateY(-1px); }
 }
 .skill-card {
     padding:24px;
-    background:linear-gradient(145deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.04) 100%);
-    -webkit-backdrop-filter:blur(40px) saturate(1.3);
-    backdrop-filter:blur(40px) saturate(1.3);
-    border:1px solid rgba(255,255,255,0.08); border-radius:14px;
-    box-shadow:inset 0 1px 0 rgba(255,255,255,0.10), 0 4px 24px rgba(0,0,0,0.2);
+    position:relative;
+    background:rgba(255,255,255,0.12);
+    -webkit-backdrop-filter:blur(2px) saturate(180%);
+    backdrop-filter:blur(2px) saturate(180%);
+    border:1px solid rgba(255,255,255,0.5);
+    border-radius:2rem;
+    box-shadow:0 8px 32px rgba(0,0,0,0.3), inset 0 4px 20px rgba(255,255,255,0.2);
     transition:all 0.3s;
 }
+.skill-card::after {
+    content:''; position:absolute; top:0; left:0;
+    width:100%; height:100%;
+    background:rgba(255,255,255,0.08);
+    border-radius:2rem;
+    backdrop-filter:blur(1px);
+    box-shadow:inset -10px -8px 0px -11px rgba(255,255,255,1),
+               inset 0px -9px 0px -8px rgba(255,255,255,1);
+    opacity:0.6;
+    z-index:-1;
+    filter:blur(1px) drop-shadow(10px 4px 6px black) brightness(115%);
+    pointer-events:none;
+}
 .skill-card:hover { 
-    background:linear-gradient(145deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.06) 100%);
-    border-color:rgba(212,175,55,0.25);
+    background:rgba(255,255,255,0.2);
+    border-color:rgba(212,175,55,0.5);
     transform:translateY(-2px);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,0.12), 0 8px 32px rgba(0,0,0,0.3);
+    box-shadow:0 12px 40px rgba(212,175,55,0.08), inset 0 4px 20px rgba(255,255,255,0.25);
 }
 .skill-icon { font-size:1.5rem; margin-bottom:12px; }
 .skill-card h3 { font-size:0.92rem; color:#FFFFFF; margin-bottom:8px; font-weight:600; }
@@ -358,18 +464,21 @@ nav .cta:hover { background:#E8E6E1; transform:translateY(-1px); }
 /* ─── Footer CTA ─── */
 .footer-cta {
     text-align:center; padding:80px 24px;
-    background:rgba(255,255,255,0.01);
-    border-top:1px solid rgba(255,255,255,0.04);
+    border-top:1px solid rgba(255,255,255,0.06);
 }
 .footer-cta h2 { font-size:1.4rem; color:#FFFFFF; margin-bottom:12px; font-weight:600; }
 .footer-cta p { color:#C5C3BE; margin-bottom:24px; font-size:0.9rem; }
 .footer-cta a {
-    display:inline-block; padding:12px 32px; border-radius:8px;
-    background:#FFFFFF; color:#000912; text-decoration:none;
+    display:inline-block; padding:12px 32px; border-radius:12px;
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(2px) saturate(180%);
+    border:1px solid rgba(255,255,255,0.5);
+    color:#FFFFFF; text-decoration:none;
     font-size:0.85rem; font-weight:600;
+    box-shadow:inset 0 2px 8px rgba(255,255,255,0.2), 0 4px 16px rgba(0,0,0,0.3);
     transition:all 0.3s;
 }
-.footer-cta a:hover { background:#E8E6E1; transform:translateY(-2px); }
+.footer-cta a:hover { background:rgba(255,255,255,0.25); transform:translateY(-2px); }
 .footer-bar {
     text-align:center; padding:24px; color:#B0ADA8; font-size:0.75rem;
     border-top:1px solid rgba(255,255,255,0.04);
@@ -383,14 +492,15 @@ nav .cta:hover { background:#E8E6E1; transform:translateY(-1px); }
 }
 .modal.show { display:flex; }
 .modal-content {
-    background:linear-gradient(145deg, rgba(10,15,28,0.98) 0%, rgba(10,15,28,0.92) 100%);
-    backdrop-filter:blur(40px) saturate(1.2);
-    border:1px solid rgba(255,255,255,0.08);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,0.06), 0 16px 64px rgba(0,0,0,0.5);
-    border-radius:16px; padding:32px; max-width:400px; width:90%;
+    background:rgba(10,15,28,0.95);
+    backdrop-filter:blur(2px) saturate(180%);
+    border:1px solid rgba(255,255,255,0.5);
+    border-radius:2rem;
+    box-shadow:0 16px 64px rgba(0,0,0,0.5), inset 0 2px 12px rgba(255,255,255,0.15);
+    padding:32px; max-width:400px; width:90%;
     text-align:center; position:relative;
 }
-.modal-content img { max-width:100%; border-radius:8px; margin-bottom:16px; }
+.modal-content img { max-width:100%; border-radius:12px; margin-bottom:16px; }
 .modal-content p { color:#B0ADA8; font-size:0.82rem; }
 .modal-close {
     position:absolute; top:12px; right:16px;
@@ -413,7 +523,12 @@ nav .cta:hover { background:#E8E6E1; transform:translateY(-1px); }
     .skills-grid { grid-template-columns:1fr; }
     .connect-grid { grid-template-columns:1fr; }
     .section { padding:60px 16px; }
-    .article-card { flex-direction:column; gap:8px; }
+    .article-card { flex-direction:column; gap:8px; border-radius:1.5rem; }
+    .article-card::after { border-radius:1.5rem; }
+    .skill-card { border-radius:1.5rem; }
+    .skill-card::after { border-radius:1.5rem; }
+    .connect-item { border-radius:1.5rem; }
+    .connect-item::after { border-radius:1.5rem; }
     .stats { gap:24px; }
 }
 </style>
@@ -538,11 +653,6 @@ nav .cta:hover { background:#E8E6E1; transform:translateY(-1px); }
             <div class="daily-comment">资本还在加速涌入。对猎头来说，这意味着客户需求不会降温。</div>
         </div>
     </div>
-    
-    <div style="margin-top:16px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-        <span style="font-size:0.75rem; color:#4A4845;">每日精选 · 仅代表个人观点</span>
-        <a href="daily.html" class="daily-link">查看往期 →</a>
-    </div>
 </section>
 
 <!-- ═══ 连接 ═══ -->
@@ -550,23 +660,22 @@ nav .cta:hover { background:#E8E6E1; transform:translateY(-1px); }
     <div class="section-label">/ 连接</div>
     <h2 class="section-title">找到扎克耿</h2>
     <p class="section-desc">候选人 or 企业，欢迎 connect</p>
-    
     <div class="connect-grid">
-        <a href="javascript:void(0)" class="connect-item" onclick="showQr('wechat')">
+        <a href="javascript:void(0)" class="connect-item" onclick="showQR('wechat')">
             <span class="connect-icon">💬</span>
             <div>
                 <div class="connect-label">微信公众号</div>
                 <div class="connect-sub">涌现与回响 Emergence</div>
             </div>
         </a>
-        <a href="javascript:void(0)" class="connect-item" onclick="showQr('douyin')">
+        <a href="javascript:void(0)" class="connect-item" onclick="showQR('douyin')">
             <span class="connect-icon">🎵</span>
             <div>
                 <div class="connect-label">抖音</div>
                 <div class="connect-sub">短视频 · 行业观察</div>
             </div>
         </a>
-        <a href="javascript:void(0)" class="connect-item" onclick="showQr('xiaohongshu')">
+        <a href="javascript:void(0)" class="connect-item" onclick="showQR('xiaohongshu')">
             <span class="connect-icon">📕</span>
             <div>
                 <div class="connect-label">小红书</div>
@@ -590,11 +699,10 @@ nav .cta:hover { background:#E8E6E1; transform:translateY(-1px); }
 </section>
 
 <!-- ═══ 专业能力 ═══ -->
-<section class="section">
+<section class="section" id="skills">
     <div class="section-label">/ 专业能力</div>
     <h2 class="section-title">连接 · 洞察 · 落地</h2>
     <p class="section-desc">覆盖 AI 人才全链路</p>
-    
     <div class="skills-grid">
         <div class="skill-card">
             <div class="skill-icon">🎯</div>
@@ -635,16 +743,7 @@ nav .cta:hover { background:#E8E6E1; transform:translateY(-1px); }
     </div>
 </section>
 
-<!-- ═══ Modal ═══ -->
-<div class="modal" id="qrModal">
-    <div class="modal-content">
-        <button class="modal-close" onclick="hideQr()">✕</button>
-        <img id="qrImage" src="" alt="二维码">
-        <p id="qrText"></p>
-    </div>
-</div>
-
-<!-- ═══ Footer ═══ -->
+<!-- ═══ Footer CTA ═══ -->
 <div class="footer-cta">
     <h2>Let's work together</h2>
     <p>如果你在找 AI 方向的机会，或者需要 AI 人才，我们聊一聊</p>
@@ -652,98 +751,40 @@ nav .cta:hover { background:#E8E6E1; transform:translateY(-1px); }
 </div>
 <div class="footer-bar">⚡ 2026 扎克耿 · 涌现与回响 Emergence</div>
 
+<!-- QR Modal -->
+<div class="modal" id="qrModal">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeQR()">✕</button>
+        <img id="qrImage" src="" alt="二维码">
+        <p id="qrText">扫码关注</p>
+    </div>
+</div>
+
 <script>
-// ─── Job Search Data ───
 const jobData = [
-    {t:'Growth Engineer (mkt方向)',c:'AI 视频理解与多模态创业公司',l:'上海 / 北京',tags:['Python','Growth','SEO']},
-    {t:'Founding Engineer, Post-Training/SFT/RLHF',c:'AI 视频理解与多模态创业公司',l:'北京 / 杭州',tags:['PyTorch','SFT','多模态']},
-    {t:'Founding Engineer（Agent & Backend）',c:'AI 视频理解与多模态创业公司',l:'北京 / 杭州',tags:['Python','AI Agent','Docker/K8s']},
-    {t:'Founding Engineer（多媒体研发）',c:'AI 视频理解与多模态创业公司',l:'北京 / 杭州',tags:['C/C++','FFmpeg','编解码']},
-    {t:'Founding Product Engineer（AI 工具）',c:'AI 视频理解与多模态创业公司',l:'北京 / 杭州',tags:['产品','AI工具','VibeCoding']},
-    {t:'Founding Engineer（全栈，偏前端）',c:'AI 视频理解与多模态创业公司',l:'北京 / 杭州',tags:['React','Electron','Python']},
-    {t:'Founding Engineer（Web 多媒体）',c:'AI 视频理解与多模态创业公司',l:'北京 / 杭州',tags:['WebGPU','WebGL','WASM']},
-    {t:'AI产品经理',c:'AI + K12 教育科技平台',l:'北京 / 上海',tags:['LLM','产品管理','AI教育']},
-    {t:'智能体应用研发工程师',c:'大型金融集团 AI 团队',l:'上海',tags:['AI Agent','RAG','Python']},
-    {t:'语言大模型算法工程师',c:'大型金融集团 AI 团队',l:'上海',tags:['LLM','PyTorch','分布式训练']},
-    {t:'大模型后训练算法工程师',c:'AI 驱动药物研发公司',l:'上海',tags:['SFT','AI for Science','LLM']},
-    {t:'技术部负责人',c:'金融科技/资产管理公司',l:'上海',tags:['团队管理','架构设计','DevOps']},
-    {t:'Agentic支付业务团队负责人',c:'出海数字营销与广告平台',l:'北京',tags:['支付系统','团队管理','产品']},
-    {t:'Cyberklick-海外红人电商营销',c:'出海数字营销与广告平台',l:'广州 / 上海',tags:['跨境电商','KOL','TikTok']},
-    {t:'SDK 产品经理',c:'出海数字营销与广告平台',l:'上海 / 北京 / 深圳',tags:['产品','广告技术','SDK']},
-    {t:'协同办公 Agent 工程师',c:'头部社交媒体平台 AI 团队',l:'上海',tags:['AI Agent','Python','LLM']},
-    {t:'搜广推训练框架研发工程师',c:'头部社交媒体平台 AI 团队',l:'上海 / 北京',tags:['PyTorch','分布式训练','GPU']},
-    {t:'大模型 Platform 全栈工程师',c:'头部社交媒体平台 AI 团队',l:'北京 / 上海 / 杭州',tags:['Python','Docker/K8s','LLM']},
-    {t:'大模型推理框架研发工程师',c:'头部社交媒体平台 AI 团队',l:'上海 / 北京',tags:['LLM','GPU/CUDA','Rust']},
-    {t:'大模型训练框架研发工程师',c:'头部社交媒体平台 AI 团队',l:'上海 / 北京',tags:['PyTorch','分布式','RLHF']},
+    { title:"AI 算法工程师 — 大模型方向", company:"某头部 AI 公司", location:"北京/上海", tags:["LLM","PyTorch","Transformer"] },
+    { title:"AI Infra 工程师", company:"某独角兽公司", location:"北京/杭州", tags:["Kubernetes","GPU","分布式"] },
+    { title:"AI Agent 产品经理", company:"某明星创业公司", location:"上海/深圳", tags:["Agent","产品","AI应用"] },
+    { title:"具身智能算法负责人", company:"某机器人公司", location:"深圳/北京", tags:["机器人","控制","感知"] },
+    { title:"AI 芯片架构师", company:"某大厂", location:"上海/北京", tags:["芯片","架构","NPU"] },
+    { title:"AI 安全研究员", company:"某安全公司", location:"远程", tags:["安全","红队","LLM"] },
+    { title:"LLM 训练框架工程师", company:"某云计算公司", location:"杭州/北京", tags:["分布式训练","CUDA","PyTorch"] },
+    { title:"多模态算法专家", company:"某 AI 应用公司", location:"北京/上海", tags:["多模态","视觉","语言"] },
 ];
-
 function searchJobs() {
-    const query = document.getElementById('jobSearch').value.toLowerCase().trim();
-    const results = document.getElementById('searchResults');
-    
-    if (!query) { results.classList.remove('active'); return; }
-    
-    const matches = jobData.filter(j => 
-        j.t.toLowerCase().includes(query) ||
-        j.c.toLowerCase().includes(query) ||
-        j.tags.some(t => t.toLowerCase().includes(query))
-    );
-    
-    if (matches.length === 0) {
-        results.innerHTML = '<div class="search-empty">没有找到匹配的职位，试试其他关键词</div>';
-    } else {
-        results.innerHTML = matches.map(j => `
-            <a href="jobs.html" class="search-result-item">
-                <div class="sr-title">${highlight(j.t, query)}</div>
-                <div class="sr-meta">🏢 ${highlight(j.c, query)} · 📍 ${j.l}</div>
-                <div class="sr-tags">${j.tags.map(t => `<span class="sr-tag">${highlight(t, query)}</span>`).join('')}</div>
-            </a>
-        `).join('');
-    }
-    results.classList.add('active');
+    var q=document.getElementById('jobSearch').value.toLowerCase();
+    var r=document.getElementById('searchResults');
+    if(!q.trim()){r.classList.remove('active');return}
+    var h=jobData.filter(function(j){return j.title.toLowerCase().includes(q)||j.company.toLowerCase().includes(q)||j.tags.some(function(t){return t.toLowerCase().includes(q)})});
+    if(!h.length){r.innerHTML='<div class="search-empty">没有找到匹配的岗位 🫡</div>';r.classList.add('active');return}
+    r.innerHTML=h.map(function(j){return'<a class="search-result-item" href="jobs.html"><div class="sr-title">'+j.title+'</div><div class="sr-meta">'+j.company+' · '+j.location+'</div><div class="sr-tags">'+j.tags.map(function(t){return'<span class="sr-tag">'+t+'</span>'}).join('')+'</div></a>'}).join('');
+    r.classList.add('active');
 }
-
-function highlight(text, query) {
-    if (!query) return text;
-    const idx = text.toLowerCase().indexOf(query);
-    if (idx === -1) return text;
-    return text.slice(0, idx) + '<span style="color:#D4AF37">' + text.slice(idx, idx + query.length) + '</span>' + text.slice(idx + query.length);
-}
-
-// Search on input
-document.getElementById('jobSearch').addEventListener('input', searchJobs);
-document.getElementById('jobSearch').addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') searchJobs();
-    if (e.key === 'Escape') document.getElementById('searchResults').classList.remove('active');
-});
-
-// Close search on click outside
-document.addEventListener('click', (e) => {
-    if (!e.target.closest('.search-container')) {
-        document.getElementById('searchResults').classList.remove('active');
-    }
-});
-
-// ─── QR Modals ───
-const qrData = {
-    wechat: { src:'wechat-qr.png', text:'微信搜索「涌现与回响 Emergence」' },
-    douyin: { src:'douyin-qr.jpg', text:'抖音扫码关注' },
-    xiaohongshu: { src:'xiaohongshu-qr.jpg', text:'小红书扫码关注' },
-};
-
-function showQr(platform) {
-    const data = qrData[platform];
-    if (!data) return;
-    document.getElementById('qrImage').src = data.src;
-    document.getElementById('qrText').textContent = data.text;
-    document.getElementById('qrModal').classList.add('show');
-}
-
-function hideQr() {
-    document.getElementById('qrModal').classList.remove('show');
-}
-
+document.addEventListener('click',function(e){var r=document.getElementById('searchResults');if(!e.target.closest('.search-container')&&r&&r.classList.contains('active')){r.classList.remove('active')}});
+function showQR(p){var m=document.getElementById('qrModal'),i=document.getElementById('qrImage'),t=document.getElementById('qrText');
+var q={'wechat':'wechat-qr.png','douyin':'douyin-qr.jpg','xiaohongshu':'xiaohongshu-qr.jpg'};
+i.src=q[p];t.textContent={'wechat':'扫码关注微信公众号','douyin':'扫码关注抖音','xiaohongshu':'扫码关注小红书'}[p];m.classList.add('show')}
+function closeQR(){document.getElementById('qrModal').classList.remove('show')}
 </script>
-
 </body>
 </html>
