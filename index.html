@@ -1037,24 +1037,35 @@ section::after {
 }
 .hero-content h1 {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(3.5rem, 10vw, 6rem);
-    letter-spacing: 0.15em;
+    font-size: clamp(4.5rem, 14vw, 8rem);
+    letter-spacing: 0.12em;
     color: #fff;
-    text-shadow: 0 0 30px rgba(191, 168, 122, 0.4);
+    text-shadow: 0 0 30px rgba(191, 168, 122, 0.4), 0 0 60px rgba(191, 168, 122, 0.15);
     margin-bottom: 0.2em;
-    animation: textEmergence 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: textEmergence 3.5s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+               textBreath 4s ease-in-out 3.5s infinite;
 }
 .hero-content .subtitle {
     font-family: 'Space Mono', monospace;
-    font-size: 1.2rem;
+    font-size: clamp(1rem, 2.5vw, 1.8rem);
     letter-spacing: 0.8em;
     color: #bfa87a;
     text-transform: uppercase;
-    opacity: 0.8;
+    opacity: 0;
+    animation: subtitleFade 1.8s cubic-bezier(0.16, 1, 0.3, 1) 2.8s forwards;
 }
 @keyframes textEmergence {
-    0% { opacity: 0; transform: translateY(20px); letter-spacing: 0.3em; }
-    100% { opacity: 1; transform: translateY(0); letter-spacing: 0.15em; }
+    0% { opacity: 0; transform: translateY(30px) scale(0.95); letter-spacing: 0.3em; filter: blur(6px); }
+    50% { opacity: 1; transform: translateY(-4px) scale(1.02); letter-spacing: 0.12em; filter: blur(0); }
+    100% { opacity: 1; transform: translateY(0) scale(1); letter-spacing: 0.12em; filter: blur(0); }
+}
+@keyframes textBreath {
+    0%, 100% { transform: translateY(0); text-shadow: 0 0 30px rgba(191, 168, 122, 0.4), 0 0 60px rgba(191, 168, 122, 0.15); }
+    50% { transform: translateY(-6px); text-shadow: 0 0 45px rgba(191, 168, 122, 0.55), 0 0 80px rgba(191, 168, 122, 0.2); }
+}
+@keyframes subtitleFade {
+    0% { opacity: 0; transform: translateY(16px); }
+    100% { opacity: 0.85; transform: translateY(0); }
 }
 /* --- 2. 搜索框嵌入 Open Roles --- */
 .connect-card.glass-card {
