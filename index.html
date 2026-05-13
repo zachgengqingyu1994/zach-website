@@ -6,31 +6,41 @@
 <title>扎克耿 | 涌现与回响 Emergence</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior:smooth; }
 body {
     font-family:'Inter', -apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
     background-image:
-        linear-gradient(to bottom, rgba(5,8,15,0.5) 0%, rgba(5,8,15,0.95) 100%);
+        linear-gradient(to bottom, rgba(5,8,15,0.6) 0%, rgba(5,8,15,0.98) 100%);
     background-size:cover;
     background-position:center;
     background-attachment:fixed;
     background-color:#05080f;
-    -webkit-font-smoothing:antialiased;
+    color:#cbd5e1;
     line-height:1.7;
     font-weight:300;
-    color:#cbd5e1;
-    margin:0;
-    padding:0;
     overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
     cursor:none;
 }
 ::selection { background:rgba(255,255,255,0.1); }
 
 /* ─── Section Breathing ─── */
-section { padding:150px 0; }
+section { position:relative; padding:160px 0; }
+
+/* ─── Light Leaks ─── */
+#matrix::before {
+    content:''; position:absolute; top:0; left:-10%; width:50%; height:100%;
+    background:radial-gradient(circle at center, rgba(191,168,122,0.04) 0%, transparent 70%);
+    pointer-events:none;
+}
+#daily::before {
+    content:''; position:absolute; top:0; right:-10%; width:50%; height:100%;
+    background:radial-gradient(circle at center, rgba(110,150,255,0.04) 0%, transparent 70%);
+    pointer-events:none;
+}
 
 /* ─── Scroll Reveal ─── */
 .reveal-up {
@@ -99,12 +109,12 @@ section { padding:150px 0; }
 .glass-nav {
     position:fixed; top:0; left:0; right:0;
     display:flex; align-items:center; justify-content:space-between;
-    height:64px;
-    background:rgba(5,8,15,0.2);
+    height:70px;
+    background:rgba(5,8,15,0.1);
     -webkit-backdrop-filter:blur(10px);
     backdrop-filter:blur(10px);
-    border-bottom:1px solid rgba(255,255,255,0.03);
-    z-index:100; padding:0 28px;
+    border-bottom:1px solid transparent;
+    z-index:100; padding:0 40px;
     transition:all 0.4s ease;
 }
 .glass-nav.scrolled {
@@ -363,47 +373,28 @@ section { padding:150px 0; }
 }
 .search-box {
     display:flex; align-items:center;
-    position:relative;
-    background:rgba(255,255,255,0.08);
-    -webkit-backdrop-filter:blur(2px) saturate(180%);
-    backdrop-filter:blur(2px) saturate(180%);
-    border:1px solid rgba(255,255,255,0.25);
-    border-radius:1.5rem;
-    box-shadow:0 4px 24px rgba(0,0,0,0.3), inset 0 2px 12px rgba(255,255,255,0.2);
-    padding:4px;
-    transition:all 0.3s;
-}
-.search-box::after {
-    content:''; position:absolute; top:0; left:0;
-    width:100%; height:100%;
-    background:rgba(255,255,255,0.05);
-    border-radius:1.5rem;
-    backdrop-filter:blur(1px);
-    box-shadow:inset -10px -8px 0px -11px rgba(255,255,255,1),
-               inset 0px -9px 0px -8px rgba(255,255,255,1);
-    opacity:0.5;
-    z-index:-1;
-    filter:blur(1px) drop-shadow(10px 4px 6px black) brightness(115%);
-    pointer-events:none;
+    background:rgba(255,255,255,0.04);
+    backdrop-filter:blur(12px) saturate(180%);
+    -webkit-backdrop-filter:blur(12px) saturate(180%);
+    border:1px solid rgba(255,255,255,0.1);
+    border-radius:16px;
+    padding:6px; transition:all 0.4s cubic-bezier(0.16,1,0.3,1);
+    box-shadow:0 20px 40px rgba(0,0,0,0.4);
 }
 .search-box:focus-within {
-    border-color:rgba(212,175,55,0.6);
-    background:rgba(255,255,255,0.12);
-    box-shadow:0 8px 32px rgba(212,175,55,0.06), inset 0 2px 12px rgba(255,255,255,0.15);
+    border-color:rgba(191,168,122,0.4);
+    background:rgba(255,255,255,0.08);
 }
 .search-box input {
     flex:1; background:none; border:none; outline:none;
-    padding:14px 16px; color:#FFFFFF; font-size:0.95rem;
-    font-family:inherit;
+    padding:14px 20px; color:#fff; font-size:15px;
 }
-.search-box input::placeholder { color:#8E8E93; }
 .search-box button {
-    padding:10px 24px; border-radius:12px; border:none;
-    background:#FFFFFF; color:#05080f;
-    font-size:0.82rem; font-weight:600; cursor:pointer;
+    padding:12px 28px; border-radius:10px; border:none;
+    background:#FFFFFF; color:#05080f; font-weight:600; cursor:pointer;
     transition:all 0.3s; font-family:inherit;
 }
-.search-box button:hover { background:#E8E6E1; }
+.search-box::after { display:none; }
 
 /* ─── Search Results Dropdown ─── */
 .search-results {
@@ -1091,7 +1082,7 @@ section { padding:150px 0; }
     <div class="search-container">
         <div class="search-box">
             <input type="text" id="jobSearch" placeholder="搜索 AI 岗位... 试试输入 LLM、Agent、Python">
-            <button onclick="searchJobs()">搜索</button>
+            <button onclick="searchJobs()">搜索席位</button>
         </div>
         <div class="search-results" id="searchResults"></div>
     </div>
@@ -1100,7 +1091,7 @@ section { padding:150px 0; }
 <!-- ═══ Manifesto ═══ -->
 <section class="manifesto-section reveal-up">
     <div class="container" style="max-width:800px; margin:0 auto; text-align:center;">
-        <p class="manifesto-text">
+        <p class="manifesto-text" id="parallaxText">
             技术不应只是冰冷的硅基代码，它是人类智慧涌现的载体。<br>
             在算法、算力与超级应用的交汇处，<br>
             我致力于寻找那些能穿透周期的破局者。<br>
@@ -1108,6 +1099,59 @@ section { padding:150px 0; }
         </p>
         <div class="manifesto-signature">
             — ZACH GENG
+        </div>
+    </div>
+</section>
+
+<!-- ═══ 全域矩阵 ═══ -->
+<section class="core-value-section reveal-up" id="matrix">
+    <div class="section-header">
+        <div class="kicker">/ 全域矩阵</div>
+        <h2 class="main-title">见证涌现 · 锚定节点 · 促成回响</h2>
+        <p class="subtitle">覆盖 AI 人才全链路，穿透底层架构与商业闭环</p>
+    </div>
+    <div class="cards-grid">
+        <div class="glass-card">
+            <div class="card-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </div>
+            <h3 class="card-title">洞察 · 全栈产业链解码</h3>
+            <p class="card-desc">穿透技术与商业的边界，持续追踪从大模型基座到超级应用的范式转移</p>
+            <ul class="feature-list">
+                <li>底层算力与 AI Infra 演进</li>
+                <li>Agent 与具身智能应用架构</li>
+                <li>PMF 验证与产品交互创新</li>
+                <li>GTM 策略与商业化变现路径</li>
+                <li>用户增长与生态运营体系</li>
+            </ul>
+        </div>
+        <div class="glass-card">
+            <div class="card-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="12" r="2"/><circle cx="6" cy="18" r="2"/><line x1="8" y1="7" x2="16" y2="11"/><line x1="8" y1="17" x2="16" y2="13"/></svg>
+            </div>
+            <h3 class="card-title">连接 · 全域超级节点拓扑</h3>
+            <p class="card-desc">摒弃静态名单，构建以技术领袖、产品先锋与商业大拿交织的立体神经网络</p>
+            <ul class="feature-list">
+                <li>顶尖科学家与技术领袖 Mapping</li>
+                <li>C-Level 商业化与运营操盘手</li>
+                <li>破局型 AI 产品与增长黑客</li>
+                <li>跨界复合人才的冷启动拓展</li>
+                <li>全球多语种前沿阵营触达</li>
+            </ul>
+        </div>
+        <div class="glass-card">
+            <div class="card-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="11"/></svg>
+            </div>
+            <h3 class="card-title">回响 · 商业与组织力涌现</h3>
+            <p class="card-desc">超越单点招聘，从业务线痛点切入，端到端交付能引发组织质变的破局者</p>
+            <ul class="feature-list">
+                <li>组织架构与业务深度诊断</li>
+                <li>核心高管定向寻访与背书</li>
+                <li>跨界商业化资源协同对接</li>
+                <li>团队融合与伴随式效能演进</li>
+                <li>促成技术与商业的化学反应</li>
+            </ul>
         </div>
     </div>
 </section>
@@ -1166,7 +1210,7 @@ section { padding:150px 0; }
 
 <!-- ═══ 全域情报流 ═══ -->
 <section id="daily" class="intelligence-section reveal-up">
-    <div class="section-header">
+    <div class="section-header" style="text-align:left; max-width:1100px; margin:0 auto 48px;">
         <div class="header-status">
             <span class="live-dot"></span>
             <span class="status-text">SYSTEM_LIVE</span>
@@ -1174,7 +1218,7 @@ section { padding:150px 0; }
         <h2 class="main-title">全域情报流</h2>
         <p class="subtitle">AI 产业链前沿异动与商业变现观测</p>
     </div>
-    <div class="feed-timeline">
+    <div class="feed-timeline" style="margin-left:100px;">
         <article class="feed-item">
             <div class="feed-meta">
                 <span class="feed-date">[ 2026.05.13_UPDATE ]</span>
@@ -1266,59 +1310,6 @@ section { padding:150px 0; }
                 <div class="data-num"><span>[</span> 2,990+ <span>]</span></div>
                 <div class="data-label">AI 人才库</div>
             </div>
-        </div>
-    </div>
-</section>
-
-<!-- ═══ 全域矩阵 ═══ -->
-<section class="core-value-section reveal-up" id="matrix">
-    <div class="section-header">
-        <div class="kicker">/ 全域矩阵</div>
-        <h2 class="main-title">见证涌现 · 锚定节点 · 促成回响</h2>
-        <p class="subtitle">覆盖 AI 人才全链路，穿透底层架构与商业闭环</p>
-    </div>
-    <div class="cards-grid">
-        <div class="glass-card">
-            <div class="card-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-            </div>
-            <h3 class="card-title">洞察 · 全栈产业链解码</h3>
-            <p class="card-desc">穿透技术与商业的边界，持续追踪从大模型基座到超级应用的范式转移</p>
-            <ul class="feature-list">
-                <li>底层算力与 AI Infra 演进</li>
-                <li>Agent 与具身智能应用架构</li>
-                <li>PMF 验证与产品交互创新</li>
-                <li>GTM 策略与商业化变现路径</li>
-                <li>用户增长与生态运营体系</li>
-            </ul>
-        </div>
-        <div class="glass-card">
-            <div class="card-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="12" r="2"/><circle cx="6" cy="18" r="2"/><line x1="8" y1="7" x2="16" y2="11"/><line x1="8" y1="17" x2="16" y2="13"/></svg>
-            </div>
-            <h3 class="card-title">连接 · 全域超级节点拓扑</h3>
-            <p class="card-desc">摒弃静态名单，构建以技术领袖、产品先锋与商业大拿交织的立体神经网络</p>
-            <ul class="feature-list">
-                <li>顶尖科学家与技术领袖 Mapping</li>
-                <li>C-Level 商业化与运营操盘手</li>
-                <li>破局型 AI 产品与增长黑客</li>
-                <li>跨界复合人才的冷启动拓展</li>
-                <li>全球多语种前沿阵营触达</li>
-            </ul>
-        </div>
-        <div class="glass-card">
-            <div class="card-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="11"/></svg>
-            </div>
-            <h3 class="card-title">回响 · 商业与组织力涌现</h3>
-            <p class="card-desc">超越单点招聘，从业务线痛点切入，端到端交付能引发组织质变的破局者</p>
-            <ul class="feature-list">
-                <li>组织架构与业务深度诊断</li>
-                <li>核心高管定向寻访与背书</li>
-                <li>跨界商业化资源协同对接</li>
-                <li>团队融合与伴随式效能演进</li>
-                <li>促成技术与商业的化学反应</li>
-            </ul>
         </div>
     </div>
 </section>
@@ -1457,6 +1448,22 @@ document.addEventListener("DOMContentLoaded", function(){
             inner.classList.remove('hover');
         }
     });
+})();
+
+/* ─── Parallax Depth ─── */
+(function(){
+    var el=document.getElementById('parallaxText');
+    if(!el)return;
+    var ticking=false;
+    window.addEventListener('scroll',function(){
+        if(!ticking){
+            requestAnimationFrame(function(){
+                el.style.transform='translateY('+(window.scrollY*0.05)+'px)';
+                ticking=false;
+            });
+            ticking=true;
+        }
+    },{passive:true});
 })();
 </script>
 </body>
