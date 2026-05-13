@@ -12,12 +12,35 @@
 html { scroll-behavior:smooth; }
 body {
     font-family:'Inter', -apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
-    background:#000912;
-    color:#F0EEE9;
+    background-image:
+        linear-gradient(to bottom, rgba(5,8,15,0.5) 0%, rgba(5,8,15,0.95) 100%);
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+    background-color:#05080f;
     -webkit-font-smoothing:antialiased;
-    line-height:1.6;
+    line-height:1.7;
+    font-weight:300;
+    color:#cbd5e1;
+    margin:0;
+    padding:0;
+    overflow-x:hidden;
 }
 ::selection { background:rgba(255,255,255,0.1); }
+
+/* ─── Section Breathing ─── */
+section { padding:150px 0; }
+
+/* ─── Scroll Reveal ─── */
+.reveal-up {
+    opacity:0;
+    transform:translateY(40px);
+    transition:all 0.8s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal-up.active {
+    opacity:1;
+    transform:translateY(0);
+}
 
 /* ─── Glass Navigation ─── */
 .glass-nav {
@@ -146,7 +169,7 @@ body {
 .hero::after {
     content:''; position:absolute;
     left:0; right:0; bottom:0; height:40%;
-    background:linear-gradient(to bottom, transparent 0%, #000912 100%);
+    background:linear-gradient(to bottom, transparent 0%, #05080f 100%);
     pointer-events:none; z-index:0;
 }
 .hero::before {
@@ -315,7 +338,7 @@ body {
 .search-box input::placeholder { color:#8E8E93; }
 .search-box button {
     padding:10px 24px; border-radius:12px; border:none;
-    background:#FFFFFF; color:#000912;
+    background:#FFFFFF; color:#05080f;
     font-size:0.82rem; font-weight:600; cursor:pointer;
     transition:all 0.3s; font-family:inherit;
 }
@@ -706,29 +729,7 @@ body {
     color:#C5C3BE;
 }
 
-/* ─── Footer CTA ─── */
-.footer-cta {
-    text-align:center; padding:80px 24px;
-    border-top:1px solid rgba(255,255,255,0.06);
-}
-.footer-cta h2 { font-size:1.4rem; color:#FFFFFF; margin-bottom:12px; font-weight:600; }
-.footer-cta p { color:#C5C3BE; margin-bottom:24px; font-size:0.9rem; }
-.footer-cta a {
-    display:inline-block; padding:12px 32px; border-radius:12px;
-    background:rgba(255,255,255,0.08);
-    backdrop-filter:blur(2px) saturate(180%);
-    border:1px solid rgba(255,255,255,0.25);
-    color:#FFFFFF; text-decoration:none;
-    font-size:0.85rem; font-weight:600;
-    box-shadow:inset 0 2px 8px rgba(255,255,255,0.15), 0 4px 16px rgba(0,0,0,0.3);
-    transition:all 0.3s;
-}
-.footer-cta a:hover { background:rgba(255,255,255,0.14); transform:translateY(-2px); }
-.footer-bar {
-    text-align:center; padding:24px; color:#B0ADA8; font-size:0.75rem;
-    border-top:1px solid rgba(255,255,255,0.04);
-}
-
+/* ─── Cinematic Footer ─── */
 /* ─── Modals ─── */
 .modal {
     display:none; position:fixed; top:0; left:0; width:100%; height:100%;
@@ -755,7 +756,7 @@ body {
 
 /* ─── Scrollbar ─── */
 ::-webkit-scrollbar { width:4px; }
-::-webkit-scrollbar-track { background:#000912; }
+::-webkit-scrollbar-track { background:#05080f; }
 ::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.06); border-radius:2px; }
 
 /* ─── Responsive ─── */
@@ -775,6 +776,75 @@ body {
     .feed-item::before { display:none; }
     .feed-item { padding:20px; }
     .feed-item:hover { transform:none; }
+}
+
+/* ─── Cinematic Footer ─── */
+.cinematic-footer {
+    position:relative;
+    padding:120px 0 40px;
+    text-align:center;
+    border-top:1px solid rgba(255,255,255,0.03);
+    background:linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
+}
+.footer-quote {
+    font-size:36px;
+    font-weight:500;
+    letter-spacing:12px;
+    color:#ffffff;
+    margin-bottom:12px;
+    text-shadow:0 0 40px rgba(255,255,255,0.2);
+}
+.footer-subquote {
+    font-size:14px;
+    letter-spacing:6px;
+    color:#64748b;
+    text-transform:uppercase;
+    margin-bottom:60px;
+}
+.footer-cta-btn {
+    display:inline-block;
+    padding:18px 48px;
+    border-radius:40px;
+    color:#ffffff;
+    font-size:15px;
+    letter-spacing:4px;
+    background:rgba(255,255,255,0.03);
+    border:1px solid rgba(191,168,122,0.4);
+    text-decoration:none;
+    transition:all 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+.footer-cta-btn:hover {
+    background:rgba(191,168,122,0.15);
+    border-color:#bfa87a;
+    box-shadow:0 0 30px rgba(191,168,122,0.2);
+    transform:translateY(-3px);
+}
+.footer-bottom {
+    margin-top:120px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 5%;
+    font-family:'SF Mono', Consolas, 'Courier New', monospace;
+    font-size:12px;
+    color:#4a5568;
+}
+.sys-status {
+    display:flex;
+    align-items:center;
+    gap:12px;
+    letter-spacing:2px;
+}
+.live-dot-small {
+    width:5px; height:5px;
+    background-color:#bfa87a;
+    border-radius:50%;
+    box-shadow:0 0 8px #bfa87a;
+    animation:pulse-live 2s infinite;
+}
+@media (max-width:768px) {
+    .footer-bottom { flex-direction:column; gap:24px; }
+    .footer-quote { font-size:24px; letter-spacing:6px; }
 }
 </style>
 </head>
@@ -867,7 +937,7 @@ body {
 </section>
 
 <!-- ═══ 全域情报流 ═══ -->
-<section id="daily" class="intelligence-section">
+<section id="daily" class="intelligence-section reveal-up">
     <div class="section-header">
         <div class="header-status">
             <span class="live-dot"></span>
@@ -914,7 +984,7 @@ body {
 </section>
 
 <!-- ═══ 连接 ═══ -->
-<section class="section" id="connect">
+<section class="section reveal-up" id="connect">
     <div class="section-label">/ 连接</div>
     <h2 class="section-title">找到扎克耿</h2>
     <p class="section-desc">候选人 or 企业，欢迎 connect</p>
@@ -957,7 +1027,7 @@ body {
 </section>
 
 <!-- ═══ 全域矩阵 ═══ -->
-<section class="core-value-section" id="matrix">
+<section class="core-value-section reveal-up" id="matrix">
     <div class="section-header">
         <div class="kicker">/ 全域矩阵</div>
         <h2 class="main-title">见证涌现 · 锚定节点 · 促成回响</h2>
@@ -1009,13 +1079,23 @@ body {
     </div>
 </section>
 
-<!-- ═══ Footer CTA ═══ -->
-<div class="footer-cta">
-    <h2>Let's work together</h2>
-    <p>如果你在找 AI 方向的机会，或者需要 AI 人才，我们聊一聊</p>
-    <a href="mailto:zachgengqingyu@163.com">联系扎克耿 →</a>
-</div>
-<div class="footer-bar">⚡ 2026 扎克耿 · 涌现与回响 Emergence</div>
+<!-- ═══ Cinematic Footer ═══ -->
+<footer class="cinematic-footer reveal-up">
+    <div class="footer-content">
+        <h2 class="footer-quote">在喧嚣中寻找回响</h2>
+        <p class="footer-subquote">Witnessing Emergence. Creating Impact.</p>
+        <a href="mailto:zachgengqingyu@163.com" class="footer-cta-btn">发起共振</a>
+    </div>
+    <div class="footer-bottom">
+        <div class="sys-status">
+            <span class="live-dot-small"></span>
+            [ SYSTEM_ONLINE // ZACH GENG ]
+        </div>
+        <div class="copyright">
+            &copy; 2026 Emergence &amp; Resonance. All Rights Reserved.
+        </div>
+    </div>
+</footer>
 
 <!-- QR Modal -->
 <div class="modal" id="qrModal">
@@ -1099,6 +1179,20 @@ if(toggleBtn&&overlay){
         obs.observe(document.getElementById('stats'));
     } else { animate() }
 })();
+
+/* ─── Scroll Reveal Observer ─── */
+document.addEventListener("DOMContentLoaded", function(){
+    var observer=new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+            if(entry.isIntersecting){
+                entry.target.classList.add('active');
+            }
+        });
+    },{threshold:0.15});
+    document.querySelectorAll('.reveal-up').forEach(function(el){
+        observer.observe(el);
+    });
+});
 </script>
 </body>
 </html>
