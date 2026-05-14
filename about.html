@@ -204,10 +204,11 @@ font-weight: 600; margin-top: 20px;
 </nav>
 <div class="fullscreen-overlay" id="navOverlay">
     <ul class="overlay-links">
-        <li><a href="index.html">首页 <span class="sub">Home</span></a></li>
-        <li><a href="index.html#insights">思想 <span class="sub">Insights</span></a></li>
-        <li><a href="index.html#daily">日报 <span class="sub">Daily</span></a></li>
-        <li><a href="about.html" style="color:#bfa87a;">全局 <span class="sub">About</span></a></li>
+        <li><a href="index.html" data-page="index">首页 <span class="sub">Home</span></a></li>
+        <li><a href="index.html#insights" data-page="insights">思想 <span class="sub">Insights</span></a></li>
+        <li><a href="index.html#daily" data-page="daily">日报 <span class="sub">Daily</span></a></li>
+        <li><a href="index.html#matrix" data-page="matrix">回响 <span class="sub">Impact</span></a></li>
+        <li><a href="about.html" data-page="about" style="color:#bfa87a;">全局 <span class="sub">About</span></a></li>
     </ul>
 </div>
 <div class="container">
@@ -292,6 +293,22 @@ if(toggleBtn&&overlay){
     }
     window.addEventListener('scroll',checkScroll,{passive:true});
     checkScroll();
+})();
+/* ─── Auto-hide current page from overlay ─── */
+(function(){
+    var path=window.location.pathname;
+    var hash=window.location.hash;
+    var currentPage='index';
+    if(path.endsWith('about.html')){currentPage='about'}
+    else if(hash==='#insights'){currentPage='insights'}
+    else if(hash==='#daily'){currentPage='daily'}
+    else if(hash==='#matrix'){currentPage='matrix'}
+    var links=document.querySelectorAll('.overlay-links a[data-page]');
+    for(var i=0;i<links.length;i++){
+        if(links[i].getAttribute('data-page')===currentPage){
+            links[i].parentNode.style.display='none';
+        }
+    }
 })();
 </script>
 </body>
