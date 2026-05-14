@@ -17,11 +17,62 @@
 --leading-normal: 1.8;
 }
 body {
-margin: 0; background: var(--bg);
-background-image: radial-gradient(circle at 50% -20%, #1a2333 0%, #05080f 60%);
-color: #cbd5e1; font-family: 'Inter', -apple-system, sans-serif; overflow-y: scroll; overflow-x: hidden; line-height: 1.6;
--webkit-font-smoothing: antialiased;
-text-rendering: optimizeLegibility;
+font-family:'Inter', -apple-system, sans-serif;
+background-color:#05080f;
+background-image: none !important;
+color:#cbd5e1;
+overflow-x:hidden;
+-webkit-font-smoothing:antialiased;
+}
+/* ─── 🌟 新增：涌现深渊动态背景 (Resonance Abyss) ─── */
+.ambient-background {
+position: fixed;
+top: 0; left: 0;
+width: 100vw; height: 100vh;
+z-index: -2;
+overflow: hidden;
+background-color: #05080f;
+pointer-events: none;
+}
+.ambient-glow-blue {
+position: absolute;
+width: 150vw; height: 150vh;
+top: -25%; left: -25%;
+background: radial-gradient(circle at center, rgba(16, 32, 65, 0.4) 0%, transparent 65%);
+animation: driftBlue 20s infinite alternate ease-in-out;
+}
+.ambient-glow-gold {
+position: absolute;
+width: 120vw; height: 120vh;
+top: -30%; right: -20%;
+background: radial-gradient(circle at center, rgba(191, 168, 122, 0.06) 0%, transparent 55%);
+animation: driftGold 25s infinite alternate ease-in-out;
+mix-blend-mode: screen;
+}
+.architect-grid {
+position: absolute;
+bottom: -30%; left: -50%;
+width: 200%; height: 80%;
+background-image:
+linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+background-size: 50px 50px;
+transform: perspective(600px) rotateX(75deg);
+animation: gridForward 15s linear infinite;
+-webkit-mask-image: radial-gradient(ellipse at bottom, black 10%, transparent 60%);
+mask-image: radial-gradient(ellipse at bottom, black 10%, transparent 60%);
+}
+@keyframes driftBlue {
+0% { transform: translate(0, 0) scale(1); }
+100% { transform: translate(5%, 8%) scale(1.1); }
+}
+@keyframes driftGold {
+0% { transform: translate(0, 0) scale(1); }
+100% { transform: translate(-8%, 5%) scale(1.15); }
+}
+@keyframes gridForward {
+0% { background-position: 0 0; }
+100% { background-position: 0 50px; }
 }
 /* ─── Navigation (sync with index) ─── */
 .glass-nav {
@@ -451,6 +502,12 @@ font-family: 'Space Mono', monospace; color: var(--accent); font-size: 1.2rem; o
 </style>
 </head>
 <body>
+<div class="ambient-background">
+<div class="ambient-glow-blue"></div>
+<div class="ambient-glow-gold"></div>
+<div class="architect-grid"></div>
+</div>
+
 <!-- ═══ Navigation (sync with index) ═══ -->
 <nav class="glass-nav minimal">
 <a href="index.html" style="text-decoration: none; font-family: 'Space Mono', monospace; font-size: 0.75rem; letter-spacing: 0.3em; color: #bfa87a; text-transform: uppercase; font-weight: bold;">
