@@ -856,16 +856,5 @@ updateFromScroll();
     });
 })();
 </script>
-<script>
-if (history.scrollRestoration) {
-history.scrollRestoration = 'manual';
-}
-window.addEventListener('load', () => {
-window.scrollTo(0, 0);
-});
-window.onbeforeunload = function () {
-window.scrollTo(0, 0);
-};
-</script>
 </body>
 </html>
