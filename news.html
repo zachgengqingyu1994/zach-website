@@ -233,24 +233,5 @@
 
         <div class="footer"><span>⚡</span> 2026 扎克耿 · 连接 AI 人才与未来</div>
     </div>
-<script>
-if (history.scrollRestoration) {
-history.scrollRestoration = 'auto';
-}
-window.addEventListener('load', () => {
-const scrollPos = localStorage.getItem('lastScrollPos');
-if (scrollPos) {
-setTimeout(() => {
-window.scrollTo({
-top: parseInt(scrollPos),
-behavior: 'smooth'
-});
-}, 100);
-}
-});
-window.addEventListener('scroll', () => {
-localStorage.setItem('lastScrollPos', window.scrollY);
-}, { passive: true });
-</script>
 </body>
 </html>
