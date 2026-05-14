@@ -2,144 +2,156 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-
-    <title>关于扎克耿 | 连接 AI 人才与未来</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>关于 | 涌现与回响 Emergence</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+:root {
+--accent: #bfa87a;
+--bg: #05080f;
+--glass: rgba(255, 255, 255, 0.03);
+--border: rgba(255, 255, 255, 0.1);
+}
+body {
+margin: 0;
+background: var(--bg);
+background-image: linear-gradient(to bottom, #05080f 0%, #0a101f 30%, #05080f 100%);
+color: #cbd5e1;
+font-family: 'Inter', sans-serif;
+overflow-x: hidden;
+}
+/* 导航栏同步 Index */
+.nav {
+position: fixed; top: 0; width: 100%; z-index: 100;
+padding: 20px 40px; display: flex; justify-content: space-between;
+backdrop-filter: blur(10px); border-bottom: 1px solid var(--border);
+}
+.nav a { color: #fff; text-decoration: none; margin-left: 30px; font-size: 0.9rem; opacity: 0.7; transition: 0.3s; }
+.nav a:hover { opacity: 1; color: var(--accent); }
+.container { max-width: 900px; margin: 120px auto; padding: 0 20px; }
+/* 头部：姓名与人设 */
+.profile-header {
+display: flex; align-items: center; gap: 40px;
+margin-bottom: 80px;
+}
+.avatar-box {
+width: 180px; height: 180px;
+border-radius: 50%; border: 2px solid var(--accent);
+padding: 10px; position: relative;
+box-shadow: 0 0 30px rgba(191, 168, 122, 0.2);
+animation: avatarFloat 6s ease-in-out infinite;
+}
+@keyframes avatarFloat {
+0%, 100% { transform: translateY(0) rotate(0deg); }
+50% { transform: translateY(-10px) rotate(2deg); }
+}
+.avatar-box img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+h1 { font-family: 'Playfair Display', serif; font-size: 3.5rem; color: #fff; margin: 0; }
+h1 span { color: var(--accent); }
+.tagline { font-family: 'Space Mono', monospace; color: var(--accent); letter-spacing: 2px; margin-top: 10px; }
+/* 洞察底座：卡片设计 */
+.section-title { font-size: 0.8rem; color: var(--accent); letter-spacing: 4px; margin-bottom: 40px; }
+.insight-grid { display: grid; gap: 20px; }
+.glass-card {
+background: var(--glass);
+border: 1px solid var(--border);
+padding: 30px; border-radius: 16px;
+backdrop-filter: blur(5px);
+transition: 0.4s;
+}
+.glass-card:hover { border-color: var(--accent); transform: translateY(-5px); }
+.card-num { font-family: 'Space Mono', monospace; color: var(--accent); margin-bottom: 15px; display: block; }
+/* 标签云：芯片化 */
+.tag-cloud { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
+.tag {
+padding: 6px 16px; border-radius: 20px;
+background: rgba(191, 168, 122, 0.1);
+border: 1px solid rgba(191, 168, 122, 0.3);
+font-size: 0.85rem; color: var(--accent);
+}
+/* 联系方式 */
+.contact-section { text-align: center; margin-top: 100px; padding: 60px; background: rgba(191, 168, 122, 0.05); border-radius: 24px; }
+.copy-btn {
+background: var(--accent); color: #000; border: none;
+padding: 10px 25px; border-radius: 8px; cursor: pointer;
+font-weight: 600; margin-top: 20px;
+}
+/* 滚动胶囊同步 */
+.vertical-scroll-tracker { position: fixed; right: 20px; top: 50%; transform: translateY(-50%); width: 6px; height: 150px; background: rgba(255,255,255,0.05); border-radius: 10px; }
+.scroll-capsule { width: 100%; background: var(--accent); border-radius: 10px; height: 0; }
+</style>
 </head>
 <body>
-    <nav>
-        <div>扎克耿<span> · </span>AI猎头</div>
-        <a href="index.html#thoughts">思想</a>
-        <a href="index.html#daily">日报</a>
-        <a href="index.html#connect">连接</a>
-        <a href="about.html">关于</a>
-        <a href="jobs.html">机会</a>
-        <a href="index.html#connect">首页</a>
-    </nav>
-
-    <div>
-        <!-- Intro -->
-        <div>
-            <div>
-                <img src="avatar.png" alt="扎克耿">
-            </div>
-            <div>
-                <h1>我是 <span>扎克耿</span></h1>
-                <p>
-                    AI 猎头 · 行业观察者 · 人才连接器<br>
-                    相信技术的力量，更相信人的价值
-                </p>
-            </div>
-        </div>
-
-        <!-- 我的洞察底座 -->
-        <div>
-            <div>
-                <div>/ MY INSIGHT</div>
-                <h2>我的 <span>洞察底座</span></h2>
-                <p>从一个猎头的视角，理解 AI 技术从底层到商业的全景脉络</p>
-            </div>
-
-            <div>
-                <div>
-                    <div>
-                        
-                        <div>起点 · 洞察底座</div>
-                    </div>
-                    <div>看懂算法与研发的演进脉络</div>
-                    <div>
-                        作为猎头，我未必去写一行代码，但我致力于看懂技术演进的趋势。从底层架构的迭代到大模型算法的突破，我努力理解各种核心技术背后的商业痛点，只为能与顶尖的科学家和研发大拿保持真正的同频交流。
-                    </div>
-                </div>
-
-                <div>
-                    <div>
-                        
-                        <div>延伸 · 聚焦场景</div>
-                    </div>
-                    <div>捕捉 AI 产品化的爆发</div>
-                    <div>
-                        技术终将走向场景落地。我保持着对各类 AI 新工具和生态的体验习惯，通过观察行业应用去感知技术的边界。这让我能更敏锐地甄别出，哪些候选人是真正懂得把前沿 AI 技术转化为优秀产品的破局者。
-                    </div>
-                </div>
-
-                <div>
-                    <div>
-                        
-                        <div>闭环 · 全局视野</div>
-                    </div>
-                    <div>打通商业化与多行业落地</div>
-                    <div>
-                        任何技术浪潮最终都要接受市场变现的检验。我的视野不局限于单一赛道，而是纵览 AI 在各大垂直行业中的真实落地与增长逻辑。在识别人才时，我努力站在业务一号位的视角，寻找兼具技术理解力与敏锐商业嗅觉的领军人物。
-                    </div>
-                </div>
-
-                <div>
-                    <div>
-                        
-                        <div>现在 · 持续进化</div>
-                    </div>
-                    <div>做 AI 全产业链的人才连接器</div>
-                    <div>
-                        如今，我和一群深耕行业的资深猎头伙伴并肩作战。我们立足于 <span>「算法-研发-产品-商业化」</span> 的 AI 全产业链视角，跳出单点岗位的局限。我们不盲从风口，致力于为先锋企业与核心人才提供更有长远价值的战略连接。
-                    </div>
-                </div>
-            </div>
-
-            <div>
-                <p>这就是我 — <span>扎克耿 · 连接 AI 人才与未来</span><br>好奇技术发展，想象突破天际，拒绝循规蹈矩。</p>
-            </div>
-        </div>
-
-        <!-- Tags -->
-        <div>
-            <h2>我的标签</h2>
-            <div>
-                <span>AI 猎头</span>
-                <span>行业观察者</span>
-                <span>人才连接器</span>
-                <span>持续进化</span>
-                <span>技术好奇心</span>
-                <span>打破常规</span>
-                <span>深度思考</span>
-                <span>人脉节点</span>
-            </div>
-        </div>
-
-        <!-- Quote -->
-        <div>
-            <blockquote>
-                越是深潜于代码与算力的汪洋，<br>越能看清『人』才是唯一的灯塔
-            </blockquote>
-            <p>— 扎克耿</p>
-        </div>
-
-        <!-- Contact -->
-        <div>
-            <h3>和我连接</h3>
-            <p>如果你是 AI 领域的候选人、创业者或企业 HR，欢迎 connect</p>
-            <button>私信我</button>
-            <div>
-                <div>
-                    <div>
-                        <span>💬</span>
-                        <span>微信</span>
-                        <span>Headhunter_Zach</span>
-                    </div>
-                    <button>复制</button>
-                </div>
-                <div>
-                    <div>
-                        <span>✉️</span>
-                        <span>邮箱</span>
-                        <span>zachgengqingyu@163.com</span>
-                    </div>
-                    <button>复制</button>
-                </div>
-            </div>
-        </div>
-
-        <div><span>⚡</span> 2026 扎克耿 · 连接 AI 人才与未来</div>
-    </div>
+<nav class="nav">
+<div style="font-weight: 700; color: var(--accent);">EMERGENCE</div>
+<div>
+<a href="index.html">首页</a>
+<a href="blog.html">思想</a>
+<a href="daily.html">日报</a>
+<a href="about.html" style="color: var(--accent); opacity: 1;">关于</a>
+<a href="jobs.html">机会</a>
+</div>
+</nav>
+<div class="container">
+<section class="profile-header">
+<div class="avatar-box">
+<img src="avatar.png" alt="Zach Geng">
+</div>
+<div>
+<div class="tagline">/ HUMAN CAPITAL NODE</div>
+<h1>我是 <span>扎克耿</span></h1>
+<p style="font-size: 1.1rem; opacity: 0.8; margin-top: 15px;">
+AI 招聘领军者 · 行业观察者 · 人才连接器<br>
+在代码与算力的汪洋中，寻找『人』的灯塔。
+</p>
+</div>
+</section>
+<section>
+<div class="section-title">MY INSIGHTS / 洞察底座</div>
+<div class="insight-grid">
+<div class="glass-card">
+<span class="card-num">01. 算法演进</span>
+<h3>看懂算法与研发的演进脉络</h3>
+<p style="opacity: 0.7; line-height: 1.6;">作为猎头，我致力于看懂技术演进。从底层架构的迭代到大模型的商业化，理解技术的每一个坐标点。</p>
+</div>
+<div class="glass-card">
+<span class="card-num">02. 商业闭环</span>
+<h3>从实验室到真实世界的连接</h3>
+<p style="opacity: 0.7; line-height: 1.6;">AI 不只是论文，更是生产力。我关注那些能将算法转化为改变世界产品的核心人才。</p>
+</div>
+</div>
+</section>
+<section style="margin-top: 80px;">
+<div class="section-title">TAGS / 我的标签</div>
+<div class="tag-cloud">
+<span class="tag">AI 猎头</span>
+<span class="tag">全栈连接者</span>
+<span class="tag">深度思考</span>
+<span class="tag">技术好奇心</span>
+<span class="tag">人脉节点</span>
+</div>
+</section>
+<section class="contact-section">
+<h2>与我建立连接</h2>
+<p>共同探讨 AI 时代的更多可能性</p>
+<div style="margin-top: 20px;">
+<p>微信：Headhunter_Zach</p>
+<p>邮箱：zachgengqingyu@163.com</p>
+<button class="copy-btn">复制联系方式</button>
+</div>
+</section>
+</div>
+<div class="vertical-scroll-tracker">
+<div class="scroll-capsule" id="scrollCapsule"></div>
+</div>
+<script>
+// 滚动进度逻辑
+window.addEventListener('scroll', () => {
+const winScroll = document.documentElement.scrollTop;
+const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+const scrolled = (winScroll / height) * 100;
+document.getElementById("scrollCapsule").style.height = scrolled + "%";
+});
+</script>
 </body>
 </html>
