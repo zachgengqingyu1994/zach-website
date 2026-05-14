@@ -179,7 +179,35 @@ box-shadow: 0 20px 40px rgba(0,0,0,0.4);
 0% { background-position: 0% 50%; }
 100% { background-position: 200% 50%; }
 }
-/* ─── 大标题极致字体排版与微调 ─── */
+/* ─── 大标题：去花哨、重质感排版 ─── */
+.hero-text h1 {
+margin: 0 0 24px;
+line-height: 1.1;
+color: var(--text-bright);
+font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+font-size: 2.8rem;
+font-weight: 700;
+letter-spacing: -1.5px;
+}
+.hero-text h1 span.en-title {
+font-family: 'Inter', sans-serif;
+font-style: normal;
+font-weight: 800;
+color: #fff;
+font-size: 2.6rem;
+letter-spacing: -0.05em;
+margin-left: 15px;
+display: inline-block;
+opacity: 0.95;
+}
+.hero-text h1 span.en-title::after {
+content: '';
+display: block;
+width: 30px;
+height: 3px;
+background: var(--accent);
+margin-top: -4px;
+}
 .intro-lead {
 font-size: 0.7rem;
 font-family: 'Space Mono', monospace;
@@ -189,25 +217,6 @@ margin-bottom: 16px;
 text-transform: uppercase;
 opacity: 0.8;
 animation: decodeReveal 1s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
-}
-.hero-text h1 {
-margin: 0 0 24px;
-line-height: 1.15;
-color: var(--text-bright);
-font-family: 'Inter', -apple-system, sans-serif;
-font-size: 2.6rem;
-font-weight: 700;
-letter-spacing: -1px;
-}
-.hero-text h1 span.en-title {
-font-family: 'Playfair Display', serif;
-font-style: italic;
-font-weight: 400;
-color: var(--accent);
-font-size: 3.2rem;
-letter-spacing: -0.02em;
-margin-left: 12px;
-display: inline-block;
 }
 .hero-desc {
 font-size: 1.02rem;
@@ -344,7 +353,7 @@ animation: decodeReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 </div>
 <div class="hero-text">
 <div class="intro-lead">// 常驻 AI 领域的学徒与观察者</div>
-<h1>我是扎克耿<span class="en-title">Zach Geng</span></h1>
+<h1>我是扎克耿<span class="en-title">ZACH GENG</span></h1>
 <p class="hero-desc">
 我不相信终极的权威，只相信持续的涌现。在这里，我试图通过"人"的维度，去解构这一场席卷全球的硅基革命。
 </p>
