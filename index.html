@@ -1938,6 +1938,12 @@ document.addEventListener('click', function(e){
 function togglePersonalWechat() {
 document.getElementById('personalWechatModal').classList.toggle('active');
 }
+/* 点击遮罩区域也可关闭卡片 */
+document.getElementById('personalWechatModal').addEventListener('click', function(e) {
+if (e.target === this) {
+this.classList.remove('active');
+}
+});
 document.addEventListener('DOMContentLoaded', function() {
 const copyBtn = document.getElementById('indexCopyBtn');
 if (copyBtn) {
