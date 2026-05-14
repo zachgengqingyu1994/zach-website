@@ -404,9 +404,6 @@ z-index: 1000000 !important;
         <li><a href="about.html" data-page="about">全局 <span class="sub">About</span></a></li>
     </ul>
 </div>
-<div class="vertical-scroll-tracker">
-<div class="scroll-capsule" id="scrollCapsule"></div>
-</div>
 <div class="container">
 <section class="profile-hero">
 <div class="avatar-box">
@@ -534,45 +531,54 @@ if(toggleBtn&&overlay){
 </div>
 </div>
 </div>
+<div class="vertical-scroll-tracker">
+<div class="scroll-capsule" id="scrollCapsule"></div>
+</div>
 <script>
-/* ─── 微信弹窗 ─── */
+/* ─── 微信弹窗逻辑 ─── */
 function toggleWechat() {
 document.getElementById('wechatModal').classList.toggle('active');
 }
 document.addEventListener('DOMContentLoaded', function(){
-document.querySelector('.close-modal').onclick = toggleWechat;
+const closeBtn = document.querySelector('.close-modal');
+if(closeBtn) closeBtn.onclick = toggleWechat;
 window.onclick = function(event) {
 var modal = document.getElementById('wechatModal');
 if (event.target == modal) toggleWechat();
 }
-document.getElementById('copyBtn').onclick = function() {
+const copyBtn = document.getElementById('copyBtn');
+if(copyBtn) {
+copyBtn.onclick = function() {
 var text = document.getElementById('wechatId').innerText;
 navigator.clipboard.writeText(text).then(function(){
-this.innerText = 'COPIED!';
-setTimeout(function(){ this.innerText = 'COPY'; }.bind(this), 2000);
-}.bind(this));
-};
+copyBtn.innerText = 'COPIED!';
+setTimeout(function(){ copyBtn.innerText = 'COPY'; }, 2000);
 });
-/* ─── 垂直胶囊进度条逻辑 (暴力兼容版) ─── */
-(function() {
+};
+}
+/* ─── 垂直胶囊进度条逻辑 (深度增强版) ─── */
 const capsule = document.getElementById('scrollCapsule');
-if (!capsule) return;
+const tracker = document.querySelector('.vertical-scroll-tracker');
+if (capsule && tracker) {
 function doUpdate() {
 const doc = document.documentElement;
-const winScroll = window.pageYOffset || doc.scrollTop;
+const winScroll = window.pageYOffset || doc.scrollTop || document.body.scrollTop;
 const scrollHeight = doc.scrollHeight;
 const clientHeight = doc.clientHeight;
 const height = scrollHeight - clientHeight;
 if (height > 0) {
 const scrolled = (winScroll / height) * 100;
-capsule.style.height = Math.max(2, Math.min(scrolled, 100)) + '%';
+capsule.style.height = Math.max(5, Math.min(scrolled, 100)) + '%';
+capsule.style.opacity = "1";
 }
 }
 window.addEventListener('scroll', doUpdate, { passive: true });
 window.addEventListener('resize', doUpdate);
-let timer = setInterval(doUpdate, 200);
-setTimeout(() => clearInterval(timer), 5000);
+let scrollRetry = setInterval(doUpdate, 100);
+setTimeout(() => clearInterval(scrollRetry), 3000);
 doUpdate();
-})();
+}
+});
+</script>
 </body>
 </html>
