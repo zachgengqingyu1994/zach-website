@@ -1235,6 +1235,34 @@ cursor: pointer;
     .floating-radar { bottom:20px; right:20px; padding:8px 12px; }
     .radar-text { display:none; }
 }
+/* ─── 微信弹窗样式 (同步自 About) ─── */
+.wechat-modal {
+position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+background: rgba(5, 8, 15, 0.95);
+display: none; align-items: center; justify-content: center;
+z-index: 2000; backdrop-filter: blur(10px);
+}
+.wechat-modal.active { display: flex; animation: fadeIn 0.4s ease; }
+.wechat-modal .modal-content {
+width: 320px; background: #05080f;
+border: 1px solid var(--accent); padding: 30px;
+box-shadow: 0 0 50px rgba(191, 168, 122, 0.15);
+}
+.wechat-modal .modal-header { display: flex; justify-content: space-between; margin-bottom: 30px; }
+.wechat-modal .modal-header span { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--accent); }
+.wechat-modal .close-modal { background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; opacity: 0.5; }
+.wechat-modal .wechat-id-box {
+display: flex; justify-content: space-between; align-items: center;
+background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1);
+padding: 15px; margin-bottom: 20px;
+}
+#wechatId { font-family: 'Inter', sans-serif; font-weight: 600; color: #fff; }
+#copyBtn {
+background: var(--accent); border: none; color: #05080f;
+padding: 6px 12px; font-family: 'Space Mono', monospace; font-size: 0.7rem; cursor: pointer;
+}
+.wechat-modal .modal-hint { font-size: 0.75rem; color: #64748b; text-align: center; }
+@keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
 </style>
 </head>
 <body>
@@ -1517,23 +1545,33 @@ cursor: pointer;
     </div>
 </div>
 
-<!-- ═══ Cinematic Footer ═══ -->
-<footer class="cinematic-footer reveal-up">
-    <div class="footer-content">
-        <h2 class="footer-quote">在喧嚣中寻找回响</h2>
-        <p class="footer-subquote">Witnessing Emergence. Creating Impact.</p>
-        <a href="mailto:zachgengqingyu@163.com" class="footer-cta-btn">发起共振</a>
+<section class="final-connect-section" style="padding: 100px 20px; text-align: center; background: rgba(5,8,15,0.4);">
+<div style="max-width: 800px; margin: 0 auto;">
+<h2 style="font-family: 'Playfair Display', serif; font-style: italic; color: var(--accent); font-size: 2rem; margin-bottom: 20px;">
+在喧嚣中，寻找一处深刻的回响
+</h2>
+<p style="color: #94a3b8; font-size: 1.1rem; line-height: 1.8; margin-bottom: 40px; letter-spacing: 1px;">
+无论你是正在破局的创始人，还是寻求共振的先锋，欢迎与我接入。
+</p>
+<div class="connect-actions" style="display: flex; justify-content: center; gap: 30px;">
+<a href="javascript:void(0)" onclick="toggleWechat()" style="color: #e2e8f0; text-decoration: none; border-bottom: 1px solid var(--accent); padding-bottom: 5px; transition: 0.3s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='#e2e8f0'">
+微信连接
+</a>
+<a href="mailto:zachgengqingyu@163.com" style="color: #e2e8f0; text-decoration: none; border-bottom: 1px solid var(--accent); padding-bottom: 5px; transition: 0.3s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='#e2e8f0'">
+邮件联系
+</a>
+</div>
+</div>
+</section>
+
+<!-- ═══ Footer Copyright ═══ -->
+<div style="text-align: center; padding: 30px 20px; border-top: 1px solid rgba(255,255,255,0.05);">
+    <div style="display: flex; justify-content: center; align-items: center; gap: 8px; margin-bottom: 10px;">
+        <span class="live-dot-small"></span>
+        <span style="color: #4a5568; font-family: 'Space Mono', monospace; font-size: 0.75rem; letter-spacing: 2px;">[ SYSTEM_ONLINE // ZACH GENG ]</span>
     </div>
-    <div class="footer-bottom">
-        <div class="sys-status">
-            <span class="live-dot-small"></span>
-            [ SYSTEM_ONLINE // ZACH GENG ]
-        </div>
-        <div class="copyright">
-            &copy; 2026 Emergence &amp; Resonance. All Rights Reserved.
-        </div>
-    </div>
-</footer>
+    <p style="color: #334155; font-size: 0.7rem; letter-spacing: 1px;">&copy; 2026 Emergence &amp; Resonance. All Rights Reserved.</p>
+</div>
 
 <!-- QR Modal -->
 <div class="modal" id="qrModal">
@@ -1542,6 +1580,23 @@ cursor: pointer;
         <img id="qrImage" src="" alt="二维码">
         <p id="qrText">扫码关注</p>
     </div>
+</div>
+
+<!-- WeChat Modal (sync from About) -->
+<div id="wechatModal" class="wechat-modal">
+<div class="modal-content">
+<div class="modal-header">
+<span>[ CONNECT_VIA_WECHAT ]</span>
+<button class="close-modal">&times;</button>
+</div>
+<div class="modal-body">
+<div class="wechat-id-box">
+<span id="wechatId">Headhunter_Zach</span>
+<button id="copyBtn">COPY</button>
+</div>
+<p class="modal-hint">添加时请备注：来自个人网站</p>
+</div>
+</div>
 </div>
 
 <script>
@@ -1758,6 +1813,28 @@ document.addEventListener('click', function(e){
         }
     }
 })();
+/* ─── 微信弹窗逻辑 (同步自 About) ─── */
+function toggleWechat() {
+document.getElementById('wechatModal').classList.toggle('active');
+}
+document.addEventListener('DOMContentLoaded', function(){
+var closeBtn = document.querySelector('.wechat-modal .close-modal');
+if(closeBtn) closeBtn.onclick = toggleWechat;
+window.onclick = function(event) {
+var modal = document.getElementById('wechatModal');
+if (event.target == modal) toggleWechat();
+}
+var copyBtn = document.getElementById('copyBtn');
+if(copyBtn) {
+copyBtn.onclick = function() {
+var text = document.getElementById('wechatId').innerText;
+navigator.clipboard.writeText(text).then(function(){
+copyBtn.innerText = 'COPIED!';
+setTimeout(function(){ copyBtn.innerText = 'COPY'; }, 2000);
+});
+};
+}
+});
 </script>
 </body>
 </html>
