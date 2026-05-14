@@ -145,15 +145,43 @@ text-rendering: optimizeLegibility;
 /* ─── Hero Section ─── */
 .profile-hero { display: grid; grid-template-columns: 220px 1fr; gap: 60px; margin-bottom: 120px; align-items: start; }
 .avatar-box {
-position: relative; width: 220px; height: 220px;
-border: 1px solid var(--border); padding: 12px; border-radius: 4px;
-animation: float 8s ease-in-out infinite;
+position: relative;
+width: 220px;
+height: 220px;
+background: var(--bg);
+border: 1px solid var(--border);
+padding: 12px;
+border-radius: 4px;
+transform-style: preserve-3d;
+perspective: 1000px;
+transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+cursor: none;
 }
-@keyframes float { 0%, 100% { transform:translateY(0); } 50% { transform:translateY(-15px); } }
-.avatar-box img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(0.2) contrast(1.1); }
+.avatar-box::before {
+content: '';
+position: absolute;
+inset: -2px;
+background: linear-gradient(45deg, transparent, var(--accent), transparent);
+background-size: 200% 200%;
+animation: borderGlow 4s linear infinite;
+z-index: -1;
+opacity: 0.3;
+}
+.avatar-box img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+filter: grayscale(0.2) contrast(1.1);
+transform: translateZ(30px);
+box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
+@keyframes borderGlow {
+0% { background-position: 0% 50%; }
+100% { background-position: 200% 50%; }
+}
 .hero-text h1 { font-family: 'Playfair Display', serif; font-size: 3.8rem; font-weight: 700; letter-spacing: -0.03em; color: #fff; margin: 0 0 16px; }
 .hero-text h1 span { font-style: italic; font-weight: 400; color: var(--accent); opacity: 0.9; }
-.intro-lead { font-size: 0.75rem; font-family: 'Space Mono', monospace; letter-spacing: 0.2em; color: var(--accent); margin-bottom: 20px; text-transform: uppercase; opacity: 0; animation: reveal 1s forwards 0.5s; }
+.intro-lead { font-size: 0.75rem; font-family: 'Space Mono', monospace; letter-spacing: 0.2em; color: var(--accent); margin-bottom: 20px; text-transform: uppercase; opacity: 0; animation: decodeReveal 1s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards; }
 .section-title {
 font-family: 'Space Mono', monospace;
 font-size: 0.75rem;
@@ -227,9 +255,31 @@ font-style: italic;
 }
 .footnotes p { margin-bottom: 8px; }
 .footnotes .fn-label { color: var(--accent); font-family: 'Space Mono', monospace; margin-right: 8px; }
-/* 动画 */
-@keyframes reveal { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-.reveal { opacity: 0; animation: reveal 1.2s forwards; }
+/* ─── 增强版揭幕动画 ─── */
+@keyframes decodeReveal {
+0% {
+opacity: 0;
+transform: translateY(30px) skewY(2deg);
+filter: blur(10px);
+}
+100% {
+opacity: 1;
+transform: translateY(0) skewY(0);
+filter: blur(0);
+}
+}
+.reveal {
+opacity: 0;
+will-change: transform, filter;
+}
+.reveal.active {
+animation: decodeReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+/* 阶梯延迟：让卡片像神经网络一样逐个亮起 */
+.matrix-card:nth-child(1) { animation-delay: 0.1s; }
+.matrix-card:nth-child(2) { animation-delay: 0.25s; }
+.matrix-card:nth-child(3) { animation-delay: 0.4s; }
+.matrix-card:nth-child(4) { animation-delay: 0.55s; }
 </style>
 </head>
 <body>
@@ -269,32 +319,32 @@ font-style: italic;
 <p class="drop-cap">在猎头这个被标签化的行业里，我始终保持着一种不安分的自觉。我认为，真正的人才匹配不应是简历的搬运，而是一场深刻的<strong>"认知共振"</strong>。</p>
 <p>过去八年，我深潜于中国科技行业的最前沿。从互联网的余晖到 AI 的曙光，我见证了无数组织架构的崩塌与重构。这种经历让我明白：在代码与算力的汪洋中，唯有深刻的洞察，才能锚定那些真正能穿透周期的破局者。</p>
 </section>
-<section class="reveal">
+<section>
 <div class="section-title">THE_COGNITION_MATRIX / 认知矩阵</div>
 <div class="matrix-grid">
-<div class="matrix-card">
+<div class="matrix-card reveal">
 <span class="num">01 / 底层 Infra<sup class="fn-ref">1</sup></span>
 <h3>看懂算力的"呼吸"</h3>
 <p>不满足于知道什么是 GPU，而是试图理解分布式训练、推理成本与 ROI 之间的微妙平衡。唯有理解基座，才能识别顶级架构师的价值。</p>
 </div>
-<div class="matrix-card">
+<div class="matrix-card reveal">
 <span class="num">02 / 算法演进</span>
 <h3>捕捉模型的"心跳"</h3>
 <p>持续追踪从 Transformer 到下一代架构的范式转移。我关注的不是参数量，而是模型在特定垂直领域产生涌现的具体路径。</p>
 </div>
-<div class="matrix-card">
+<div class="matrix-card reveal">
 <span class="num">03 / 商业闭环</span>
 <h3>寻找 PMF 的"节点"</h3>
 <p>AI 不应只是实验室的昂贵玩具。我热衷于寻找那些具备产品 Sense、能将硅基代码转化为真实商业价值的跨界人才。</p>
 </div>
-<div class="matrix-card">
+<div class="matrix-card reveal">
 <span class="num">04 / 组织进化</span>
 <h3>构建 Agentic<sup class="fn-ref">2</sup> 的团队</h3>
 <p>AI 时代的组织不再是金字塔，而是神经网络。我致力于帮助创始人构建"人机协作"的高效文化，促成组织力的二次涌现。</p>
 </div>
 </div>
 </section>
-<section class="tag-row reveal" style="animation-delay: 0.3s;">
+<section class="tag-row reveal">
 <div class="tag-pill">终身学习者</div>
 <div class="tag-pill">AI 行业学徒</div>
 <div class="tag-pill">全栈连接器</div>
@@ -313,17 +363,26 @@ font-style: italic;
 </div>
 </div>
 <script>
-/* ─── Scroll Reveal ─── */
-var reveals=document.querySelectorAll('.reveal');
+/* ─── 头像引力倾斜逻辑 ─── */
+var avatar=document.querySelector('.avatar-box');
+if(avatar){
+document.addEventListener('mousemove',function(e){
+var rect=avatar.getBoundingClientRect();
+var ax=(e.clientX-(rect.left+rect.width/2))*0.08;
+var ay=(e.clientY-(rect.top+rect.height/2))*0.08;
+avatar.style.transform='rotateY('+ax+'deg) rotateX('+(-ay)+'deg)';
+});
+}
+/* ─── Scroll Reveal (模糊入场) ─── */
 var observer=new IntersectionObserver(function(entries){
 entries.forEach(function(entry){
 if(entry.isIntersecting){
-entry.target.style.opacity='1';
-entry.target.style.animation='reveal 1.2s forwards';
+entry.target.classList.add('active');
+observer.unobserve(entry.target);
 }
 });
-},{threshold:0.1});
-reveals.forEach(function(el){observer.observe(el)});
+},{threshold:0.15});
+document.querySelectorAll('.reveal').forEach(function(el){observer.observe(el)});
 /* ─── Menu Toggle (sync with index) ─── */
 var toggleBtn=document.getElementById('menuToggle');
 var overlay=document.getElementById('navOverlay');
