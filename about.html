@@ -356,6 +356,33 @@ padding: 6px 12px; font-family: 'Space Mono', monospace; font-size: 0.7rem; curs
 }
 .modal-hint { font-size: 0.75rem; color: #64748b; text-align: center; }
 @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+/* ─── 垂直胶囊进度条样式 ─── */
+.vertical-scroll-tracker {
+position: fixed;
+right: 40px;
+top: 50%;
+transform: translateY(-50%);
+width: 4px;
+height: 200px;
+background: rgba(255, 255, 255, 0.05);
+border-radius: 10px;
+z-index: 1000;
+cursor: pointer;
+}
+.scroll-capsule {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 0%;
+background: linear-gradient(to bottom, transparent, var(--accent), var(--accent));
+border-radius: 10px;
+box-shadow: 0 0 15px rgba(191, 168, 122, 0.3);
+transition: height 0.1s ease-out;
+}
+@media (max-width: 768px) {
+.vertical-scroll-tracker { display: none; }
+}
 </style>
 </head>
 <body>
@@ -377,6 +404,9 @@ padding: 6px 12px; font-family: 'Space Mono', monospace; font-size: 0.7rem; curs
         <li><a href="index.html#matrix" data-page="matrix">回响 <span class="sub">Impact</span></a></li>
         <li><a href="about.html" data-page="about">全局 <span class="sub">About</span></a></li>
     </ul>
+</div>
+<div class="vertical-scroll-tracker">
+<div class="scroll-capsule" id="scrollCapsule"></div>
 </div>
 <div class="container">
 <section class="profile-hero">
@@ -524,5 +554,39 @@ setTimeout(function(){ this.innerText = 'COPY'; }.bind(this), 2000);
 }.bind(this));
 };
 });
+/* ─── 垂直胶囊进度条逻辑 ─── */
+(function() {
+const tracker = document.querySelector('.vertical-scroll-tracker');
+const capsule = document.getElementById('scrollCapsule');
+if (!tracker || !capsule) return;
+let isDragging = false;
+function updateProgress() {
+const scrollTotal = document.documentElement.scrollHeight - window.innerHeight;
+const scrollCurrent = window.scrollY;
+if (scrollTotal <= 0) return;
+const progress = (scrollCurrent / scrollTotal) * 100;
+capsule.style.height = Math.min(progress, 100) + '%';
+}
+function scrollToPosition(clientY) {
+const rect = tracker.getBoundingClientRect();
+const percentage = Math.max(0, Math.min(1, (clientY - rect.top) / rect.height));
+const targetScroll = percentage * (document.documentElement.scrollHeight - window.innerHeight);
+window.scrollTo({ top: targetScroll, behavior: 'auto' });
+}
+window.addEventListener('scroll', updateProgress, { passive: true });
+window.addEventListener('resize', updateProgress);
+tracker.addEventListener('mousedown', (e) => {
+isDragging = true;
+scrollToPosition(e.clientY);
+});
+document.addEventListener('mousemove', (e) => {
+if (isDragging) {
+e.preventDefault();
+scrollToPosition(e.clientY);
+}
+});
+document.addEventListener('mouseup', () => { isDragging = false; });
+updateProgress();
+})();
 </body>
 </html>
