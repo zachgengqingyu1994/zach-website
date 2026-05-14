@@ -143,7 +143,7 @@ text-rendering: optimizeLegibility;
 }
 .container { max-width: 900px; margin: 180px auto 120px; padding: 0 50px; }
 /* ─── Hero Section ─── */
-.profile-hero { display: grid; grid-template-columns: 220px 1fr; gap: 60px; margin-bottom: 120px; align-items: start; }
+.profile-hero { display: grid; grid-template-columns: 220px 1fr; gap: 80px; margin-bottom: 120px; align-items: center; }
 .avatar-box {
 position: relative;
 width: 220px;
@@ -192,21 +192,16 @@ letter-spacing: -1.5px;
 .hero-text h1 span.en-title {
 font-family: 'Inter', sans-serif;
 font-style: normal;
-font-weight: 800;
+font-weight: 600; /* 从 800 降到 600，消除粗笨感 */
 color: #fff;
 font-size: 2.6rem;
-letter-spacing: -0.05em;
+letter-spacing: 0;
 margin-left: 15px;
 display: inline-block;
 opacity: 0.95;
 }
 .hero-text h1 span.en-title::after {
-content: '';
-display: block;
-width: 30px;
-height: 3px;
-background: var(--accent);
-margin-top: -4px;
+display: none !important;
 }
 .intro-lead {
 font-size: 0.7rem;
@@ -234,6 +229,19 @@ letter-spacing: 0.3em;
 text-transform: uppercase;
 margin-bottom: 48px;
 opacity: 0.8;
+}
+/* ─── 同步首页的大气标题排版 ─── */
+.section-header {
+text-align: left; margin-bottom: 40px; position: relative;
+padding-left: 20px; border-left: 2px solid rgba(191,168,122,0.4);
+}
+.section-header .kicker {
+font-family: 'Space Mono', Consolas, monospace; color: var(--accent);
+font-size: 13px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 12px;
+}
+.section-header .main-title {
+font-size: 2.2rem; font-weight: 700; letter-spacing: 2px;
+margin: 0; color: #ffffff; font-family: 'Inter', sans-serif;
 }
 /* ─── 充实叙事区 ─── */
 .philosophy-section { margin-bottom: 120px; border-left: 1px solid var(--border); padding-left: 40px; }
@@ -434,7 +442,10 @@ left: 0 !important;
 <p>过去八年，我深潜于中国科技行业的最前沿。从互联网的余晖到 AI 的曙光，我见证了无数组织架构的崩塌与重构。这种经历让我明白：在代码与算力的汪洋中，唯有深刻的洞察，才能锚定那些真正能穿透周期的破局者。</p>
 </section>
 <section>
-<div class="section-title">THE_COGNITION_MATRIX / 认知矩阵</div>
+<div class="section-header">
+<div class="kicker">/ THE_COGNITION_MATRIX</div>
+<h2 class="main-title">认知矩阵</h2>
+</div>
 <div class="matrix-grid">
 <div class="matrix-card reveal">
 <span class="num">01 / 底层 Infra<sup class="fn-ref">1</sup></span>
@@ -466,11 +477,17 @@ left: 0 !important;
 <div class="tag-pill">人脉网络节点</div>
 <div class="tag-pill">人文主义极客</div>
 </section>
-<section class="footer-cta reveal">
-<h2 style="font-family: 'Playfair Display'; font-size: 2.5rem; margin-bottom: 40px;">在喧嚣中，寻找一处深刻的<span>回响</span></h2>
-<p style="margin-bottom: 40px; color: #64748b;">无论你是正在破局的创始人，还是寻求共振的先锋，欢迎与我接入。</p>
-<a href="javascript:void(0)" class="cta-btn" onclick="toggleWechat()">微信连接</a>
-<a href="mailto:zachgengqingyu@163.com" class="cta-btn" style="margin-left: 10px;">邮件联系</a>
+<section class="footer-content" style="padding: 120px 20px 80px; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); background: linear-gradient(to bottom, transparent, rgba(191,168,122,0.02)); margin-top: 40px;">
+<h2 style="font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 2.6rem); margin-bottom: 24px; color: #f8fafc; font-weight: 600; letter-spacing: 2px;">
+在喧嚣中，寻找一处深刻的<span style="color: #bfa87a; font-style: italic;">回响</span>
+</h2>
+<p style="margin-bottom: 50px; color: #94a3b8; font-size: 1.05rem; letter-spacing: 1px; line-height: 1.8;">
+无论你是正在破局的创始人，还是寻求共振的先锋，欢迎与我接入。
+</p>
+<div style="display: flex; justify-content: center; gap: 24px; flex-wrap: wrap;">
+<a href="javascript:void(0)" class="cta-btn-sync" onclick="toggleWechat()">微信连接</a>
+<a href="mailto:zachgengqingyu@163.com" class="cta-btn-sync">邮件联系</a>
+</div>
 </section>
 <div class="footnotes reveal">
 <p><span class="fn-label">1</span>Infrastructure 的缩写，指底层算力基础设施，涵盖分布式训练集群、推理芯片、网络架构等硬科技基座。</p>
@@ -526,6 +543,18 @@ if(toggleBtn&&overlay){
             links[i].parentNode.style.display='none';
         }
     }
+})();
+/* ─── 唤醒头像 3D 磁吸悬浮 ─── */
+(function(){
+const avatar = document.querySelector('.avatar-box');
+if (avatar) {
+document.addEventListener('mousemove', function(e){
+const rect = avatar.getBoundingClientRect();
+const ax = (e.clientX - (rect.left + rect.width / 2)) * 0.08;
+const ay = (e.clientY - (rect.top + rect.height / 2)) * 0.08;
+avatar.style.transform = 'perspective(1000px) rotateY(' + ax + 'deg) rotateX(' + (-ay) + 'deg) translateY(-10px)';
+});
+}
 })();
 </script>
 <div id="wechatModal" class="wechat-modal">
