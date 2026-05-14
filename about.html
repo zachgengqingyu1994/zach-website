@@ -356,32 +356,40 @@ padding: 6px 12px; font-family: 'Space Mono', monospace; font-size: 0.7rem; curs
 }
 .modal-hint { font-size: 0.75rem; color: #64748b; text-align: center; }
 @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-/* ─── 进度条：严格对齐首页 4px 逻辑 ─── */
+/* ─── 进度条：像素级对齐首页 ─── */
 .vertical-scroll-tracker {
 position: fixed !important;
-right: 40px !important;
+right: 20px !important;
 top: 50% !important;
 transform: translateY(-50%) !important;
-width: 4px !important;
+width: 8px !important;
 height: 200px !important;
 background: rgba(255, 255, 255, 0.05) !important;
-border-radius: 10px !important;
-z-index: 99999 !important;
-cursor: pointer !important;
-border: none !important;
-padding: 0 !important;
-box-sizing: content-box;
+-webkit-backdrop-filter: blur(8px) !important;
+backdrop-filter: blur(8px) !important;
+border: 1px solid rgba(255, 255, 255, 0.1) !important;
+border-radius: 20px !important;
+z-index: 9999 !important;
+padding: 2px !important;
+display: flex !important;
+flex-direction: column !important;
+box-sizing: border-box !important;
+cursor: grab !important;
+}
+.vertical-scroll-tracker:active {
+cursor: grabbing !important;
 }
 .scroll-capsule {
-position: absolute !important;
-top: 0 !important;
-left: 0 !important;
 width: 100% !important;
 height: 0%;
 background: linear-gradient(to bottom, #bfa87a, #e5d5b0) !important;
-border-radius: 10px !important;
-box-shadow: 0 0 15px rgba(191, 168, 122, 0.4) !important;
-transition: height 0.1s ease-out !important;
+border-radius: 20px !important;
+box-shadow: 0 0 12px rgba(191, 168, 122, 0.4) !important;
+transition: height 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
+cursor: pointer !important;
+position: relative !important;
+top: 0 !important;
+left: 0 !important;
 }
 @media (max-width: 768px) {
 .vertical-scroll-tracker { display: none; }
@@ -560,28 +568,35 @@ setTimeout(function(){ copyBtn.innerText = 'COPY'; }, 2000);
 });
 };
 }
-/* ─── 垂直胶囊进度条逻辑 (深度增强版) ─── */
-const capsule = document.getElementById('scrollCapsule');
-const tracker = document.querySelector('.vertical-scroll-tracker');
-if (capsule && tracker) {
-function doUpdate() {
-const doc = document.documentElement;
-const winScroll = window.pageYOffset || doc.scrollTop || document.body.scrollTop;
-const scrollHeight = doc.scrollHeight;
-const clientHeight = doc.clientHeight;
-const height = scrollHeight - clientHeight;
-if (height > 0) {
-const scrolled = (winScroll / height) * 100;
-capsule.style.height = Math.max(5, Math.min(scrolled, 100)) + '%';
-capsule.style.opacity = "1";
+/* ─── 垂直胶囊进度条逻辑 (首页克隆版) ─── */
+(function(){
+var tracker = document.querySelector('.vertical-scroll-tracker');
+var capsule = document.getElementById('scrollCapsule');
+if(!tracker || !capsule) return;
+var isDragging = false;
+function updateFromScroll(){
+var s = document.body.scrollTop || document.documentElement.scrollTop;
+var h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+if (h <= 0) return;
+capsule.style.height = ((s / h) * 100) + '%';
 }
+function scrollFromY(clientY){
+var rect = tracker.getBoundingClientRect();
+var p = Math.max(0, Math.min(1, (clientY - rect.top) / rect.height));
+window.scrollTo(0, p * (document.documentElement.scrollHeight - document.documentElement.clientHeight));
 }
-window.addEventListener('scroll', doUpdate, { passive: true });
-window.addEventListener('resize', doUpdate);
-let scrollRetry = setInterval(doUpdate, 100);
-setTimeout(() => clearInterval(scrollRetry), 3000);
-doUpdate();
-}
+capsule.addEventListener('mousedown', function(e){ isDragging = true; e.preventDefault(); });
+document.addEventListener('mousemove', function(e){ if(isDragging) scrollFromY(e.clientY); });
+document.addEventListener('mouseup', function(){ isDragging = false; });
+tracker.addEventListener('click', function(e){ if(e.target !== capsule) scrollFromY(e.clientY); });
+capsule.addEventListener('touchstart', function(e){ isDragging = true; e.preventDefault(); });
+document.addEventListener('touchmove', function(e){ if(isDragging) scrollFromY(e.touches[0].clientY); });
+document.addEventListener('touchend', function(){ isDragging = false; });
+window.addEventListener('scroll', updateFromScroll, {passive: true});
+var retry = setInterval(updateFromScroll, 100);
+setTimeout(function(){ clearInterval(retry); }, 3000);
+updateFromScroll();
+})();
 });
 </script>
 </body>
