@@ -42,22 +42,6 @@ text-rendering: optimizeLegibility;
     border-bottom:1px solid rgba(255,255,255,0.08);
     box-shadow:0 10px 30px rgba(0,0,0,0.5);
 }
-.glass-nav .nav-brand {
-    display:flex; align-items:center; gap:12px;
-    font-size:0.95rem; font-weight:600; color:#fff; letter-spacing:4px;
-    text-transform:uppercase;
-}
-.glass-nav .nav-brand .brand-name {
-    background: linear-gradient(135deg, #fff 40%, #bfa87a 100%);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-    background-clip:text;
-}
-.glass-nav .brand-dot {
-    width:7px; height:7px; border-radius:50%;
-    background:#bfa87a;
-    box-shadow:0 0 10px rgba(191,168,122,0.6);
-}
 .menu-trigger {
     background:none; border:none;
     cursor:pointer;
@@ -463,13 +447,13 @@ font-family: 'Space Mono', monospace; color: var(--accent); font-size: 1.2rem; o
 <body>
 <!-- ═══ Navigation (sync with index) ═══ -->
 <nav class="glass-nav minimal">
-    <div class="nav-brand">
-        <span class="brand-dot"></span><span class="brand-name">ZACH GENG</span>
-    </div>
-    <button class="menu-trigger" id="menuToggle">
-        <span class="line"></span>
-        <span class="line"></span>
-    </button>
+<a href="index.html" style="text-decoration: none; font-family: 'Space Mono', monospace; font-size: 0.75rem; letter-spacing: 0.3em; color: #bfa87a; text-transform: uppercase; font-weight: bold;">
+ZACH.GENG
+</a>
+<button class="menu-trigger" id="menuToggle">
+<span class="line"></span>
+<span class="line"></span>
+</button>
 </nav>
 <div class="fullscreen-overlay" id="navOverlay">
     <ul class="overlay-links">
