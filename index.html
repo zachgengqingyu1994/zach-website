@@ -1263,14 +1263,28 @@ padding: 6px 12px; font-family: 'Space Mono', monospace; font-size: 0.7rem; curs
 }
 .wechat-modal .modal-hint { font-size: 0.75rem; color: #64748b; text-align: center; }
 @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-/* ─── 按钮与弹窗：像素级对齐 About ─── */
+/* ─── 底部按钮：黄金比例调校 ─── */
 .cta-btn-sync {
-display: inline-block; padding: 18px 48px; border: 1px solid #bfa87a;
-color: #fff; text-decoration: none; font-size: 0.9rem; letter-spacing: 4px;
-transition: 0.4s; position: relative; overflow: hidden; background: transparent;
+display: inline-flex;
+align-items: center;
+justify-content: center;
+min-width: 160px;
+padding: 16px 42px;
+border: 1px solid rgba(191, 168, 122, 0.6);
+color: #e2e8f0;
+text-decoration: none;
+font-size: 0.85rem;
+letter-spacing: 4px;
+transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+background: transparent;
+border-radius: 2px;
 }
 .cta-btn-sync:hover {
-background: #bfa87a; color: #05080f; box-shadow: 0 0 30px rgba(191,168,122,0.3);
+background: #bfa87a;
+color: #05080f;
+border-color: #bfa87a;
+box-shadow: 0 0 30px rgba(191,168,122,0.3);
+transform: translateY(-2px);
 }
 /* 微信弹窗样式完全同步 */
 .wechat-modal-sync {
@@ -1579,18 +1593,18 @@ padding: 6px 12px; font-family: 'Space Mono', monospace; font-size: 0.7rem; curs
     </div>
 </div>
 
-<div class="footer-content" style="padding-bottom: 40px; text-align: center;">
-<h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 40px; color: #fff; font-weight: normal; letter-spacing: 2px;">
+<section class="footer-content" style="padding: 120px 20px 80px; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); background: linear-gradient(to bottom, transparent, rgba(191,168,122,0.02)); margin-top: 40px;">
+<h2 style="font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 2.6rem); margin-bottom: 24px; color: #f8fafc; font-weight: 600; letter-spacing: 2px;">
 在喧嚣中，寻找一处深刻的<span style="color: #bfa87a; font-style: italic;">回响</span>
 </h2>
-<p style="margin-bottom: 40px; color: #64748b; font-size: 1.05rem; letter-spacing: 1px;">
+<p style="margin-bottom: 50px; color: #94a3b8; font-size: 1.05rem; letter-spacing: 1px; line-height: 1.8;">
 无论你是正在破局的创始人，还是寻求共振的先锋，欢迎与我接入。
 </p>
-<div style="display: flex; justify-content: center; gap: 10px;">
+<div style="display: flex; justify-content: center; gap: 24px; flex-wrap: wrap;">
 <a href="javascript:void(0)" class="cta-btn-sync" onclick="togglePersonalWechat()">微信连接</a>
 <a href="mailto:zachgengqingyu@163.com" class="cta-btn-sync">邮件联系</a>
 </div>
-</div>
+</section>
 <div id="personalWechatModal" class="wechat-modal-sync">
 <div class="modal-content-sync">
 <div class="modal-header-sync">
