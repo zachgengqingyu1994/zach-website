@@ -20,14 +20,124 @@ color: #cbd5e1;
 font-family: 'Inter', sans-serif;
 overflow-x: hidden;
 }
-/* 导航栏同步 Index */
-.nav {
-position: fixed; top: 0; width: 100%; z-index: 100;
-padding: 20px 40px; display: flex; justify-content: space-between;
-backdrop-filter: blur(10px); border-bottom: 1px solid var(--border);
+/* ─── Glass Navigation (sync with index) ─── */
+.glass-nav {
+    position:fixed; top:0; left:0; right:0;
+    display:flex; align-items:center; justify-content:space-between;
+    height:70px;
+    background:rgba(5,8,15,0.1);
+    -webkit-backdrop-filter:blur(10px);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid transparent;
+    z-index:100; padding:0 40px;
+    transition:all 0.4s ease;
 }
-.nav a { color: #fff; text-decoration: none; margin-left: 30px; font-size: 0.9rem; opacity: 0.7; transition: 0.3s; }
-.nav a:hover { opacity: 1; color: var(--accent); }
+.glass-nav.scrolled {
+    background:rgba(5,8,15,0.85);
+    -webkit-backdrop-filter:blur(24px);
+    backdrop-filter:blur(24px);
+    border-bottom:1px solid rgba(255,255,255,0.08);
+    box-shadow:0 10px 30px rgba(0,0,0,0.5);
+}
+.glass-nav .nav-brand {
+    display:flex; align-items:center; gap:12px;
+    font-size:0.95rem; font-weight:600; color:#fff; letter-spacing:4px;
+    text-transform:uppercase;
+}
+.glass-nav .nav-brand .brand-name {
+    background: linear-gradient(135deg, #fff 40%, #bfa87a 100%);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    background-clip:text;
+}
+.glass-nav .brand-dot {
+    width:7px; height:7px; border-radius:50%;
+    background:#bfa87a;
+    box-shadow:0 0 10px rgba(191,168,122,0.6);
+}
+.menu-trigger {
+    background:none; border:none;
+    cursor:pointer;
+    display:flex; flex-direction:column;
+    gap:8px;
+    z-index:2000;
+    padding:4px;
+}
+.menu-trigger .line {
+    width:28px; height:1px;
+    background-color:#fff;
+    transition:all 0.4s cubic-bezier(0.16,1,0.3,1);
+    border-radius:1px;
+}
+.menu-trigger.active .line:nth-child(1) {
+    transform:translateY(4.5px) rotate(45deg);
+}
+.menu-trigger.active .line:nth-child(2) {
+    transform:translateY(-4.5px) rotate(-45deg);
+}
+
+/* ─── Fullscreen Overlay ─── */
+.fullscreen-overlay {
+    position:fixed;
+    top:0; left:0; width:100vw; height:100vh;
+    background:rgba(5,8,15,0.88);
+    -webkit-backdrop-filter:blur(40px);
+    backdrop-filter:blur(40px);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:1500;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.6s ease;
+}
+.fullscreen-overlay.active {
+    opacity:1;
+    pointer-events:all;
+}
+.overlay-links {
+    list-style:none; padding:0; text-align:center;
+}
+.overlay-links li {
+    margin:30px 0;
+    transform:translateY(20px);
+    opacity:0;
+    transition:all 0.6s cubic-bezier(0.16,1,0.3,1);
+}
+.fullscreen-overlay.active .overlay-links li {
+    transform:translateY(0);
+    opacity:1;
+}
+.fullscreen-overlay.active .overlay-links li:nth-child(1) { transition-delay:0.1s; }
+.fullscreen-overlay.active .overlay-links li:nth-child(2) { transition-delay:0.2s; }
+.fullscreen-overlay.active .overlay-links li:nth-child(3) { transition-delay:0.3s; }
+.fullscreen-overlay.active .overlay-links li:nth-child(4) { transition-delay:0.4s; }
+.overlay-links a {
+    text-decoration:none;
+    font-size:clamp(1.8rem, 5vw, 3rem);
+    font-weight:500;
+    color:#94a3b8;
+    letter-spacing:8px;
+    position:relative;
+    display:inline-flex;
+    align-items:center;
+    gap:20px;
+    transition:color 0.4s ease;
+}
+.overlay-links a .sub {
+    font-size:clamp(0.7rem, 1.5vw, 1rem);
+    font-weight:300;
+    letter-spacing:4px;
+    color:#4a5568;
+    transition:color 0.4s ease;
+}
+.overlay-links a:hover {
+    color:#fff;
+    text-shadow:0 0 30px rgba(255,255,255,0.3);
+}
+.overlay-links a:hover .sub {
+    color:#bfa87a;
+}
 .container { max-width: 900px; margin: 120px auto; padding: 0 20px; }
 /* 头部：姓名与人设 */
 .profile-header {
@@ -82,16 +192,24 @@ font-weight: 600; margin-top: 20px;
 </style>
 </head>
 <body>
-<nav class="nav">
-<div style="font-weight: 700; color: var(--accent);">EMERGENCE</div>
-<div>
-<a href="index.html">首页</a>
-<a href="blog.html">思想</a>
-<a href="daily.html">日报</a>
-<a href="about.html" style="color: var(--accent); opacity: 1;">关于</a>
-<a href="jobs.html">机会</a>
-</div>
+<!-- ═══ Navigation (sync with index) ═══ -->
+<nav class="glass-nav minimal" id="mainNav">
+    <div class="nav-brand">
+        <span class="brand-dot"></span><span class="brand-name">ZACH GENG</span>
+    </div>
+    <button class="menu-trigger" id="menuToggle">
+        <span class="line"></span>
+        <span class="line"></span>
+    </button>
 </nav>
+<div class="fullscreen-overlay" id="navOverlay">
+    <ul class="overlay-links">
+        <li><a href="index.html">首页 <span class="sub">Home</span></a></li>
+        <li><a href="index.html#insights">思想 <span class="sub">Insights</span></a></li>
+        <li><a href="index.html#daily">日报 <span class="sub">Daily</span></a></li>
+        <li><a href="about.html" style="color:#bfa87a;">全局 <span class="sub">About</span></a></li>
+    </ul>
+</div>
 <div class="container">
 <section class="profile-header">
 <div class="avatar-box">
@@ -145,13 +263,36 @@ AI 招聘领军者 · 行业观察者 · 人才连接器<br>
 <div class="scroll-capsule" id="scrollCapsule"></div>
 </div>
 <script>
-// 滚动进度逻辑
+/* ─── Scroll Progress ─── */
 window.addEventListener('scroll', () => {
 const winScroll = document.documentElement.scrollTop;
 const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
 const scrolled = (winScroll / height) * 100;
 document.getElementById("scrollCapsule").style.height = scrolled + "%";
 });
+/* ─── Menu Toggle (sync with index) ─── */
+var toggleBtn=document.getElementById('menuToggle');
+var overlay=document.getElementById('navOverlay');
+if(toggleBtn&&overlay){
+    toggleBtn.addEventListener('click',function(){
+        toggleBtn.classList.toggle('active');
+        overlay.classList.toggle('active');
+    });
+    overlay.addEventListener('click',function(e){
+        if(e.target===overlay||e.target.closest('a')){toggleBtn.classList.remove('active');overlay.classList.remove('active')}
+    });
+}
+/* ─── Glass Nav Scroll ─── */
+(function(){
+    var nav=document.getElementById('mainNav');
+    if(!nav)return;
+    function checkScroll(){
+        if(window.scrollY>50){nav.classList.add('scrolled')}
+        else{nav.classList.remove('scrolled')}
+    }
+    window.addEventListener('scroll',checkScroll,{passive:true});
+    checkScroll();
+})();
 </script>
 </body>
 </html>
