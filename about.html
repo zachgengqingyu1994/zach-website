@@ -402,6 +402,62 @@ left: 0 !important;
 @media (max-width: 768px) {
 .vertical-scroll-tracker { display: none; }
 }
+/* ─── 关于页结尾终端样式 ─── */
+.about-terminal-exit {
+padding: 120px 0 100px;
+max-width: 800px;
+margin: 0 auto;
+border-top: 1px solid rgba(255,255,255,0.05);
+}
+.terminal-header {
+display: flex; align-items: center; gap: 20px; margin-bottom: 40px;
+}
+.status-code {
+font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--accent); letter-spacing: 2px;
+}
+.status-line {
+flex-grow: 1; height: 1px; background: linear-gradient(to right, var(--accent), transparent); opacity: 0.3;
+}
+.terminal-title {
+font-family: 'Playfair Display', serif; font-size: 2.6rem; color: #fff; margin-bottom: 20px; line-height: 1.2;
+}
+.terminal-title .resonance-text {
+color: var(--accent); font-style: italic;
+}
+.terminal-desc {
+font-family: 'Inter', sans-serif; color: #64748b; font-size: 0.95rem; margin-bottom: 60px; letter-spacing: 0.5px;
+}
+.terminal-actions {
+display: flex; flex-direction: column; gap: 20px;
+}
+.terminal-node-card {
+display: flex; align-items: center; padding: 30px;
+background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05);
+border-radius: 4px; text-decoration: none; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.terminal-node-card:hover {
+background: rgba(191, 168, 122, 0.05); border-color: var(--accent);
+transform: translateX(10px);
+}
+.node-meta {
+font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--accent);
+writing-mode: vertical-rl; transform: rotate(180deg); margin-right: 30px; opacity: 0.6;
+}
+.node-content { flex-grow: 1; }
+.node-content h3 {
+color: #f8fafc; font-size: 1.2rem; margin: 0 0 8px 0; letter-spacing: 1px;
+}
+.node-content p {
+color: #64748b; font-size: 0.85rem; margin: 0;
+}
+.node-arrow {
+font-family: 'Space Mono', monospace; color: var(--accent); font-size: 1.2rem; opacity: 0; transition: 0.3s;
+}
+.terminal-node-card:hover .node-arrow { opacity: 1; transform: translateX(5px); }
+@media (max-width: 768px) {
+.terminal-node-card { padding: 20px; }
+.node-meta { display: none; }
+}
 </style>
 </head>
 <body>
@@ -477,23 +533,49 @@ left: 0 !important;
 <div class="tag-pill">人脉网络节点</div>
 <div class="tag-pill">人文主义极客</div>
 </section>
-<section class="footer-content" style="padding: 120px 20px 80px; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); background: linear-gradient(to bottom, transparent, rgba(191,168,122,0.02)); margin-top: 40px;">
-<h2 style="font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 2.6rem); margin-bottom: 24px; color: #f8fafc; font-weight: 600; letter-spacing: 2px;">
-在喧嚣中，寻找一处深刻的<span style="color: #bfa87a; font-style: italic;">回响</span>
-</h2>
-<p style="margin-bottom: 50px; color: #94a3b8; font-size: 1.05rem; letter-spacing: 1px; line-height: 1.8;">
-无论你是正在破局的创始人，还是寻求共振的先锋，欢迎与我接入。
-</p>
-<div style="display: flex; justify-content: center; gap: 24px; flex-wrap: wrap;">
-<a href="javascript:void(0)" class="cta-btn-sync" onclick="toggleWechat()">微信连接</a>
-<a href="mailto:zachgengqingyu@163.com" class="cta-btn-sync">邮件联系</a>
-</div>
-</section>
 <div class="footnotes reveal">
 <p><span class="fn-label">1</span>Infrastructure 的缩写，指底层算力基础设施，涵盖分布式训练集群、推理芯片、网络架构等硬科技基座。</p>
 <p><span class="fn-label">2</span>Agentic 指具备自主决策与行动能力的 AI 系统形态。这里的"Agentic 团队"指人与 AI Agent 协同工作的新型组织模式。</p>
 </div>
 </div>
+<section class="about-terminal-exit reveal">
+<div class="terminal-header">
+<span class="status-code">[ SYSTEM_LOG_COMPLETE ]</span>
+<div class="status-line"></div>
+</div>
+<h2 class="terminal-title">
+从个体逻辑，迈向<span class="resonance-text">系统共振</span>
+</h2>
+<p class="terminal-desc">
+// 认知矩阵已同步。你可以选择继续探索思想领域，或返回主站开启实时连接。
+</p>
+<div class="terminal-actions">
+<a href="index.html#insights" class="terminal-node-card">
+<div class="node-meta">NODE_01</div>
+<div class="node-content">
+<h3>进入思想域</h3>
+<p>阅读关于 AI 产业与人才涌现的深度洞察</p>
+</div>
+<div class="node-arrow">→</div>
+</a>
+<a href="index.html#connect" class="terminal-node-card">
+<div class="node-meta">NODE_02</div>
+<div class="node-content">
+<h3>开启深度共振</h3>
+<p>返回主站，通过微信或邮件发起接入请求</p>
+</div>
+<div class="node-arrow">→</div>
+</a>
+<a href="javascript:void(0)" onclick="window.scrollTo({top:0, behavior:'smooth'})" class="terminal-node-card reset">
+<div class="node-meta">NODE_03</div>
+<div class="node-content">
+<h3>重置感知高度</h3>
+<p>回到页面顶部，重新审视认知矩阵</p>
+</div>
+<div class="node-arrow">↑</div>
+</a>
+</div>
+</section>
 <script>
 /* ─── Scroll Reveal (模糊入场) ─── */
 var observer=new IntersectionObserver(function(entries){
