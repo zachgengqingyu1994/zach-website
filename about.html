@@ -309,7 +309,7 @@ animation: decodeReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 </div>
 <div class="hero-text">
 <div class="intro-lead">// 常驻 AI 领域的学徒与观察者</div>
-<h1>我是 <span>扎克耿</span></h1>
+<h1>我是 <span>ZACH</span></h1>
 <p style="font-size: 1.2rem; color: #94a3b8; max-width: 600px;">
 我不相信终极的权威，只相信持续的涌现。在这里，我试图通过"人"的维度，去解构这一场席卷全球的硅基革命。
 </p>
@@ -363,16 +363,6 @@ animation: decodeReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 </div>
 </div>
 <script>
-/* ─── 头像引力倾斜逻辑 ─── */
-var avatar=document.querySelector('.avatar-box');
-if(avatar){
-document.addEventListener('mousemove',function(e){
-var rect=avatar.getBoundingClientRect();
-var ax=(e.clientX-(rect.left+rect.width/2))*0.08;
-var ay=(e.clientY-(rect.top+rect.height/2))*0.08;
-avatar.style.transform='rotateY('+ax+'deg) rotateX('+(-ay)+'deg)';
-});
-}
 /* ─── Scroll Reveal (模糊入场) ─── */
 var observer=new IntersectionObserver(function(entries){
 entries.forEach(function(entry){
