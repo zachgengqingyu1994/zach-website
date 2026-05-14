@@ -1316,7 +1316,7 @@ display: flex; justify-content: space-between; align-items: center;
 margin-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 16px;
 }
 .modal-header-sync .header-left { display: flex; align-items: center; }
-.modal-header-sync span { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: #bfa87a; letter-spacing: 1px;}
+.modal-header-sync span { font-family: 'Inter', sans-serif; font-size: 0.85rem; color: #bfa87a; font-weight: 600; letter-spacing: 1px;}
 .close-modal-sync {
 background: none; border: none; color: #64748b; font-size: 1.8rem; line-height: 1;
 cursor: pointer; transition: 0.3s; margin-top: -4px;
@@ -1327,10 +1327,10 @@ font-size: 0.9rem; color: #94a3b8; margin-bottom: 20px; line-height: 1.6; letter
 }
 .wechat-id-box-sync {
 display: flex; justify-content: space-between; align-items: center;
-background: rgba(0, 0, 0, 0.5);
+background: rgba(255, 255, 255, 0.02);
 border: 1px solid rgba(255,255,255,0.08);
 border-radius: 8px;
-padding: 16px 20px; margin-bottom: 24px;
+padding: 16px 20px; margin: 20px 0;
 position: relative; overflow: hidden;
 }
 .wechat-id-box-sync::before {
@@ -1657,17 +1657,17 @@ ZACH.GENG
 <div class="modal-header-sync">
 <div class="header-left">
 <span class="live-dot-small" style="display: inline-block; margin-right: 10px;"></span>
-<span>[ SYSTEM_CONNECT :: WECHAT ]</span>
+<span>联系ZACH · WECHAT</span>
 </div>
 <button class="close-modal-sync" onclick="togglePersonalWechat()">&times;</button>
 </div>
 <div class="modal-body-sync">
-<p class="modal-intro">发起跨界共振，请复制下方专属 ID 接入网络：</p>
+<p class="modal-intro">想聊聊 AI 趋势、人才机会，或者单纯交个朋友？复制我的微信号加我就行：</p>
 <div class="wechat-id-box-sync">
 <span id="personalWechatId">Headhunter_Zach</span>
 <button id="indexCopyBtn">COPY</button>
 </div>
-<p class="modal-hint-sync">// 添加时请备注：来自终端涌现</p>
+<p class="modal-hint-sync">加的时候备注一下"来自网站"，我会通过得快一些</p>
 </div>
 </div>
 </div>
