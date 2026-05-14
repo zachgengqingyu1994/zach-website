@@ -1397,6 +1397,49 @@ transform: translateY(-3px) !important;
 background-color: #05080f !important;
 box-shadow: 0 0 8px rgba(0, 0, 0, 0.5) !important;
 }
+
+/* ─── 弹窗二维码专属高奢陈列样式 ─── */
+.qr-code-wrapper-sync {
+display: flex;
+justify-content: center;
+margin-bottom: 24px !important;
+}
+.wechat-qr-img-sync {
+width: 170px;
+height: auto;
+border-radius: 12px;
+border: 1px solid rgba(191, 168, 122, 0.3);
+box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(191, 168, 122, 0.08);
+transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.4s ease;
+}
+.wechat-qr-img-sync:hover {
+transform: translateY(-6px) scale(1.02);
+box-shadow: 0 20px 45px rgba(0, 0, 0, 0.8), 0 0 30px rgba(191, 168, 122, 0.2);
+border-color: #bfa87a;
+}
+.qr-divider-sync {
+display: flex;
+align-items: center;
+text-align: center;
+margin-bottom: 24px !important;
+color: #64748b;
+font-family: 'Space Mono', monospace;
+font-size: 0.75rem;
+letter-spacing: 2px;
+}
+.qr-divider-sync::before,
+.qr-divider-sync::after {
+content: '';
+flex: 1;
+border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.qr-divider-sync span {
+padding: 0 15px;
+}
+.modal-content-sync {
+max-height: 90vh;
+overflow-y: auto;
+}
 </style>
 </head>
 <body>
@@ -1711,7 +1754,13 @@ ZACH.GENG
 <button class="close-modal-sync" onclick="togglePersonalWechat()">&times;</button>
 </div>
 <div class="modal-body-sync">
-<p class="modal-intro">想聊聊 AI 趋势、人才机会，或者单纯交个朋友？复制我的微信号加我就行：</p>
+<p class="modal-intro">想聊聊 AI 趋势、人才机会，或者单纯交个朋友？扫码或复制微信号加我：</p>
+<div class="qr-code-wrapper-sync">
+<img src="0dc2882bc4c2347547ee6def59599301.jpg" alt="Zach Wechat QR" class="wechat-qr-img-sync">
+</div>
+<div class="qr-divider-sync">
+<span>OR COPY ID</span>
+</div>
 <div class="wechat-id-box-sync">
 <span id="personalWechatId">Headhunter_Zach</span>
 <button id="indexCopyBtn">COPY</button>
