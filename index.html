@@ -1545,21 +1545,35 @@ padding: 6px 12px; font-family: 'Space Mono', monospace; font-size: 0.7rem; curs
     </div>
 </div>
 
-<section class="final-connect-section" style="padding: 100px 20px; text-align: center; background: rgba(5,8,15,0.4);">
-<div style="max-width: 800px; margin: 0 auto;">
-<h2 style="font-family: 'Playfair Display', serif; font-style: italic; color: var(--accent); font-size: 2rem; margin-bottom: 20px;">
+<section class="about-contact-sync-section" style="padding: 100px 20px; display: flex; justify-content: center; background: transparent;">
+<div style="width: 100%; max-width: 600px; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: 40px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);">
+<h3 style="font-family: 'Playfair Display', serif; font-style: italic; color: #e2e8f0; font-size: 1.8rem; margin: 0 0 15px 0; font-weight: 700; letter-spacing: -0.5px;">
 在喧嚣中，寻找一处深刻的回响
-</h2>
-<p style="color: #94a3b8; font-size: 1.1rem; line-height: 1.8; margin-bottom: 40px; letter-spacing: 1px;">
+</h3>
+<p style="color: #94a3b8; font-size: 1rem; line-height: 1.7; margin: 0 0 35px 0; font-family: 'Inter', sans-serif;">
 无论你是正在破局的创始人，还是寻求共振的先锋，欢迎与我接入。
 </p>
-<div class="connect-actions" style="display: flex; justify-content: center; gap: 30px;">
-<a href="javascript:void(0)" onclick="toggleWechat()" style="color: #e2e8f0; text-decoration: none; border-bottom: 1px solid var(--accent); padding-bottom: 5px; transition: 0.3s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='#e2e8f0'">
-微信连接
+<div style="display: flex; flex-direction: column; gap: 16px;">
+<div style="display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 16px 20px; border-radius: 10px;">
+<div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="toggleWechat()">
+<span style="font-size: 1.1rem; filter: grayscale(100%); opacity: 0.8;">💬</span>
+<span style="color: #e2e8f0; font-weight: 500; font-size: 0.95rem;">微信连接</span>
+<span style="color: #64748b; font-family: 'Space Mono', monospace; font-size: 0.9rem; margin-left: 8px;">Headhunter_Zach</span>
+</div>
+<button id="indexCopyWechatBtn" style="background: transparent; border: 1px solid rgba(255,255,255,0.15); color: #cbd5e1; padding: 6px 14px; border-radius: 6px; font-size: 0.8rem; font-family: 'Space Mono', monospace; cursor: pointer; transition: 0.2s;" onmouseover="this.style.borderColor='#bfa87a'; this.style.color='#bfa87a';" onmouseout="this.style.borderColor='rgba(255,255,255,0.15)'; this.style.color='#cbd5e1';">
+COPY
+</button>
+</div>
+<div style="display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 16px 20px; border-radius: 10px;">
+<a href="mailto:zachgengqingyu@163.com" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
+<span style="font-size: 1.1rem; filter: grayscale(100%); opacity: 0.8;">✉️</span>
+<span style="color: #e2e8f0; font-weight: 500; font-size: 0.95rem;">邮件联系</span>
+<span style="color: #64748b; font-family: 'Space Mono', monospace; font-size: 0.9rem; margin-left: 8px;">zachgengqingyu@163.com</span>
 </a>
-<a href="mailto:zachgengqingyu@163.com" style="color: #e2e8f0; text-decoration: none; border-bottom: 1px solid var(--accent); padding-bottom: 5px; transition: 0.3s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='#e2e8f0'">
-邮件联系
-</a>
+<button id="indexCopyEmailBtn" style="background: transparent; border: 1px solid rgba(255,255,255,0.15); color: #cbd5e1; padding: 6px 14px; border-radius: 6px; font-size: 0.8rem; font-family: 'Space Mono', monospace; cursor: pointer; transition: 0.2s;" onmouseover="this.style.borderColor='#bfa87a'; this.style.color='#bfa87a';" onmouseout="this.style.borderColor='rgba(255,255,255,0.15)'; this.style.color='#cbd5e1';">
+COPY
+</button>
+</div>
 </div>
 </div>
 </section>
@@ -1813,28 +1827,33 @@ document.addEventListener('click', function(e){
         }
     }
 })();
-/* ─── 微信弹窗逻辑 (同步自 About) ─── */
-function toggleWechat() {
-document.getElementById('wechatModal').classList.toggle('active');
+/* ─── 结尾连接区高保真交互逻辑 ─── */
+document.addEventListener('DOMContentLoaded', function() {
+const wechatBtn = document.getElementById('indexCopyWechatBtn');
+if (wechatBtn) {
+wechatBtn.onclick = function() {
+navigator.clipboard.writeText('Headhunter_Zach').then(function() {
+wechatBtn.innerText = 'COPIED!';
+setTimeout(function() { wechatBtn.innerText = 'COPY'; }, 2000);
+});
+};
 }
-document.addEventListener('DOMContentLoaded', function(){
-var closeBtn = document.querySelector('.wechat-modal .close-modal');
-if(closeBtn) closeBtn.onclick = toggleWechat;
-window.onclick = function(event) {
-var modal = document.getElementById('wechatModal');
-if (event.target == modal) toggleWechat();
-}
-var copyBtn = document.getElementById('copyBtn');
-if(copyBtn) {
-copyBtn.onclick = function() {
-var text = document.getElementById('wechatId').innerText;
-navigator.clipboard.writeText(text).then(function(){
-copyBtn.innerText = 'COPIED!';
-setTimeout(function(){ copyBtn.innerText = 'COPY'; }, 2000);
+const emailBtn = document.getElementById('indexCopyEmailBtn');
+if (emailBtn) {
+emailBtn.onclick = function() {
+navigator.clipboard.writeText('zachgengqingyu@163.com').then(function() {
+emailBtn.innerText = 'COPIED!';
+setTimeout(function() { emailBtn.innerText = 'COPY'; }, 2000);
 });
 };
 }
 });
+function toggleWechat() {
+const modal = document.getElementById('wechatModal');
+if (modal) {
+modal.classList.toggle('active');
+}
+}
 </script>
 </body>
 </html>
