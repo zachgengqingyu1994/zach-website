@@ -544,15 +544,20 @@ if(toggleBtn&&overlay){
         }
     }
 })();
-/* ─── 唤醒头像 3D 磁吸悬浮 ─── */
+/* ─── 修正版：头像 3D 磁吸悬浮 (仅悬停时触发) ─── */
 (function(){
 const avatar = document.querySelector('.avatar-box');
 if (avatar) {
-document.addEventListener('mousemove', function(e){
+avatar.addEventListener('mousemove', function(e){
+avatar.style.transition = 'none';
 const rect = avatar.getBoundingClientRect();
-const ax = (e.clientX - (rect.left + rect.width / 2)) * 0.08;
-const ay = (e.clientY - (rect.top + rect.height / 2)) * 0.08;
+const ax = (e.clientX - (rect.left + rect.width / 2)) * 0.1;
+const ay = (e.clientY - (rect.top + rect.height / 2)) * 0.1;
 avatar.style.transform = 'perspective(1000px) rotateY(' + ax + 'deg) rotateX(' + (-ay) + 'deg) translateY(-10px)';
+});
+avatar.addEventListener('mouseleave', function(){
+avatar.style.transition = 'transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)';
+avatar.style.transform = 'perspective(1000px) rotateY(0deg) rotateX(0deg) translateY(0)';
 });
 }
 })();
