@@ -2,20 +2,136 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>思想输出 | 扎克耿</title>
 
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Space+Mono&display=swap" rel="stylesheet">
+
+    <style>
+    /* ─── Navigation (sync with about) ─── */
+    .glass-nav {
+        position:fixed; top:0; left:0; right:0;
+        display:flex; align-items:center; justify-content:space-between;
+        height:70px;
+        background:rgba(5,8,15,0.1);
+        -webkit-backdrop-filter:blur(10px);
+        backdrop-filter:blur(10px);
+        border-bottom:1px solid transparent;
+        z-index:100; padding:0 40px;
+        transition:all 0.4s ease;
+    }
+    .glass-nav.scrolled {
+        background:rgba(5,8,15,0.85);
+        backdrop-filter:blur(24px);
+        border-bottom:1px solid rgba(255,255,255,0.08);
+        box-shadow:0 10px 30px rgba(0,0,0,0.5);
+    }
+    .menu-trigger {
+        background:none; border:none;
+        cursor:pointer;
+        display:flex; flex-direction:column;
+        gap:8px;
+        z-index:2000;
+        padding:4px;
+    }
+    .menu-trigger .line {
+        width:28px; height:1px;
+        background-color:#fff;
+        transition:all 0.4s cubic-bezier(0.16,1,0.3,1);
+        border-radius:1px;
+    }
+    .menu-trigger.active .line:nth-child(1) {
+        transform:translateY(4.5px) rotate(45deg);
+    }
+    .menu-trigger.active .line:nth-child(2) {
+        transform:translateY(-4.5px) rotate(-45deg);
+    }
+    /* ─── Fullscreen Overlay ─── */
+    .fullscreen-overlay {
+        position:fixed;
+        top:0; left:0; width:100vw; height:100vh;
+        background:rgba(5,8,15,0.88);
+        backdrop-filter:blur(40px);
+        -webkit-backdrop-filter:blur(40px);
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        z-index:1500;
+        opacity:0;
+        pointer-events:none;
+        transition:opacity 0.6s ease;
+    }
+    .fullscreen-overlay.active {
+        opacity:1;
+        pointer-events:all;
+    }
+    .overlay-links {
+        list-style:none; padding:0; text-align:center;
+    }
+    .overlay-links li {
+        margin:30px 0;
+        transform:translateY(20px);
+        opacity:0;
+        transition:all 0.6s cubic-bezier(0.16,1,0.3,1);
+    }
+    .fullscreen-overlay.active .overlay-links li {
+        transform:translateY(0);
+        opacity:1;
+    }
+    .fullscreen-overlay.active .overlay-links li:nth-child(1) { transition-delay:0.1s; }
+    .fullscreen-overlay.active .overlay-links li:nth-child(2) { transition-delay:0.2s; }
+    .fullscreen-overlay.active .overlay-links li:nth-child(3) { transition-delay:0.3s; }
+    .fullscreen-overlay.active .overlay-links li:nth-child(4) { transition-delay:0.4s; }
+    .fullscreen-overlay.active .overlay-links li:nth-child(5) { transition-delay:0.5s; }
+    .overlay-links a {
+        text-decoration:none;
+        font-size:clamp(1.8rem, 5vw, 3rem);
+        font-weight:500;
+        color:#94a3b8;
+        letter-spacing:8px;
+        position:relative;
+        display:inline-flex;
+        align-items:center;
+        gap:20px;
+        transition:color 0.4s ease;
+    }
+    .overlay-links a .sub {
+        font-size:clamp(0.7rem, 1.5vw, 1rem);
+        font-weight:300;
+        letter-spacing:4px;
+        color:#4a5568;
+        transition:color 0.4s ease;
+    }
+    .overlay-links a:hover {
+        color:#fff;
+        text-shadow:0 0 30px rgba(255,255,255,0.3);
+    }
+    .overlay-links a:hover .sub {
+        color:#bfa87a;
+    }
+    </style>
+
 </head>
 <body>
-    <nav>
-        <div style="font-family: 'Space Mono', monospace; font-size: 0.75rem; letter-spacing: 0.3em; color: #bfa87a; text-transform: uppercase; font-weight: bold;">ZACH.GENG</div>
-        <a href="index.html#thoughts">思想</a>
-        <a href="index.html#daily">日报</a>
-        <a href="index.html#connect">连接</a>
-        <a href="about.html">关于</a>
-        <a href="jobs.html">机会</a>
-        <a href="index.html">首页</a>
+    <nav class="glass-nav minimal">
+        <a href="index.html" style="text-decoration: none; font-family: 'Space Mono', monospace; font-size: 0.75rem; letter-spacing: 0.3em; color: #bfa87a; text-transform: uppercase; font-weight: bold;">
+        ZACH.GENG
+        </a>
+        <button class="menu-trigger" id="menuToggle">
+            <span class="line"></span>
+            <span class="line"></span>
+        </button>
     </nav>
+    <div class="fullscreen-overlay" id="navOverlay">
+        <ul class="overlay-links">
+            <li><a href="index.html" data-page="index">首页 <span class="sub">Home</span></a></li>
+            <li><a href="index.html#insights" data-page="insights">思想 <span class="sub">Insights</span></a></li>
+            <li><a href="index.html#daily" data-page="daily">日报 <span class="sub">Daily</span></a></li>
+            <li><a href="index.html#matrix" data-page="matrix">回响 <span class="sub">Impact</span></a></li>
+            <li><a href="about.html" data-page="about">全局 <span class="sub">About</span></a></li>
+        </ul>
+    </div>
 
     <div>
         <header>
@@ -58,6 +174,20 @@
 
         <div>⚡ 2026 扎克耿 · 连接 AI 人才与未来</div>
     </div>
+
+    <script>
+    var toggleBtn=document.getElementById('menuToggle');
+    var overlay=document.getElementById('navOverlay');
+    if(toggleBtn&&overlay){
+        toggleBtn.addEventListener('click',function(){
+            toggleBtn.classList.toggle('active');
+            overlay.classList.toggle('active');
+        });
+        overlay.addEventListener('click',function(e){
+            if(e.target===overlay||e.target.closest('a')){toggleBtn.classList.remove('active');overlay.classList.remove('active')}
+        });
+    }
+    </script>
 
 </body>
 </html>
