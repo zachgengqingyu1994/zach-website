@@ -1263,6 +1263,25 @@ padding: 6px 12px; font-family: 'Space Mono', monospace; font-size: 0.7rem; curs
 }
 .wechat-modal .modal-hint { font-size: 0.75rem; color: #64748b; text-align: center; }
 @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+/* ─── 绝对同步 about页的极简线条按钮 ─── */
+.cta-btn-sync {
+display: inline-block;
+padding: 18px 48px;
+border: 1px solid #bfa87a;
+color: #fff;
+text-decoration: none;
+font-size: 0.9rem;
+letter-spacing: 4px;
+transition: 0.4s;
+position: relative;
+overflow: hidden;
+background: transparent;
+}
+.cta-btn-sync:hover {
+background: #bfa87a;
+color: #05080f;
+box-shadow: 0 0 30px rgba(191,168,122,0.3);
+}
 </style>
 </head>
 <body>
@@ -1545,38 +1564,18 @@ padding: 6px 12px; font-family: 'Space Mono', monospace; font-size: 0.7rem; curs
     </div>
 </div>
 
-<section class="about-contact-sync-section" style="padding: 100px 20px; display: flex; justify-content: center; background: transparent;">
-<div style="width: 100%; max-width: 600px; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: 40px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);">
-<h3 style="font-family: 'Playfair Display', serif; font-style: italic; color: #e2e8f0; font-size: 1.8rem; margin: 0 0 15px 0; font-weight: 700; letter-spacing: -0.5px;">
-在喧嚣中，寻找一处深刻的回响
-</h3>
-<p style="color: #94a3b8; font-size: 1rem; line-height: 1.7; margin: 0 0 35px 0; font-family: 'Inter', sans-serif;">
+<div class="footer-content" style="padding-bottom: 40px; text-align: center;">
+<h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 40px; color: #fff; font-weight: normal; letter-spacing: 2px;">
+在喧嚣中，寻找一处深刻的<span style="color: #bfa87a; font-style: italic;">回响</span>
+</h2>
+<p style="margin-bottom: 40px; color: #64748b; font-size: 1.05rem; letter-spacing: 1px;">
 无论你是正在破局的创始人，还是寻求共振的先锋，欢迎与我接入。
 </p>
-<div style="display: flex; flex-direction: column; gap: 16px;">
-<div style="display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 16px 20px; border-radius: 10px;">
-<div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="toggleWechat()">
-<span style="font-size: 1.1rem; filter: grayscale(100%); opacity: 0.8;">💬</span>
-<span style="color: #e2e8f0; font-weight: 500; font-size: 0.95rem;">微信连接</span>
-<span style="color: #64748b; font-family: 'Space Mono', monospace; font-size: 0.9rem; margin-left: 8px;">Headhunter_Zach</span>
-</div>
-<button id="indexCopyWechatBtn" style="background: transparent; border: 1px solid rgba(255,255,255,0.15); color: #cbd5e1; padding: 6px 14px; border-radius: 6px; font-size: 0.8rem; font-family: 'Space Mono', monospace; cursor: pointer; transition: 0.2s;" onmouseover="this.style.borderColor='#bfa87a'; this.style.color='#bfa87a';" onmouseout="this.style.borderColor='rgba(255,255,255,0.15)'; this.style.color='#cbd5e1';">
-COPY
-</button>
-</div>
-<div style="display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 16px 20px; border-radius: 10px;">
-<a href="mailto:zachgengqingyu@163.com" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
-<span style="font-size: 1.1rem; filter: grayscale(100%); opacity: 0.8;">✉️</span>
-<span style="color: #e2e8f0; font-weight: 500; font-size: 0.95rem;">邮件联系</span>
-<span style="color: #64748b; font-family: 'Space Mono', monospace; font-size: 0.9rem; margin-left: 8px;">zachgengqingyu@163.com</span>
-</a>
-<button id="indexCopyEmailBtn" style="background: transparent; border: 1px solid rgba(255,255,255,0.15); color: #cbd5e1; padding: 6px 14px; border-radius: 6px; font-size: 0.8rem; font-family: 'Space Mono', monospace; cursor: pointer; transition: 0.2s;" onmouseover="this.style.borderColor='#bfa87a'; this.style.color='#bfa87a';" onmouseout="this.style.borderColor='rgba(255,255,255,0.15)'; this.style.color='#cbd5e1';">
-COPY
-</button>
+<div style="display: flex; justify-content: center; gap: 10px;">
+<a href="javascript:void(0)" class="cta-btn-sync" onclick="showQR('wechat')">微信连接</a>
+<a href="mailto:zachgengqingyu@163.com" class="cta-btn-sync">邮件联系</a>
 </div>
 </div>
-</div>
-</section>
 
 <!-- ═══ Footer Copyright ═══ -->
 <div style="text-align: center; padding: 30px 20px; border-top: 1px solid rgba(255,255,255,0.05);">
