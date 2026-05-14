@@ -1373,6 +1373,26 @@ padding: 40px 48px !important; border-radius: 16px !important;
 #personalWechatId { font-size: 1.25rem !important; letter-spacing: 1px !important; }
 #indexCopyBtn { padding: 12px 28px !important; font-size: 0.85rem !important; border-radius: 8px !important; }
 .modal-hint-sync { font-size: 0.85rem !important; margin-top: 10px !important; }
+
+/* ─── 底部唯一主按钮强化 ─── */
+.primary-single-cta {
+min-width: 260px !important;
+padding: 20px 50px !important;
+border-color: #bfa87a !important;
+background: rgba(191, 168, 122, 0.05) !important;
+font-size: 0.95rem !important;
+box-shadow: 0 0 20px rgba(191, 168, 122, 0.1);
+}
+.primary-single-cta:hover {
+background: #bfa87a !important;
+color: #05080f !important;
+box-shadow: 0 0 40px rgba(191, 168, 122, 0.4);
+transform: translateY(-3px) !important;
+}
+.primary-single-cta:hover .live-dot-small {
+background-color: #05080f !important;
+box-shadow: 0 0 8px rgba(0, 0, 0, 0.5) !important;
+}
 </style>
 </head>
 <body>
@@ -1662,9 +1682,11 @@ ZACH.GENG
 <p style="margin-bottom: 50px; color: #94a3b8; font-size: 1.05rem; letter-spacing: 1px; line-height: 1.8;">
 无论你是正在破局的创始人，还是寻求共振的先锋，欢迎与我链接。
 </p>
-<div style="display: flex; justify-content: center; gap: 24px; flex-wrap: wrap;">
-<a href="javascript:void(0)" class="cta-btn-sync" onclick="togglePersonalWechat()">微信连接</a>
-<a href="mailto:zachgengqingyu@163.com" class="cta-btn-sync">邮件联系</a>
+<div style="display: flex; justify-content: center;">
+<a href="javascript:void(0)" class="cta-btn-sync primary-single-cta" onclick="togglePersonalWechat()">
+<span class="live-dot-small" style="margin-right: 12px; display: inline-block;"></span>
+接入微信连接
+</a>
 </div>
 </section>
 <div id="personalWechatModal" class="wechat-modal-sync">
