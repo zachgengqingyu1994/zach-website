@@ -204,49 +204,48 @@ section::after {
     opacity:1;
     pointer-events:all;
 }
+/* ─── 导航菜单：绝对中轴线对称排版 ─── */
 .overlay-links {
-    list-style:none; padding:0; text-align:center;
+list-style: none; padding: 0;
+width: 100%; max-width: 900px;
+display: flex; flex-direction: column; align-items: center;
 }
 .overlay-links li {
-    margin:30px 0;
-    transform:translateY(20px);
-    opacity:0;
-    transition:all 0.6s cubic-bezier(0.16,1,0.3,1);
+margin: 30px 0; width: 100%;
+transform: translateY(20px); opacity: 0;
+transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.fullscreen-overlay.active .overlay-links li {
-    transform:translateY(0);
-    opacity:1;
-}
-.fullscreen-overlay.active .overlay-links li:nth-child(1) { transition-delay:0.1s; }
-.fullscreen-overlay.active .overlay-links li:nth-child(2) { transition-delay:0.2s; }
-.fullscreen-overlay.active .overlay-links li:nth-child(3) { transition-delay:0.3s; }
-.fullscreen-overlay.active .overlay-links li:nth-child(4) { transition-delay:0.4s; }
-.fullscreen-overlay.active .overlay-links li:nth-child(5) { transition-delay:0.5s; }
+.fullscreen-overlay.active .overlay-links li { transform: translateY(0); opacity: 1; }
+.fullscreen-overlay.active .overlay-links li:nth-child(1) { transition-delay: 0.1s; }
+.fullscreen-overlay.active .overlay-links li:nth-child(2) { transition-delay: 0.2s; }
+.fullscreen-overlay.active .overlay-links li:nth-child(3) { transition-delay: 0.3s; }
+.fullscreen-overlay.active .overlay-links li:nth-child(4) { transition-delay: 0.4s; }
 .overlay-links a {
-    text-decoration:none;
-    font-size:clamp(1.8rem, 5vw, 3rem);
-    font-weight:500;
-    color:#94a3b8;
-    letter-spacing:8px;
-    position:relative;
-    display:inline-flex;
-    align-items:center;
-    gap:20px;
-    transition:color 0.4s ease;
+text-decoration: none; display: flex; align-items: center; width: 100%;
 }
-.overlay-links a .sub {
-    font-size:clamp(0.7rem, 1.5vw, 1rem);
-    font-weight:300;
-    letter-spacing:4px;
-    color:#4a5568;
-    transition:color 0.4s ease;
+.overlay-links a .zh {
+flex: 1; text-align: right;
+font-size: clamp(1.8rem, 4vw, 2.4rem);
+font-weight: 500; color: #94a3b8;
+letter-spacing: 15px;
+padding-right: 40px;
+transition: all 0.4s ease;
 }
-.overlay-links a:hover {
-    color:#fff;
-    text-shadow:0 0 30px rgba(255,255,255,0.3);
+.overlay-links a .en {
+flex: 1; text-align: left;
+font-family: 'Space Mono', monospace;
+font-size: 0.85rem; font-weight: 300;
+color: #4a5568; text-transform: uppercase;
+letter-spacing: 6px;
+padding-left: 40px;
+transition: all 0.4s ease;
 }
-.overlay-links a:hover .sub {
-    color:#bfa87a;
+.overlay-links a:hover .zh {
+color: #fff;
+text-shadow: 0 0 30px rgba(255,255,255,0.2);
+}
+.overlay-links a:hover .en {
+color: #bfa87a;
 }
 
 /* ─── Hero ─── */
@@ -953,7 +952,6 @@ section::after {
 
 /* ─── Responsive ─── */
 @media (max-width:768px) {
-    .overlay-links a { font-size:1.5rem; gap:12px; letter-spacing:4px; }
     .section { padding:60px 16px; }
     .connect-grid { grid-template-columns:1fr; }
     .cards-grid { grid-template-columns:1fr; }
@@ -1409,13 +1407,12 @@ ZACH.GENG
 </button>
 </nav>
 <div class="fullscreen-overlay" id="navOverlay">
-    <ul class="overlay-links">
-        <li><a href="index.html" data-page="index">首页 <span class="sub">Home</span></a></li>
-        <li><a href="#insights" data-page="insights">思想 <span class="sub">Insights</span></a></li>
-        <li><a href="#daily" data-page="daily">日报 <span class="sub">Daily</span></a></li>
-        <li><a href="#matrix" data-page="matrix">回响 <span class="sub">Impact</span></a></li>
-        <li><a href="about.html" data-page="about">全局 <span class="sub">About</span></a></li>
-    </ul>
+<ul class="overlay-links">
+<li><a href="index.html"><span class="zh">首页</span><span class="en">Home</span></a></li>
+<li><a href="index.html#insights"><span class="zh">思想</span><span class="en">Insights</span></a></li>
+<li><a href="jobs.html"><span class="zh">职位</span><span class="en">Jobs</span></a></li>
+<li><a href="about.html"><span class="zh">全局</span><span class="en">About</span></a></li>
+</ul>
 </div>
 
 <!-- ═══ Hero ═══ -->
