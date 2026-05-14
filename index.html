@@ -1358,6 +1358,21 @@ from { opacity: 0; } to { opacity: 1; }
 from { opacity: 0; transform: translateY(20px) scale(0.95); }
 to { opacity: 1; transform: translateY(0) scale(1); }
 }
+
+/* ─── 放大并优化排版的微信弹窗 (Proportional Scaling) ─── */
+.modal-content-sync {
+width: 480px !important; max-width: 90vw !important;
+padding: 40px 48px !important; border-radius: 16px !important;
+}
+.modal-header-sync { margin-bottom: 32px !important; }
+.modal-header-sync span { font-size: 0.95rem !important; letter-spacing: 1.5px !important; }
+.close-modal-sync { font-size: 2rem !important; }
+.modal-body-sync p.modal-intro,
+.modal-intro { font-size: 1.05rem !important; line-height: 1.8 !important; margin-bottom: 32px !important; }
+.wechat-id-box-sync { padding: 24px 28px !important; margin-bottom: 32px !important; border-radius: 10px !important; }
+#personalWechatId { font-size: 1.25rem !important; letter-spacing: 1px !important; }
+#indexCopyBtn { padding: 12px 28px !important; font-size: 0.85rem !important; border-radius: 8px !important; }
+.modal-hint-sync { font-size: 0.85rem !important; margin-top: 10px !important; }
 </style>
 </head>
 <body>
