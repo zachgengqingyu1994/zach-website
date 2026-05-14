@@ -11,13 +11,15 @@
 --bg: #05080f;
 --glass: rgba(255, 255, 255, 0.03);
 --border: rgba(255, 255, 255, 0.08);
---leading-relaxed: 1.85;
---font-main: 'Inter', -apple-system, sans-serif;
+--text-main: #94a3b8;
+--text-bright: #e2e8f0;
+--leading-tight: 1.2;
+--leading-normal: 1.8;
 }
 body {
 margin: 0; background: var(--bg);
 background-image: radial-gradient(circle at 50% -20%, #1a2333 0%, #05080f 60%);
-color: #cbd5e1; font-family: var(--font-main); overflow-x: hidden; line-height: 1.6;
+color: #cbd5e1; font-family: 'Inter', -apple-system, sans-serif; overflow-x: hidden; line-height: 1.6;
 -webkit-font-smoothing: antialiased;
 text-rendering: optimizeLegibility;
 }
@@ -149,9 +151,9 @@ animation: float 8s ease-in-out infinite;
 }
 @keyframes float { 0%, 100% { transform:translateY(0); } 50% { transform:translateY(-15px); } }
 .avatar-box img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(0.2) contrast(1.1); }
-.hero-text h1 { font-family: 'Playfair Display', serif; font-size: 4.2rem; color: #fff; margin: 0 0 20px; line-height: 1; font-weight: 700; letter-spacing: -2px; }
-.hero-text h1 span { font-style: italic; font-weight: 400; color: var(--accent); }
-.intro-lead { font-size: 1.2rem; color: var(--accent); font-family: 'Space Mono', monospace; margin-bottom: 30px; opacity: 0; animation: reveal 1s forwards 0.5s; }
+.hero-text h1 { font-family: 'Playfair Display', serif; font-size: 3.8rem; font-weight: 700; letter-spacing: -0.03em; color: #fff; margin: 0 0 16px; }
+.hero-text h1 span { font-style: italic; font-weight: 400; color: var(--accent); opacity: 0.9; }
+.intro-lead { font-size: 0.75rem; font-family: 'Space Mono', monospace; letter-spacing: 0.2em; color: var(--accent); margin-bottom: 20px; text-transform: uppercase; opacity: 0; animation: reveal 1s forwards 0.5s; }
 .section-title {
 font-family: 'Space Mono', monospace;
 font-size: 0.75rem;
@@ -163,8 +165,8 @@ opacity: 0.8;
 }
 /* ─── 充实叙事区 ─── */
 .philosophy-section { margin-bottom: 120px; border-left: 1px solid var(--border); padding-left: 40px; }
-.philosophy-section p { font-size: 1.125rem; font-weight: 300; margin-bottom: 32px; color: #94a3b8; line-height: var(--leading-relaxed); text-align: justify; max-width: 680px; }
-.philosophy-section strong { color: var(--accent); font-weight: 600; border-bottom: 1px solid rgba(191, 168, 122, 0.3); }
+.philosophy-section p { font-size: 1.05rem; font-weight: 300; margin-bottom: 28px; color: var(--text-main); line-height: var(--leading-normal); text-align: justify; max-width: 640px; }
+.philosophy-section p strong { color: var(--text-bright); font-weight: 600; border-bottom: 1px solid rgba(191, 168, 122, 0.2); }
 .drop-cap::first-letter {
 font-family: 'Playfair Display', serif;
 font-size: 4rem;
@@ -182,14 +184,13 @@ border: 1px solid var(--border); padding: 45px;
 border-radius: 4px; transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .matrix-card:hover { background: rgba(191, 168, 122, 0.05); border-color: var(--accent); transform: translateY(-8px); }
-.matrix-card .num { font-family: 'Space Mono', monospace; color: var(--accent); font-size: 0.8rem; display: block; margin-bottom: 20px; }
-.matrix-card h3 { color: #fff; margin-bottom: 20px; font-weight: 600; font-size: 1.4rem; letter-spacing: -0.5px; }
-.matrix-card p { font-size: 0.9rem; color: #64748b; line-height: 1.7; }
-/* ─── 谦虚的标签 ─── */
+.matrix-card h3 { color: #fff; margin-bottom: 12px; font-weight: 600; font-size: 1.25rem; letter-spacing: -0.01em; }
+.matrix-card p { font-size: 0.875rem; color: #64748b; line-height: 1.7; }
+.matrix-card .num { font-family: 'Space Mono', monospace; color: var(--accent); font-size: 0.7rem; display: block; margin-bottom: 20px; letter-spacing: 0.1em; opacity: 0.6; }
 .tag-row { display: flex; flex-wrap: wrap; gap: 12px; margin: 60px 0; }
 .tag-pill {
-padding: 6px 18px; font-size: 0.75rem; letter-spacing: 1px;
-border: 1px solid var(--border); color: #94a3b8; border-radius: 40px;
+padding: 5px 14px; font-size: 0.7rem; letter-spacing: 1px;
+border: 1px solid var(--border); color: #64748b; border-radius: 40px;
 transition: all 0.5s ease; cursor: default;
 }
 .tag-pill:hover { border-color: var(--accent); color: var(--accent); background: rgba(191,168,122,0.05); }
@@ -216,12 +217,13 @@ transition: 0.3s;
 .fn-ref:hover { opacity: 1; }
 .footnotes {
 margin-top: 120px;
-padding-top: 40px;
+padding-top: 20px;
 border-top: 1px solid var(--border);
-max-width: 680px;
-font-size: 0.8rem;
-color: #4a5568;
+max-width: 640px;
+font-size: 0.75rem;
+color: #475569;
 line-height: 1.7;
+font-style: italic;
 }
 .footnotes p { margin-bottom: 8px; }
 .footnotes .fn-label { color: var(--accent); font-family: 'Space Mono', monospace; margin-right: 8px; }
