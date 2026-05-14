@@ -1656,6 +1656,15 @@ ZACH.GENG
     </div>
 </section>
 
+<!-- ═══ QR 码弹窗 ═══ -->
+<div id="qrModal" class="modal" onclick="if(event.target===this)closeQR()">
+<div class="modal-content">
+<button class="modal-close" onclick="closeQR()">&times;</button>
+<img id="qrImage" src="" alt="QR Code">
+<p id="qrText"></p>
+</div>
+</div>
+
 <!-- ═══ 滚动进度胶囊 ═══ -->
 <div class="vertical-scroll-tracker">
     <div class="scroll-capsule" id="scrollCapsule"></div>
