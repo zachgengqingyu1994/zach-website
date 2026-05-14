@@ -359,24 +359,27 @@ padding: 6px 12px; font-family: 'Space Mono', monospace; font-size: 0.7rem; curs
 /* ─── 强制进度条可见性 ─── */
 .vertical-scroll-tracker {
 position: fixed !important;
-right: 30px !important;
+right: 20px !important;
 top: 50% !important;
 transform: translateY(-50%) !important;
-width: 6px !important;
+width: 8px !important;
 height: 200px !important;
 background: rgba(255, 255, 255, 0.05) !important;
 border: 1px solid rgba(255, 255, 255, 0.1) !important;
-border-radius: 10px !important;
-z-index: 999999 !important; /* 物理级最高层 */
+border-radius: 20px !important;
+z-index: 999999 !important;
 pointer-events: all !important;
+padding: 2px !important;
+display: flex !important;
+flex-direction: column !important;
 }
 .scroll-capsule {
 width: 100% !important;
-height: 0%; /* 初始高度 */
+height: 0%;
 background: linear-gradient(to bottom, #bfa87a, #e5d5b0) !important;
-border-radius: 10px !important;
-box-shadow: 0 0 20px rgba(191, 168, 122, 0.8) !important;
-transition: height 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+border-radius: 20px !important;
+box-shadow: 0 0 12px rgba(191, 168, 122, 0.4) !important;
+transition: height 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
 z-index: 1000000 !important;
 }
 @media (max-width: 768px) {
