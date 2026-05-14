@@ -369,11 +369,12 @@ border: 1px solid rgba(255, 255, 255, 0.1) !important;
 border-radius: 20px !important;
 z-index: 999999 !important;
 pointer-events: all !important;
-padding: 2px !important;
-display: flex !important;
-flex-direction: column !important;
+overflow: hidden;
+position: relative !important;
 }
 .scroll-capsule {
+position: absolute !important;
+bottom: 0 !important;
 width: 100% !important;
 height: 0%;
 background: linear-gradient(to bottom, #bfa87a, #e5d5b0) !important;
