@@ -1573,37 +1573,9 @@ transform: translateY(-3px) !important;
 background-color: #05080f !important;
 box-shadow: 0 0 8px rgba(0, 0, 0, 0.5) !important;
 }
-
-/* ─── 🌟 全站统一鼠标跟随光晕 CSS (Resonance Cursor Sync) ─── */
-a, button, [onclick], .close-modal-sync {
-cursor: pointer;
-}
-.user-cursor-glow-sync {
-position: fixed;
-width: 500px; height: 500px;
-background: radial-gradient(circle at center, rgba(191, 168, 122, 0.25) 0%, transparent 65%);
-border-radius: 50%;
-pointer-events: none;
-opacity: 0;
-z-index: 999;
-transform: translate(-50%, -50%);
-transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.1s linear;
-mix-blend-mode: screen;
-}
-.user-cursor-active-sync {
-cursor: none !important;
-}
-.user-cursor-glow-sync.active {
-opacity: 1;
-}
-.user-cursor-active-sync.user-cursor-hovering-sync .user-cursor-glow-sync {
-width: 350px; height: 350px;
-background: radial-gradient(circle at center, rgba(191, 168, 122, 0.35) 0%, transparent 60%);
-}
 </style>
 </head>
 <body>
-<div class="user-cursor-glow-sync"></div>
 <div class="ambient-background">
 <div class="ambient-glow-blue"></div>
 <div class="ambient-glow-gold"></div>
@@ -2022,42 +1994,6 @@ document.addEventListener("DOMContentLoaded", function(){
     checkScroll();
 })();
 
-/* ─── Custom Cursor ─── */
-(function(){
-    var outer=document.createElement('div');
-    outer.className='custom-cursor-outer';
-    var inner=document.createElement('div');
-    inner.className='custom-cursor-inner';
-    document.body.appendChild(outer);
-    document.body.appendChild(inner);
-
-    var mx=0, my=0;
-
-    document.addEventListener('mousemove',function(e){
-        mx=e.clientX; my=e.clientY;
-        outer.style.left=mx+'px';
-        outer.style.top=my+'px';
-        inner.style.left=mx+'px';
-        inner.style.top=my+'px';
-    });
-
-    document.addEventListener('mouseover',function(e){
-        var t=e.target.closest('a, .glass-card, .feed-item, .insight-card, .connect-card, .stat-card, button, .footer-cta-btn');
-        if(t){
-            outer.classList.add('hover');
-            inner.classList.add('hover');
-        }
-    });
-
-    document.addEventListener('mouseout',function(e){
-        var t=e.target.closest('a, .glass-card, .feed-item, .insight-card, .connect-card, .stat-card, button, .footer-cta-btn');
-        if(t){
-            outer.classList.remove('hover');
-            inner.classList.remove('hover');
-        }
-    });
-})();
-
 /* ─── 磁吸光影跟随 + 引力形变 ─── */
 document.querySelectorAll('.insight-card, .glass-card, .connect-card').forEach(function(card){
     card.addEventListener('mousemove', function(e){
@@ -2202,26 +2138,41 @@ setTimeout(() => { copyBtn.innerText = 'COPY'; }, 2000);
 });
 </script>
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-const glow = document.querySelector('.user-cursor-glow-sync');
-if (!glow) return;
-document.body.classList.add('user-cursor-active-sync');
-glow.classList.add('active');
-document.addEventListener('mousemove', (e) => {
-const { clientX, clientY } = e;
-glow.style.left = `${clientX}px`;
-glow.style.top = `${clientY}px`;
-});
-const interactiveElements = document.querySelectorAll('a, button, [onclick], .close-modal-sync');
-interactiveElements.forEach(el => {
-el.addEventListener('mouseenter', () => {
-document.body.classList.add('user-cursor-hovering-sync');
-});
-el.addEventListener('mouseleave', () => {
-document.body.classList.add('user-cursor-hovering-sync');
-});
-});
-});
+/* ─── Custom Cursor ─── */
+(function(){
+    var outer=document.createElement('div');
+    outer.className='custom-cursor-outer';
+    var inner=document.createElement('div');
+    inner.className='custom-cursor-inner';
+    document.body.appendChild(outer);
+    document.body.appendChild(inner);
+
+    var mx=0, my=0;
+
+    document.addEventListener('mousemove',function(e){
+        mx=e.clientX; my=e.clientY;
+        outer.style.left=mx+'px';
+        outer.style.top=my+'px';
+        inner.style.left=mx+'px';
+        inner.style.top=my+'px';
+    });
+
+    document.addEventListener('mouseover',function(e){
+        var t=e.target.closest('a, .glass-card, .feed-item, .insight-card, .connect-card, .stat-card, button, .footer-cta-btn');
+        if(t){
+            outer.classList.add('hover');
+            inner.classList.add('hover');
+        }
+    });
+
+    document.addEventListener('mouseout',function(e){
+        var t=e.target.closest('a, .glass-card, .feed-item, .insight-card, .connect-card, .stat-card, button, .footer-cta-btn');
+        if(t){
+            outer.classList.remove('hover');
+            inner.classList.remove('hover');
+        }
+    });
+})();
 </script>
 </body>
 </html>

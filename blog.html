@@ -6,359 +6,69 @@
 <title>思想与回响 | 扎克耿</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Space+Mono&display=swap" rel="stylesheet">
 <style>
-/* ─── 核心变量与全站基调 ─── */
-:root {
---accent: #bfa87a;
---bg: #030508;
---text-main: #94a3b8;
---text-bright: #e2e8f0;
-}
-body {
-font-family:'Inter', -apple-system, sans-serif;
-background-color: var(--bg);
-color: var(--text-main);
-overflow-x: hidden;
--webkit-font-smoothing: antialiased;
-margin: 0; padding: 0;
-}
-a { text-decoration: none; }
-/* ─── 涌现深渊动态背景 & 鼠标光晕 ─── */
-.ambient-background {
-position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-z-index: -2; overflow: hidden; background-color: var(--bg); pointer-events: none;
-}
-.ambient-glow-blue {
-position: absolute; width: 150vw; height: 150vh; top: -25%; left: -25%;
-background: radial-gradient(circle at center, rgba(16, 40, 90, 0.45) 0%, transparent 65%);
-animation: driftBlue 25s infinite alternate ease-in-out;
-}
-.ambient-glow-gold {
-position: absolute; width: 120vw; height: 120vh; top: -30%; right: -20%;
-background: radial-gradient(circle at center, rgba(191, 168, 122, 0.15) 0%, transparent 55%);
-animation: driftGold 30s infinite alternate ease-in-out; mix-blend-mode: screen;
-}
-.resonance-core {
-position: absolute; width: 80vw; height: 80vh; top: 10%; left: 10%;
-background: radial-gradient(circle at center, rgba(16, 32, 65, 0.6) 0%, transparent 50%);
-animation: corePulse 12s infinite alternate ease-in-out; mix-blend-mode: screen;
-}
-.architect-grid {
-position: absolute; bottom: -30%; left: -50%; width: 200%; height: 80%;
-background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-background-size: 50px 50px; transform: perspective(600px) rotateX(75deg);
-animation: gridForward 15s linear infinite;
-mask-image: radial-gradient(ellipse at bottom, black 10%, transparent 60%);
-}
-@keyframes corePulse { 0% { opacity: 0.3; transform: scale(0.9); } 100% { opacity: 1; transform: scale(1.1); } }
-@keyframes driftBlue { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(5%, 8%) scale(1.1); } }
-@keyframes driftGold { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(-8%, 5%) scale(1.15); } }
-@keyframes gridForward { 0% { background-position: 0 0; } 100% { background-position: 0 50px; } }
-/* 光晕跟随 */
-a, button, [onclick] { cursor: pointer; }
-.user-cursor-glow-sync {
-position: fixed; width: 500px; height: 500px;
-background: radial-gradient(circle at center, rgba(191, 168, 122, 0.25) 0%, transparent 65%);
-border-radius: 50%; pointer-events: none; opacity: 0; z-index: 999;
-transform: translate(-50%, -50%); transition: opacity 0.8s, transform 0.1s linear;
-mix-blend-mode: screen;
-}
-.user-cursor-active-sync { cursor: none !important; }
-.user-cursor-glow-sync.active { opacity: 1; }
-.user-cursor-active-sync.user-cursor-hovering-sync .user-cursor-glow-sync {
-width: 350px; height: 350px; background: radial-gradient(circle at center, rgba(191, 168, 122, 0.35) 0%, transparent 60%);
-}
-/* ─── 导航栏 ─── */
-.glass-nav {
-position: fixed; top: 0; left: 0; right: 0; display: flex; align-items: center; justify-content: space-between;
-height: 70px; background: rgba(5,8,15,0.1); backdrop-filter: blur(10px);
-border-bottom: 1px solid transparent; z-index: 100; padding: 0 40px; transition: all 0.4s ease;
-}
-.glass-nav.scrolled {
-background: rgba(5,8,15,0.85); backdrop-filter: blur(24px); border-bottom: 1px solid rgba(255,255,255,0.08); box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-}
-.menu-trigger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 8px; z-index: 2000; padding: 4px; }
-.menu-trigger .line { width: 28px; height: 1px; background-color: #fff; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); }
-.menu-trigger.active .line:nth-child(1) { transform: translateY(4.5px) rotate(45deg); }
-.menu-trigger.active .line:nth-child(2) { transform: translateY(-4.5px) rotate(-45deg); }
-/* 全屏菜单 */
-.fullscreen-overlay {
-position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(5,8,15,0.88); backdrop-filter: blur(40px);
-display: flex; justify-content: center; align-items: center; z-index: 1500; opacity: 0; pointer-events: none; transition: opacity 0.6s ease;
-}
-.fullscreen-overlay.active { opacity: 1; pointer-events: all; }
-.overlay-links { list-style: none; padding: 0; width: 100%; max-width: 900px; display: flex; flex-direction: column; align-items: center; }
-.overlay-links li { margin: 30px 0; width: 100%; transform: translateY(20px); opacity: 0; transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
-.fullscreen-overlay.active .overlay-links li { transform: translateY(0); opacity: 1; }
-.overlay-links a { text-decoration: none; display: flex; align-items: center; width: 100%; }
-.overlay-links a .zh { flex: 1; text-align: right; font-size: clamp(1.8rem, 4vw, 2.4rem); font-weight: 500; color: #94a3b8; letter-spacing: 15px; padding-right: 40px; transition: all 0.4s ease; }
-.overlay-links a .en { flex: 1; text-align: left; font-family: 'Space Mono', monospace; font-size: 0.85rem; font-weight: 300; color: #4a5568; text-transform: uppercase; letter-spacing: 6px; padding-left: 40px; transition: all 0.4s ease; }
-.overlay-links a:hover .zh { color: #fff; text-shadow: 0 0 30px rgba(255,255,255,0.2); }
-.overlay-links a:hover .en { color: #bfa87a; }
-/* ─── 页面主体 ─── */
-.container { max-width: 900px; margin: 160px auto 100px; padding: 0 24px; position: relative; z-index: 10;}
-/* 头部 Header */
-.page-header { margin-bottom: 80px; }
-.kicker { font-family: 'Space Mono', Consolas, monospace; color: var(--accent); font-size: 13px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 16px; }
-.main-title { font-size: clamp(2.5rem, 6vw, 3.8rem); font-weight: 700; color: #fff; margin: 0 0 20px; font-family: 'Playfair Display', serif; letter-spacing: 2px;}
-.subtitle { font-size: 1.05rem; color: #64748b; max-width: 600px; line-height: 1.8; margin: 0; }
-/* 博客列表区 */
-.blog-list { display: flex; flex-direction: column; gap: 32px; }
+:root { --accent: #bfa87a; --bg: #030508; --text-main: #94a3b8; }
+body { font-family:'Inter', sans-serif; background-color: var(--bg); color: var(--text-main); margin: 0; overflow-x: hidden; cursor: none; }
+a { text-decoration: none; cursor: none; }
+/* 动态深渊背景 */
+.ambient-background { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; background: #030508; overflow: hidden; }
+.ambient-glow-blue { position: absolute; width: 150vw; height: 150vh; top: -25%; left: -25%; background: radial-gradient(circle, rgba(16, 40, 90, 0.4) 0%, transparent 65%); animation: drift 25s infinite alternate ease-in-out; }
+.ambient-glow-gold { position: absolute; width: 120vw; height: 120vh; top: -30%; right: -20%; background: radial-gradient(circle, rgba(191, 168, 122, 0.12) 0%, transparent 55%); animation: drift 30s infinite alternate-reverse ease-in-out; mix-blend-mode: screen; }
+.architect-grid { position: absolute; bottom: -30%; left: -50%; width: 200%; height: 80%; background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px); background-size: 50px 50px; transform: perspective(600px) rotateX(75deg); animation: grid 15s linear infinite; mask-image: radial-gradient(ellipse at bottom, black 10%, transparent 60%); }
+@keyframes drift { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(5%, 5%) scale(1.1); } }
+@keyframes grid { from { background-position: 0 0; } to { background-position: 0 50px; } }
+/* 鼠标光晕 */
+.cursor-glow { position: fixed; width: 400px; height: 400px; background: radial-gradient(circle, rgba(191,168,122,0.15) 0%, transparent 70%); border-radius: 50%; pointer-events: none; z-index: 999; transform: translate(-50%, -50%); mix-blend-mode: screen; }
+/* 内容排版 */
+.container { max-width: 900px; margin: 150px auto; padding: 0 24px; position: relative; }
+.kicker { font-family: 'Space Mono'; color: var(--accent); font-size: 12px; letter-spacing: 4px; margin-bottom: 20px; }
+.main-title { font-family: 'Playfair Display'; font-size: 3.5rem; color: #fff; margin-bottom: 60px; }
 .blog-card {
-position: relative; display: flex; flex-direction: column; padding: 40px;
-background: rgba(10,15,25,0.4); backdrop-filter: blur(24px) saturate(120%);
-border: 1px solid rgba(255,255,255,0.05); border-top: 1px solid rgba(255,255,255,0.1);
-border-radius: 12px; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5); overflow: hidden;
+background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 40px; border-radius: 12px; margin-bottom: 30px;
+backdrop-filter: blur(20px); transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.blog-card:hover {
-transform: translateY(-6px);
-border-color: rgba(191, 168, 122, 0.5);
-box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.8), 0 0 30px rgba(191, 168, 122, 0.15);
-}
-.blog-meta-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-.blog-type {
-font-size: 0.75rem; padding: 4px 12px; border-radius: 4px;
-font-weight: 600; letter-spacing: 2px;
-}
-.type-highlight { background: rgba(191, 168, 122, 0.1); color: var(--accent); border: 1px solid rgba(191, 168, 122, 0.3); }
-.type-normal { background: rgba(255, 255, 255, 0.03); color: #94a3b8; border: 1px solid rgba(255, 255, 255, 0.1); }
-.blog-date { font-family: 'Space Mono', monospace; font-size: 0.8rem; color: #64748b; }
-.blog-title { font-size: 1.5rem; color: #fff; margin: 0 0 16px; font-weight: 600; line-height: 1.4; transition: color 0.3s; }
-.blog-card:hover .blog-title { color: var(--accent); }
-.blog-desc { font-size: 0.95rem; color: #94a3b8; line-height: 1.7; margin: 0 0 30px; font-weight: 300; }
-.blog-meta-bottom {
-display: flex; align-items: center; justify-content: space-between;
-border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 20px;
-}
-.blog-tags { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: #64748b; letter-spacing: 1px; }
-.read-time { font-family: 'Inter', sans-serif; font-size: 0.8rem; color: #4a5568; display: flex; align-items: center; gap: 6px; }
-/* ─── Reveal 动画 ─── */
-.reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
-.reveal.active { opacity: 1; transform: translateY(0); }
-/* ─── 底部连接终端 ─── */
-.about-terminal-exit { padding: 80px 0; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 80px; }
-.terminal-header { display: flex; align-items: center; gap: 20px; margin-bottom: 30px; }
-.status-code { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--accent); letter-spacing: 2px; }
-.status-line { flex-grow: 1; height: 1px; background: linear-gradient(to right, var(--accent), transparent); opacity: 0.3; }
-.terminal-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: #fff; margin-bottom: 20px; }
-.terminal-title .resonance-text { color: var(--accent); font-style: italic; }
-.terminal-node-card {
-display: flex; align-items: center; padding: 24px 30px; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05);
-border-radius: 4px; text-decoration: none; transition: all 0.4s;
-}
-.terminal-node-card:hover { background: rgba(191, 168, 122, 0.05); border-color: var(--accent); transform: translateX(10px); }
-.node-content h3 { color: #f8fafc; font-size: 1.1rem; margin: 0 0 8px 0; }
-.node-content p { color: #64748b; font-size: 0.85rem; margin: 0; }
-.node-arrow { margin-left: auto; font-family: 'Space Mono', monospace; color: var(--accent); font-size: 1.2rem; opacity: 0; transition: 0.3s; }
-.terminal-node-card:hover .node-arrow { opacity: 1; transform: translateX(5px); }
-/* 进度条轨道 */
-.vertical-scroll-tracker {
-position: fixed; right: 20px; top: 50%; transform: translateY(-50%);
-width: 8px; height: 200px; background: rgba(255, 255, 255, 0.05);
-backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px;
-z-index: 9999; padding: 2px; display: flex; flex-direction: column; cursor: grab;
-}
-.vertical-scroll-tracker:active { cursor: grabbing; }
-.scroll-capsule {
-width: 100%; height: 0%; background: linear-gradient(to bottom, #bfa87a, #e5d5b0);
-border-radius: 20px; box-shadow: 0 0 12px rgba(191, 168, 122, 0.4);
-transition: height 0.15s cubic-bezier(0.16, 1, 0.3, 1); cursor: pointer;
-}
-@media (max-width: 768px) { .vertical-scroll-tracker { display: none; } }
+.blog-card:hover { transform: translateY(-10px); border-color: var(--accent); box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 20px rgba(191,168,122,0.1); }
+.blog-date { font-family: 'Space Mono'; color: #4a5568; font-size: 0.8rem; margin-bottom: 15px; display: block; }
+.blog-title { font-size: 1.6rem; color: #fff; margin-bottom: 15px; }
+.blog-desc { line-height: 1.8; font-weight: 300; }
+.blog-tags { margin-top: 25px; font-family: 'Space Mono'; font-size: 0.7rem; color: var(--accent); letter-spacing: 1px; }
+/* 导航 */
+.nav { position: fixed; top: 0; width: 100%; height: 80px; display: flex; align-items: center; justify-content: space-between; padding: 0 50px; box-sizing: border-box; z-index: 1000; background: rgba(3,5,8,0.5); backdrop-filter: blur(10px); }
+.logo { font-family: 'Space Mono'; font-weight: bold; color: var(--accent); letter-spacing: 2px; }
 </style>
 </head>
 <body>
-<div class="user-cursor-glow-sync"></div>
+<div class="cursor-glow"></div>
 <div class="ambient-background">
 <div class="ambient-glow-blue"></div>
 <div class="ambient-glow-gold"></div>
-<div class="resonance-core"></div>
 <div class="architect-grid"></div>
 </div>
-<nav class="glass-nav minimal">
-<a href="index.html" style="text-decoration: none; font-family: 'Space Mono', monospace; font-size: 0.75rem; letter-spacing: 0.3em; color: #bfa87a; text-transform: uppercase; font-weight: bold;">
-ZACH.GENG
-</a>
-<button class="menu-trigger" id="menuToggle">
-<span class="line"></span>
-<span class="line"></span>
-</button>
+<nav class="nav">
+<div class="logo">ZACH.GENG</div>
+<div style="color:#fff; font-size:12px; font-family:'Space Mono'; letter-spacing:2px;">[ INSIGHTS_ARCHIVE ]</div>
 </nav>
-<div class="fullscreen-overlay" id="navOverlay">
-<ul class="overlay-links">
-<li><a href="index.html"><span class="zh">首页</span><span class="en">Home</span></a></li>
-<li><a href="index.html#insights"><span class="zh">思想</span><span class="en">Insights</span></a></li>
-<li><a href="jobs.html"><span class="zh">职位</span><span class="en">Jobs</span></a></li>
-<li><a href="about.html"><span class="zh">全局</span><span class="en">About</span></a></li>
-</ul>
-</div>
 <div class="container">
-<header class="page-header reveal">
 <div class="kicker">/ NEURAL_LOGS</div>
 <h1 class="main-title">思想与回响</h1>
-<p class="subtitle">记录我在 AI 浪潮前线最真实的观察，那些关于人才的非共识判断，以及技术落地时的商业体悟。</p>
-</header>
-<div class="blog-list">
-<a href="javascript:void(0)" class="blog-card reveal">
-<div class="blog-meta-top">
-<span class="blog-type type-highlight">🔥 TOP PICK / 精选</span>
-<span class="blog-date">2026.05.05</span>
+<div class="blog-card">
+<span class="blog-date">2026.05.05 // TOP_PICK</span>
+<h2 class="blog-title">AI 招聘的终局：猎头的价值正在发生结构性迁移</h2>
+<p class="blog-desc">当每一个候选人都能被 AI 算法精准定位时，猎头的价值不再是提供"简历"，而是提供基于深度信任的"高维判断力"。我们需要从消除信息差，转向建立认知共鸣。</p>
+<div class="blog-tags">/ RECRUITMENT / AI_ETHICS / FUTURE_WORK</div>
 </div>
-<h2 class="blog-title">AI 招聘的终局：当每一个候选人都被 AI 匹配，猎头的价值在哪里？</h2>
-<p class="blog-desc">在 AI 越来越擅长提取简历关键词、精准匹配人岗的时代，很多猎头陷入了恐慌。但这恰恰是一个最好的时代——猎头的核心价值正在不可逆地从"消除信息差"转向"提供高维判断力"和"建立深度信任连接"。</p>
-<div class="blog-meta-bottom">
-<span class="blog-tags">/ AI / 招聘本质 / 深度思考</span>
-<span class="read-time">
-<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-8 MIN READ
-</span>
+<div class="blog-card">
+<span class="blog-date">2026.04.28 // INSIGHT</span>
+<h2 class="blog-title">为什么下一个 AI 独角兽的 CTO，可能来自非科班？</h2>
+<p class="blog-desc">最惊艳的落地产品往往来自没有包袱的极客。他们不纠结于模型参数，而是在意真实痛点。寻找这种"非标准人才"正成为今年最大的挑战。</p>
+<div class="blog-tags">/ TALENT_STRATEGY / PMF / GEEK_SPIRIT</div>
 </div>
-</a>
-<a href="javascript:void(0)" class="blog-card reveal">
-<div class="blog-meta-top">
-<span class="blog-type type-normal">📝 OPINION / 观点</span>
-<span class="blog-date">2026.05.03</span>
-</div>
-<h2 class="blog-title">为什么下一个 AI 独角兽的 CTO，可能藏在一个非科班出身的开发者里？</h2>
-<p class="blog-desc">我越来越发现，最惊艳的 AI 落地产品往往不来自传统的 FAANG 流水线。那些非科班出身的极客，没有历史技术包袱，反而更擅长跨界、不按套路出牌、用第一性原理直接调用大模型解决真实痛点。</p>
-<div class="blog-meta-bottom">
-<span class="blog-tags">/ AI Infra / 极客精神 / 人才破局</span>
-<span class="read-time">
-<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-5 MIN READ
-</span>
-</div>
-</a>
-<a href="javascript:void(0)" class="blog-card reveal">
-<div class="blog-meta-top">
-<span class="blog-type type-normal">💡 INSIGHT / 洞察</span>
-<span class="blog-date">2026.04.28</span>
-</div>
-<h2 class="blog-title">2026 AI 人才市场的三个结构性变化</h2>
-<p class="blog-desc">从最初的"盲目抢人"到如今的"抢核心认知"，AI 人才的竞争逻辑正在发生根本性的底层变化。懂算力 ROI 的架构师、拥有千万 DAU 操盘经验转做 ToB Agent 的产品先锋，正在成为市场最大的缺口。</p>
-<div class="blog-meta-bottom">
-<span class="blog-tags">/ 行业趋势 / 商业化 / 组织重构</span>
-<span class="read-time">
-<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-6 MIN READ
-</span>
-</div>
-</a>
-<a href="javascript:void(0)" class="blog-card reveal">
-<div class="blog-meta-top">
-<span class="blog-type type-normal">🗣️ METHODOLOGY / 方法论</span>
-<span class="blog-date">2026.04.20</span>
-</div>
-<h2 class="blog-title">面试的本质不是"考核"，而是"判断未来"</h2>
-<p class="blog-desc">我每年看上千份简历、做上百场深度面试。一个反共识的残酷真相是：大多数企业传统的结构化面试方法，其实正在精准地把那些真正有破局能力的怪才筛选掉。</p>
-<div class="blog-meta-bottom">
-<span class="blog-tags">/ 认知跃迁 / 识人方法 / 高管寻访</span>
-<span class="read-time">
-<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-7 MIN READ
-</span>
-</div>
-</a>
-<a href="javascript:void(0)" class="blog-card reveal">
-<div class="blog-meta-top">
-<span class="blog-type type-normal">🔮 FORECAST / 展望</span>
-<span class="blog-date">2026.04.15</span>
-</div>
-<h2 class="blog-title">2026 年下半年，哪些 AI 方向会迎来爆发？</h2>
-<p class="blog-desc">结合我每天与硅谷和国内一线 AI 人才的密集交流，以及对资本流向的宏观观察，这里有三个我认为即将跨越鸿沟、迎来指数级增长的细分赛道。</p>
-<div class="blog-meta-bottom">
-<span class="blog-tags">/ 赛道预测 / Agentic AI / 商业闭环</span>
-<span class="read-time">
-<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-5 MIN READ
-</span>
-</div>
-</a>
-</div>
-<section class="about-terminal-exit reveal">
-<div class="terminal-header">
-<span class="status-code">[ LOGS_END // AWAITING_RESONANCE ]</span>
-<div class="status-line"></div>
-</div>
-<h2 class="terminal-title">寻找同频的<span class="resonance-text">回响</span></h2>
-<a href="index.html#connect" class="terminal-node-card">
-<div class="node-content">
-<h3>意犹未尽？随时找我聊聊</h3>
-<p>跳转至主站，通过微信或邮件直接与我探讨前沿趋势</p>
-</div>
-<div class="node-arrow">→</div>
-</a>
-</section>
-</div>
-<div class="vertical-scroll-tracker">
-<div class="scroll-capsule" id="scrollCapsule"></div>
 </div>
 <script>
-/* ─── 鼠标跟随光晕 JS ─── */
-document.addEventListener('DOMContentLoaded', () => {
-const glow = document.querySelector('.user-cursor-glow-sync');
-if (!glow) return;
-document.body.classList.add('user-cursor-active-sync');
-glow.classList.add('active');
-document.addEventListener('mousemove', (e) => {
-glow.style.left = `${e.clientX}px`;
-glow.style.top = `${e.clientY}px`;
+const glow = document.querySelector('.cursor-glow');
+document.addEventListener('mousemove', e => {
+glow.style.left = e.clientX + 'px';
+glow.style.top = e.clientY + 'px';
 });
-const interactiveElements = document.querySelectorAll('a, button, [onclick]');
-interactiveElements.forEach(el => {
-el.addEventListener('mouseenter', () => document.body.classList.add('user-cursor-hovering-sync'));
-el.addEventListener('mouseleave', () => document.body.classList.remove('user-cursor-hovering-sync'));
-});
-});
-/* ─── 滚动 Reveal 动画 ─── */
-document.addEventListener("DOMContentLoaded", function(){
-const observer = new IntersectionObserver((entries) => {
-entries.forEach(entry => {
-if(entry.isIntersecting){
-entry.target.classList.add('active');
-observer.unobserve(entry.target);
-}
-});
-}, {threshold: 0.1});
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-});
-/* ─── 导航栏菜单控制 ─── */
-var toggleBtn = document.getElementById('menuToggle');
-var overlay = document.getElementById('navOverlay');
-if(toggleBtn && overlay){
-toggleBtn.addEventListener('click', function(){
-toggleBtn.classList.toggle('active');
-overlay.classList.toggle('active');
-});
-overlay.addEventListener('click', function(e){
-if(e.target === overlay || e.target.closest('a')){
-toggleBtn.classList.remove('active');
-overlay.classList.remove('active');
-}
-});
-}
-window.addEventListener('scroll', function(){
-var nav = document.querySelector('.glass-nav');
-if(nav) nav.classList.toggle('scrolled', window.scrollY > 50);
-});
-/* ─── 垂直胶囊进度条逻辑 ─── */
-(function(){
-var tracker = document.querySelector('.vertical-scroll-tracker');
-var capsule = document.getElementById('scrollCapsule');
-if(!tracker || !capsule) return;
-var isDragging = false;
-function updateFromScroll(){
-var s = document.body.scrollTop || document.documentElement.scrollTop;
-var h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-if (h <= 0) return;
-capsule.style.height = ((s / h) * 100) + '%';
-}
-function scrollFromY(clientY){
-var rect = tracker.getBoundingClientRect();
-var p = Math.max(0, Math.min(1, (clientY - rect.top) / rect.height));
-window.scrollTo(0, p * (document.documentElement.scrollHeight - document.documentElement.clientHeight));
-}
 </script>
 </body>
 </html>
