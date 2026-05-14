@@ -1263,25 +1263,40 @@ padding: 6px 12px; font-family: 'Space Mono', monospace; font-size: 0.7rem; curs
 }
 .wechat-modal .modal-hint { font-size: 0.75rem; color: #64748b; text-align: center; }
 @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-/* ─── 绝对同步 about页的极简线条按钮 ─── */
+/* ─── 按钮与弹窗：像素级对齐 About ─── */
 .cta-btn-sync {
-display: inline-block;
-padding: 18px 48px;
-border: 1px solid #bfa87a;
-color: #fff;
-text-decoration: none;
-font-size: 0.9rem;
-letter-spacing: 4px;
-transition: 0.4s;
-position: relative;
-overflow: hidden;
-background: transparent;
+display: inline-block; padding: 18px 48px; border: 1px solid #bfa87a;
+color: #fff; text-decoration: none; font-size: 0.9rem; letter-spacing: 4px;
+transition: 0.4s; position: relative; overflow: hidden; background: transparent;
 }
 .cta-btn-sync:hover {
-background: #bfa87a;
-color: #05080f;
-box-shadow: 0 0 30px rgba(191,168,122,0.3);
+background: #bfa87a; color: #05080f; box-shadow: 0 0 30px rgba(191,168,122,0.3);
 }
+/* 微信弹窗样式完全同步 */
+.wechat-modal-sync {
+position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+background: rgba(5, 8, 15, 0.95); display: none; align-items: center; justify-content: center;
+z-index: 9999; backdrop-filter: blur(10px);
+}
+.wechat-modal-sync.active { display: flex; }
+.modal-content-sync {
+width: 320px; background: #05080f; border: 1px solid #bfa87a; padding: 30px;
+box-shadow: 0 0 50px rgba(191, 168, 122, 0.15);
+}
+.modal-header-sync { display: flex; justify-content: space-between; margin-bottom: 30px; }
+.modal-header-sync span { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: #bfa87a; }
+.close-modal-sync { background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; opacity: 0.5; }
+.wechat-id-box-sync {
+display: flex; justify-content: space-between; align-items: center;
+background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255,255,255,0.1);
+padding: 15px; margin-bottom: 20px;
+}
+#personalWechatId { font-family: 'Inter', sans-serif; font-weight: 600; color: #fff; }
+#indexCopyBtn {
+background: #bfa87a; border: none; color: #05080f;
+padding: 6px 12px; font-family: 'Space Mono', monospace; font-size: 0.7rem; cursor: pointer;
+}
+.modal-hint-sync { font-size: 0.75rem; color: #64748b; text-align: center; }
 </style>
 </head>
 <body>
@@ -1572,8 +1587,23 @@ box-shadow: 0 0 30px rgba(191,168,122,0.3);
 无论你是正在破局的创始人，还是寻求共振的先锋，欢迎与我接入。
 </p>
 <div style="display: flex; justify-content: center; gap: 10px;">
-<a href="javascript:void(0)" class="cta-btn-sync" onclick="showQR('wechat')">微信连接</a>
+<a href="javascript:void(0)" class="cta-btn-sync" onclick="togglePersonalWechat()">微信连接</a>
 <a href="mailto:zachgengqingyu@163.com" class="cta-btn-sync">邮件联系</a>
+</div>
+</div>
+<div id="personalWechatModal" class="wechat-modal-sync">
+<div class="modal-content-sync">
+<div class="modal-header-sync">
+<span>[ CONNECT_VIA_WECHAT ]</span>
+<button class="close-modal-sync" onclick="togglePersonalWechat()">&times;</button>
+</div>
+<div class="modal-body-sync">
+<div class="wechat-id-box-sync">
+<span id="personalWechatId">Headhunter_Zach</span>
+<button id="indexCopyBtn">COPY</button>
+</div>
+<p class="modal-hint-sync">添加时请备注：来自个人网站</p>
+</div>
 </div>
 </div>
 
@@ -1826,33 +1856,22 @@ document.addEventListener('click', function(e){
         }
     }
 })();
-/* ─── 结尾连接区高保真交互逻辑 ─── */
+/* ─── 首页个人连接逻辑 ─── */
+function togglePersonalWechat() {
+document.getElementById('personalWechatModal').classList.toggle('active');
+}
 document.addEventListener('DOMContentLoaded', function() {
-const wechatBtn = document.getElementById('indexCopyWechatBtn');
-if (wechatBtn) {
-wechatBtn.onclick = function() {
-navigator.clipboard.writeText('Headhunter_Zach').then(function() {
-wechatBtn.innerText = 'COPIED!';
-setTimeout(function() { wechatBtn.innerText = 'COPY'; }, 2000);
-});
-};
-}
-const emailBtn = document.getElementById('indexCopyEmailBtn');
-if (emailBtn) {
-emailBtn.onclick = function() {
-navigator.clipboard.writeText('zachgengqingyu@163.com').then(function() {
-emailBtn.innerText = 'COPIED!';
-setTimeout(function() { emailBtn.innerText = 'COPY'; }, 2000);
+const copyBtn = document.getElementById('indexCopyBtn');
+if (copyBtn) {
+copyBtn.onclick = function() {
+const text = document.getElementById('personalWechatId').innerText;
+navigator.clipboard.writeText(text).then(() => {
+copyBtn.innerText = 'COPIED!';
+setTimeout(() => { copyBtn.innerText = 'COPY'; }, 2000);
 });
 };
 }
 });
-function toggleWechat() {
-const modal = document.getElementById('wechatModal');
-if (modal) {
-modal.classList.toggle('active');
-}
-}
 </script>
 </body>
 </html>
