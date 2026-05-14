@@ -6,7 +6,7 @@
 <title>扎克耿 | 涌现与回响 Emergence</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Space+Mono&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior:smooth; }
@@ -1317,13 +1317,13 @@ padding: 6px 12px; font-family: 'Space Mono', monospace; font-size: 0.7rem; curs
 
 <!-- ═══ Navigation ═══ -->
 <nav class="glass-nav minimal">
-    <div class="nav-brand">
-        <span class="brand-dot"></span><span class="brand-name">ZACH GENG</span>
-    </div>
-    <button class="menu-trigger" id="menuToggle">
-        <span class="line"></span>
-        <span class="line"></span>
-    </button>
+<a href="index.html" style="text-decoration: none; font-family: 'Space Mono', monospace; font-size: 0.75rem; letter-spacing: 0.3em; color: #bfa87a; text-transform: uppercase; font-weight: bold;">
+ZACH.GENG
+</a>
+<button class="menu-trigger" id="menuToggle">
+<span class="line"></span>
+<span class="line"></span>
+</button>
 </nav>
 <div class="fullscreen-overlay" id="navOverlay">
     <ul class="overlay-links">
@@ -1593,7 +1593,7 @@ padding: 6px 12px; font-family: 'Space Mono', monospace; font-size: 0.7rem; curs
     </div>
 </div>
 
-<section class="footer-content" style="padding: 120px 20px 80px; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); background: linear-gradient(to bottom, transparent, rgba(191,168,122,0.02)); margin-top: 40px;">
+<section class="footer-content" style="padding: 120px 20px 80px; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); background: linear-gradient(to bottom, transparent, rgba(191,168,122,0.02));">
 <h2 style="font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 2.6rem); margin-bottom: 24px; color: #f8fafc; font-weight: 600; letter-spacing: 2px;">
 在喧嚣中，寻找一处深刻的<span style="color: #bfa87a; font-style: italic;">回响</span>
 </h2>
@@ -1628,32 +1628,6 @@ padding: 6px 12px; font-family: 'Space Mono', monospace; font-size: 0.7rem; curs
         <span style="color: #4a5568; font-family: 'Space Mono', monospace; font-size: 0.75rem; letter-spacing: 2px;">[ SYSTEM_ONLINE // ZACH GENG ]</span>
     </div>
     <p style="color: #334155; font-size: 0.7rem; letter-spacing: 1px;">&copy; 2026 Emergence &amp; Resonance. All Rights Reserved.</p>
-</div>
-
-<!-- QR Modal -->
-<div class="modal" id="qrModal">
-    <div class="modal-content">
-        <button class="modal-close" onclick="closeQR()">✕</button>
-        <img id="qrImage" src="" alt="二维码">
-        <p id="qrText">扫码关注</p>
-    </div>
-</div>
-
-<!-- WeChat Modal (sync from About) -->
-<div id="wechatModal" class="wechat-modal">
-<div class="modal-content">
-<div class="modal-header">
-<span>[ CONNECT_VIA_WECHAT ]</span>
-<button class="close-modal">&times;</button>
-</div>
-<div class="modal-body">
-<div class="wechat-id-box">
-<span id="wechatId">Headhunter_Zach</span>
-<button id="copyBtn">COPY</button>
-</div>
-<p class="modal-hint">添加时请备注：来自个人网站</p>
-</div>
-</div>
 </div>
 
 <script>
@@ -1768,21 +1742,20 @@ document.querySelectorAll('.insight-card, .glass-card, .connect-card').forEach(f
         card.style.setProperty('--y', y+'px');
     });
 });
-/* ─── 视频视差 + 毛玻璃折射倾斜 ─── */
-(function(){
-    var video=document.querySelector('.hero-video');
-    document.addEventListener('mousemove', function(e){
-        var x=(e.clientX-window.innerWidth/2)*0.01;
-        var y=(e.clientY-window.innerHeight/2)*0.01;
-        if(video) video.style.transform='translateX(-50%) scale(1.05) translate('+(-x)+'px,'+(-y)+'px)';
-        document.querySelectorAll('.glass-card').forEach(function(card){
-            var rect=card.getBoundingClientRect();
-            var dx=(e.clientX-(rect.left+rect.width/2))*0.05;
-            var dy=(e.clientY-(rect.top+rect.height/2))*0.05;
-            card.style.transform='perspective(1000px) rotateY('+dx+'deg) rotateX('+(-dy)+'deg) translateY(-10px)';
-        });
-    });
-})();
+/* ─── 修正版：卡片 3D 精准磁吸悬浮 ─── */
+document.querySelectorAll('.glass-card').forEach(function(card){
+card.addEventListener('mousemove', function(e){
+card.style.transition = 'none';
+var rect = card.getBoundingClientRect();
+var dx = (e.clientX - (rect.left + rect.width / 2)) * 0.05;
+var dy = (e.clientY - (rect.top + rect.height / 2)) * 0.05;
+card.style.transform = 'perspective(1000px) rotateY('+dx+'deg) rotateX('+(-dy)+'deg) translateY(-10px)';
+});
+card.addEventListener('mouseleave', function(){
+card.style.transition = 'transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)';
+card.style.transform = 'perspective(1000px) rotateY(0deg) rotateX(0deg) translateY(0)';
+});
+});
 
 /* ─── 数字滚动涌现 ─── */
 (function(){
