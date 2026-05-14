@@ -523,9 +523,64 @@ box-shadow:
 0 0 70px rgba(191, 168, 122, 0.05);
 }
 
+/* ─── 核心升级：交互共振高光 (Hover Resonance Glow) ─── */
+.glass-card, .feature-card, .matrix-card, .terminal-node-card {
+transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+border-color 0.4s ease,
+box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+opacity 0.6s ease, filter 0.6s ease;
+box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+}
+.glass-card:hover,
+.feature-card:hover,
+.matrix-card:hover,
+.terminal-node-card:hover {
+transform: translateY(-8px) scale(1.015);
+border-color: rgba(191, 168, 122, 0.6) !important;
+box-shadow:
+0 30px 70px -15px rgba(0, 0, 0, 0.8),
+0 0 25px rgba(191, 168, 122, 0.25),
+0 0 50px rgba(191, 168, 122, 0.1),
+0 0 70px rgba(191, 168, 122, 0.05);
+}
+
+/* ─── Custom Cursor ─── */
+.custom-cursor-outer {
+    position:fixed;
+    width:30px; height:30px;
+    border:1px solid rgba(191,168,122,0.5);
+    border-radius:50%;
+    transform:translate(-50%,-50%);
+    pointer-events:none;
+    z-index:9999;
+    transition:width 0.2s, height 0.2s, background-color 0.2s, border-color 0.2s;
+}
+.custom-cursor-inner {
+    position:fixed;
+    width:6px; height:6px;
+    background-color:#6e96ff;
+    border-radius:50%;
+    transform:translate(-50%,-50%);
+    pointer-events:none;
+    z-index:10000;
+    box-shadow:0 0 10px #6e96ff;
+    transition:width 0.2s, height 0.2s, box-shadow 0.2s;
+    mix-blend-mode:difference;
+}
+.custom-cursor-outer.hover {
+    width:50px; height:50px;
+    background-color:rgba(110,150,255,0.1);
+    border-color:transparent;
+}
+.custom-cursor-inner.hover {
+    width:8px; height:8px;
+    box-shadow:0 0 18px #6e96ff;
+}
+
 </style>
 </head>
 <body>
+<div class="user-cursor-glow-sync"></div>
 <div class="ambient-background">
 <div class="ambient-glow-blue"></div>
 <div class="ambient-glow-gold"></div>
@@ -765,6 +820,41 @@ setTimeout(function(){ clearInterval(retry); }, 3000);
 updateFromScroll();
 })();
 });
+/* ─── Custom Cursor ─── */
+(function(){
+    var outer=document.createElement('div');
+    outer.className='custom-cursor-outer';
+    var inner=document.createElement('div');
+    inner.className='custom-cursor-inner';
+    document.body.appendChild(outer);
+    document.body.appendChild(inner);
+
+    var mx=0, my=0;
+
+    document.addEventListener('mousemove',function(e){
+        mx=e.clientX; my=e.clientY;
+        outer.style.left=mx+'px';
+        outer.style.top=my+'px';
+        inner.style.left=mx+'px';
+        inner.style.top=my+'px';
+    });
+
+    document.addEventListener('mouseover',function(e){
+        var t=e.target.closest('a, .glass-card, .feed-item, .insight-card, .connect-card, .stat-card, button, .footer-cta-btn');
+        if(t){
+            outer.classList.add('hover');
+            inner.classList.add('hover');
+        }
+    });
+
+    document.addEventListener('mouseout',function(e){
+        var t=e.target.closest('a, .glass-card, .feed-item, .insight-card, .connect-card, .stat-card, button, .footer-cta-btn');
+        if(t){
+            outer.classList.remove('hover');
+            inner.classList.remove('hover');
+        }
+    });
+})();
 </script>
 </body>
 </html>
