@@ -199,6 +199,11 @@ section::after {
     opacity:0;
     pointer-events:none;
     transition:opacity 0.6s ease;
+/* 🌟 核心修复：强制独立图层，彻底消除底层透视频闪 🌟 */
+transform: translateZ(0);
+-webkit-backface-visibility: hidden;
+backface-visibility: hidden;
+will-change: opacity;
 }
 .fullscreen-overlay.active {
     opacity:1;

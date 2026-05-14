@@ -76,6 +76,11 @@ text-rendering: optimizeLegibility;
     opacity:0;
     pointer-events:none;
     transition:opacity 0.6s ease;
+/* 🌟 核心修复：强制独立图层，彻底消除底层透视频闪 🌟 */
+transform: translateZ(0);
+-webkit-backface-visibility: hidden;
+backface-visibility: hidden;
+will-change: opacity;
 }
 .fullscreen-overlay.active {
     opacity:1;
@@ -307,9 +312,10 @@ transform: translateY(0) skewY(0);
 filter: blur(0);
 }
 }
+/* ─── 修复后的 Reveal 动画基类 ─── */
 .reveal {
 opacity: 0;
-will-change: transform, filter;
+/* 删除了 will-change: transform, filter; 防止与高斯模糊冲突 */
 }
 .reveal.active {
 animation: decodeReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -592,22 +598,6 @@ if(toggleBtn&&overlay){
     }
     window.addEventListener('scroll',checkScroll,{passive:true});
     checkScroll();
-})();
-/* ─── Auto-hide current page ─── */
-(function(){
-    var path=window.location.pathname;
-    var hash=window.location.hash;
-    var currentPage='index';
-    if(path.endsWith('about.html')){currentPage='about'}
-    else if(hash==='#insights'){currentPage='insights'}
-    else if(hash==='#daily'){currentPage='daily'}
-    else if(hash==='#matrix'){currentPage='matrix'}
-    var links=document.querySelectorAll('.overlay-links a[data-page]');
-    for(var i=0;i<links.length;i++){
-        if(links[i].getAttribute('data-page')===currentPage){
-            links[i].parentNode.style.display='none';
-        }
-    }
 })();
 /* ─── 修正版：头像 3D 磁吸悬浮 (仅悬停时触发) ─── */
 (function(){
