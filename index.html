@@ -1604,10 +1604,10 @@ ZACH.GENG
 
 <!-- ═══ Hero ═══ -->
 <section class="hero" id="hero">
-    <video class="hero-video" autoplay muted loop playsinline preload="auto">
+    <video class="hero-video" autoplay muted playsinline preload="auto">
         <source src="static/bg-hero.mp4" type="video/mp4">
     </video>
-    <script>(function(){var v=document.querySelector('.hero-video');if(v){var t=function(){v.play().catch(function(){})};document.addEventListener('visibilitychange',t);t()}})()</script>
+    <script>(function(){var v=document.querySelector('.hero-video');if(v){v.playbackRate=0.667;var t=function(){v.play().catch(function(){})};document.addEventListener('visibilitychange',t);t()}})()</script>
     <div class="container hero-content">
         <h1>涌现与回响</h1>
         <div class="subtitle">Emergence & Resonance</div>
