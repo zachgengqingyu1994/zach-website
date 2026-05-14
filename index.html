@@ -2182,5 +2182,24 @@ setTimeout(() => { copyBtn.innerText = 'COPY'; }, 2000);
     });
 })();
 </script>
+<script>
+if (history.scrollRestoration) {
+history.scrollRestoration = 'auto';
+}
+window.addEventListener('load', () => {
+const scrollPos = localStorage.getItem('lastScrollPos');
+if (scrollPos) {
+setTimeout(() => {
+window.scrollTo({
+top: parseInt(scrollPos),
+behavior: 'smooth'
+});
+}, 100);
+}
+});
+window.addEventListener('scroll', () => {
+localStorage.setItem('lastScrollPos', window.scrollY);
+}, { passive: true });
+</script>
 </body>
 </html>
