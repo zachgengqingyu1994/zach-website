@@ -356,32 +356,28 @@ padding: 6px 12px; font-family: 'Space Mono', monospace; font-size: 0.7rem; curs
 }
 .modal-hint { font-size: 0.75rem; color: #64748b; text-align: center; }
 @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-/* ─── 垂直胶囊进度条样式 ─── */
+/* ─── 强制进度条可见性 ─── */
 .vertical-scroll-tracker {
-position: fixed;
-right: 40px;
-top: 50%;
-transform: translateY(-50%);
-width: 4px;
-height: 200px;
-background: rgba(255, 255, 255, 0.05);
-border-radius: 10px;
-z-index: 9999 !important;
-cursor: pointer;
-pointer-events: all;
+position: fixed !important;
+right: 30px !important;
+top: 50% !important;
+transform: translateY(-50%) !important;
+width: 6px !important;
+height: 200px !important;
+background: rgba(255, 255, 255, 0.05) !important;
+border: 1px solid rgba(255, 255, 255, 0.1) !important;
+border-radius: 10px !important;
+z-index: 999999 !important; /* 物理级最高层 */
+pointer-events: all !important;
 }
 .scroll-capsule {
-position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: 0%;
-background: linear-gradient(to bottom, #bfa87a, #e5d5b0);
-border-radius: 10px;
-box-shadow: 0 0 20px rgba(191, 168, 122, 0.6);
-transition: height 0.1s ease-out;
-z-index: 10000 !important;
-pointer-events: none;
+width: 100% !important;
+height: 0%; /* 初始高度 */
+background: linear-gradient(to bottom, #bfa87a, #e5d5b0) !important;
+border-radius: 10px !important;
+box-shadow: 0 0 20px rgba(191, 168, 122, 0.8) !important;
+transition: height 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+z-index: 1000000 !important;
 }
 @media (max-width: 768px) {
 .vertical-scroll-tracker { display: none; }
@@ -557,50 +553,26 @@ setTimeout(function(){ this.innerText = 'COPY'; }.bind(this), 2000);
 }.bind(this));
 };
 });
-/* ─── 垂直胶囊进度条逻辑 (自适应增强版) ─── */
+/* ─── 垂直胶囊进度条逻辑 (暴力兼容版) ─── */
 (function() {
-const tracker = document.querySelector('.vertical-scroll-tracker');
 const capsule = document.getElementById('scrollCapsule');
-if (!tracker || !capsule) return;
-let isDragging = false;
-function updateProgress() {
+if (!capsule) return;
+function doUpdate() {
 const doc = document.documentElement;
-const winScroll = doc.scrollTop || document.body.scrollTop;
-const height = doc.scrollHeight - doc.clientHeight;
-if (height <= 0) {
-capsule.style.height = '0%';
-return;
-}
+const winScroll = window.pageYOffset || doc.scrollTop;
+const scrollHeight = doc.scrollHeight;
+const clientHeight = doc.clientHeight;
+const height = scrollHeight - clientHeight;
+if (height > 0) {
 const scrolled = (winScroll / height) * 100;
-capsule.style.height = Math.max(0, Math.min(scrolled, 100)) + '%';
+capsule.style.height = Math.max(2, Math.min(scrolled, 100)) + '%';
 }
-function scrollFromY(clientY) {
-const rect = tracker.getBoundingClientRect();
-const p = Math.max(0, Math.min(1, (clientY - rect.top) / rect.height));
-window.scrollTo({
-top: p * (document.documentElement.scrollHeight - window.innerHeight),
-behavior: 'smooth'
-});
 }
-window.addEventListener('scroll', updateProgress, { passive: true });
-window.addEventListener('resize', updateProgress);
-tracker.addEventListener('mousedown', (e) => {
-isDragging = true;
-scrollFromY(e.clientY);
-e.preventDefault();
-});
-document.addEventListener('mousemove', (e) => { if (isDragging) scrollFromY(e.clientY); });
-document.addEventListener('mouseup', () => { isDragging = false; });
-let lastHeight = document.documentElement.scrollHeight;
-const heightCheck = setInterval(() => {
-const currentHeight = document.documentElement.scrollHeight;
-if (currentHeight !== lastHeight) {
-lastHeight = currentHeight;
-updateProgress();
-}
-}, 500);
-setTimeout(() => clearInterval(heightCheck), 5000);
-setTimeout(updateProgress, 100);
+window.addEventListener('scroll', doUpdate, { passive: true });
+window.addEventListener('resize', doUpdate);
+let timer = setInterval(doUpdate, 200);
+setTimeout(() => clearInterval(timer), 5000);
+doUpdate();
 })();
 </body>
 </html>
