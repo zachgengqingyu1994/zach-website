@@ -485,22 +485,6 @@ if(toggleBtn&&overlay){
         }
     }
 })();
-/* ─── 微信弹窗 ─── */
-function toggleWechat() {
-document.getElementById('wechatModal').classList.toggle('active');
-}
-document.querySelector('.close-modal').onclick = toggleWechat;
-window.onclick = function(event) {
-var modal = document.getElementById('wechatModal');
-if (event.target == modal) toggleWechat();
-}
-document.getElementById('copyBtn').onclick = function() {
-var text = document.getElementById('wechatId').innerText;
-navigator.clipboard.writeText(text).then(function(){
-this.innerText = 'COPIED!';
-setTimeout(function(){ this.innerText = 'COPY'; }.bind(this), 2000);
-}.bind(this));
-};
 </script>
 <div id="wechatModal" class="wechat-modal">
 <div class="modal-content">
@@ -517,5 +501,24 @@ setTimeout(function(){ this.innerText = 'COPY'; }.bind(this), 2000);
 </div>
 </div>
 </div>
+<script>
+/* ─── 微信弹窗 ─── */
+function toggleWechat() {
+document.getElementById('wechatModal').classList.toggle('active');
+}
+document.addEventListener('DOMContentLoaded', function(){
+document.querySelector('.close-modal').onclick = toggleWechat;
+window.onclick = function(event) {
+var modal = document.getElementById('wechatModal');
+if (event.target == modal) toggleWechat();
+}
+document.getElementById('copyBtn').onclick = function() {
+var text = document.getElementById('wechatId').innerText;
+navigator.clipboard.writeText(text).then(function(){
+this.innerText = 'COPIED!';
+setTimeout(function(){ this.innerText = 'COPY'; }.bind(this), 2000);
+}.bind(this));
+};
+});
 </body>
 </html>
