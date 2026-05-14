@@ -1254,13 +1254,24 @@ cursor: pointer;
     transition:max-height 0.6s cubic-bezier(0.16,1,0.3,1), padding 0.5s ease;
 }
 .floating-radar.expanded .radar-body {
-    max-height:220px;
+    max-height:380px;
     padding:0 20px 20px;
 }
 .radar-body .embedded-search {
     margin-top:0;
     margin-bottom:12px;
 }
+.radar-results {
+max-height: 120px; overflow-y: auto; margin-bottom: 10px;
+}
+.radar-results .sr-item {
+display: block; padding: 8px 10px; border-bottom: 1px solid rgba(255,255,255,0.04);
+text-decoration: none; transition: 0.2s; border-radius: 4px;
+}
+.radar-results .sr-item:hover { background: rgba(191,168,122,0.08); }
+.radar-results .sr-item .sr-title { font-size: 0.8rem; color: #e2e8f0; margin-bottom: 4px; }
+.radar-results .sr-item .sr-meta { font-size: 0.7rem; color: #64748b; }
+.radar-results .sr-empty { text-align: center; color: #4a5568; font-size: 0.75rem; padding: 15px 0; }
 .radar-link {
     display:block;
     text-align:center;
@@ -1879,9 +1890,10 @@ ZACH.GENG
     </div>
     <div class="radar-body">
         <div class="embedded-search">
-            <input type="text" placeholder="搜索岗位、技术栈或方向...">
+            <input type="text" id="radarSearch" placeholder="搜索岗位、技术栈或方向..." oninput="radarFilter()">
             <button><i class="fas fa-search"></i></button>
         </div>
+        <div id="radarResults" class="radar-results"></div>
         <a href="jobs.html" class="radar-link">查看全部岗位 →</a>
     </div>
 </div>
@@ -2133,6 +2145,15 @@ card.style.transform = 'perspective(1000px) rotateY(0deg) rotateX(0deg) translat
 })();
 
 /* ─── Open Roles 雷达面板展开 ─── */
+/* ─── 雷达搜索过滤 ─── */
+function radarFilter(){
+var q=document.getElementById('radarSearch').value.toLowerCase();
+var r=document.getElementById('radarResults');
+if(!q.trim()){r.innerHTML='';return}
+var h=jobData.filter(function(j){return j.title.toLowerCase().includes(q)||j.company.toLowerCase().includes(q)||j.tags.some(function(t){return t.toLowerCase().includes(q)})});
+if(!h.length){r.innerHTML='<div class="sr-empty">没有匹配的岗位</div>';return}
+r.innerHTML=h.map(function(j){return'<a class="sr-item" href="jobs.html"><div class="sr-title">'+j.title+'</div><div class="sr-meta">'+j.company+' · '+j.location+'</div></a>'}).join('');
+}
 function toggleRadar(e){
     if(e) e.stopPropagation();
     document.getElementById('openRolesRadar').classList.toggle('expanded');
