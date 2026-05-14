@@ -1290,93 +1290,193 @@ border-color: #bfa87a;
 box-shadow: 0 0 30px rgba(191,168,122,0.3);
 transform: translateY(-2px);
 }
-/* ─── 极致美学的微信终端弹窗 ─── */
+/* ─── 极致极客感：微信终端弹窗样式 ─── */
 .wechat-modal-sync {
-position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-background: rgba(5, 8, 15, 0.85);
-display: none; align-items: center; justify-content: center;
-z-index: 9999; backdrop-filter: blur(16px);
+position: fixed;
+top: 0; left: 0;
+width: 100%; height: 100%;
+background: rgba(5, 8, 15, 0.96);
+display: none;
+align-items: center; justify-content: center;
+z-index: 9999;
+opacity: 0;
+transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+backdrop-filter: blur(15px);
 }
 .wechat-modal-sync.active {
 display: flex;
-animation: modalBackdropIn 0.4s ease forwards;
+opacity: 1;
 }
-.modal-content-sync {
-width: 380px;
-background: linear-gradient(180deg, rgba(20,25,35,0.95) 0%, rgba(5,8,15,0.98) 100%);
+.modal-content-sync.terminal-style {
+background: #0a111a;
 border: 1px solid rgba(191, 168, 122, 0.2);
-border-top: 2px solid #bfa87a;
-border-radius: 12px;
-padding: 32px;
-box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8), 0 0 40px rgba(191, 168, 122, 0.08);
-transform: translateY(20px) scale(0.95);
-opacity: 0;
+border-radius: 4px;
+width: 420px;
+max-width: 90%;
+overflow: hidden;
+box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(191, 168, 122, 0.05);
+transform: scale(0.9) translateY(20px);
+transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+position: relative;
 }
-.wechat-modal-sync.active .modal-content-sync {
-animation: modalContentDrop 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.wechat-modal-sync.active .modal-content-sync.terminal-style {
+transform: scale(1) translateY(0);
 }
-.modal-header-sync {
-display: flex; justify-content: space-between; align-items: center;
-margin-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 16px;
+.modal-header {
+background: rgba(191, 168, 122, 0.03);
+border-bottom: 1px solid rgba(191, 168, 122, 0.1);
+padding: 10px 20px;
+display: flex;
+justify-content: space-between;
+align-items: center;
 }
-.modal-header-sync .header-left { display: flex; align-items: center; }
-.modal-header-sync span { font-family: 'Inter', sans-serif; font-size: 0.85rem; color: #bfa87a; font-weight: 600; letter-spacing: 1px;}
+.status-indicator {
+display: flex;
+align-items: center;
+gap: 10px;
+font-size: 0.7rem;
+color: #64748b;
+}
+.blink-dot {
+width: 6px; height: 6px;
+background-color: #bfa87a;
+border-radius: 50%;
+box-shadow: 0 0 10px #bfa87a;
+animation: pulse-dot 2s infinite;
+}
+@keyframes pulse-dot {
+0% { opacity: 1; transform: scale(1); }
+50% { opacity: 0.4; transform: scale(0.9); }
+100% { opacity: 1; transform: scale(1); }
+}
 .close-modal-sync {
-background: none; border: none; color: #64748b; font-size: 1.8rem; line-height: 1;
-cursor: pointer; transition: 0.3s; margin-top: -4px;
+color: #64748b;
+font-size: 1.5rem;
+cursor: pointer;
+line-height: 1;
+transition: 0.3s;
+font-family: Arial, sans-serif;
 }
-.close-modal-sync:hover { color: #fff; transform: rotate(90deg); }
-.modal-intro {
-font-size: 0.9rem; color: #94a3b8; margin-bottom: 20px; line-height: 1.6; letter-spacing: 0.5px;
+.close-modal-sync:hover {
+color: #bfa87a;
+transform: rotate(90deg);
 }
-.wechat-id-box-sync {
-display: flex; justify-content: space-between; align-items: center;
-background: rgba(255, 255, 255, 0.02);
-border: 1px solid rgba(255,255,255,0.08);
+.modal-body {
+padding: 30px 40px 40px;
+text-align: center;
+}
+.connection-title {
+font-family: 'Playfair Display', serif;
+font-size: 1.8rem;
+color: #fff;
+margin-bottom: 10px;
+letter-spacing: 1px;
+}
+.intro-text {
+font-size: 0.9rem;
+color: #94a3b8;
+margin-bottom: 30px;
+}
+.qr-code-zone {
+margin-bottom: 30px;
+position: relative;
+}
+.qr-frame {
+width: 200px; height: 200px;
+margin: 0 auto 15px;
+border: 1px solid rgba(191, 168, 122, 0.2);
+padding: 10px;
+background: #fff;
 border-radius: 8px;
-padding: 16px 20px; margin: 20px 0;
-position: relative; overflow: hidden;
+box-shadow: 0 0 30px rgba(191, 168, 122, 0.1) inset, 0 10px 30px rgba(0,0,0,0.5);
+position: relative;
+overflow: hidden;
 }
-.wechat-id-box-sync::before {
-content: ''; position: absolute; left: 0; top: 0; width: 3px; height: 100%; background: #bfa87a;
+.wechat-qr-img {
+width: 100%;
+height: 100%;
+display: block;
+object-fit: contain;
 }
-#personalWechatId {
-font-family: 'Space Mono', Consolas, monospace; font-size: 1.05rem; font-weight: 600; color: #fff; letter-spacing: 1px;
+.scan-line {
+position: absolute;
+top: -100%; left: 0;
+width: 100%; height: 2px;
+background: linear-gradient(to right, transparent, #bfa87a, transparent);
+box-shadow: 0 0 10px #bfa87a;
+animation: scanning 3s infinite linear;
+opacity: 0.5;
 }
-#indexCopyBtn {
-background: rgba(191, 168, 122, 0.1); border: 1px solid rgba(191, 168, 122, 0.5);
-color: #bfa87a; border-radius: 6px;
-padding: 8px 18px; font-family: 'Space Mono', monospace; font-size: 0.75rem;
-cursor: pointer; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+@keyframes scanning {
+0% { top: -10%; }
+50% { top: 110%; }
+100% { top: -10%; }
 }
-#indexCopyBtn:hover {
-background: #bfa87a; color: #05080f; box-shadow: 0 0 20px rgba(191, 168, 122, 0.4); transform: translateY(-1px);
+.divider {
+display: flex;
+align-items: center;
+text-align: center;
+color: #4a5568;
+font-size: 0.7rem;
+margin-bottom: 25px;
 }
-.modal-hint-sync {
-font-family: 'Space Mono', monospace; font-size: 0.7rem; color: #4a5568; text-align: center; letter-spacing: 1px;
+.divider::before,
+.divider::after {
+content: '';
+flex: 1;
+border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
-@keyframes modalBackdropIn {
-from { opacity: 0; } to { opacity: 1; }
+.divider span {
+padding: 0 15px;
+letter-spacing: 2px;
 }
-@keyframes modalContentDrop {
-from { opacity: 0; transform: translateY(20px) scale(0.95); }
-to { opacity: 1; transform: translateY(0) scale(1); }
+.id-wrapper {
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 15px;
+background: rgba(0, 0, 0, 0.3);
+border: 1px solid rgba(255, 255, 255, 0.05);
+padding: 12px 20px;
+border-radius: 4px;
+margin-bottom: 25px;
 }
-
-/* ─── 放大并优化排版的微信弹窗 (Proportional Scaling) ─── */
-.modal-content-sync {
-width: 480px !important; max-width: 90vw !important;
-padding: 40px 48px !important; border-radius: 16px !important;
+.id-wrapper .label {
+font-size: 0.8rem;
+color: #64748b;
 }
-.modal-header-sync { margin-bottom: 32px !important; }
-.modal-header-sync span { font-size: 0.95rem !important; letter-spacing: 1.5px !important; }
-.close-modal-sync { font-size: 2rem !important; }
-.modal-body-sync p.modal-intro,
-.modal-intro { font-size: 1.05rem !important; line-height: 1.8 !important; margin-bottom: 32px !important; }
-.wechat-id-box-sync { padding: 24px 28px !important; margin-bottom: 32px !important; border-radius: 10px !important; }
-#personalWechatId { font-size: 1.25rem !important; letter-spacing: 1px !important; }
-#indexCopyBtn { padding: 12px 28px !important; font-size: 0.85rem !important; border-radius: 8px !important; }
-.modal-hint-sync { font-size: 0.85rem !important; margin-top: 10px !important; }
+.id-wrapper .id-value {
+font-size: 1.1rem;
+letter-spacing: 1px;
+}
+.copy-btn-terminal {
+background: transparent;
+border: 1px solid #bfa87a;
+color: #bfa87a;
+padding: 6px 16px;
+cursor: pointer;
+transition: all 0.3s;
+font-size: 0.7rem;
+letter-spacing: 1px;
+}
+.copy-btn-terminal:hover {
+background: #bfa87a;
+color: #05080f;
+box-shadow: 0 0 15px rgba(191, 168, 122, 0.3);
+}
+.note-text-sync {
+font-size: 0.8rem;
+color: #64748b;
+margin: 0;
+}
+.mono-text {
+font-family: 'Space Mono', monospace;
+}
+.sm-text {
+font-size: 0.7rem;
+color: #64748b;
+letter-spacing: 1px;
+}
 
 /* ─── 底部唯一主按钮强化 ─── */
 .primary-single-cta {
@@ -1398,48 +1498,6 @@ background-color: #05080f !important;
 box-shadow: 0 0 8px rgba(0, 0, 0, 0.5) !important;
 }
 
-/* ─── 弹窗二维码专属高奢陈列样式 ─── */
-.qr-code-wrapper-sync {
-display: flex;
-justify-content: center;
-margin-bottom: 24px !important;
-}
-.wechat-qr-img-sync {
-width: 170px;
-height: auto;
-border-radius: 12px;
-border: 1px solid rgba(191, 168, 122, 0.3);
-box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(191, 168, 122, 0.08);
-transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.4s ease;
-}
-.wechat-qr-img-sync:hover {
-transform: translateY(-6px) scale(1.02);
-box-shadow: 0 20px 45px rgba(0, 0, 0, 0.8), 0 0 30px rgba(191, 168, 122, 0.2);
-border-color: #bfa87a;
-}
-.qr-divider-sync {
-display: flex;
-align-items: center;
-text-align: center;
-margin-bottom: 24px !important;
-color: #64748b;
-font-family: 'Space Mono', monospace;
-font-size: 0.75rem;
-letter-spacing: 2px;
-}
-.qr-divider-sync::before,
-.qr-divider-sync::after {
-content: '';
-flex: 1;
-border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-}
-.qr-divider-sync span {
-padding: 0 15px;
-}
-.modal-content-sync {
-max-height: 90vh;
-overflow-y: auto;
-}
 </style>
 </head>
 <body>
@@ -1745,27 +1803,38 @@ ZACH.GENG
 </div>
 </section>
 <div id="personalWechatModal" class="wechat-modal-sync">
-<div class="modal-content-sync">
-<div class="modal-header-sync">
-<div class="header-left">
-<span class="live-dot-small" style="display: inline-block; margin-right: 10px;"></span>
-<span>联系ZACH · WECHAT</span>
+<div class="modal-content-sync terminal-style">
+<div class="modal-header">
+<div class="status-indicator">
+<span class="blink-dot"></span>
+<span class="mono-text">STATUS:AWAITING_CONNECTION</span>
 </div>
-<button class="close-modal-sync" onclick="togglePersonalWechat()">&times;</button>
+<span class="close-modal-sync" onclick="togglePersonalWechat()">&times;</span>
 </div>
-<div class="modal-body-sync">
-<p class="modal-intro">想聊聊 AI 趋势、人才机会，或者单纯交个朋友？扫码或复制微信号加我：</p>
-<div class="qr-code-wrapper-sync">
-<img src="my-qr.jpg" alt="Zach Wechat QR" class="wechat-qr-img-sync">
+<div class="modal-body">
+<h3 class="connection-title">建立深度共振</h3>
+<p class="intro-text">可以通过以下两种方式接入我的个人网络：</p>
+<div class="qr-code-zone">
+<div class="qr-frame">
+<img src="my-qr.jpg" alt="WeChat QR Code" class="wechat-qr-img">
+<div class="scan-line"></div>
 </div>
-<div class="qr-divider-sync">
-<span>OR COPY ID</span>
+<p class="mono-text sm-text">[ 方法一：手机扫码接入 ]</p>
 </div>
-<div class="wechat-id-box-sync">
-<span id="personalWechatId">Headhunter_Zach</span>
-<button id="indexCopyBtn">COPY</button>
+<div class="divider">
+<span class="mono-text">OR</span>
 </div>
-<p class="modal-hint-sync">加的时候备注一下"来自网站"，我会通过得快一些</p>
+<div class="id-copy-zone">
+<p class="mono-text sm-text" style="margin-bottom: 10px;">[ 方法二：复制 ID 搜索 ]</p>
+<div class="id-wrapper">
+<span class="label">WeChat ID:</span>
+<span id="personalWechatId" class="mono-text gold-text id-value">Headhunter_Zach</span>
+<button id="indexCopyBtn" class="copy-btn-terminal">
+<span class="mono-text">COPY_ID</span>
+</button>
+</div>
+</div>
+<p class="note-text-sync">备注请写：来自"终端涌现"</p>
 </div>
 </div>
 </div>
