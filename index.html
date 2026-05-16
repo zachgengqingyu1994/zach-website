@@ -19,28 +19,35 @@ overflow-x:hidden;
 -webkit-font-smoothing:antialiased;
 cursor:none;
 }
-/* ─── 增强版：涌现深渊动态背景 (增加光亮度) ─── */
-.ambient-background {
-position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-z-index: -2; overflow: hidden; background-color: #030508;
-pointer-events: none;
-}
+/* ─── 🌊 方案 C 满血增强版：冷流量子潜涌 (Quantum Layer Drift) ─── */
+/* 1层：深海极蓝潜流 (基础氛围层) */
 .ambient-glow-blue {
-position: absolute; width: 150vw; height: 150vh; top: -25%; left: -25%;
-background: radial-gradient(circle at center, rgba(16, 40, 90, 0.45) 0%, transparent 65%);
-animation: driftBlue 25s infinite alternate ease-in-out;
+position: absolute;
+width: 150vw; height: 150vh;
+top: -20%; left: -25%;
+background: radial-gradient(circle at center, rgba(16, 50, 115, 0.45) 0%, rgba(6, 15, 38, 0.1) 55%, transparent 70%);
+animation: quantumDriftBlue 22s infinite ease-in-out alternate;
+will-change: transform;
 }
+/* 2层：高奢暗金粒子潜涌 (强对比动态层) */
 .ambient-glow-gold {
-position: absolute; width: 120vw; height: 120vh; top: -30%; right: -20%;
-background: radial-gradient(circle at center, rgba(191, 168, 122, 0.15) 0%, transparent 55%);
-animation: driftGold 30s infinite alternate ease-in-out;
+position: absolute;
+width: 130vw; height: 130vh;
+bottom: -10%; right: -20%;
+background: radial-gradient(circle at center, rgba(191, 168, 122, 0.18) 0%, rgba(191, 168, 122, 0.04) 40%, transparent 65%);
+animation: quantumDriftGold 26s infinite ease-in-out alternate-reverse;
 mix-blend-mode: screen;
+will-change: transform;
 }
+/* 🌟 新增3层：核心算力冷微光 (高频律动波浪) */
 .resonance-core {
-position: absolute; width: 80vw; height: 80vh; top: 10%; left: 10%;
-background: radial-gradient(circle at center, rgba(16, 32, 65, 0.6) 0%, transparent 50%);
-animation: corePulse 12s infinite alternate ease-in-out;
-mix-blend-mode: screen;
+position: absolute;
+width: 120vw; height: 140vh;
+top: 30%; left: -10%;
+background: radial-gradient(circle at center, rgba(226, 232, 240, 0.06) 0%, rgba(16, 50, 115, 0.02) 40%, transparent 60%);
+animation: quantumDriftWhite 16s infinite ease-in-out alternate;
+mix-blend-mode: overlay;
+will-change: transform;
 }
 .architect-grid {
 position: absolute;
@@ -55,17 +62,42 @@ animation: gridForward 15s linear infinite;
 -webkit-mask-image: radial-gradient(ellipse at bottom, black 10%, transparent 60%);
 mask-image: radial-gradient(ellipse at bottom, black 10%, transparent 60%);
 }
-@keyframes corePulse {
-0% { opacity: 0.3; transform: scale(0.9); }
-100% { opacity: 1; transform: scale(1.1); }
+/* ─── 物理引擎关键帧：明显、丝滑、带有流体拉伸感的正弦偏移 ─── */
+@keyframes quantumDriftBlue {
+0% {
+transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
 }
-@keyframes driftBlue {
-0% { transform: translate(0, 0) scale(1); }
-100% { transform: translate(5%, 8%) scale(1.1); }
+50% {
+transform: translate3d(5%, 8%, 0) scale(1.12) rotate(4deg);
 }
-@keyframes driftGold {
-0% { transform: translate(0, 0) scale(1); }
-100% { transform: translate(-8%, 5%) scale(1.15); }
+100% {
+transform: translate3d(-3%, 4%, 0) scale(0.95) rotate(-2deg);
+}
+}
+@keyframes quantumDriftGold {
+0% {
+transform: translate3d(0, 0, 0) scale(0.95) rotate(0deg);
+opacity: 0.7;
+}
+50% {
+transform: translate3d(-6%, -5%, 0) scale(1.15) rotate(-5deg);
+opacity: 1;
+}
+100% {
+transform: translate3d(4%, -8%, 0) scale(1.02) rotate(3deg);
+opacity: 0.8;
+}
+}
+@keyframes quantumDriftWhite {
+0% {
+transform: translate3d(-4%, 2%, 0) scale(1) skewX(-2deg);
+}
+50% {
+transform: translate3d(6%, -4%, 0) scale(1.08) skewX(3deg);
+}
+100% {
+transform: translate3d(2%, 5%, 0) scale(0.92) skewX(-1deg);
+}
 }
 @keyframes gridForward {
 0% { background-position: 0 0; }
@@ -2244,6 +2276,19 @@ setTimeout(() => { copyBtn.innerText = 'COPY'; }, 2000);
         })
         .catch(function(){ /* silent degrade — keep existing content */ });
 })();
+
+/* ─── 🌊 方案 C 专属：量子潜涌随动视差逻辑 ─── */
+window.addEventListener('scroll', () => {
+window.requestAnimationFrame(() => {
+const scrolled = window.scrollY;
+const blueFlow = document.querySelector('.ambient-glow-blue');
+const goldFlow = document.querySelector('.ambient-glow-gold');
+const whiteFlow = document.querySelector('.resonance-core');
+if (blueFlow) blueFlow.style.transform = `translate3d(0, ${scrolled * 0.12}px, 0) rotate(${scrolled * 0.005}deg)`;
+if (goldFlow) goldFlow.style.transform = `translate3d(0, ${scrolled * -0.08}px, 0) rotate(${scrolled * -0.003}deg)`;
+if (whiteFlow) whiteFlow.style.transform = `translate3d(0, ${scrolled * 0.04}px, 0) scale(${1 + scrolled * 0.00005})`;
+});
+}, { passive: true });
 </script>
 </body>
 </html>
