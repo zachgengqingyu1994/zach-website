@@ -1300,6 +1300,36 @@ opacity: 0.1;
 0%, 100% { opacity: 0.40; transform: scale(1.1); }
 30% { opacity: 0.08; transform: scale(0.9); }
 }
+/* ─── 返回顶部 ─── */
+.back-to-top {
+    position:fixed; bottom:40px; right:40px;
+    width:44px; height:44px;
+    border-radius:50%;
+    border:1px solid rgba(191,168,122,0.25);
+    background:rgba(5,8,15,0.6);
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+    color:#bfa87a;
+    font-size:1.1rem;
+    cursor:pointer;
+    z-index:999;
+    display:flex; align-items:center; justify-content:center;
+    opacity:0; pointer-events:none;
+    transition:all 0.4s cubic-bezier(0.16,1,0.3,1);
+    box-shadow:0 4px 20px rgba(0,0,0,0.4);
+}
+.back-to-top.visible {
+    opacity:1; pointer-events:all;
+}
+.back-to-top:hover {
+    background:rgba(191,168,122,0.12);
+    border-color:rgba(191,168,122,0.5);
+    transform:translateY(-3px);
+    box-shadow:0 8px 30px rgba(0,0,0,0.6), 0 0 20px rgba(191,168,122,0.08);
+}
+@media (max-width:768px) {
+    .back-to-top { bottom:24px; right:16px; width:40px; height:40px; font-size:1rem; }
+}
 </style>
 </head>
 <body>
@@ -1490,6 +1520,19 @@ document.querySelectorAll('.blog-card, .job-card').forEach(function(card){
         }
     });
 })();
+/* ─── 返回顶部（事件委托） ─── */
+document.addEventListener('scroll', function(){
+    var btn = document.getElementById('backToTop');
+    if(!btn) return;
+    if(window.scrollY > 300) btn.classList.add('visible');
+    else btn.classList.remove('visible');
+}, {passive: true});
+document.addEventListener('click', function(e){
+    if(e.target.id === 'backToTop' || e.target.closest('#backToTop')) {
+        window.scrollTo({top:0, behavior:'smooth'});
+    }
+});
 </script>
+<button class="back-to-top" id="backToTop" aria-label="返回顶部">↑</button>
 </body>
 </html>
