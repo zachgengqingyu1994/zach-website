@@ -2181,6 +2181,69 @@ setTimeout(() => { copyBtn.innerText = 'COPY'; }, 2000);
         }
     });
 })();
+
+/* ─── 自动同步：首页思想输出 = blog 最新 3 篇 ─── */
+(function(){
+    fetch('blog.html?' + Date.now())
+        .then(function(r){ return r.text(); })
+        .then(function(html){
+            var doc = new DOMParser().parseFromString(html, 'text/html');
+            var cards = doc.querySelectorAll('.blog-card.reveal-sync');
+            var insights = document.querySelectorAll('.insight-card');
+            if(!cards.length || !insights.length) return;
+            for(var i = 0; i < Math.min(3, cards.length, insights.length); i++){
+                var card = cards[i], insight = insights[i];
+                var c = insight.querySelector('.insight-content');
+                if(!c) continue;
+
+                // Tag
+                var typeEl = card.querySelector('.blog-type');
+                var tagEl = c.querySelector('.insight-tag');
+                if(typeEl && tagEl){
+                    if(typeEl.classList.contains('type-highlight')){
+                        tagEl.textContent = '🔥 精选';
+                    } else {
+                        var raw = typeEl.textContent.trim();
+                        var parts = raw.split('/');
+                        tagEl.textContent = parts[0].trim() || '观点';
+                    }
+                }
+
+                // Title (preserve arrow)
+                var titleEl = card.querySelector('.blog-title');
+                var titleTarget = c.querySelector('.insight-title');
+                if(titleEl && titleTarget){
+                    var arrow = titleTarget.querySelector('.arrow-icon');
+                    titleTarget.textContent = titleEl.textContent.trim();
+                    if(arrow) titleTarget.appendChild(arrow);
+                }
+
+                // Description
+                var descEl = card.querySelector('.blog-desc');
+                var descTarget = c.querySelector('.insight-desc');
+                if(descEl && descTarget){
+                    descTarget.textContent = descEl.textContent.trim();
+                }
+
+                // Meta: [ date ] · tag1 · tag2 · tag3
+                var dateEl = card.querySelector('.blog-date');
+                var tagsEl = card.querySelector('.blog-tags');
+                var metaTarget = c.querySelector('.insight-meta');
+                if(metaTarget){
+                    var date = dateEl ? dateEl.textContent.trim() : '';
+                    var tags = '';
+                    if(tagsEl){
+                        tags = tagsEl.textContent.trim()
+                            .replace(/\s*\/\s*/g, ' · ')
+                            .replace(/^·\s*/, '')
+                            .replace(/\/.*/, '');
+                    }
+                    metaTarget.textContent = '[ ' + date + ' ] · ' + tags;
+                }
+            }
+        })
+        .catch(function(){ /* silent degrade — keep existing content */ });
+})();
 </script>
 </body>
 </html>
