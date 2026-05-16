@@ -1567,18 +1567,29 @@ Zach 每天在微信上和电话里，接触最多的就是各种大厂出来的
 
 <script>
 function toggleArticleExpand(cardElement, e) {
-    if (e) e.stopPropagation();
+    if (!e) return;
     var fullContent = cardElement.querySelector('.blog-content-full-sync');
     var indicator = cardElement.querySelector('.read-time-indicator');
     if (!fullContent) return;
-    if (fullContent.style.display === 'none' || !fullContent.style.display) {
-        fullContent.style.display = 'block';
-        if (indicator) indicator.innerText = '[ 点击收起档案 // CLICK_TO_COLLAPSE ]';
-        cardElement.style.borderColor = '#bfa87a';
-    } else {
+
+    var isExpanded = fullContent.style.display === 'block';
+
+    if (isExpanded) {
+        // 已展开 → 点击内容区域不关闭
+        if (e.target.closest('.blog-content-full-sync')) {
+            e.stopPropagation();
+            return;
+        }
+        // 点击其他区域（标题/底部"收起档案"）→ 关闭
         fullContent.style.display = 'none';
         if (indicator) indicator.innerText = '[ 点击展开阅读 // CLICK_TO_VIEW ]';
         cardElement.style.borderColor = '';
+    } else {
+        // 未展开 → 任何区域点击均展开
+        e.stopPropagation();
+        fullContent.style.display = 'block';
+        if (indicator) indicator.innerText = '[ 点击收起档案 // CLICK_TO_COLLAPSE ]';
+        cardElement.style.borderColor = '#bfa87a';
     }
 }
 
