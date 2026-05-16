@@ -1147,6 +1147,36 @@ color: #bfa87a;
     100% { opacity: 0.85; transform: translateY(0); }
 }
 
+/* 进度条轨道：深色半透明胶囊 */
+.vertical-scroll-tracker {
+position: fixed;
+right: 20px;
+top: 50%;
+transform: translateY(-50%);
+width: 8px;
+height: 200px;
+background: rgba(255, 255, 255, 0.05);
+backdrop-filter: blur(8px);
+border: 1px solid rgba(255, 255, 255, 0.1);
+border-radius: 20px;
+z-index: 9999;
+padding: 2px;
+display: flex;
+flex-direction: column;
+}
+/* 进度滑块：金色发光胶囊 */
+.scroll-capsule {
+width: 100%;
+height: 0%;
+background: linear-gradient(to bottom, #bfa87a, #e5d5b0);
+border-radius: 20px;
+box-shadow: 0 0 12px rgba(191, 168, 122, 0.4);
+transition: height 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+cursor: pointer;
+}
+.vertical-scroll-tracker { cursor: grab; }
+.vertical-scroll-tracker:active { cursor: grabbing; }
+
 /* ─── Jobs 页面自定义样式 ─── */
 .jobs-section {
     padding:140px 24px 100px;
@@ -1261,6 +1291,11 @@ ZACH.GENG
 </ul>
 </div>
 
+<!-- ═══ 滚动进度胶囊 ═══ -->
+<div class="vertical-scroll-tracker">
+    <div class="scroll-capsule" id="scrollCapsule"></div>
+</div>
+
 <!-- ═══ Jobs Content ═══ -->
 <div class="jobs-section">
 <div class="kicker">/ LIVE_OPPORTUNITIES</div>
@@ -1319,6 +1354,39 @@ document.addEventListener("DOMContentLoaded", function(){
     }
     window.addEventListener('scroll',checkScroll,{passive:true});
     checkScroll();
+})();
+
+/* ─── 垂直胶囊可拖拽进度条 ─── */
+(function(){
+    var tracker=document.querySelector('.vertical-scroll-tracker');
+    var capsule=document.getElementById('scrollCapsule');
+    if(!tracker||!capsule)return;
+    var isDragging=false;
+
+    function updateFromScroll(){
+        var s=document.body.scrollTop||document.documentElement.scrollTop;
+        var h=document.documentElement.scrollHeight-document.documentElement.clientHeight;
+        capsule.style.height=((s/h)*100)+'%';
+    }
+
+    function scrollFromY(clientY){
+        var rect=tracker.getBoundingClientRect();
+        var p=Math.max(0,Math.min(1,(clientY-rect.top)/rect.height));
+        window.scrollTo(0,p*(document.documentElement.scrollHeight-document.documentElement.clientHeight));
+    }
+
+    capsule.addEventListener('mousedown',function(e){isDragging=true;e.preventDefault()});
+    document.addEventListener('mousemove',function(e){if(isDragging)scrollFromY(e.clientY)});
+    document.addEventListener('mouseup',function(){isDragging=false});
+
+    tracker.addEventListener('click',function(e){if(e.target!==capsule)scrollFromY(e.clientY)});
+
+    capsule.addEventListener('touchstart',function(e){isDragging=true;e.preventDefault()});
+    document.addEventListener('touchmove',function(e){if(isDragging)scrollFromY(e.touches[0].clientY)});
+    document.addEventListener('touchend',function(){isDragging=false});
+
+    window.addEventListener('scroll',updateFromScroll,{passive:true});
+    updateFromScroll();
 })();
 
 /* ─── 磁吸光影跟随 ─── */
