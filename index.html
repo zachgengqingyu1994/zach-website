@@ -1580,44 +1580,6 @@ transform: translateY(-3px) !important;
 background-color: #05080f !important;
 box-shadow: 0 0 8px rgba(0, 0, 0, 0.5) !important;
 }
-
-/* ─── 🌟 方案 B：星群脉冲呼吸系统 (Neural Pulse Clusters) ─── */
-.neural-pulse-clusters {
-position: absolute;
-top: 0; left: 0;
-width: 100%; height: 250%;
-pointer-events: none;
-z-index: -1;
-}
-.pulse-node {
-position: absolute;
-width: 3px; height: 3px;
-background-color: #bfa87a;
-border-radius: 50%;
-box-shadow: 0 0 8px #bfa87a, 0 0 16px rgba(191, 168, 122, 0.4);
-opacity: 0.1;
-}
-.node-p1 { animation: pulsePatternA 8s infinite ease-in-out; }
-.node-p2 { animation: pulsePatternB 11s infinite ease-in-out; }
-.node-p3 { animation: pulsePatternC 14s infinite ease-in-out; }
-.node-p4 { animation: pulsePatternD 19s infinite ease-in-out; }
-@keyframes pulsePatternA {
-0%, 100% { opacity: 0.08; transform: scale(0.9); }
-50% { opacity: 0.45; transform: scale(1.15); filter: drop-shadow(0 0 4px #bfa87a); }
-}
-@keyframes pulsePatternB {
-0%, 100% { opacity: 0.35; transform: scale(1.1); }
-40% { opacity: 0.05; transform: scale(0.85); }
-70% { opacity: 0.50; transform: scale(1.2); }
-}
-@keyframes pulsePatternC {
-0%, 100% { opacity: 0.15; transform: scale(1); }
-60% { opacity: 0.55; transform: scale(1.25); }
-}
-@keyframes pulsePatternD {
-0%, 100% { opacity: 0.40; transform: scale(1.1); }
-30% { opacity: 0.08; transform: scale(0.9); }
-}
 </style>
 </head>
 <body>
@@ -1625,22 +1587,6 @@ opacity: 0.1;
 <div class="ambient-glow-blue"></div>
 <div class="ambient-glow-gold"></div>
 <div class="resonance-core"></div>
-<div class="neural-pulse-clusters">
-<div class="pulse-node node-p1" style="top: 15%; left: 12%;"></div>
-<div class="pulse-node node-p3" style="top: 28%; right: 15%;"></div>
-<div class="pulse-node node-p2" style="top: 42%; left: 25%;"></div>
-<div class="pulse-node node-p4" style="top: 55%; right: 8%;"></div>
-<div class="pulse-node node-p1" style="top: 68%; left: 18%;"></div>
-<div class="pulse-node node-p3" style="top: 78%; right: 22%;"></div>
-<div class="pulse-node node-p2" style="top: 92%; left: 8%;"></div>
-<div class="pulse-node node-p4" style="top: 110%; right: 18%;"></div>
-<div class="pulse-node node-p1" style="top: 135%; left: 30%;"></div>
-<div class="pulse-node node-p3" style="top: 155%; right: 12%;"></div>
-<div class="pulse-node node-p2" style="top: 178%; left: 15%;"></div>
-<div class="pulse-node node-p4" style="top: 195%; right: 28%;"></div>
-<div class="pulse-node node-p1" style="top: 215%; left: 22%;"></div>
-<div class="pulse-node node-p3" style="top: 235%; right: 16%;"></div>
-</div>
 <div class="architect-grid"></div>
 </div>
 
