@@ -939,7 +939,7 @@ color: #bfa87a;
 }
 
 /* ─── 磁吸高光效应 ─── */
-.insight-card::before, .glass-card::before, .connect-card::before {
+.insight-card::before, .glass-card::before, .connect-card::before, .blog-card::before, .job-card::before {
     content:'';
     position:absolute;
     inset:0;
@@ -949,7 +949,7 @@ color: #bfa87a;
     pointer-events:none;
     z-index:1;
 }
-.insight-card:hover::before, .glass-card:hover::before, .connect-card:hover::before {
+.insight-card:hover::before, .glass-card:hover::before, .connect-card:hover::before, .blog-card:hover::before, .job-card:hover::before {
     opacity:1;
 }
 
@@ -1320,6 +1320,17 @@ document.addEventListener("DOMContentLoaded", function(){
     window.addEventListener('scroll',checkScroll,{passive:true});
     checkScroll();
 })();
+
+/* ─── 磁吸光影跟随 ─── */
+document.querySelectorAll('.blog-card, .job-card').forEach(function(card){
+    card.addEventListener('mousemove', function(e){
+        var rect=card.getBoundingClientRect();
+        var x=e.clientX-rect.left;
+        var y=e.clientY-rect.top;
+        card.style.setProperty('--x', x+'px');
+        card.style.setProperty('--y', y+'px');
+    });
+});
 </script>
 <script>
 /* ─── Custom Cursor ─── */
@@ -1342,7 +1353,7 @@ document.addEventListener("DOMContentLoaded", function(){
     });
 
     document.addEventListener('mouseover',function(e){
-        var t=e.target.closest('a, .glass-card, .feed-item, .insight-card, .connect-card, .stat-card, button, .footer-cta-btn');
+        var t=e.target.closest('a, .glass-card, .feed-item, .insight-card, .connect-card, .stat-card, button, .footer-cta-btn, .blog-card, .job-card');
         if(t){
             outer.classList.add('hover');
             inner.classList.add('hover');
@@ -1350,7 +1361,7 @@ document.addEventListener("DOMContentLoaded", function(){
     });
 
     document.addEventListener('mouseout',function(e){
-        var t=e.target.closest('a, .glass-card, .feed-item, .insight-card, .connect-card, .stat-card, button, .footer-cta-btn');
+        var t=e.target.closest('a, .glass-card, .feed-item, .insight-card, .connect-card, .stat-card, button, .footer-cta-btn, .blog-card, .job-card');
         if(t){
             outer.classList.remove('hover');
             inner.classList.remove('hover');
