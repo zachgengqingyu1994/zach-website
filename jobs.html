@@ -1262,6 +1262,111 @@ cursor: pointer;
     .job-card { padding:24px; }
     .jobs-section { padding:120px 16px 60px; }
 }
+/* ═══ 折叠卡片 — 分类标签 ═══ */
+.job-category-filters {
+    display: flex; flex-wrap: wrap; gap: 10px;
+    margin-bottom: 50px;
+}
+.cat-filter {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem; letter-spacing: 1px;
+    padding: 8px 18px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
+}
+.cat-filter:hover { color:#bfa87a; border-color:rgba(191,168,122,0.3); background:rgba(191,168,122,0.05); }
+.cat-filter.active { color:#fff; border-color:#bfa87a; background:rgba(191,168,122,0.12); }
+
+/* ═══ 分类组标题 ═══ */
+.category-group { margin-bottom: 60px; }
+.category-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.82rem; letter-spacing: 3px;
+    color: #bfa87a;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(191,168,122,0.15);
+}
+
+/* ═══ 折叠卡片 — 展开状态 ═══ */
+.job-card.expanded {
+    transform: none !important;
+    background: rgba(10,15,28,0.7);
+    backdrop-filter: blur(32px) saturate(150%);
+    border-color: rgba(191,168,122,0.4) !important;
+    box-shadow: 0 20px 80px -15px rgba(0,0,0,0.9), 0 0 30px rgba(191,168,122,0.08);
+}
+.job-header {
+    cursor: pointer;
+    user-select: none;
+}
+.job-header:hover .job-title { color: #bfa87a; }
+.job-header:hover .expand-indicator { color: #bfa87a; }
+.expand-indicator {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem; color: #4a5568;
+    margin-top: 14px;
+    letter-spacing: 2px;
+    transition: color 0.3s;
+}
+.expand-indicator .arrow { display: inline-block; transition: transform 0.3s ease; }
+.job-card.expanded .expand-indicator .arrow { transform: rotate(180deg); }
+.job-full-details {
+    display: none;
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+}
+.job-card.expanded .job-full-details { display: block; }
+.job-detail-section {
+    margin-bottom: 24px;
+}
+.job-detail-section:last-child { margin-bottom: 0; }
+.job-detail-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem; letter-spacing: 3px;
+    color: #6e96ff;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+.job-detail-body {
+    font-size: 0.82rem; line-height: 1.9;
+    color: #94a3b8;
+    font-weight: 300;
+}
+.job-detail-body li {
+    margin-bottom: 8px;
+    list-style: none;
+    padding-left: 16px;
+    position: relative;
+}
+.job-detail-body li::before {
+    content: '—';
+    position: absolute; left: 0;
+    color: #5a6878;
+}
+.job-company-mask {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem; letter-spacing: 1px;
+    color: #6e96ff;
+    background: rgba(110,150,255,0.08);
+    padding: 3px 10px;
+    border-radius: 6px;
+    margin-top: 10px;
+}
+.job-location {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem; letter-spacing: 1px;
+    color: #64748b;
+    display: inline-block;
+    margin-left: 10px;
+}
 /* ─── 返回顶部 ─── */
 .back-to-top {
     position:fixed; bottom:40px; right:40px;
@@ -1330,23 +1435,1234 @@ ZACH.GENG
 <div class="jobs-section">
 <div class="kicker">/ LIVE_OPPORTUNITIES</div>
 <h1 class="main-title">热招机会</h1>
-<div class="jobs-grid">
-<div class="job-card">
-<span class="job-id">#JOB_AI_INFRA_01</span>
-<h3 class="job-title">AI Infra 首席架构师<br>(基座模型方向)</h3>
-<p class="job-desc">主导万卡规模算力底座的通信优化。我们需要你对算力 ROI 有极深的商业直觉。</p>
-<span class="salary">1.5M - 2.5M+</span>
+
+<div class="job-category-filters">
+<span class="cat-filter active" data-cat="all">🔘 全部</span>
+<span class="cat-filter" data-cat="infra">AI Infra & 云计算</span>
+<span class="cat-filter" data-cat="agent">AI Agent & 大模型应用</span>
+<span class="cat-filter" data-cat="media">视频/多媒体工程</span>
+<span class="cat-filter" data-cat="product">产品与商业化</span>
+<span class="cat-filter" data-cat="growth">增长、出海与运营</span>
 </div>
-<div class="job-card">
-<span class="job-id">#JOB_AGENT_02</span>
-<h3 class="job-title">AI Agent 产品合伙人<br>(ToB 生产力)</h3>
-<p class="job-desc">定义新一代 Agent 工作流。寻找具备千万级 DAU 操盘经验的产品先锋。</p>
-<span class="salary">OPEN_NEGOTIATION</span>
+
+<!-- ═══ AI Infra & 云计算基础设施 ═══ -->
+<div class="category-group" data-category="infra">
+<h2 class="category-title">01 // AI Infra & 云计算基础设施</h2>
+<div class="jobs-grid">
+
+<div class="job-card" data-cat="infra">
+<div class="job-header" onclick="toggleJobCard(this.parentElement)">
+<span class="job-id">#001</span>
+<h3 class="job-title">US Devops Engineer</h3>
+<span class="job-company-mask">跨境AI云原生平台</span><span class="job-location">📍 新加坡</span>
+<p class="job-desc">负责 Kubernetes 集群部署、日常运维及故障排查，设计集群管理平台的监控与自动化功能。</p>
+<div class="expand-indicator">[ 展开查看详情 ▼ ] <span class="arrow">▼</span></div>
+</div>
+<div class="job-full-details">
+<div class="job-detail-section">
+<div class="job-detail-label">📌 职位描述</div>
+<div class="job-detail-body">
+<li>负责集群管理平台监控与自动化功能的设计与开发，持续提升集群管控能力。</li>
+<li>协助分析排查集群容器、操作系统、网络、存储等层面的问题。</li>
+<li>管理各业务在集群中的配额，分析利用率并进行后续容量规划。</li>
+<li>参与运维值班，及时处理故障并响应用户问题与需求。</li>
+</div>
+</div>
+<div class="job-detail-section">
+<div class="job-detail-label">🎯 职位要求</div>
+<div class="job-detail-body">
+<li>本科及以上学历，计算机或相关专业。</li>
+<li>3年以上工业经验，扎实的 Linux 运维与调试能力。</li>
+<li>精通 Python/Go/Shell 中至少一种编程语言。</li>
+<li>熟悉 Kubernetes 架构及各组件功能特性，有 CNI/CSI/LB 部署优化经验。</li>
+<li>具备大规模训练集群建设经验者优先。</li>
+</div>
 </div>
 </div>
 </div>
 
+<div class="job-card" data-cat="infra">
+<div class="job-header" onclick="toggleJobCard(this.parentElement)">
+<span class="job-id">#002</span>
+<h3 class="job-title">Solution Architect（算力售前）</h3>
+<span class="job-company-mask">跨境AI云原生平台</span><span class="job-location">📍 亚太/新加坡</span>
+<p class="job-desc">负责算力解决方案的售前技术支撑，对接客户需求，设计高效、可落地的 AI 基础设施方案。</p>
+<div class="expand-indicator">[ 展开查看详情 ▼ ] <span class="arrow">▼</span></div>
+</div>
+<div class="job-full-details">
+<div class="job-detail-section">
+<div class="job-detail-label">📌 职位描述</div>
+<div class="job-detail-body">
+<li>负责算力解决方案的前期技术交流与需求调研，输出定制化方案。</li>
+<li>配合销售团队完成产品演示、POC 验证及技术答标。</li>
+<li>跟进项目交付全过程，协调内部研发与运维资源。</li>
+<li>持续跟踪行业技术趋势，输出竞品分析与技术白皮书。</li>
+</div>
+</div>
+<div class="job-detail-section">
+<div class="job-detail-label">🎯 职位要求</div>
+<div class="job-detail-body">
+<li>本科及以上学历，5年以上售前或架构师经验。</li>
+<li>熟悉 GPU 集群、分布式存储、高性能网络架构。</li>
+<li>具备优秀的客户沟通与方案呈现能力。</li>
+<li>预算 20 万新币左右，中英文流利。</li>
+</div>
+</div>
+</div>
+</div>
+
+<div class="job-card" data-cat="infra">
+<div class="job-header" onclick="toggleJobCard(this.parentElement)">
+<span class="job-id">#003</span>
+<h3 class="job-title">AI Infra 领军人物</h3>
+<span class="job-company-mask">网络安全与云计算上市公司</span><span class="job-location">📍 深圳</span>
+<p class="job-desc">设计和构建高效的 AI 基础设施平台，支持大语言模型的推理与多模态模型承载，优化 GPU 资源利用。</p>
+<div class="expand-indicator">[ 展开查看详情 ▼ ] <span class="arrow">▼</span></div>
+</div>
+<div class="job-full-details">
+<div class="job-detail-section">
+<div class="job-detail-label">📌 职位描述</div>
+<div class="job-detail-body">
+<li>设计和构建高效的 AI 基础设施平台，支持大语言模型推理与多模态模型承载。</li>
+<li>深度优化平台性能和硬件资源使用效率，包括 GPU/TPU、内存、带宽、存储等。</li>
+<li>与其他团队密切合作，提供训练和推理基础设施的技术支持与优化方案。</li>
+</div>
+</div>
+<div class="job-detail-section">
+<div class="job-detail-label">🎯 职位要求</div>
+<div class="job-detail-body">
+<li>本科及以上学历，5年以上基础设施架构设计或分布式系统开发经验。</li>
+<li>精通 Kubernetes、Docker、Hadoop、Spark 等分布式系统技术。</li>
+<li>熟悉 GPU/TPU 加速集群构建与优化，了解 CUDA、TensorRT、vLLM 等推理优化工具。</li>
+<li>具备大规模训练/推理运维经验，有 AI 基础设施可观测性设计能力。</li>
+<li>熟悉 Terraform、Ansible 等自动化工具及 MLOps 流程。</li>
+</div>
+</div>
+</div>
+</div>
+
+<div class="job-card" data-cat="infra">
+<div class="job-header" onclick="toggleJobCard(this.parentElement)">
+<span class="job-id">#004</span>
+<h3 class="job-title">大模型训练与推理系统负责人</h3>
+<span class="job-company-mask">视频社区与内容平台</span><span class="job-location">📍 上海</span>
+<p class="job-desc">统筹千亿/万亿参数大语言模型及多模态模型的高效训练与极速推理平台建设，主导 AI Infra 全盘架构演进。</p>
+<div class="expand-indicator">[ 展开查看详情 ▼ ] <span class="arrow">▼</span></div>
+</div>
+<div class="job-full-details">
+<div class="job-detail-section">
+<div class="job-detail-label">📌 职位描述</div>
+<div class="job-detail-body">
+<li>统筹大模型训练与推理系统的整体技术规划，带领团队建设支持千亿/万亿参数规模的高效训练与推理平台。</li>
+<li>深入优化分布式训练框架（Megatron-LM、DeepSpeed），突破千卡/万卡集群通信瓶颈。</li>
+<li>主导推理引擎核心研发，攻坚 KV Cache 管理、Continuous Batching、PD 分离等核心技术。</li>
+<li>统筹异构算力调度与软硬协同，实现极致的单卡性能压榨与集群降本增效。</li>
+</div>
+</div>
+<div class="job-detail-section">
+<div class="job-detail-label">🎯 职位要求</div>
+<div class="job-detail-body">
+<li>硕士及以上学历，8年以上底层系统/基础架构研发经验，3年以上大中型 AI Infra 团队管理经验。</li>
+<li>极度精通 C++/Python，深谙底层硬件架构，精通 CUDA 编程与性能 Profiling。</li>
+<li>深入掌握分布式训练原理，具备大规模 GPU 集群网络通信优化和容灾实战经验。</li>
+<li>对 vLLM、TensorRT-LLM、Sglang 等主流推理框架有源码级理解与深度二次开发经验。</li>
+</div>
+</div>
+</div>
+</div>
+
+<div class="job-card" data-cat="infra">
+<div class="job-header" onclick="toggleJobCard(this.parentElement)">
+<span class="job-id">#005</span>
+<h3 class="job-title">查询分析引擎研发工程师/技术专家</h3>
+<span class="job-company-mask">数据库与大数据技术公司</span><span class="job-location">📍 上海</span>
+<p class="job-desc">负责查询分析引擎核心模块研发，涵盖 SQL 解析、优化器、执行引擎等核心环节，解决海量数据高延迟问题。</p>
+<div class="expand-indicator">[ 展开查看详情 ▼ ] <span class="arrow">▼</span></div>
+</div>
+<div class="job-full-details">
+<div class="job-detail-section">
+<div class="job-detail-label">📌 职位描述</div>
+<div class="job-detail-body">
+<li>负责查询分析引擎核心模块研发与迭代，涵盖 SQL 语法解析、语义分析、逻辑/物理优化、查询调度、执行引擎等。</li>
+<li>主导分布式查询优化、复杂算子优化、多维分析查询加速、异构计算调度等关键技术研发。</li>
+<li>深度参与查询引擎架构设计、性能调优、瓶颈分析。</li>
+</div>
+</div>
+<div class="job-detail-section">
+<div class="job-detail-label">🎯 职位要求</div>
+<div class="job-detail-body">
+<li>本科及以上学历，3年及以上数据库/大数据查询引擎、内核研发经验。</li>
+<li>精通数据结构、算法、数据库原理、分布式理论。</li>
+<li>熟练掌握 C++/Rust，具备高性能底层开发经验。</li>
+<li>熟悉 ClickHouse、StarRocks、Doris、PostgreSQL、Spark SQL 等任意开源引擎源码者优先。</li>
+</div>
+</div>
+</div>
+</div>
+
+<div class="job-card" data-cat="infra">
+<div class="job-header" onclick="toggleJobCard(this.parentElement)">
+<span class="job-id">#006</span>
+<h3 class="job-title">分布式存储引擎研发工程师/专家</h3>
+<span class="job-company-mask">数据库与大数据技术公司</span><span class="job-location">📍 上海</span>
+<p class="job-desc">负责自研分布式 OLAP 数据库存储引擎的设计、研发与迭代优化，涵盖行存、列存、混合存储结构。</p>
+<div class="expand-indicator">[ 展开查看详情 ▼ ] <span class="arrow">▼</span></div>
+</div>
+<div class="job-full-details">
+<div class="job-detail-section">
+<div class="job-detail-label">📌 职位描述</div>
+<div class="job-detail-body">
+<li>负责自研分布式 OLAP 数据库存储引擎的设计、研发与迭代优化。</li>
+<li>主导存储层核心能力建设：数据写入、持久化、版本管理、分层存储、数据压缩、索引机制等。</li>
+<li>负责分布式存储集群的一致性、高可用、容错恢复机制研发。</li>
+<li>针对 OLAP 典型场景进行深度性能调优，持续降低存储成本、提升查询吞吐量。</li>
+</div>
+</div>
+<div class="job-detail-section">
+<div class="job-detail-label">🎯 职位要求</div>
+<div class="job-detail-body">
+<li>本科及以上学历，1-5年数据库、分布式存储、大数据内核研发经验。</li>
+<li>精通 C++/Rust/Go，深入理解 OLAP 数据库存储核心原理。</li>
+<li>熟悉 ClickHouse、Doris、StarRocks 等 OLAP 引擎架构及列存存储机制。</li>
+<li>掌握 Raft/Paxos 一致性协议、分布式事务、数据分片等核心技术。</li>
+</div>
+</div>
+</div>
+</div>
+
+<div class="job-card" data-cat="infra">
+<div class="job-header" onclick="toggleJobCard(this.parentElement)">
+<span class="job-id">#007</span>
+<h3 class="job-title">Flink 实时计算工程师/专家</h3>
+<span class="job-company-mask">数据库与大数据技术公司</span><span class="job-location">📍 上海</span>
+<p class="job-desc">负责 Apache Flink 内核深度优化与二次开发，主导企业级实时计算平台架构设计与迭代。</p>
+<div class="expand-indicator">[ 展开查看详情 ▼ ] <span class="arrow">▼</span></div>
+</div>
+<div class="job-full-details">
+<div class="job-detail-section">
+<div class="job-detail-label">📌 职位描述</div>
+<div class="job-detail-body">
+<li>负责 Apache Flink 内核深度优化与二次开发，涵盖 Runtime 运行时、状态管理、Checkpoint 等核心模块。</li>
+<li>主导企业级实时计算平台架构设计与迭代，搭建实时数仓与实时数据流处理体系。</li>
+<li>负责超大规模 Flink 集群运维治理与性能调优。</li>
+</div>
+</div>
+<div class="job-detail-section">
+<div class="job-detail-label">🎯 职位要求</div>
+<div class="job-detail-body">
+<li>本科及以上学历，3年以上 Flink 实时计算核心研发与调优经验。</li>
+<li>深度精通 Flink 核心原理，熟练掌握 Runtime 架构、状态管理、Checkpoint、窗口计算等。</li>
+<li>精通实时数仓建设流程，有大规模 Flink 集群治理能力。</li>
+<li>有 Flink 内核源码阅读、二次开发或社区贡献经验者优先。</li>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<!-- ═══ AI Agent & 大模型应用 ═══ -->
+<div class="category-group" data-category="agent">
+<h2 class="category-title">02 // AI Agent & 大模型应用</h2>
+<div class="jobs-grid">
+
+<div class="job-card" data-cat="agent">
+<div class="job-header" onclick="toggleJobCard(this.parentElement)">
+<span class="job-id">#008</span>
+<h3 class="job-title">【AI】应用算法工程师（Agent 方向）</h3>
+<span class="job-company-mask">东南亚电商平台</span><span class="job-location">📍 北京</span>
+<p class="job-desc">负责构建 Agent 核心逻辑，包括任务规划编排、工具调用、多轮对话管理、RAG、多智能体协同。</p>
+<div class="expand-indicator">[ 展开查看详情 ▼ ] <span class="arrow">▼</span></div>
+</div>
+<div class="job-full-details">
+<div class="job-detail-section">
+<div class="job-detail-label">📌 职位描述</div>
+<div class="job-detail-body">
+<li>构建 Agent 核心逻辑：任务规划编排、工具调用、多轮对话管理、记忆、RAG、上下文工程、多智能体协同。</li>
+<li>负责垂直领域 Continue Pre-train 和 Post-training，包括高质量数据集构建、RL 奖励模型设计。</li>
+<li>构建长短期记忆架构，解决长上下文遗忘与注意力发散问题。</li>
+<li>构建多模态 RAG 系统，负责召回、排序、长文本处理、多文档合成等模块开发。</li>
+<li>负责 Agent 工具层开发，对接搜索、代码解释器、浏览器、MCP 等外部 API。</li>
+</div>
+</div>
+<div class="job-detail-section">
+<div class="job-detail-label">🎯 职位要求</div>
+<div class="job-detail-body">
+<li>人工智能、计算机、数学等相关专业硕士以上学历。</li>
+<li>精通 PyTorch，熟悉 DeepSpeed、Megatron 等分布式训练框架。</li>
+<li>熟悉大模型训练/推理主要技术：数据合成、模型训练优化、提示词工程、评测部署。</li>
+<li>有 LangGraph、Google ADK、OWL 等 Agent 框架开发经验优先。</li>
+<li>在 NeurIPS、ICLR、ACL 等顶会发表论文优先。</li>
+</div>
+</div>
+</div>
+</div>
+
+<div class="job-card" data-cat="agent">
+<div class="job-header" onclick="toggleJobCard(this.parentElement)">
+<span class="job-id">#009</span>
+<h3 class="job-title">【AI】AI 对话算法评测工程师</h3>
+<span class="job-company-mask">东南亚电商平台</span><span class="job-location">📍 北京</span>
+<p class="job-desc">构建多维度评测体系，对 AI 模型进行红队测试与压力测试，驱动 AI 对话模型质量迭代。</p>
+<div class="expand-indicator">[ 展开查看详情 ▼ ] <span class="arrow">▼</span></div>
+</div>
+<div class="job-full-details">
+<div class="job-detail-section">
+<div class="job-detail-label">📌 职位描述</div>
+<div class="job-detail-body">
+<li>针对不同业务场景，设计多维度评测指标体系。</li>
+<li>模拟复杂真实用户场景，对 AI 模型进行压力测试和红队攻击，修复偏见、幻觉等漏洞。</li>
+<li>对 AI 错误回复进行归因分析，推动 Prompt 或模型微调方向优化。</li>
+<li>开发自动化评测 Pipeline，利用 LLM-as-a-Judge 提升迭代效率。</li>
+</div>
+</div>
+<div class="job-detail-section">
+<div class="job-detail-label">🎯 职位要求</div>
+<div class="job-detail-body">
+<li>完善自动化评测流程（传统评测、LLM as Judge、自动化弱项挖掘）。</li>
+<li>完善自动化数据生产流程（Self-Instruct、Evol-instruct、Synthetic Data RL）。</li>
+<li>代码能力优秀，熟悉 Linux 环境，熟练掌握 Python/Shell。</li>
+<li>计算机相关专业，硕士及以上学历，3年及以上经验。</li>
+</div>
+</div>
+</div>
+</div>
+
+<div class="job-card" data-cat="agent">
+<div class="job-header" onclick="toggleJobCard(this.parentElement)">
+<span class="job-id">#010</span>
+<h3 class="job-title">Agent 架构</h3>
+<span class="job-company-mask">视频社区与内容平台</span><span class="job-location">📍 上海</span>
+<p class="job-desc">负责 AI Agent 系统的整体技术架构设计、核心功能研发与落地，搭建完整 Agent 闭环。</p>
+<div class="expand-indicator">[ 展开查看详情 ▼ ] <span class="arrow">▼</span></div>
+</div>
+<div class="job-full-details">
+<div class="job-detail-section">
+<div class="job-detail-label">📌 职位描述</div>
+<div class="job-detail-body">
+<li>负责 AI Agent 系统的整体技术架构设计、核心功能研发与落地。</li>
+<li>搭建从感知、规划、执行到反思的完整 Agent 闭环。</li>
+<li>主导多 Agent 协作、任务拆解、工具调用优化、记忆机制等核心模块开发。</li>
+<li>推动大模型与 Agent 技术在具体业务场景中的落地与性能迭代。</li>
+</div>
+</div>
+<div class="job-detail-section">
+<div class="job-detail-label">🎯 职位要求</div>
+<div class="job-detail-body">
+<li>计算机、AI、软件工程等相关专业本科及以上学历，3-5年 AI Agent 相关研发经验。</li>
+<li>精通 Prompt Engineering、Function Calling、RAG、ReAct 等关键技术。</li>
+<li>精通 Python，熟练掌握 LangChain、LlamaIndex、LangGraph 等主流 Agent 框架。</li>
+<li>具备优秀的系统设计能力与团队协作能力。</li>
+</div>
+</div>
+</div>
+</div>
+
+<div class="job-card" data-cat="agent">
+<div class="job-header" onclick="toggleJobCard(this.parentElement)">
+<span class="job-id">#011</span>
+<h3 class="job-title">Agent 研发工程师（偏 Agent 评估）</h3>
+<span class="job-company-mask">AI视频生成创业公司</span><span class="job-location">📍 上海/深圳</span>
+<p class="job-desc">从零搭建覆盖规划层、执行层、产出层的三层评测体系，推动 Agent 产品与模型迭代。</p>
+<div class="expand-indicator">[ 展开查看详情 ▼ ] <span class="arrow">▼</span></div>
+</div>
+<div class="job-full-details">
+<div class="job-detail-section">
+<div class="job-detail-label">📌 职位描述</div>
+<div class="job-detail-body">
+<li>设计与落地分层评测框架，覆盖指令理解、方案合理性、工具选择、自我纠错等 14 个维度。</li>
+<li>构建 Benchmark 用例库与自动评测流水线。</li>
+<li>建设多模态 LLM Judge 体系，设计评测 Prompt 与 few-shot 样本。</li>
+<li>主导人工标注平台建设，持续校准自动评测与人类偏好对齐。</li>
+</div>
+</div>
+<div class="job-detail-section">
+<div class="job-detail-label">🎯 职位要求</div>
+<div class="job-detail-body">
+<li>有 LLM 应用或 Agent 评测实战经验，深刻理解 LLM as Judge 的局限性与校准方法。</li>
+<li>熟悉视频/图像质量评估指标（CLIPScore、光流分析等），有多模态评测经验优先。</li>
+<li>扎实的工程能力：Python/TypeScript，熟悉数据管道与任务调度。</li>
+<li>有从 0 到 1 建设评测或标注平台经验。</li>
+</div>
+</div>
+</div>
+</div>
+
+<div class="job-card" data-cat="agent">
+<div class="job-header" onclick="toggleJobCard(this.parentElement)">
+<span class="job-id">#012</span>
+<h3 class="job-title">Agent 研发工程师（偏 Agent 框架）</h3>
+<span class="job-company-mask">AI视频生成创业公司</span><span class="job-location">📍 深圳/上海</span>
+<p class="job-desc">设计并实现 Agent 核心运行循环，构建多层 Context 管理与 Memory 体系，保障 C 端体验。</p>
+<div class="expand-indicator">[ 展开查看详情 ▼ ] <span class="arrow">▼</span></div>
+</div>
+<div class="job-full-details">
+<div class="job-detail-section">
+<div class="job-detail-label">📌 职位描述</div>
+<div class="job-detail-body">
+<li>设计并实现 Agent 核心运行循环：System Prompt 动态组装、流式 API 通信、工具并发调度、异常兜底。</li>
+<li>构建多层 Context 管理机制，在 C 端长对话场景中保障体验不降级。</li>
+<li>负责 Memory 体系设计与实现：跨会话持久化记忆、自动提取与离线巩固。</li>
+<li>参与多 Agent 协作架构设计，支持 Fork 子 Agent、AgentTool 嵌套等场景。</li>
+</div>
+</div>
+<div class="job-detail-section">
+<div class="job-detail-label">🎯 职位要求</div>
+<div class="job-detail-body">
+<li>深入理解 LLM 应用开发，熟悉 Prompt 工程、Function Calling、多轮对话状态管理。</li>
+<li>有 Agent 框架设计或深度使用经验（LangChain/LlamaIndex/自研框架）。</li>
+<li>扎实的异步并发编程能力，理解流式 API 工程最佳实践。</li>
+<li>对 Context Window 管理有深入认知：Prompt Caching、Token 精确计算、多级压缩策略。</li>
+<li>有 C 端产品意识，能将框架技术指标与用户体验挂钩。</li>
+</div>
+</div>
+</div>
+</div>
+
+<div class="job-card" data-cat="agent">
+<div class="job-header" onclick="toggleJobCard(this.parentElement)">
+<span class="job-id">#013</span>
+<h3 class="job-title">AI Engineer (Biometrics and Data Science)</h3>
+<span class="job-company-mask">跨国药企研发中心</span><span class="job-location">📍 上海/北京</span>
+<p class="job-desc">设计、实现并运维面向生物统计的 Agentic AI 系统，构建药物研发领域的 AI Agent。</p>
+<div class="expand-indicator">[ 展开查看详情 ▼ ] <span class="arrow">▼</span></div>
+</div>
+<div class="job-full-details">
+<div class="job-detail-section">
+<div class="job-detail-label">📌 职位描述</div>
+<div class="job-detail-body">
+<li>设计、构建并迭代面向部门的 AI Agent（如 ADaM 代码生成 Agent、SAP 生成 Agent）。</li>
+<li>开发 Prompt 策略、检索与 Grounding 管线、安全合规防护机制。</li>
+<li>实现代码生成的评估框架（单元测试、统计校验、标准一致性）。</li>
+<li>构建适配器将 Agent 与代码仓库、元数据存储、执行环境集成，实现可溯源审计。</li>
+</div>
+</div>
+<div class="job-detail-section">
+<div class="job-detail-label">🎯 职位要求</div>
+<div class="job-detail-body">
+<li>硕士及以上学历，3-5年 AI/ML 或 NLP 应用构建经验（含生产级 LLM 系统）。</li>
+<li>精通 Python，有 FastAPI/LangChain/LlamaIndex 等框架经验。</li>
+<li>有 Prompt Engineering、RAG、工具/函数调用经验。</li>
+<li>熟悉软件工程最佳实践：版本控制、测试、CI/CD、容器化。</li>
+<li>有受监管环境（GxP、CSV）经验者优先。</li>
+</div>
+</div>
+</div>
+</div>
+
+<div class="job-card" data-cat="agent">
+<div class="job-header" onclick="toggleJobCard(this.parentElement)">
+<span class="job-id">#014</span>
+<h3 class="job-title">AI Engineer（Junior/Senior）</h3>
+<span class="job-company-mask">跨国药企研发中心</span><span class="job-location">📍 上海/北京</span>
+<p class="job-desc">构建面向癌症研究的 Agentic AI 解决方案，覆盖基因组学、计算病理学与临床试验。</p>
+<div class="expand-indicator">[ 展开查看详情 ▼ ] <span class="arrow">▼</span></div>
+</div>
+<div class="job-full-details">
+<div class="job-detail-section">
+<div class="job-detail-label">📌 职位描述</div>
+<div class="job-detail-body">
+<li>设计、开发并部署 Agentic AI 系统，解决复杂的科学研究问题。</li>
+<li>为基因组学分析、计算病理学和临床试验工作流构建 AI Agent。</li>
+<li>使用 AI Agent 和 LLM 驱动的工具自动化数据分析管线。</li>
+<li>将 Agentic AI 解决方案与现有数据基础设施和 API 集成。</li>
+</div>
+</div>
+<div class="job-detail-section">
+<div class="job-detail-label">🎯 职位要求</div>
+<div class="job-detail-body">
+<li>计算机科学、生物信息学、数据科学等相关专业本科或硕士。</li>
+<li>Junior：1-3年软件工程/数据科学/ML/生物信息学经验。</li>
+<li>Senior：5年以上 AI/ML 系统生产级部署经验。</li>
+<li>熟悉 RAG 系统、向量数据库、知识检索技术。</li>
+<li>有 Agentic AI 框架开发经验者优先。</li>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<!-- ═══ 视频/多媒体工程 ═══ -->
+<div class="category-group" data-category="media">
+<h2 class="category-title">03 // 视频/多媒体工程</h2>
+<div class="jobs-grid">
+
+<div class="job-card" data-cat="media">
+<div class="job-header" onclick="toggleJobCard(this.parentElement)">
+<span class="job-id">#015</span>
+<h3 class="job-title">Founding Engineer（Web 多媒体方向）</h3>
+<span class="job-company-mask">AI视频创作平台</span><span class="job-location">📍 北京/杭州</span>
+<p class="job-desc">从零构建基于 WebGPU + WebCodecs + WASM 的下一代 Web 多媒体引擎。</p>
+<div class="expand-indicator">[ 展开查看详情 ▼ ] <span class="arrow">▼</span></div>
+</div>
+<div class="job-full-details">
+<div class="job-detail-section">
+<div class="job-detail-label">📌 职位描述</div>
+<div class="job-detail-body">
+<li>从零或深度重构基于 WebGPU + WebCodecs + WASM 的下一代 Web 多媒体引擎。</li>
+<li>编写高效的 WGSL，实现高吞吐视频特效渲染、非线性编辑合成及端侧 AI 推理加速。</li>
+<li>深入 GPU 架构底层，负责显存生命周期管理、带宽优化及低功耗设计。</li>
+<li>构建跨浏览器自动化性能基准测试体系，参与 W3C 标准跟进。</li>
+</div>
+</div>
+<div class="job-detail-section">
+<div class="job-detail-label">🎯 职位要求</div>
+<div class="job-detail-body">
+<li>精通 WebGPU (WGSL) 或 WebGL，深入理解 GPU 管线与并行计算原理。</li>
+<li>有 Metal/Vulkan/DirectX/CUDA 开发经验更佳。</li>
+<li>熟练掌握 WebAssembly 与 WebCodecs 协同工作机制。</li>
+<li>熟悉 FFmpeg 及主流编解码标准（H.264/H.265/AV1）。</li>
+</div>
+</div>
+</div>
+</div>
+
+<div class="job-card" data-cat="media">
+<div class="job-header" onclick="toggleJobCard(this.parentElement)">
+<span class="job-id">#016</span>
+<h3 class="job-title">Founding Engineer（全栈，偏前端）</h3>
+<span class="job-company-mask">AI视频创作平台</span><span class="job-location">📍 北京/杭州</span>
+<p class="job-desc">基于 Electron + React + Python/Node 构建专业级视频后期全链路应用。</p>
+<div class="expand-indicator">[ 展开查看详情 ▼ ] <span class="arrow">▼</span></div>
+</div>
+<div class="job-full-details">
+<div class="job-detail-section">
+<div class="job-detail-label">📌 职位描述</div>
+<div class="job-detail-body">
+<li>基于 Electron + React + Python/Node 构建专业级视频后期全链路应用。</li>
+<li>设计高性能渲染架构，确保复杂时间线、多轨剪辑及实时预览流畅度。</li>
+<li>建立工程规范，优化 IPC 进程通信。</li>
+<li>独立负责 Python/Node 后端服务（如 FastAPI）的开发与数据同步。</li>
+</div>
+</div>
+<div class="job-detail-section">
+<div class="job-detail-label">🎯 职位要求</div>
+<div class="job-detail-body">
+<li>精通 React/TypeScript，具备构建复杂交互界面的能力。</li>
+<li>拥有 Electron 生产级项目经验，精通主/渲染进程通信。</li>
+<li>掌握 Python/Node 及常用基建（SQL/NoSQL, MQ, Redis）。</li>
+<li>具备扎实的 API 设计、安全及性能调优能力。</li>
+</div>
+</div>
+</div>
+</div>
+
+<div class="job-card" data-cat="media">
+<div class="job-header" onclick="toggleJobCard(this.parentElement)">
+<span class="job-id">#017</span>
+<h3 class="job-title">Founding Engineer（多媒体研发方向）</h3>
+<span class="job-company-mask">AI视频创作平台</span><span class="job-location">📍 北京/杭州</span>
+<p class="job-desc">负责 H.264/H.265/AV1 编解码开发，主导音视频 SDK 迭代与非线性编辑适配。</p>
+<div class="expand-indicator">[ 展开查看详情 ▼ ] <span class="arrow">▼</span></div>
+</div>
+<div class="job-full-details">
+<div class="job-detail-section">
+<div class="job-detail-label">📌 职位描述</div>
+<div class="job-detail-body">
+<li>负责基于 H.264/H.265/AV1 等标准的编解码开发，确保稳定高效。</li>
+<li>主导音视频 SDK 开发迭代，实现视频编辑定制功能并持续优化性能。</li>
+<li>负责非线性编辑功能在 Win/Mac 平台的适配，解决兼容性问题。</li>
+<li>负责码率控制、画质提升和算法加速等 A/V Codec 技术攻坚。</li>
+</div>
+</div>
+<div class="job-detail-section">
+<div class="job-detail-label">🎯 职位要求</div>
+<div class="job-detail-body">
+<li>CS/EE/AI 等相关专业本科或以上学历，扎实的计算机基础。</li>
+<li>精通 C/C++，掌握数据结构、算法和多线程开发。</li>
+<li>深入理解音视频编解码，熟悉 H.264/H.265/AV1 至少一种标准。</li>
+<li>熟练使用 FFmpeg，熟悉 Windows 或 macOS 音视频 API。</li>
+<li>熟悉计算机图形学，熟练 OpenGL 或 Metal 等渲染框架。</li>
+</div>
+</div>
+</div>
+</div>
+
+<div class="job-card" data-cat="media">
+<div class="job-header" onclick="toggleJobCard(this.parentElement)">
+<span class="job-id">#018</span>
+<h3 class="job-title">Founding Engineer（Agent & Backend 方向）</h3>
+<span class="job-company-mask">AI视频创作平台</span><span class="job-location">📍 北京/杭州</span>
+<p class="job-desc">负责 AI 核心产品后端与桌面端 Agent 功能开发，构建高可用低延迟后端系统。</p>
+<div class="expand-indicator">[ 展开查看详情 ▼ ] <span class="arrow">▼</span></div>
+</div>
+<div class="job-full-details">
+<div class="job-detail-section">
+<div class="job-detail-label">📌 职位描述</div>
+<div class="job-detail-body">
+<li>负责 AI 核心产品后端架构，构建高可用、低延迟的后端系统。</li>
+<li>负责桌面端 AI Agent 功能开发，包括记忆、意图理解、虚拟沙箱等。</li>
+<li>在云平台上通过 Docker、K8s 构建 CI/CD、监控和日志体系。</li>
+<li>以强烈 ownership 驱动产研团队项目推进与核心团队建设。</li>
+</div>
+</div>
+<div class="job-detail-section">
+<div class="job-detail-label">🎯 职位要求</div>
+<div class="job-detail-body">
+<li>本科及以上学历，3年以上后端开发经验，1年以上 Agent 开发经验。</li>
+<li>精通 Python/FastAPI，有分布式系统经验，熟悉 MySQL、Redis、Kafka。</li>
+<li>具备 AI 技术（Agent、RAG）工程化落地经验，熟悉向量数据库。</li>
+<li>熟悉主流云平台（AWS）、Docker/K8s 容器技术。</li>
+</div>
+</div>
+</div>
+</div>
+
+<div class="job-card" data-cat="media">
+<div class="job-header" onclick="toggleJobCard(this.parentElement)">
+<span class="job-id">#019</span>
+<h3 class="job-title">Founding Engineer/Partner, Post-Training/SFT/RLHF</h3>
+<span class="job-company-mask">AI视频创作平台</span><span class="job-location">📍 北京/杭州</span>
+<p class="job-desc">主导视频理解与多模态核心算法，搭建从数据预处理、模型后训练到部署的全流程方案。</p>
+<div class="expand-indicator">[ 展开查看详情 ▼ ] <span class="arrow">▼</span></div>
+</div>
+<div class="job-full-details">
+<div class="job-detail-section">
+<div class="job-detail-label">📌 职位描述</div>
+<div class="job-detail-body">
+<li>主导视频理解与多模态核心算法设计与实现。</li>
+<li>攻坚音视频核心 AI 技术：事件检测、内容语义解析、情感标注、时序建模、跨模态融合。</li>
+<li>研发自动化视频处理能力：镜头分割、关键帧提取、内容摘要生成。</li>
+<li>搭建多维度评测系统与高质量测试数据集。</li>
+</div>
+</div>
+<div class="job-detail-section">
+<div class="job-detail-label">🎯 职位要求</div>
+<div class="job-detail-body">
+<li>本科及以上学历（AI/CS 相关），博士或海外顶尖院校背景优先。</li>
+<li>2年以上视频理解、多模态学习相关研发经验。</li>
+<li>具备 LLM/LMM 的 SFT、RL 或推理优化经验。</li>
+<li>熟悉视频理解核心技术栈：镜头分割、关键帧提取、时序建模、光流估计等。</li>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<!-- ═══ 产品与商业化 ═══ -->
+<div class="category-group" data-category="product">
+<h2 class="category-title">04 // 产品与商业化</h2>
+<div class="jobs-grid">
+
+<div class="job-card" data-cat="product">
+<div class="job-header" onclick="toggleJobCard(this.parentElement)">
+<span class="job-id">#020</span>
+<h3 class="job-title">Founding Product Engineer（AI 工具）</h3>
+<span class="job-company-mask">AI视频创作平台</span><span class="job-location">📍 北京/杭州</span>
+<p class="job-desc">作为产品 owner 负责核心功能模块，为智能体产品设定用户体验标准。</p>
+<div class="expand-indicator">[ 展开查看详情 ▼ ] <span class="arrow">▼</span></div>
+</div>
+<div class="job-full-details">
+<div class="job-detail-section">
+<div class="job-detail-label">📌 职位描述</div>
+<div class="job-detail-body">
+<li>作为产品 owner 负责一个产品重要模块，设计核心功能与交互。</li>
+<li>为智能体产品设定用户体验标准，协同团队确保交付。</li>
+</div>
+</div>
+<div class="job-detail-section">
+<div class="job-detail-label">🎯 职位要求</div>
+<div class="job-detail-body">
+<li>剪辑工具经验丰富：熟练掌握 Premiere、Final Cut Pro、DaVinci Resolve 等。</li>
+<li>Vibe Coding 经验：乐于使用 Cursor、Claude Code 等进行快速原型设计。</li>
+<li>热爱使用各类 AI 产品工具优化工作流。</li>
+</div>
+</div>
+</div>
+</div>
+
+<div class="job-card" data-cat="product">
+<div class="job-header" onclick="toggleJobCard(this.parentElement)">
+<span class="job-id">#021</span>
+<h3 class="job-title">海螺 AI 产品经理</h3>
+<span class="job-company-mask">下一代AI智能助理</span><span class="job-location">📍 上海/北京</span>
+<p class="job-desc">负责海螺 AI 产品的规划与迭代，年轻高潜，背过业务指标能拿结果。</p>
+<div class="expand-indicator">[ 展开查看详情 ▼ ] <span class="arrow">▼</span></div>
+</div>
+<div class="job-full-details">
+<div class="job-detail-section">
+<div class="job-detail-label">📌 职位描述</div>
+<div class="job-detail-body">
+<li>负责海螺 AI 产品线的整体规划与需求定义。</li>
+<li>深入理解用户场景，定义产品功能与交互体验。</li>
+<li>协同算法、设计、运营团队推动产品迭代与上线。</li>
+<li>对产品核心指标负责，持续优化用户增长与留存。</li>
+</div>
+</div>
+<div class="job-detail-section">
+<div class="job-detail-label">🎯 职位要求</div>
+<div class="job-detail-body">
+<li>年轻高潜，211/985 学历，大厂或 AI 创业公司经历。</li>
+<li>背过业务指标，能拿结果。</li>
+<li>优先目标公司高阶产品背景。</li>
+</div>
+</div>
+</div>
+</div>
+
+<div class="job-card" data-cat="product">
+<div class="job-header" onclick="toggleJobCard(this.parentElement)">
+<span class="job-id">#022</span>
+<h3 class="job-title">音视频产品总监</h3>
+<span class="job-company-mask">实时音视频云服务商</span><span class="job-location">📍 上海</span>
+<p class="job-desc">基于实时语音交互技术趋势，负责智能呼叫中心产品的规划、设计与持续迭代。</p>
+<div class="expand-indicator">[ 展开查看详情 ▼ ] <span class="arrow">▼</span></div>
+</div>
+<div class="job-full-details">
+<div class="job-detail-section">
+<div class="job-detail-label">📌 职位描述</div>
+<div class="job-detail-body">
+<li>基于实时语音交互（ASR/LLM/TTS/RTC/SIP）技术趋势，规划智能呼叫中心产品。</li>
+<li>定义产品路线图和核心能力：外呼任务、话术管理、对话策略、实时质检、IVR/ACD 等。</li>
+<li>推动实时语音交互关键体验建设：打断、轮次管理、延迟控制、任务成功率。</li>
+<li>跨团队协作推动产品从规划到交付，确保行业领先水平。</li>
+</div>
+</div>
+<div class="job-detail-section">
+<div class="job-detail-label">🎯 职位要求</div>
+<div class="job-detail-body">
+<li>本科及以上学历，5年以上产品经验，3年以上语音/呼叫中心/AI 产品经验。</li>
+<li>熟悉呼叫中心相关技术或产品：外呼系统、SIP、IVR、ACD、坐席系统。</li>
+<li>熟悉实时语音链路（ASR→LLM→TTS）、WebRTC 或云通信技术者优先。</li>
+<li>具备优秀的产品规划、需求分析和跨部门协作能力。</li>
+</div>
+</div>
+</div>
+</div>
+
+<div class="job-card" data-cat="product">
+<div class="job-header" onclick="toggleJobCard(this.parentElement)">
+<span class="job-id">#023</span>
+<h3 class="job-title">算法/AI 产品经理</h3>
+<span class="job-company-mask">AI文档与数据智能公司</span><span class="job-location">📍 上海</span>
+<p class="job-desc">主导 AI 产品开发（LLM/CV/NLP），制定中长期产品策略规划，推动商业化落地。</p>
+<div class="expand-indicator">[ 展开查看详情 ▼ ] <span class="arrow">▼</span></div>
+</div>
+<div class="job-full-details">
+<div class="job-detail-section">
+<div class="job-detail-label">📌 职位描述</div>
+<div class="job-detail-body">
+<li>设计和主导 AI 产品开发，包括 LLM、CV、NLP 相关产品。</li>
+<li>跟踪 AI 行业技术及应用趋势，研究中长期产品策略规划。</li>
+<li>对产品 Roadmap 和各版本商业计划负责。</li>
+<li>协调算法、开发、测试、市场等团队紧密合作达成业务目标。</li>
+</div>
+</div>
+<div class="job-detail-section">
+<div class="job-detail-label">🎯 职位要求</div>
+<div class="job-detail-body">
+<li>本科及以上学历，5年以上 AI 产品规划经验，有 B 端产品成功案例优先。</li>
+<li>对 AI 产品和 B 端客户有深度认识，具备敏锐的商业洞察力。</li>
+<li>有较强的中长期规划能力，能清晰定位产品方向。</li>
+<li>具备良好的项目管理与跨团队协作能力。</li>
+</div>
+</div>
+</div>
+</div>
+
+<div class="job-card" data-cat="product">
+<div class="job-header" onclick="toggleJobCard(this.parentElement)">
+<span class="job-id">#024</span>
+<h3 class="job-title">AIGC 产品 LD</h3>
+<span class="job-company-mask">视频社区与内容平台</span><span class="job-location">📍 上海</span>
+<p class="job-desc">负责商业化广告 AIGC 素材产品建设，通过提升客户投放效率推动平台消耗增长。</p>
+<div class="expand-indicator">[ 展开查看详情 ▼ ] <span class="arrow">▼</span></div>
+</div>
+<div class="job-full-details">
+<div class="job-detail-section">
+<div class="job-detail-label">📌 职位描述</div>
+<div class="job-detail-body">
+<li>负责商业化广告 AIGC 素材产品建设：扩大广告素材供给、优化素材使用效率。</li>
+<li>了解各行业客户营销诉求，通过提升客户投放效率推动平台消耗。</li>
+<li>探索符合平台要求的 AIGC 大模型应用方向。</li>
+</div>
+</div>
+<div class="job-detail-section">
+<div class="job-detail-label">🎯 职位要求</div>
+<div class="job-detail-body">
+<li>5年以上商业化工作经验，具备行业洞察能力。</li>
+<li>有数据分析能力，具备良好的学习能力与好奇心。</li>
+<li>熟练使用 AI Agent 能力者优先。</li>
+</div>
+</div>
+</div>
+</div>
+
+<div class="job-card" data-cat="product">
+<div class="job-header" onclick="toggleJobCard(this.parentElement)">
+<span class="job-id">#025</span>
+<h3 class="job-title">商单撮合方向产品 LD（保密招聘）</h3>
+<span class="job-company-mask">视频社区与内容平台</span><span class="job-location">📍 上海</span>
+<p class="job-desc">负责达人营销撮合平台的产品规划和设计，对 GMV、客户留存等核心指标负责。</p>
+<div class="expand-indicator">[ 展开查看详情 ▼ ] <span class="arrow">▼</span></div>
+</div>
+<div class="job-full-details">
+<div class="job-detail-section">
+<div class="job-detail-label">📌 职位描述</div>
+<div class="job-detail-body">
+<li>负责达人营销撮合平台的产品规划和设计，聚焦交易流程、交易能力等核心功能。</li>
+<li>对平台 GMV、客户留存率、UP 主变现效率等核心指标负责。</li>
+<li>主导产品从需求评审到上线的全流程，协调研发、运营、法务等团队。</li>
+</div>
+</div>
+<div class="job-detail-section">
+<div class="job-detail-label">🎯 职位要求</div>
+<div class="job-detail-body">
+<li>本科及以上学历，5年以上互联网产品经验，独立负责过商业化平台类产品。</li>
+<li>对达人营销生态有深度理解，熟悉星图、蒲公英等平台产品逻辑优先。</li>
+<li>掌握 SQL 等数据统计方式，熟悉主流数据分析模型。</li>
+<li>熟练使用 AI Agent 能力者优先。</li>
+</div>
+</div>
+</div>
+</div>
+
+<div class="job-card" data-cat="product">
+<div class="job-header" onclick="toggleJobCard(this.parentElement)">
+<span class="job-id">#026</span>
+<h3 class="job-title">自助投放策略产品 Leader（必火）</h3>
+<span class="job-company-mask">视频社区与内容平台</span><span class="job-location">📍 上海</span>
+<p class="job-desc">通过产品设计与策略优化，提升 UP 主/中小广告主的自助投放体验和效果。</p>
+<div class="expand-indicator">[ 展开查看详情 ▼ ] <span class="arrow">▼</span></div>
+</div>
+<div class="job-full-details">
+<div class="job-detail-section">
+<div class="job-detail-label">📌 职位描述</div>
+<div class="job-detail-body">
+<li>设计自助化、自动化投放策略，提升客户投放效果、留存与满意度。</li>
+<li>优化自助投放全流程产品设计，简化操作路径。</li>
+<li>构建数据驱动的效果诊断工具，帮助广告主快速定位问题。</li>
+<li>联动算法团队推动策略模型迭代。</li>
+</div>
+</div>
+<div class="job-detail-section">
+<div class="job-detail-label">🎯 职位要求</div>
+<div class="job-detail-body">
+<li>8年以上广告平台投放系统设计经验，主导过策略型产品从 0 到 1 落地。</li>
+<li>熟练使用 SQL/Python 进行数据分析，能独立完成 AB 测试设计。</li>
+<li>数据敏感、有团队管理经验。</li>
+</div>
+</div>
+</div>
+</div>
+
+<div class="job-card" data-cat="product">
+<div class="job-header" onclick="toggleJobCard(this.parentElement)">
+<span class="job-id">#027</span>
+<h3 class="job-title">流量策略产品 LD</h3>
+<span class="job-company-mask">视频社区与内容平台</span><span class="job-location">📍 上海</span>
+<p class="job-desc">负责核心场景流量策略方向，包括商业库存策略、混排机制、竞价机制等。</p>
+<div class="expand-indicator">[ 展开查看详情 ▼ ] <span class="arrow">▼</span></div>
+</div>
+<div class="job-full-details">
+<div class="job-detail-section">
+<div class="job-detail-label">📌 职位描述</div>
+<div class="job-detail-body">
+<li>负责核心场景流量策略方向：商业库存策略、混排机制、竞价机制、粗精排优化。</li>
+<li>建立关键指标体系，关注场景核心流量及变现数据异动分析。</li>
+<li>协同上下游帮助场景整体收入目标达成。</li>
+</div>
+</div>
+<div class="job-detail-section">
+<div class="job-detail-label">🎯 职位要求</div>
+<div class="job-detail-body">
+<li>结果导向，有强 ownership，能为项目指标负责。</li>
+<li>在流量变现、广告策略、用户增长等方向有相关经验者优先。</li>
+<li>逻辑框架性强，数据驱动，具备自主数据分析能力。</li>
+<li>熟练使用 AI Agent 能力者优先。</li>
+</div>
+</div>
+</div>
+</div>
+
+<div class="job-card" data-cat="product">
+<div class="job-header" onclick="toggleJobCard(this.parentElement)">
+<span class="job-id">#028</span>
+<h3 class="job-title">品牌策略产品</h3>
+<span class="job-company-mask">视频社区与内容平台</span><span class="job-location">📍 上海</span>
+<p class="job-desc">负责品牌广告流量策略与程序化链路相关产品建设，设计全局调控策略。</p>
+<div class="expand-indicator">[ 展开查看详情 ▼ ] <span class="arrow">▼</span></div>
+</div>
+<div class="job-full-details">
+<div class="job-detail-section">
+<div class="job-detail-label">📌 职位描述</div>
+<div class="job-detail-body">
+<li>负责品牌广告流量策略、程序化链路相关产品建设。</li>
+<li>结合业务发展设计完善的兼顾平台收益与交付价值的全局调控策略。</li>
+</div>
+</div>
+<div class="job-detail-section">
+<div class="job-detail-label">🎯 职位要求</div>
+<div class="job-detail-body">
+<li>对品牌广告产品有较深的认知与实操经验。</li>
+<li>对品、效广告相关策略有比较全面深刻的理解和实践。</li>
+<li>具备良好的业务理解、跨团队协同与推动能力。</li>
+<li>有品牌算法相关经验加分。</li>
+</div>
+</div>
+</div>
+</div>
+
+<div class="job-card" data-cat="product">
+<div class="job-header" onclick="toggleJobCard(this.parentElement)">
+<span class="job-id">#029</span>
+<h3 class="job-title">「花生 AI」产品经理/产品负责人</h3>
+<span class="job-company-mask">视频社区与内容平台</span><span class="job-location">📍 上海</span>
+<p class="job-desc">负责 AI 视频创作工具的产品规划，打磨图文转视频、音频匹配素材等核心玩法。</p>
+<div class="expand-indicator">[ 展开查看详情 ▼ ] <span class="arrow">▼</span></div>
+</div>
+<div class="job-full-details">
+<div class="job-detail-section">
+<div class="job-detail-label">📌 职位描述</div>
+<div class="job-detail-body">
+<li>负责「花生 AI」视频创作工具的核心产品规划，打磨 AI 核心玩法。</li>
+<li>紧密跟进 LLM 与多模态生成技术前沿，与算法团队协作将底层能力转化为产品功能。</li>
+<li>负责商业化闭环设计，优化会员定价体系与订阅转化率。</li>
+<li>深入理解 B 站原生内容生态，激活腰尾部 UP 主创作产能。</li>
+</div>
+</div>
+<div class="job-detail-section">
+<div class="job-detail-label">🎯 职位要求</div>
+<div class="job-detail-body">
+<li>本科及以上学历，5年以上 C 端产品或创作者工具经验，2年以上 AIGC 落地经验。</li>
+<li>深度体验过剪映、Runway、Sora 等 AI 视频工具。</li>
+<li>熟悉 ToC 产品商业变现逻辑，有会员订阅经验。</li>
+<li>极度熟悉 B 站生态与 UP 主创作痛点。</li>
+</div>
+</div>
+</div>
+</div>
+
+<div class="job-card" data-cat="product">
+<div class="job-header" onclick="toggleJobCard(this.parentElement)">
+<span class="job-id">#030</span>
+<h3 class="job-title">Sparkfly — 产品总监</h3>
+<span class="job-company-mask">出海营销技术平台</span><span class="job-location">📍 广州</span>
+<p class="job-desc">结合 BI 商业智能平台与 AI 创意工具，设计数据驱动的达人匹配算法与自动化营销方案。</p>
+<div class="expand-indicator">[ 展开查看详情 ▼ ] <span class="arrow">▼</span></div>
+</div>
+<div class="job-full-details">
+<div class="job-detail-section">
+<div class="job-detail-label">📌 职位描述</div>
+<div class="job-detail-body">
+<li>结合 BI 商业智能平台与 AI 创意工具，设计数据驱动的达人匹配算法及自动化营销方案。</li>
+<li>主导需求挖掘、原型设计、PRD 输出及跨部门协作。</li>
+<li>搭建红人营销 SaaS 平台，集成网红数据标签，支持客户精准筛选与投放追踪。</li>
+</div>
+</div>
+<div class="job-detail-section">
+<div class="job-detail-label">🎯 职位要求</div>
+<div class="job-detail-body">
+<li>本科及以上学历，2-5年互联网产品经验，有 SaaS 或 AI 工具应用经验优先。</li>
+<li>精通 Axure、Visio、Xmind、PPT 等产品基础工具。</li>
+<li>有清晰的产品策划思路与逻辑，具备产品框架设计能力。</li>
+<li>结果导向，从业务出发设计产品和推动事情。</li>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<!-- ═══ 增长、出海与运营 ═══ -->
+<div class="category-group" data-category="growth">
+<h2 class="category-title">05 // 增长、出海与运营</h2>
+<div class="jobs-grid">
+
+<div class="job-card" data-cat="growth">
+<div class="job-header" onclick="toggleJobCard(this.parentElement)">
+<span class="job-id">#031</span>
+<h3 class="job-title">Growth Engineer（Marketing 方向）</h3>
+<span class="job-company-mask">AI视频创作平台</span><span class="job-location">📍 上海/北京</span>
+<p class="job-desc">构建自动化 SEO 内容生成系统、增长工具矩阵与 KOL 投放管理工具。</p>
+<div class="expand-indicator">[ 展开查看详情 ▼ ] <span class="arrow">▼</span></div>
+</div>
+<div class="job-full-details">
+<div class="job-detail-section">
+<div class="job-detail-label">📌 职位描述</div>
+<div class="job-detail-body">
+<li>构建自动化 SEO 内容生成系统，涵盖关键词挖掘、页面模板、内容生成和落地页规模化。</li>
+<li>开发轻量级工具页面矩阵，覆盖长尾关键词并承接搜索流量。</li>
+<li>搭建推荐/分成系统，支持邀请机制与推广数据统计。</li>
+<li>开发 KOL 投放管理工具，包括 ROI 试算模型与效果追踪。</li>
+<li>负责数据埋点、用户行为分析与增长实验评估。</li>
+</div>
+</div>
+<div class="job-detail-section">
+<div class="job-detail-label">🎯 职位要求</div>
+<div class="job-detail-body">
+<li>精通至少一种后端语言（Python/Node/Go）。</li>
+<li>熟悉现代前端框架（React/Vue）。</li>
+<li>具备产品意识，能从用户获取和转化角度设计技术方案。</li>
+<li>有数据分析基础，能够基于数据指导决策。</li>
+<li>有程序化 SEO 或大规模落地页建设经验优先。</li>
+</div>
+</div>
+</div>
+</div>
+
+<div class="job-card" data-cat="growth">
+<div class="job-header" onclick="toggleJobCard(this.parentElement)">
+<span class="job-id">#032</span>
+<h3 class="job-title">海外产品负责人（出海一号位）</h3>
+<span class="job-company-mask">视频社区与内容平台</span><span class="job-location">📍 上海</span>
+<p class="job-desc">制定海外产品战略规划，主导国际版演进，打造全球年轻世代的多元文化娱乐社区。</p>
+<div class="expand-indicator">[ 展开查看详情 ▼ ] <span class="arrow">▼</span></div>
+</div>
+<div class="job-full-details">
+<div class="job-detail-section">
+<div class="job-detail-label">📌 职位描述</div>
+<div class="job-detail-body">
+<li>制定海外产品战略规划、路线图与阶段性目标，对 DAU、留存、商业化等核心指标负责。</li>
+<li>深入洞察目标国家文化属性与用户偏好，建立本土化用户增长引擎。</li>
+<li>从 0 到 1 搭建海外本土创作者产品服务链路。</li>
+<li>设计海外商业化闭环：会员订阅、直播打赏、本地化广告变现。</li>
+</div>
+</div>
+<div class="job-detail-section">
+<div class="job-detail-label">🎯 职位要求</div>
+<div class="job-detail-body">
+<li>10年以上互联网产品经验，5年以上出海泛娱乐产品一号位经验。</li>
+<li>极度熟悉东南亚、日韩或拉美市场，有千万级 DAU 增长经验。</li>
+<li>深刻理解内容社区底层逻辑与双端生态。</li>
+<li>英语可作为工作语言，有跨文化团队管理经验。</li>
+</div>
+</div>
+</div>
+</div>
+
+<div class="job-card" data-cat="growth">
+<div class="job-header" onclick="toggleJobCard(this.parentElement)">
+<span class="job-id">#033</span>
+<h3 class="job-title">资深游戏行业运营</h3>
+<span class="job-company-mask">视频社区与内容平台</span><span class="job-location">📍 上海</span>
+<p class="job-desc">通过深度客户诊断、策略方法创新与机制工具优化，提升游戏内容营销竞争效能。</p>
+<div class="expand-indicator">[ 展开查看详情 ▼ ] <span class="arrow">▼</span></div>
+</div>
+<div class="job-full-details">
+<div class="job-detail-section">
+<div class="job-detail-label">📌 职位描述</div>
+<div class="job-detail-body">
+<li>深度诊断精品游戏厂商经营痛点与增长瓶颈，支持中前场团队定制化方案。</li>
+<li>持续探索游戏内容营销增收路径，完成价值量化与方法论沉淀。</li>
+<li>规划并推动服务于商业生态的数据工具与策略产品。</li>
+</div>
+</div>
+<div class="job-detail-section">
+<div class="job-detail-label">🎯 职位要求</div>
+<div class="job-detail-body">
+<li>本科及以上学历，5年以上游戏行业经验。</li>
+<li>熟悉多品类游戏产品发行逻辑与用户运营模式。</li>
+<li>善于将模糊业务需求转化为可复用策略框架。</li>
+<li>具备系统化思考能力与数据意识。</li>
+</div>
+</div>
+</div>
+</div>
+
+<div class="job-card" data-cat="growth">
+<div class="job-header" onclick="toggleJobCard(this.parentElement)">
+<span class="job-id">#034</span>
+<h3 class="job-title">交易生态 — 图书类目运营负责人</h3>
+<span class="job-company-mask">视频社区与内容平台</span><span class="job-location">📍 上海</span>
+<p class="job-desc">全面负责非ACG图书类目业务增长，作为平台与出版社之间的核心桥梁。</p>
+<div class="expand-indicator">[ 展开查看详情 ▼ ] <span class="arrow">▼</span></div>
+</div>
+<div class="job-full-details">
+<div class="job-detail-section">
+<div class="job-detail-label">📌 职位描述</div>
+<div class="job-detail-body">
+<li>拓展并维护出版社资源，制定针对性的平台运营策略。</li>
+<li>搭建出版社与UP主合作桥梁，推动图书分销、定制出版等项目落地。</li>
+<li>主导"读书节"等大型营销活动，联动知识区内容生态。</li>
+<li>分析行业数据与竞品动态，制定类目中长期发展策略。</li>
+</div>
+</div>
+<div class="job-detail-section">
+<div class="job-detail-label">🎯 职位要求</div>
+<div class="job-detail-body">
+<li>3年以上图书出版行业或电商平台图书类目运营经验。</li>
+<li>拥有丰富的出版社资源，曾主导过出版社与内容创作者合作项目。</li>
+<li>精通电商场景下的图书销售方法论。</li>
+<li>熟悉B站社区生态或知识区UP主合作经验者优先。</li>
+</div>
+</div>
+</div>
+</div>
+
+<div class="job-card" data-cat="growth">
+<div class="job-header" onclick="toggleJobCard(this.parentElement)">
+<span class="job-id">#035</span>
+<h3 class="job-title">营销中台负责人（保密招聘）</h3>
+<span class="job-company-mask">视频社区与内容平台</span><span class="job-location">📍 上海</span>
+<p class="job-desc">负责整合营销与大促、外部渠道营销（抖音/拼多多官方店）及品类营销，需要低调保密。</p>
+<div class="expand-indicator">[ 展开查看详情 ▼ ] <span class="arrow">▼</span></div>
+</div>
+<div class="job-full-details">
+<div class="job-detail-section">
+<div class="job-detail-label">📌 职位描述</div>
+<div class="job-detail-body">
+<li>负责整合营销与大促活动策划执行。</li>
+<li>负责外部渠道营销：商品在抖音、拼多多等平台官方店通过直播销售。</li>
+<li>品类营销部分，根据人选经验决定覆盖范围。</li>
+<li>大头为 ACG 与 IP 品类。</li>
+</div>
+</div>
+<div class="job-detail-section">
+<div class="job-detail-label">🎯 职位要求</div>
+<div class="job-detail-body">
+<li>P4 层级（对标字节 3-2），汇报给营销负责人。</li>
+<li>不要纯做品牌营销（只花钱不赚钱的类型）。</li>
+<li>有偏业务、运营、策略背景者加分，策略能力强。</li>
+<li>有淘宝/抖音等平台营销经验，盘子范围广。</li>
+<li>⚠️ 保密招聘，目前在职人员尚未离职，需保持低调。</li>
+</div>
+</div>
+</div>
+</div>
+
+<div class="job-card" data-cat="growth">
+<div class="job-header" onclick="toggleJobCard(this.parentElement)">
+<span class="job-id">#036</span>
+<h3 class="job-title">海外内容主编（Chapters 业务线）</h3>
+<span class="job-company-mask">海外互动故事平台</span><span class="job-location">📍 深圳</span>
+<p class="job-desc">负责 Chapters 全球市场内容战略规划，管理编辑团队与海外作者网络。</p>
+<div class="expand-indicator">[ 展开查看详情 ▼ ] <span class="arrow">▼</span></div>
+</div>
+<div class="job-full-details">
+<div class="job-detail-section">
+<div class="job-detail-label">📌 职位描述</div>
+<div class="job-detail-body">
+<li>负责 Chapters 全球市场内容战略规划，把控整体内容调性与爆款题材方向。</li>
+<li>搭建、培养并管理内部编辑团队及海外外部作者/写手网络。</li>
+<li>建立以数据为导向的内容评估体系，结合用户阅读行为指导内容优化。</li>
+<li>拓展海外优质大 IP 的互动游戏改编授权。</li>
+</div>
+</div>
+<div class="job-detail-section">
+<div class="job-detail-label">🎯 职位要求</div>
+<div class="job-detail-body">
+<li>5年以上海外网文、互动阅读或女性向游戏行业内容策划经验。</li>
+<li>重度互动小说/网文阅读用户，极度熟悉欧美文化背景与女性向用户心理。</li>
+<li>英语为 Native 或精通水平，能直接与海外本土作者谈判。</li>
+<li>具备优秀的商业化 Sense 与数据思维。</li>
+</div>
+</div>
+</div>
+</div>
+
+<div class="job-card" data-cat="growth">
+<div class="job-header" onclick="toggleJobCard(this.parentElement)">
+<span class="job-id">#037</span>
+<h3 class="job-title">增长产品经理（Chapters 业务线）</h3>
+<span class="job-company-mask">海外互动故事平台</span><span class="job-location">📍 深圳</span>
+<p class="job-desc">结合故事内容与增长机制，实现海外用户低成本获客与长效留存转化。</p>
+<div class="expand-indicator">[ 展开查看详情 ▼ ] <span class="arrow">▼</span></div>
+</div>
+<div class="job-full-details">
+<div class="job-detail-section">
+<div class="job-detail-label">📌 职位描述</div>
+<div class="job-detail-body">
+<li>负责互动故事平台全球用户增长产品规划，设计拉新、激活、留存与变现全链路策略。</li>
+<li>探索基于故事剧情的病毒式传播机制与社交媒体裂变。</li>
+<li>搭建并优化签到系统、奖励体系及精细化 Push 推送策略。</li>
+<li>优化推荐分发逻辑与付费墙设计，最大化用户 ARPPU。</li>
+</div>
+</div>
+<div class="job-detail-section">
+<div class="job-detail-label">🎯 职位要求</div>
+<div class="job-detail-body">
+<li>3-5年互联网产品经理经验，2年以上内容型产品海外增长经验。</li>
+<li>精通 Growth Hacking 方法论，熟练掌握 SQL。</li>
+<li>有千万级 DAU 产品 AB 测试实战经验。</li>
+<li>熟悉欧美及拉美市场用户消费习惯。</li>
+</div>
+</div>
+</div>
+</div>
+
+<div class="job-card" data-cat="growth">
+<div class="job-header" onclick="toggleJobCard(this.parentElement)">
+<span class="job-id">#038</span>
+<h3 class="job-title">游戏制作人（休闲游戏）</h3>
+<span class="job-company-mask">海外互动故事平台</span><span class="job-location">📍 深圳</span>
+<p class="job-desc">规划设计休闲游戏产品定位与方向，对产品成功负全责，带领研发团队完成 0-1 开发。</p>
+<div class="expand-indicator">[ 展开查看详情 ▼ ] <span class="arrow">▼</span></div>
+</div>
+<div class="job-full-details">
+<div class="job-detail-section">
+<div class="job-detail-label">📌 职位描述</div>
+<div class="job-detail-body">
+<li>规划设计休闲游戏产品定位和方向，确定核心玩法与游戏框架。</li>
+<li>制定产品目标和预算，管理项目研发团队，把控进度、质量、成本与风险。</li>
+<li>整体把控游戏性、画面风格、策划及程序等内容质量。</li>
+<li>研究品类和竞品动态，及时做出策略调整。</li>
+</div>
+</div>
+<div class="job-detail-section">
+<div class="job-detail-label">🎯 职位要求</div>
+<div class="job-detail-body">
+<li>8年以上游戏制作经验，至少有一款 0-1 成功主导研发的中轻度休闲游戏。</li>
+<li>有海外成功项目经验优先。</li>
+<li>5年以上团队管理经验，对游戏研发各环节有深刻理解。</li>
+<li>对欧美市场及文化了解，拥有全球视野。</li>
+<li>资深游戏玩家，对游戏品质有极高追求。</li>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+
 <script>
+/* ═══ 折叠卡片 — 点击展开/点击外部关闭 ═══ */
+function toggleJobCard(card) {
+    var isExpanded = card.classList.contains('expanded');
+    // Close all other cards first
+    document.querySelectorAll('.job-card.expanded').forEach(function(c) {
+        if(c !== card) c.classList.remove('expanded');
+    });
+    if(isExpanded) {
+        card.classList.remove('expanded');
+    } else {
+        card.classList.add('expanded');
+    }
+}
+document.addEventListener('click', function(e) {
+    if(!e.target.closest('.job-card')) {
+        document.querySelectorAll('.job-card.expanded').forEach(function(c) {
+            c.classList.remove('expanded');
+        });
+    }
+});
+
+/* ═══ 分类筛选 ═══ */
+document.addEventListener('click', function(e) {
+    var filter = e.target.closest('.cat-filter');
+    if(!filter) return;
+    var cat = filter.getAttribute('data-cat');
+    document.querySelectorAll('.cat-filter').forEach(function(f) { f.classList.remove('active'); });
+    filter.classList.add('active');
+    if(cat === 'all') {
+        document.querySelectorAll('.category-group').forEach(function(g) { g.style.display = 'block'; });
+    } else {
+        document.querySelectorAll('.category-group').forEach(function(g) {
+            g.style.display = g.getAttribute('data-category') === cat ? 'block' : 'none';
+        });
+    }
+    // Close any expanded cards
+    document.querySelectorAll('.job-card.expanded').forEach(function(c) { c.classList.remove('expanded'); });
+});
+
 /* ─── Menu Toggle ─── */
 var toggleBtn=document.getElementById('menuToggle');
 var overlay=document.getElementById('navOverlay');
