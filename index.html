@@ -1732,6 +1732,56 @@ transform: translateY(-3px) !important;
 background-color: #05080f !important;
 box-shadow: 0 0 8px rgba(0, 0, 0, 0.5) !important;
 }
+/* ─── 🌟 全站文字清晰度与对比度升级补丁 ─── */
+/* 1. 调亮全局核心变量 */
+:root {
+--text-main: #cbd5e1 !important;
+--text-bright: #ffffff !important;
+}
+/* 2. 全局基础文字提亮与文字阴影 */
+body {
+color: #e2e8f0 !important;
+text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+}
+/* 3. 增强所有玻璃卡片的底色屏蔽力 */
+.glass-card,
+.blog-card,
+.job-card,
+.intel-card-content,
+.terminal-node-card,
+.signal-metric-card,
+.matrix-card {
+background: rgba(8, 12, 20, 0.55) !important;
+backdrop-filter: blur(20px) saturate(120%) !important;
+-webkit-backdrop-filter: blur(20px) saturate(120%) !important;
+border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+/* 4. 专门针对长文、简介、正文进行硬核提亮 */
+p,
+.blog-desc,
+.job-excerpt,
+.intel-fact,
+.intel-echo-box,
+.blog-content-full-sync,
+.subtitle {
+color: #e2e8f0 !important;
+font-weight: 400 !important;
+}
+/* 5. 标题层级绝对高亮纯白 */
+h1, h2, h3, h4,
+.main-title,
+.blog-title,
+.job-title,
+.section-title {
+color: #ffffff !important;
+text-shadow: 0 2px 12px rgba(0, 0, 0, 1) !important;
+font-weight: 600 !important;
+}
+/* 6. 特殊标签和元数据的视觉平衡 */
+.blog-tags, .job-tags .tag, .intel-time-tag .mono-hour {
+color: #94a3b8 !important;
+text-shadow: none !important;
+}
 </style>
 </head>
 <body>
