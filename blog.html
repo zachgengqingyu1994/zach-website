@@ -1578,6 +1578,24 @@ if (indicator) indicator.innerText = '[ 点击展开阅读 // CLICK_TO_VIEW ]';
 cardElement.style.borderColor = '';
 }
 }
+/* 点击展开内容区域不关闭卡片 */
+document.querySelectorAll('.blog-content-full-sync').forEach(function(el) {
+    el.addEventListener('click', function(e) { e.stopPropagation(); });
+});
+/* 点击卡片外关闭 */
+document.addEventListener('click', function(e) {
+    if (!e.target.closest('.blog-card')) {
+        document.querySelectorAll('.blog-card').forEach(function(c) {
+            var fc = c.querySelector('.blog-content-full-sync');
+            var ind = c.querySelector('.read-time-indicator');
+            if (fc && fc.style.display === 'block') {
+                fc.style.display = 'none';
+                if (ind) ind.innerText = '[ 点击展开阅读 // CLICK_TO_VIEW ]';
+                c.style.borderColor = '';
+            }
+        });
+    }
+});
 </script>
 
 
