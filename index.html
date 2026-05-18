@@ -721,9 +721,6 @@ color: #bfa87a;
     color:#4a5568;
     transition:all 0.3s cubic-bezier(0.16,1,0.3,1);
 }
-.insight-card:hover .insight-title {
-    color:#f8fafc;
-}
 .insight-card:hover .arrow-icon {
     color:#bfa87a;
     transform:translate(6px,-6px);
@@ -804,7 +801,7 @@ color: #bfa87a;
     align-items:center;
     transition:color 0.3s ease;
 }
-.intel-card:hover .intel-title { color:#f8fafc; }
+
 .intel-desc {
     font-size:13px !important;
     line-height:1.8;
@@ -1918,10 +1915,11 @@ text-transform: uppercase;
 90% { opacity: 1; }
 100% { left: 70%; opacity: 0; }
 }
-/* ─── 🔮 顶奢极客：有腔调的卡片内标题重构 ─── */
-/* 1. 统一卡片标题基础状态（清冷、精密、高对比） */
+/* ─── 🔮 顶奢极客：有腔调的卡片内标题重构 (防紫色溢出修复版) ─── */
+/* 1. 统一卡片标题基础状态 */
 .insight-title,
 .intel-card-head h3,
+.intel-title,
 .job-card .job-title,
 .blog-card .blog-title {
 font-family: 'Inter', -apple-system, sans-serif;
@@ -1937,6 +1935,7 @@ text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
 /* 2. 在标题前方悄悄埋下一颗"终端算力光标" */
 .insight-title::before,
 .intel-card-head h3::before,
+.intel-title::before,
 .job-card .job-title::before,
 .blog-card .blog-title::before {
 content: '// ';
@@ -1950,23 +1949,24 @@ display: inline-block;
 /* 3. 核心交互：当整张卡片被悬停时，标题发生连动巨变 */
 .insight-card:hover .insight-title,
 .intel-timeline-item:hover .intel-card-head h3,
+.intel-card:hover .intel-title,
 .job-card:hover .job-title,
 .blog-card:hover .blog-title {
-color: var(--accent) !important;
+color: #bfa87a !important;
 transform: translateX(8px);
 text-shadow: 0 0 15px rgba(191, 168, 122, 0.2);
 }
 /* 4. 悬停时，前方的光标同步进化为"激活状态的算力方块" */
 .insight-card:hover .insight-title::before,
 .intel-timeline-item:hover .intel-card-head h3::before,
+.intel-card:hover .intel-title::before,
 .job-card:hover .job-title::before,
 .blog-card:hover .blog-title::before {
 content: '■ ';
-color: var(--accent);
-filter: drop-shadow(0 0 4px var(--accent));
+color: #bfa87a !important;
+filter: drop-shadow(0 0 4px #bfa87a);
 animation: terminalBlink 0.8s infinite alternate;
 }
-/* 光标微弱闪烁，模拟系统正在读取 */
 @keyframes terminalBlink {
 0% { opacity: 0.4; }
 100% { opacity: 1; }
