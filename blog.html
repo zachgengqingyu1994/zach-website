@@ -1386,6 +1386,50 @@ animation: terminalBlink 0.8s infinite alternate;
 0% { opacity: 0.4; }
 100% { opacity: 1; }
 }
+/* ─── 🔮 顶奢极客：Blog 页面卡片内标题腔调升级 ─── */
+/* 1. 规范卡片标题的基础视觉状态 */
+.blog-card .blog-title {
+font-family: 'Inter', -apple-system, sans-serif;
+font-size: 22px !important;
+font-weight: 500 !important;
+line-height: 1.4;
+color: #ffffff !important;
+position: relative;
+display: inline-block;
+transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+}
+/* 2. 在博客标题左侧埋下极客标志性的等宽光标 */
+.blog-card .blog-title::before {
+content: '// ';
+font-family: 'Space Mono', monospace;
+font-size: 18px;
+color: rgba(255, 255, 255, 0.15);
+margin-right: 8px;
+transition: all 0.3s ease;
+display: inline-block;
+}
+/* 3. 悬停交互：当整张博客卡片被 hover 时触发动态共鸣 */
+.blog-card:hover {
+border-color: rgba(191, 168, 122, 0.25) !important;
+}
+.blog-card:hover .blog-title {
+color: var(--accent) !important;
+transform: translateX(8px);
+text-shadow: 0 0 20px rgba(191, 168, 122, 0.25);
+}
+/* 4. 悬停时，左侧光标瞬间进化为实时运行的终端方块 ■ */
+.blog-card:hover .blog-title::before {
+content: '■ ';
+color: var(--accent);
+filter: drop-shadow(0 0 4px var(--accent));
+animation: blogTerminalBlink 0.8s infinite alternate;
+}
+/* 光标呼吸频率关键帧 */
+@keyframes blogTerminalBlink {
+0% { opacity: 0.3; }
+100% { opacity: 1; }
+}
 </style>
 </head>
 <body>
