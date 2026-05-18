@@ -1897,7 +1897,7 @@ ZACH.GENG
     <div class="radar-header" onclick="toggleRadar(event)">
         <div class="radar-scan"></div>
         <span class="radar-text">OPEN_ROLES</span>
-        <span class="radar-count">[ 14 ]</span>
+        <span class="radar-count">[ <span id="radarCount">-</span> ]</span>
         <span class="radar-chevron">▾</span>
     </div>
     <div class="radar-body">
@@ -1969,25 +1969,40 @@ ZACH.GENG
 </div>
 
 <script>
-const jobData = [
-    { title:"AI 算法工程师 — 大模型方向", company:"某头部 AI 公司", location:"北京/上海", tags:["LLM","PyTorch","Transformer"] },
-    { title:"AI Infra 工程师", company:"某独角兽公司", location:"北京/杭州", tags:["Kubernetes","GPU","分布式"] },
-    { title:"AI Agent 产品经理", company:"某明星创业公司", location:"上海/深圳", tags:["Agent","产品","AI应用"] },
-    { title:"具身智能算法负责人", company:"某机器人公司", location:"深圳/北京", tags:["机器人","控制","感知"] },
-    { title:"AI 芯片架构师", company:"某大厂", location:"上海/北京", tags:["芯片","架构","NPU"] },
-    { title:"AI 安全研究员", company:"某安全公司", location:"远程", tags:["安全","红队","LLM"] },
-    { title:"LLM 训练框架工程师", company:"某云计算公司", location:"杭州/北京", tags:["分布式训练","CUDA","PyTorch"] },
-    { title:"多模态算法专家", company:"某 AI 应用公司", location:"北京/上海", tags:["多模态","视觉","语言"] },
-];
+/* ─── 动态从 jobs.html 加载岗位数据 ─── */
+var _jobCache=null;
+function loadJobs(){
+    if(_jobCache) return Promise.resolve(_jobCache);
+    return fetch('jobs.html').then(function(r){return r.text()}).then(function(html){
+        var d=document.createElement('div');d.innerHTML=html;
+        var cards=d.querySelectorAll('.job-card');
+        _jobCache=Array.from(cards).map(function(c){
+            var t=c.querySelector('.job-title'),m=c.querySelector('.job-company-mask'),l=c.querySelector('.job-location');
+            return{
+                title:(t?t.textContent:'').trim(),
+                company:(m?m.textContent:'').trim(),
+                location:(l?l.textContent.replace('📍',''):'').trim(),
+                cat:(c.getAttribute('data-cat')||'')
+            };
+        });
+        var rc=document.getElementById('radarCount');
+        if(rc)rc.textContent=_jobCache.length;
+        return _jobCache;
+    });
+}
 function searchJobs() {
     var q=document.getElementById('jobSearch').value.toLowerCase();
     var r=document.getElementById('searchResults');
     if(!q.trim()){r.classList.remove('active');return}
-    var h=jobData.filter(function(j){return j.title.toLowerCase().includes(q)||j.company.toLowerCase().includes(q)||j.tags.some(function(t){return t.toLowerCase().includes(q)})});
-    if(!h.length){r.innerHTML='<div class="search-empty">没有找到匹配的岗位 🫡</div>';r.classList.add('active');return}
-    r.innerHTML=h.map(function(j){return'<a class="search-result-item" href="jobs.html"><div class="sr-title">'+j.title+'</div><div class="sr-meta">'+j.company+' · '+j.location+'</div><div class="sr-tags">'+j.tags.map(function(t){return'<span class="sr-tag">'+t+'</span>'}).join('')+'</div></a>'}).join('');
-    r.classList.add('active');
+    loadJobs().then(function(jobs){
+        var h=jobs.filter(function(j){return j.title.toLowerCase().includes(q)||j.company.toLowerCase().includes(q)||j.cat.includes(q)});
+        if(!h.length){r.innerHTML='<div class="search-empty">没有找到匹配的岗位 🫡</div>';r.classList.add('active');return}
+        r.innerHTML=h.map(function(j){return'<a class="search-result-item" href="jobs.html"><div class="sr-title">'+j.title+'</div><div class="sr-meta">'+j.company+' · '+j.location+'</div></a>'}).join('');
+        r.classList.add('active');
+    });
 }
+/* ─── 预加载岗位数 ─── */
+loadJobs();
 document.addEventListener('click',function(e){var r=document.getElementById('searchResults');if(!e.target.closest('.search-container')&&r&&r.classList.contains('active')){r.classList.remove('active')}});
 function showQR(p){var m=document.getElementById('qrModal'),i=document.getElementById('qrImage'),t=document.getElementById('qrText');
 var q={'wechat':'wechat-qr.png','douyin':'douyin-qr.jpg','xiaohongshu':'xiaohongshu-qr.jpg'};
@@ -2126,9 +2141,11 @@ function radarFilter(){
 var q=document.getElementById('radarSearch').value.toLowerCase();
 var r=document.getElementById('radarResults');
 if(!q.trim()){r.innerHTML='';return}
-var h=jobData.filter(function(j){return j.title.toLowerCase().includes(q)||j.company.toLowerCase().includes(q)||j.tags.some(function(t){return t.toLowerCase().includes(q)})});
+loadJobs().then(function(jobs){
+var h=jobs.filter(function(j){return j.title.toLowerCase().includes(q)||j.company.toLowerCase().includes(q)||j.cat.includes(q)});
 if(!h.length){r.innerHTML='<div class="sr-empty">没有匹配的岗位</div>';return}
 r.innerHTML=h.map(function(j){return'<a class="sr-item" href="jobs.html"><div class="sr-title">'+j.title+'</div><div class="sr-meta">'+j.company+' · '+j.location+'</div></a>'}).join('');
+});
 }
 function toggleRadar(e){
     if(e) e.stopPropagation();
