@@ -2219,6 +2219,10 @@ function toggleIntel(card) {
         card.classList.add('expanded');
     }
 }
+/* 点击展开内容区域不关闭卡片 */
+document.querySelectorAll('.intel-detail').forEach(function(el) {
+    el.addEventListener('click', function(e) { e.stopPropagation(); });
+});
 document.addEventListener('click', function(e) {
     if (!e.target.closest('.intel-card')) {
         document.querySelectorAll('.intel-card.expanded').forEach(function(c) {
