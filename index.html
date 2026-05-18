@@ -1971,6 +1971,61 @@ animation: terminalBlink 0.8s infinite alternate;
 0% { opacity: 0.4; }
 100% { opacity: 1; }
 }
+/* ─── 🔮 高级序号设计：矩阵解码块 (Matrix Decoded Block) ─── */
+/* 序号容器 */
+.matrix-sec-index {
+display: flex;
+align-items: center;
+font-family: 'Space Mono', monospace;
+font-size: 11px;
+letter-spacing: 2px;
+color: #64748b;
+margin-bottom: 12px;
+position: relative;
+transition: all 0.3s ease;
+}
+/* 序号方块本身 */
+.sec-num-block {
+display: inline-flex;
+justify-content: center;
+align-items: center;
+width: 24px;
+height: 24px;
+border: 1px solid rgba(191, 168, 122, 0.4);
+color: var(--accent);
+font-weight: 700;
+margin-right: 12px;
+background: rgba(0, 0, 0, 0.2);
+transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+/* 序号后面的细长分割线 */
+.sec-line {
+width: 30px;
+height: 1px;
+background-color: rgba(255, 255, 255, 0.2);
+margin-right: 12px;
+transition: all 0.4s ease;
+}
+/* 序号文字描述 */
+.sec-label {
+text-transform: uppercase;
+position: relative;
+overflow: hidden;
+}
+/* 🌟 高级悬停交互：整个大 Header 区域被悬停时触发 */
+.section-header-luxury:hover .matrix-sec-index {
+color: #e2e8f0;
+}
+.section-header-luxury:hover .sec-num-block {
+background: var(--accent);
+color: #030508;
+box-shadow: 0 0 10px rgba(191, 168, 122, 0.4);
+transform: scale(1.05);
+}
+.section-header-luxury:hover .sec-line {
+width: 60px;
+background-color: var(--accent);
+}
 </style>
 </head>
 <body>
@@ -2087,7 +2142,11 @@ ZACH.GENG
 <section id="insights" class="insight-section reveal-up">
     <div class="container">
         <div class="section-header-luxury">
-            <div class="header-prefix-mono">[ MATRIX_SEC // 01 // LONGFORM_THOUGHTS ]</div>
+            <div class="matrix-sec-index">
+                <span class="sec-num-block">01</span>
+                <span class="sec-line"></span>
+                <span class="sec-label">LONGFORM_THOUGHTS // 深度思考</span>
+            </div>
             <h2 class="header-main-title" style="cursor: pointer;">深度思考</h2>
             <div class="header-divider-line"></div>
             <div class="header-sub-text-mono">OBSERVATIONS ON THE UNCONVENTIONAL CYCLES</div>
@@ -2137,7 +2196,11 @@ ZACH.GENG
 <section id="daily" class="intelligence-section">
     <div class="container">
         <div class="section-header-luxury" style="flex-direction: column; align-items: flex-start;">
-            <div class="header-prefix-mono">[ MATRIX_SEC // 02 // REALTIME_INTELLIGENCE ]</div>
+            <div class="matrix-sec-index">
+                <span class="sec-num-block">02</span>
+                <span class="sec-line"></span>
+                <span class="sec-label">REALTIME_INTEL // 情报终端</span>
+            </div>
             <h2 class="header-main-title" style="cursor: pointer;">全域情报流</h2>
             <div class="header-divider-line"></div>
             <div class="intel-time-status" style="margin-top: 5px;">
