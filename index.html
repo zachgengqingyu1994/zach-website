@@ -752,6 +752,7 @@ color: #bfa87a;
 }
 .intel-card {
     position:relative;
+    overflow:hidden;
     display:flex;
     flex-wrap:wrap;
     align-items:flex-start;
@@ -1090,7 +1091,7 @@ color: #bfa87a;
 }
 
 /* ─── 磁吸高光效应 ─── */
-.insight-card::before, .glass-card::before, .connect-card::before {
+.intel-card::before, .insight-card::before, .glass-card::before, .connect-card::before {
     content:'';
     position:absolute;
     inset:0;
@@ -1100,7 +1101,7 @@ color: #bfa87a;
     pointer-events:none;
     z-index:1;
 }
-.insight-card:hover::before, .glass-card:hover::before, .connect-card:hover::before {
+.intel-card:hover::before, .insight-card:hover::before, .glass-card:hover::before, .connect-card:hover::before {
     opacity:1;
 }
 
@@ -2461,7 +2462,7 @@ document.addEventListener("DOMContentLoaded", function(){
 })();
 
 /* ─── 磁吸光影跟随 + 引力形变 ─── */
-document.querySelectorAll('.insight-card, .glass-card, .connect-card').forEach(function(card){
+document.querySelectorAll('.intel-card, .insight-card, .glass-card, .connect-card').forEach(function(card){
     card.addEventListener('mousemove', function(e){
         var rect=card.getBoundingClientRect();
         var x=e.clientX-rect.left;
