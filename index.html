@@ -1782,6 +1782,63 @@ font-weight: 600 !important;
 color: #94a3b8 !important;
 text-shadow: none !important;
 }
+/* ─── 🌟 Active Theory 同款：赛博故障 RGB 标题特效 ─── */
+/* 1. 基础状态：高冷的中空描边 */
+.active-glitch {
+position: relative;
+color: transparent !important;
+-webkit-text-stroke: 1px rgba(255, 255, 255, 0.6);
+transition: all 0.3s ease;
+}
+/* 2. 悬停状态：瞬间实心 + 强烈的 RGB 视差重影 */
+.active-glitch:hover {
+color: #ffffff !important;
+-webkit-text-stroke: 0px;
+text-shadow:
+-4px 0px 0px rgba(255, 0, 85, 0.9),
+4px 0px 0px rgba(0, 210, 255, 0.9) !important;
+}
+/* 3. 撕裂层准备：利用伪元素读取 data-text 生成两层克隆文字 */
+.active-glitch::before,
+.active-glitch::after {
+content: attr(data-text);
+position: absolute;
+top: 0; left: 0; width: 100%; height: 100%;
+opacity: 0;
+pointer-events: none;
+}
+/* 4. 悬停时激活疯狂的撕裂动画 */
+.active-glitch:hover::before {
+opacity: 0.8;
+left: 2px;
+text-shadow: -2px 0 #ff0055;
+clip: rect(44px, 450px, 56px, 0);
+animation: active-glitch-anim 2s infinite linear alternate-reverse;
+}
+.active-glitch:hover::after {
+opacity: 0.8;
+left: -2px;
+text-shadow: -2px 0 #00d2ff;
+clip: rect(44px, 450px, 56px, 0);
+animation: active-glitch-anim-2 2.5s infinite linear alternate-reverse;
+}
+/* 5. 切割动画关键帧 */
+@keyframes active-glitch-anim {
+0% { clip: rect(10px, 9999px, 86px, 0); transform: skew(0.5deg); }
+20% { clip: rect(2px, 9999px, 45px, 0); transform: skew(0.8deg); }
+40% { clip: rect(89px, 9999px, 23px, 0); transform: skew(0.7deg); }
+60% { clip: rect(55px, 9999px, 78px, 0); transform: skew(0.3deg); }
+80% { clip: rect(16px, 9999px, 96px, 0); transform: skew(0.6deg); }
+100% { clip: rect(10px, 9999px, 86px, 0); transform: skew(0); }
+}
+@keyframes active-glitch-anim-2 {
+0% { clip: rect(65px, 9999px, 12px, 0); transform: skew(0.1deg); }
+20% { clip: rect(78px, 9999px, 2px, 0); transform: skew(0.2deg); }
+40% { clip: rect(32px, 9999px, 69px, 0); transform: skew(0.3deg); }
+60% { clip: rect(45px, 9999px, 55px, 0); transform: skew(0.6deg); }
+80% { clip: rect(12px, 9999px, 93px, 0); transform: skew(0.8deg); }
+100% { clip: rect(65px, 9999px, 12px, 0); transform: skew(0); }
+}
 </style>
 </head>
 <body>
@@ -1819,7 +1876,7 @@ ZACH.GENG
     <div class="hero-overlay"></div>
     <script>(function(){var v=document.querySelector('.hero-video');if(v){v.playbackRate=0.8;var t=function(){v.play().catch(function(){})};document.addEventListener('visibilitychange',t);t()}})()</script>
     <div class="container hero-content">
-        <h1>涌现与回响</h1>
+        <h1 class="main-title active-glitch" data-text="涌现与回响">涌现与回响</h1>
         <div class="subtitle">Emergence & Resonance</div>
     </div>
 </section>
