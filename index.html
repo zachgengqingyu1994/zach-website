@@ -1839,6 +1839,85 @@ animation: active-glitch-anim-2 2.5s infinite linear alternate-reverse;
 80% { clip: rect(12px, 9999px, 93px, 0); transform: skew(0.8deg); }
 100% { clip: rect(65px, 9999px, 12px, 0); transform: skew(0); }
 }
+/* ─── 🔮 顶奢极客：有腔调的 Section Header 组件 ─── */
+.section-header-luxury {
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+margin-bottom: 60px;
+position: relative;
+width: 100%;
+}
+/* 精密等宽编号小字 */
+.header-prefix-mono {
+font-family: 'Space Mono', monospace;
+font-size: 11px;
+letter-spacing: 3px;
+color: var(--accent);
+margin-bottom: 12px;
+opacity: 0.8;
+position: relative;
+padding-left: 16px;
+}
+/* 编号左侧的硬核极客标志 */
+.header-prefix-mono::before {
+content: '';
+position: absolute;
+left: 0; top: 50%;
+width: 6px; height: 1px;
+background-color: var(--accent);
+transform: translateY(-50%);
+}
+/* 核心大标题：高冷中空字 */
+.header-main-title {
+font-family: 'Inter', -apple-system, sans-serif;
+font-size: clamp(2.2rem, 5vw, 3.5rem);
+font-weight: 700;
+letter-spacing: -0.01em;
+position: relative;
+color: transparent !important;
+-webkit-text-stroke: 1px rgba(255, 255, 255, 0.7);
+transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+/* 滚动到此处或悬停时的腔调聚合：文字变实，溢出微光 */
+.section-header-luxury:hover .header-main-title,
+.section-header-luxury .header-main-title:hover {
+color: #ffffff !important;
+-webkit-text-stroke: 0px;
+text-shadow: 0 0 30px rgba(255, 255, 255, 0.15);
+}
+/* 不对称的悬浮流光线 */
+.header-divider-line {
+width: 100%;
+height: 1px;
+background: linear-gradient(90deg, rgba(191, 168, 122, 0.3) 0%, rgba(255,255,255,0.03) 70%, transparent 100%);
+margin: 20px 0;
+position: relative;
+}
+/* 线条上的算力微光亮点 */
+.header-divider-line::after {
+content: '';
+position: absolute;
+left: 0; top: -1px;
+width: 30px; height: 3px;
+background: #ffffff;
+box-shadow: 0 0 10px #ffffff;
+animation: dividerGlowSweep 6s infinite ease-in-out;
+}
+/* 标题下方的次级等宽描述 */
+.header-sub-text-mono {
+font-family: 'Space Mono', monospace;
+font-size: 10px;
+letter-spacing: 2px;
+color: #475569;
+text-transform: uppercase;
+}
+@keyframes dividerGlowSweep {
+0% { left: 0; opacity: 0; }
+10% { opacity: 1; }
+90% { opacity: 1; }
+100% { left: 70%; opacity: 0; }
+}
 </style>
 </head>
 <body>
@@ -1954,10 +2033,11 @@ ZACH.GENG
 <!-- ═══ 思想输出 ═══ -->
 <section id="insights" class="insight-section reveal-up">
     <div class="container">
-        <div class="section-header">
-            <div class="kicker">/ 思想输出</div>
-            <h2 class="main-title">深度·洞察·观点</h2>
-            <p class="subtitle">关于 AI 行业、人才趋势、招聘本质的独立思考</p>
+        <div class="section-header-luxury">
+            <div class="header-prefix-mono">[ MATRIX_SEC // 01 // LONGFORM_THOUGHTS ]</div>
+            <h2 class="header-main-title" style="cursor: pointer;">深度思考</h2>
+            <div class="header-divider-line"></div>
+            <div class="header-sub-text-mono">OBSERVATIONS ON THE UNCONVENTIONAL CYCLES</div>
         </div>
         <div class="insight-list">
             <a href="blog.html" class="insight-card">
@@ -2003,10 +2083,14 @@ ZACH.GENG
 <!-- ═══ 全域情报流 ═══ -->
 <section id="daily" class="intelligence-section">
     <div class="container">
-        <div class="section-header">
-            <div class="kicker"><span class="live-dot"></span> SYSTEM_LIVE</div>
-            <h2 class="main-title">全域情报流</h2>
-            <p class="subtitle">AI 产业链前沿异动与商业变现观测</p>
+        <div class="section-header-luxury" style="flex-direction: column; align-items: flex-start;">
+            <div class="header-prefix-mono">[ MATRIX_SEC // 02 // REALTIME_INTELLIGENCE ]</div>
+            <h2 class="header-main-title" style="cursor: pointer;">全域情报流</h2>
+            <div class="header-divider-line"></div>
+            <div class="intel-time-status" style="margin-top: 5px;">
+                <span class="pulse-dot-green"></span>
+                <span class="mono-time" id="intelCountdown">[ SYNCHRONIZED: TODAY'S REAL INTEL RELEASED ]</span>
+            </div>
         </div>
         <div class="intel-list">
 
