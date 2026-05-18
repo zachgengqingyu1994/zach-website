@@ -1902,7 +1902,7 @@ ZACH.GENG
         </div>
         <div class="intel-list">
 
-<div class="intel-card">
+<div class="intel-card" onclick="cardExpand(this)">
             <div class="intel-num">01</div>
             <div class="intel-content">
                 <div class="intel-tag">TODAY</div>
@@ -1932,7 +1932,7 @@ ZACH.GENG
             </div>
         </div>
 
-<div class="intel-card">
+<div class="intel-card" onclick="cardExpand(this)">
             <div class="intel-num">02</div>
             <div class="intel-content">
                 <div class="intel-tag">WEEKEND</div>
@@ -1962,7 +1962,7 @@ ZACH.GENG
             </div>
         </div>
 
-<div class="intel-card">
+<div class="intel-card" onclick="cardExpand(this)">
             <div class="intel-num">03</div>
             <div class="intel-content">
                 <div class="intel-tag">FUNDING</div>
@@ -1992,7 +1992,7 @@ ZACH.GENG
             </div>
         </div>
 
-<div class="intel-card">
+<div class="intel-card" onclick="cardExpand(this)">
             <div class="intel-num">04</div>
             <div class="intel-content">
                 <div class="intel-tag">MEGA</div>
@@ -2022,7 +2022,7 @@ ZACH.GENG
             </div>
         </div>
 
-<div class="intel-card">
+<div class="intel-card" onclick="cardExpand(this)">
             <div class="intel-num">05</div>
             <div class="intel-content">
                 <div class="intel-tag">REALTIME</div>
@@ -2052,7 +2052,7 @@ ZACH.GENG
             </div>
         </div>
 
-<div class="intel-card">
+<div class="intel-card" onclick="cardExpand(this)">
             <div class="intel-num">06</div>
             <div class="intel-content">
                 <div class="intel-tag">SMART</div>
@@ -2082,7 +2082,7 @@ ZACH.GENG
             </div>
         </div>
 
-<div class="intel-card">
+<div class="intel-card" onclick="cardExpand(this)">
             <div class="intel-num">07</div>
             <div class="intel-content">
                 <div class="intel-tag">AGENTS</div>
@@ -2112,7 +2112,7 @@ ZACH.GENG
             </div>
         </div>
 
-<div class="intel-card">
+<div class="intel-card" onclick="cardExpand(this)">
             <div class="intel-num">08</div>
             <div class="intel-content">
                 <div class="intel-tag">TALKS</div>
@@ -2142,7 +2142,7 @@ ZACH.GENG
             </div>
         </div>
 
-<div class="intel-card">
+<div class="intel-card" onclick="cardExpand(this)">
             <div class="intel-num">09</div>
             <div class="intel-content">
                 <div class="intel-tag">OPEN</div>
@@ -2172,7 +2172,7 @@ ZACH.GENG
             </div>
         </div>
 
-<div class="intel-card">
+<div class="intel-card" onclick="cardExpand(this)">
             <div class="intel-num">10</div>
             <div class="intel-content">
                 <div class="intel-tag">BREAK</div>
@@ -2210,6 +2210,14 @@ ZACH.GENG
 
 <script>
 /* ─── 情报流卡片展开/关闭 ─── */
+function cardExpand(card) {
+    if (!card.classList.contains('expanded')) {
+        document.querySelectorAll('.intel-card.expanded').forEach(function(c) {
+            c.classList.remove('expanded');
+        });
+        card.classList.add('expanded');
+    }
+}
 function toggleIntel(card) {
     var isExpanded = card.classList.contains('expanded');
     document.querySelectorAll('.intel-card.expanded').forEach(function(c) {
