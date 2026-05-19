@@ -632,10 +632,11 @@ color: #bfa87a;
 .section-header .kicker {
     font-family:'SF Mono', Consolas, monospace;
     color:#6e96ff;
-    font-size:13px;
+    font-size:11px;
     letter-spacing:3px;
     text-transform:uppercase;
     margin-bottom:12px;
+    opacity:0.45;
 }
 .section-header .main-title {
     font-size:clamp(2.2rem, 5vw, 3.5rem);
@@ -1852,7 +1853,7 @@ font-size: 11px;
 letter-spacing: 3px;
 color: var(--accent);
 margin-bottom: 12px;
-opacity: 0.8;
+opacity: 0.35;
 position: relative;
 padding-left: 16px;
 }
@@ -2040,7 +2041,7 @@ ZACH.GENG
 <li><a href="index.html"><span class="zh">首页</span><span class="en">Home</span></a></li>
 <li><a href="index.html#insights"><span class="zh">思想</span><span class="en">Insights</span></a></li>
 <li><a href="jobs.html"><span class="zh">职位</span><span class="en">Jobs</span></a></li>
-<li><a href="about.html"><span class="zh">全局</span><span class="en">About</span></a></li>
+<li><a href="about.html"><span class="zh">关于我</span><span class="en">About</span></a></li>
 </ul>
 </div>
 
@@ -2054,6 +2055,15 @@ ZACH.GENG
     <div class="container hero-content">
         <h1 class="main-title active-glitch" data-text="涌现与回响">涌现与回响</h1>
         <div class="subtitle">Emergence & Resonance</div>
+        <div style="margin-top:40px; display:flex; gap:16px; justify-content:center; flex-wrap:wrap;">
+            <a href="javascript:void(0)" onclick="togglePersonalWechat()" style="display:inline-flex; align-items:center; gap:10px; padding:14px 36px; background:rgba(191,168,122,0.12); border:1px solid rgba(191,168,122,0.6); border-radius:3px; color:#e2e8f0; font-size:0.9rem; letter-spacing:3px; text-decoration:none; transition:all 0.4s cubic-bezier(0.16,1,0.3,1);" onmouseover="this.style.background='rgba(191,168,122,0.25)';this.style.color='#fff';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(191,168,122,0.12)';this.style.color='#e2e8f0';this.style.transform='none'">
+                <span style="width:6px;height:6px;background:#bfa87a;border-radius:50%;box-shadow:0 0 8px #bfa87a;animation:pulse-live 2s infinite;display:inline-block;"></span>
+                发起合作
+            </a>
+            <a href="jobs.html" style="display:inline-flex; align-items:center; gap:10px; padding:14px 36px; background:transparent; border:1px solid rgba(255,255,255,0.15); border-radius:3px; color:#94a3b8; font-size:0.9rem; letter-spacing:3px; text-decoration:none; transition:all 0.4s cubic-bezier(0.16,1,0.3,1);" onmouseover="this.style.borderColor='rgba(255,255,255,0.4)';this.style.color='#fff'" onmouseout="this.style.borderColor='rgba(255,255,255,0.15)';this.style.color='#94a3b8'">
+                查看职位 ↗
+            </a>
+        </div>
     </div>
 </section>
 
@@ -2094,6 +2104,9 @@ ZACH.GENG
                 <li>GTM 策略与商业化变现路径</li>
                 <li>用户增长与生态运营体系</li>
             </ul>
+            <div style="margin-top:28px;">
+                <a href="javascript:void(0)" onclick="togglePersonalWechat()" style="font-family:'SF Mono',Consolas,monospace;font-size:11px;letter-spacing:2px;color:#bfa87a;text-decoration:none;opacity:0.7;transition:opacity 0.3s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">咨询洞察合作 →</a>
+            </div>
         </div>
         <div class="glass-card">
             <div class="card-icon">
@@ -2108,6 +2121,9 @@ ZACH.GENG
                 <li>跨界复合人才的冷启动拓展</li>
                 <li>全球多语种前沿阵营触达</li>
             </ul>
+            <div style="margin-top:28px;">
+                <a href="jobs.html" style="font-family:'SF Mono',Consolas,monospace;font-size:11px;letter-spacing:2px;color:#bfa87a;text-decoration:none;opacity:0.7;transition:opacity 0.3s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">查看人才需求 →</a>
+            </div>
         </div>
         <div class="glass-card">
             <div class="card-icon">
@@ -2122,6 +2138,9 @@ ZACH.GENG
                 <li>团队融合与伴随式效能演进</li>
                 <li>促成技术与商业的化学反应</li>
             </ul>
+            <div style="margin-top:28px;">
+                <a href="mailto:zachgengqingyu@163.com" style="font-family:'SF Mono',Consolas,monospace;font-size:11px;letter-spacing:2px;color:#bfa87a;text-decoration:none;opacity:0.7;transition:opacity 0.3s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">发起高管寻访 →</a>
+            </div>
         </div>
     </div>
     </div>
