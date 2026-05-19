@@ -2621,7 +2621,7 @@ document.addEventListener('click', function(e) {
     </div>
     <div class="radar-body">
         <div class="embedded-search">
-            <input type="text" id="radarSearch" placeholder="搜索岗位、技术栈或方向..." oninput="radarFilter()">
+            <input type="text" id="radarSearch" placeholder="搜索岗位、技术栈、城市..." oninput="radarFilter()">
             <button><i class="fas fa-search"></i></button>
         </div>
         <div id="radarResults" class="radar-results"></div>
@@ -2714,7 +2714,7 @@ function searchJobs() {
     var r=document.getElementById('searchResults');
     if(!q.trim()){r.classList.remove('active');return}
     loadJobs().then(function(jobs){
-        var h=jobs.filter(function(j){return j.title.toLowerCase().includes(q)||j.company.toLowerCase().includes(q)||j.cat.includes(q)});
+        var h=jobs.filter(function(j){return j.title.toLowerCase().includes(q)||j.company.toLowerCase().includes(q)||j.cat.includes(q)||j.location.toLowerCase().includes(q)});
         if(!h.length){r.innerHTML='<div class="search-empty">没有找到匹配的岗位 🫡</div>';r.classList.add('active');return}
         r.innerHTML=h.map(function(j){return'<a class="search-result-item" href="jobs.html"><div class="sr-title">'+j.title+'</div><div class="sr-meta">'+j.company+' · '+j.location+'</div></a>'}).join('');
         r.classList.add('active');
@@ -2861,7 +2861,7 @@ var q=document.getElementById('radarSearch').value.toLowerCase();
 var r=document.getElementById('radarResults');
 if(!q.trim()){r.innerHTML='';return}
 loadJobs().then(function(jobs){
-var h=jobs.filter(function(j){return j.title.toLowerCase().includes(q)||j.company.toLowerCase().includes(q)||j.cat.includes(q)});
+var h=jobs.filter(function(j){return j.title.toLowerCase().includes(q)||j.company.toLowerCase().includes(q)||j.cat.includes(q)||j.location.toLowerCase().includes(q)});
 if(!h.length){r.innerHTML='<div class="sr-empty">没有匹配的岗位</div>';return}
 r.innerHTML=h.map(function(j){return'<a class="sr-item" href="jobs.html"><div class="sr-title">'+j.title+'</div><div class="sr-meta">'+j.company+' · '+j.location+'</div></a>'}).join('');
 });
